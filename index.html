@@ -141,6 +141,19 @@ body.staged{overflow:hidden}
 .card .front{visibility:hidden;transition:visibility 0s .3s}.card.flipped .front{visibility:visible}
 .card .back{visibility:visible;transition:visibility 0s .3s}.card.flipped .back{visibility:hidden}
 .card.flipped .slice{visibility:hidden}
+#board.stackmode{display:flex;flex-direction:column;align-items:center;max-width:none;padding:10px 12px 30px;gap:14px}
+#counter{font-family:Orbitron,Outfit,sans-serif;font-size:18px;letter-spacing:3px;color:var(--gold);text-shadow:0 0 12px #ffd54a66}
+#stack{position:relative;width:min(72vw,300px);aspect-ratio:63/88;touch-action:none;user-select:none;-webkit-user-select:none;perspective:1400px}
+#stack .card{position:absolute;inset:0;width:auto;height:auto;margin:0;transform:var(--off);transition:transform .35s;animation:stackin .5s cubic-bezier(.2,.8,.2,1) backwards}
+#stack .card .tag{display:none}#stack .card .face{border-radius:4.5%/3.3%}
+@keyframes stackin{from{opacity:0;transform:translateY(-60vh) rotate(-20deg) scale(.7)}}
+#tray{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;min-height:62px;max-width:96vw}
+.mini{width:44px;aspect-ratio:63/88;border-radius:4px;overflow:hidden;box-shadow:0 4px 10px #0009;animation:minin .4s cubic-bezier(.2,1.4,.4,1)}.mini img,.mini .ph{width:100%;height:100%;object-fit:cover;font-size:6px;padding:2px}
+@keyframes minin{from{transform:scale(0) rotate(-30deg)}}
+#summary{display:none;width:100%}#summary.on{display:block;animation:viewin .5s}
+.sgrid{display:flex;flex-wrap:wrap;justify-content:center;gap:20px;perspective:1400px;max-width:1300px;margin:auto}
+.sgrid .card{width:min(42vw,200px);height:auto;aspect-ratio:63/88}
+.sbtn{text-align:center;margin:26px 0 6px}.sbtn button{font-size:18px;padding:14px 40px}
 </style></head><body><div id="bg"></div><canvas id="fx"></canvas><div id="burst"></div>
 <div id="tear"></div><div id="badge">CSS · loading</div>
 <header><h1>PACK SIMULATOR</h1>
@@ -199,6 +212,8 @@ async function getCards(s){if(cache[s.dex])return cache[s.dex];let cards,src;
 const pick=a=>a[Math.floor(Math.random()*a.length)];
 function from(p,...ts){for(const t of ts)if(p[t]&&p[t].length)return pick(p[t]);return pick(Object.values(p).flat())}
 function roll(table){let x=Math.random();for(const[t,w]of table){if((x-=w)<0)return t}return table[table.length-1][0]}
+const ENERGY={wotc:[[97,"Fighting"],[98,"Fire"],[99,"Grass"],[100,"Lightning"],[101,"Psychic"],[102,"Water"]].map(([n,t])=>({id:"base1-"+n,name:t+" Energy",rarity:"Basic Energy",tier:"common",energy:true,imgs:[`https://assets.tcgdex.net/en/base/base1/${n}/high.webp`,`https://images.pokemontcg.io/base1/${n}.png`,`https://assets.tcgdex.net/en/base/base1/${n}/low.png`]})),
+ sv:["Grass","Fire","Water","Lightning","Psychic","Fighting","Darkness","Metal"].map((t,i)=>({id:"sve-"+(i+1),name:"Basic "+t+" Energy",rarity:"Basic Energy",tier:"common",energy:true,imgs:[`https://images.pokemontcg.io/sve/${i+1}_hires.png`,`https://images.pokemontcg.io/sve/${i+1}.png`]}))};
 function buildPack(s,p){const pack=[];
  if(s.era==="wotc"){for(let i=0;i<6;i++)pack.push({...from(p,"common")});for(let i=0;i<3;i++)pack.push({...from(p,"uncommon")});
   pack.push({...from(p,Math.random()<1/3?"holo":"rare","rare","holo")});}
@@ -208,7 +223,7 @@ function buildPack(s,p){const pack=[];
   pack.push(t==="common"?{...from(p,"common","uncommon","rare"),rev:true}:{...from(p,t,"ultra")});
   pack.push({...from(p,roll([["sir",.015],["ultra",.06],["rare",.925]]),"rare","holo")});
   pack.sort((a,b)=>TIERS[a.tier]-TIERS[b.tier]);}
- return pack}
+ pack.shift();pack.unshift({...pick(ENERGY[s.era==="wotc"?"wotc":"sv"])});return pack}
 /* ---------- views ---------- */
 let set=null,flippedN=0,current=[];
 function show(v){["vPick","vWheel","vPack"].forEach(x=>$(x).classList.toggle("on",x===v));
@@ -250,18 +265,37 @@ function snap(){state="snap";const from0=pos,target=Math.round(pos/PW+Math.sign(
   state="landed";const i=Math.round(pos/PW),el=$("strip").children[i];el.classList.add("landed");
   $("status").textContent="You got a pack!";setTimeout(()=>tearPack(packArts[i%4],i),1100)};raf=requestAnimationFrame(step)}
 /* ---------- reveal ---------- */
-function openPack(){const s=set,d=cache[s.dex];current=buildPack(s,d.pools);flippedN=0;state="idle";store.packs++;
- show("vPack");$("status").textContent=`${s.name}: click cards to flip — best card last!`;const b=$("board");b.innerHTML="";
- current.forEach((c,i)=>{const el=document.createElement("div");el.className="card"+(c.rev?" rev":"")+(TIERS[c.tier]>=3?" hit":"")+(TIERS[c.tier]>=4?" big":"")+(i===current.length-1?" lastslot":"");
-  el.style.animationDelay=i*90+"ms";
-  el.innerHTML=`<div class="slice" style="transform:translateZ(-.8px)"></div><div class="slice" style="transform:translateZ(0)"></div><div class="slice" style="transform:translateZ(.8px)"></div><div class="face back"><img class="cbimg" src="assets/card-back.jpg" alt="" draggable="false" onerror="this.remove()"></div><div class="face front">${img(c.imgs,c.name,c.rarity)}<div class="foil"></div><div class="sparkle"></div><div class="glare"></div></div>`;el.innerHTML=`<div class="inner">${el.innerHTML}</div><div class="tag">${esc(c.name)} · ${esc(c.rarity)}${c.rev?" (Reverse)":""}</div>`;tilt(el);
-  el.onclick=()=>flip(el,i);b.appendChild(el)});
+function cardEl(c,i){const el=document.createElement("div");el.className="card"+(c.rev?" rev":"")+(TIERS[c.tier]>=3?" hit":"")+(TIERS[c.tier]>=4?" big":"");
+ el.innerHTML=`<div class="inner"><div class="slice" style="transform:translateZ(-.8px)"></div><div class="slice" style="transform:translateZ(0)"></div><div class="slice" style="transform:translateZ(.8px)"></div><div class="face back"><img class="cbimg" src="assets/card-back.jpg" alt="" draggable="false" onerror="this.remove()"></div><div class="face front">${img(c.imgs,c.name,c.rarity)}<div class="foil"></div><div class="sparkle"></div><div class="glare"></div></div></div><div class="tag">${esc(c.name)} · ${esc(c.rarity)}${c.rev?" (Reverse)":""}</div>`;return el}
+let topI=0,busy=false;
+function openPack(){const s=set,d=cache[s.dex];current=buildPack(s,d.pools);flippedN=0;topI=0;busy=false;state="idle";store.packs++;
+ show("vPack");$("status").textContent=`${s.name}: tap the top card to flip, tap again to set it aside.`;const b=$("board");b.className="stackmode";
+ b.innerHTML=`<div id="counter">0 / ${current.length}</div><div id="stack"></div><div id="tray"></div><div id="summary"></div>`;
+ const st=$("stack");current.forEach((c,i)=>{const el=cardEl(c,i);el.dataset.i=i;const r=(Math.sin(i*12.9898)*43758.5453%1)*5-2.5;
+  el.style.zIndex=100-i;el.style.setProperty("--off",`translate(${i*1.4}px,${i*2.2}px) rotate(${i?r:0}deg)`);el.style.animationDelay=(current.length-i)*45+"ms";if(i===current.length-1)el.classList.add("lastslot");st.appendChild(el)});
+ bindStack();updCounter();
  const best=current[current.length-1];store.hist.unshift(`#${store.packs} ${s.name}: best pull ${best.name} (${best.rarity})`);store.hist=store.hist.slice(0,100);
  current.forEach(c=>{store.coll[c.id]=store.coll[c.id]||{name:c.name,rarity:c.rarity,imgs:c.imgs,n:0,t:TIERS[c.tier]};store.coll[c.id].imgs=c.imgs;store.coll[c.id].n++});save();render()}
-function flip(el,i){if(el.classList.contains("flipped"))return;
- if(i===current.length-1&&flippedN<current.length-1){$("status").textContent="Save the best for last! Flip the others first.";return}
- el.classList.add("flipped");flippedN++;if(i===current.length-1)celebrate(el,current[i])}
-$("reveal").onclick=()=>{[...document.querySelectorAll(".card")].forEach((el,i)=>setTimeout(()=>{if(!el.classList.contains("flipped")){el.classList.add("flipped");flippedN++;if(i===current.length-1)celebrate(el,current[i])}},i*220))};
+const topEl=()=>$("stack")&&$("stack").querySelector(`.card[data-i="${topI}"]`);
+function updCounter(){const c=$("counter");if(c)c.textContent=`${Math.min(topI+(topEl()&&topEl().classList.contains("flipped")?1:0),current.length)} / ${current.length}`}
+function flipTop(){const el=topEl();if(!el||el.classList.contains("flipped"))return;el.classList.add("flipped");flippedN++;tilt(el);if(topI===current.length-1)celebrate(el,current[topI]);updCounter()}
+function sendAway(dx=0){const el=topEl();if(!el||busy)return;busy=true;const c=current[topI];const dir=dx<0?-1:1;
+ el.style.transition="transform .45s cubic-bezier(.5,0,.75,0),opacity .45s";el.style.transform=`translate(${dir*120}vw,${-10}vh) rotate(${dir*30}deg)`;el.style.opacity="0";
+ const m=document.createElement("div");m.className="mini";m.innerHTML=img(c.imgs,c.name,c.rarity);$("tray").appendChild(m);
+ setTimeout(()=>{el.remove();topI++;busy=false;updCounter();if(topI>=current.length)showSummary()},430)}
+function bindStack(){const st=$("stack");let d=null;
+ st.onpointerdown=e=>{const el=topEl();if(!el||busy||!el.contains(e.target))return;d={x:e.clientX,y:e.clientY,el,moved:0};st.setPointerCapture(e.pointerId);e.preventDefault()};
+ st.onpointermove=e=>{if(!d)return;const dx=e.clientX-d.x,dy=e.clientY-d.y;d.moved=Math.max(d.moved,Math.hypot(dx,dy));
+  if(d.el.classList.contains("flipped")&&d.moved>8){d.el.style.transition="none";d.el.style.transform=`translate(${dx}px,${dy}px) rotate(${dx/18}deg)`}};
+ const up=e=>{if(!d)return;const dx=e.clientX-d.x,el=d.el,moved=d.moved;d=null;
+  if(moved<10){el.classList.contains("flipped")?sendAway(1):flipTop();return}
+  if(el.classList.contains("flipped")&&moved>70)sendAway(dx);else{el.style.transition="";el.style.transform=""}};
+ st.onpointerup=up;st.onpointercancel=up}
+function showSummary(){const s=$("summary");$("stack").style.display="none";$("tray").style.display="none";$("counter").textContent=`${current.length} / ${current.length} — your pulls`;
+ s.innerHTML=`<div class="sgrid"></div><div class="sbtn"><button id="again">Open Another</button></div>`;
+ current.forEach((c,i)=>{const el=cardEl(c,i);el.classList.add("flipped");el.style.animationDelay=i*70+"ms";tilt(el);s.firstChild.appendChild(el)});
+ $("again").onclick=()=>chooseSet(set);s.classList.add("on");$("status").textContent=`${set.name}: here's your pack!`}
+$("reveal").onclick=()=>{if(!topEl())return;const step=()=>{const el=topEl();if(!el)return;if(!el.classList.contains("flipped")){flipTop();setTimeout(step,topI===current.length-1?900:280)}else{sendAway(1);setTimeout(step,480)}};step()};
 $("reset").onclick=e=>{e.preventDefault();if(confirm("Clear collection?")){localStorage.removeItem("pps");location.reload()}};
 function render(){$("count").textContent=store.packs;const ks=Object.keys(store.coll);$("uniq").textContent=ks.length;
  $("hist").innerHTML=store.hist.map(h=>`<div>${esc(h)}</div>`).join("");
@@ -302,5 +336,5 @@ function sparks(x,y,n,cols){for(let i=0;i<n;i++){const a=Math.random()*6.28,v=Ma
  for(const p of P){p.y-=p.v;p.a+=.02;if(p.y<-5){p.y=cv.height+5;p.x=Math.random()*cv.width}cx.globalAlpha=.25+.25*Math.sin(p.a);cx.fillStyle="#cfe0ff";cx.beginPath();cx.arc(p.x,p.y,p.r,0,6.28);cx.fill()}
  S=S.filter(s=>s.l>0);for(const s of S){s.x+=s.vx;s.y+=s.vy;s.vy+=.22;s.vx*=.98;s.l-=.012;cx.globalAlpha=Math.max(s.l,0);cx.fillStyle=s.c;cx.shadowBlur=12;cx.shadowColor=s.c;cx.beginPath();cx.arc(s.x,s.y,s.r,0,6.28);cx.fill();cx.shadowBlur=0}
  cx.globalAlpha=1;requestAnimationFrame(loop)})();
-</script><script defer src="vendor/app3d.js?v=9"></script>
+</script><script defer src="vendor/app3d.js?v=10"></script>
 <script>if(/[?&]debug/.test(location.search))document.getElementById("badge").style.display="block"</script></body></html>
