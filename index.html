@@ -154,13 +154,53 @@ body.staged{overflow:hidden}
 .sgrid{display:flex;flex-wrap:wrap;justify-content:center;gap:20px;perspective:1400px;max-width:1300px;margin:auto}
 .sgrid .card{width:min(42vw,200px);height:auto;aspect-ratio:63/88}
 .sbtn{text-align:center;margin:26px 0 6px}.sbtn button{font-size:18px;padding:14px 40px}
+#shelf{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:26px;padding:30px;max-width:1200px;margin:auto;perspective:1200px}
+.binder{position:relative;aspect-ratio:3/3.8;cursor:pointer;transition:transform .35s cubic-bezier(.2,.8,.2,1);animation:viewin .6s backwards;transform-style:preserve-3d}
+.binder:hover{transform:translateY(-8px) rotateY(-12deg)}
+.binder .spine{position:absolute;left:0;top:0;bottom:0;width:14%;border-radius:10px 0 0 10px;background:linear-gradient(90deg,#0008,#fff2 40%,#0006),var(--a);z-index:2}
+.binder .cover{position:absolute;inset:0;border-radius:10px 14px 14px 10px;padding:16px 12px 12px 22%;display:flex;flex-direction:column;justify-content:space-between;
+ background:linear-gradient(135deg,#ffffff22,transparent 40%,#0004),linear-gradient(160deg,var(--a),var(--b));box-shadow:0 18px 30px #000a,inset 0 0 0 2px #ffffff22,inset -6px 0 12px #0005}
+.blogo{height:42%;display:flex;align-items:center;justify-content:center}.blogo img{max-width:100%;max-height:100%;filter:drop-shadow(0 4px 6px #000a)}.blogo .txtlogo{font-size:16px;text-align:center}
+.bname{font-weight:800;color:#fff;text-shadow:0 2px 4px #000a;font-size:15px}.bprog{height:7px;border-radius:9px;background:#0006;overflow:hidden}.bprog i{display:block;height:100%;background:linear-gradient(90deg,#ffe78a,#ffb300);transition:width 1s}
+.bcount{font-size:12px;color:#fff;font-weight:700;text-shadow:0 1px 3px #000}
+.btile .bicon{font-size:64px;filter:drop-shadow(0 6px 10px #000a)}
+#bbar{display:flex;flex-wrap:wrap;gap:12px;align-items:center;padding:16px 24px}#bbar h3{margin:0;flex:1;color:var(--gold);font-family:Orbitron,Outfit,sans-serif;letter-spacing:2px;font-size:16px}
+.bfilt{display:flex;gap:6px}.bfilt button{padding:7px 14px;font-size:13px}.bfilt button.on{background:linear-gradient(180deg,#ffe78a,#ffc22e);color:#1b1300}
+#bwrap{position:relative;display:flex;align-items:center;justify-content:center;gap:10px;padding:0 8px;touch-action:pan-y;user-select:none;-webkit-user-select:none}
+.bnav{font-size:30px;padding:6px 16px;line-height:1}@media (max-width:899px){.bnav{position:absolute;z-index:6;top:50%;transform:translateY(-50%);padding:4px 12px;background:#000a}#bprev{left:4px}#bnext{right:4px}.book{padding:8px}#bbar{padding:12px}}
+.book{position:relative;display:flex;gap:0;perspective:2000px;background:linear-gradient(#2a2238,#1a1424);padding:14px;border-radius:14px;box-shadow:0 30px 60px #000c,inset 0 0 0 2px #ffffff14}
+.page{position:relative;width:min(calc(100vw - 40px),420px);aspect-ratio:8.5/11;background:linear-gradient(180deg,#f4f2ee,#e6e2da);border-radius:6px;padding:4%;box-shadow:inset 0 0 30px #0002}
+.book.spread .page{width:min(40vw,420px)}.book.spread .page:first-child{border-radius:6px 2px 2px 6px;box-shadow:inset -18px 0 24px -12px #0005}.book.spread .page:nth-child(2){border-radius:2px 6px 6px 2px;box-shadow:inset 18px 0 24px -12px #0005}
+.page.blank{background:linear-gradient(180deg,#d9d4ca,#cbc5ba)}
+.pgrid{display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(3,1fr);gap:4%;height:94%}
+.pocket{position:relative;border-radius:5px;overflow:hidden;background:#d6d1c8;box-shadow:inset 0 0 0 1px #0002,0 1px 0 #fff}
+.pocket img,.pocket .ph{width:100%;height:100%;object-fit:cover;display:block;font-size:9px}
+.pocket.own{cursor:zoom-in;box-shadow:0 2px 6px #0005}
+.pocket.miss{display:flex;flex-direction:column;align-items:center;justify-content:center;background:repeating-linear-gradient(45deg,#d2ccc2 0 6px,#cbc5ba 6px 12px);color:#0005;text-align:center}
+.slotnum{font-family:Orbitron,sans-serif;font-weight:900;font-size:clamp(10px,2.2vw,18px)}.slotname{font-size:clamp(7px,1.2vw,11px);padding:0 4px;font-weight:700}
+.sleeve{position:absolute;inset:0;pointer-events:none;background:linear-gradient(125deg,#ffffff55 0%,#ffffff10 22%,transparent 40%,#ffffff18 70%,#ffffff40 100%);box-shadow:inset 0 0 0 1px #ffffff70}
+.cnt{position:absolute;right:3px;bottom:3px;z-index:2;background:linear-gradient(#ff5470,#d6204a);color:#fff;font-size:10px;font-weight:800;padding:1px 6px;border-radius:9px}
+.pno{position:absolute;bottom:1.2%;width:100%;left:0;text-align:center;font-size:10px;color:#0006}
+.ring{display:none}.book.spread .ring{display:block;position:absolute;left:50%;top:8%;bottom:8%;width:12px;transform:translateX(-50%);background:repeating-linear-gradient(#999 0 14px,transparent 14px 60px);border-radius:6px;opacity:.8}
+.page.flipping{position:absolute;margin:0;z-index:5;transition:transform .6s cubic-bezier(.4,.1,.3,1),filter .6s;backface-visibility:hidden;-webkit-backface-visibility:hidden}
+.page.flipping.fwd{transform-origin:0% 50%}.page.flipping.back{transform-origin:100% 50%}
+.page.flipping.fwd.go{transform:rotateY(-100deg);filter:brightness(.6)}.page.flipping.back.go{transform:rotateY(100deg);filter:brightness(.6)}
+.book:not(.spread) .page.flipping.fwd{transform-origin:0% 50%}
+#bpage{text-align:center;color:#b9bfe6;font-size:13px;margin:12px 0 20px}.bload{padding:60px;color:#b9bfe6}
+#viewer{position:fixed;inset:0;z-index:60;display:none;flex-direction:column;align-items:center;justify-content:center;gap:16px;background:#000c;backdrop-filter:blur(8px);perspective:1400px}
+#viewer.on{display:flex;animation:viewin .35s}#vcard .card{width:min(78vw,340px);height:auto;aspect-ratio:63/88;margin:0;animation:none}#vcard .tag{display:none}
+#vinfo{text-align:center;color:#e9ecff;font-size:14px}#vinfo small{color:#9aa3d6}
 </style></head><body><div id="bg"></div><canvas id="fx"></canvas><div id="burst"></div>
 <div id="tear"></div><div id="badge">CSS · loading</div>
 <header><h1>PACK SIMULATOR</h1>
-<button id="back" class="ghost">← Sets</button><button id="open">Open Another</button><button id="reveal" class="ghost">Reveal All</button>
+<button id="back" class="ghost">← Sets</button><button id="binders" class="ghost">📚 Binders</button><button id="open">Open Another</button><button id="reveal" class="ghost">Reveal All</button>
 <div class="stats"><span>Packs <b id="count">0</b></span><span>Unique <b id="uniq">0</b></span><a href="#" id="reset">reset</a></div></header>
 <div id="status">Choose a set to begin.</div>
 <div id="vPick" class="view on"><div id="sets"></div></div>
+<div id="vShelf" class="view"><div id="shelf"></div></div>
+<div id="vBinder" class="view"><div id="bbar"><button id="bshelf" class="ghost">← Shelf</button><h3 id="btitle"></h3><div class="bfilt"><button data-f="all" class="ghost on">All</button><button data-f="owned" class="ghost">Owned</button><button data-f="missing" class="ghost">Missing</button></div></div>
+<div id="bwrap"><button id="bprev" class="bnav ghost">‹</button><div id="book"></div><button id="bnext" class="bnav ghost">›</button></div><div id="bpage"></div></div>
+<div id="viewer"><div id="vcard"></div><div id="vinfo"></div></div>
 <div id="vWheel" class="view"><div id="stageui"><button id="sback" class="ghost">← Sets</button><div id="sstatus"></div><div class="sstats">Packs <b id="scount">0</b></div></div><div id="wheelwrap"><div id="pointer"></div><div id="strip"></div><div class="hint" id="whint"><span class="hand">👆</span>Swipe to spin</div></div>
 </div>
 <div id="vPack" class="view"><div id="board"></div></div>
@@ -187,6 +227,8 @@ function tier(r){r=(r||"").toLowerCase();
 const cache={};const $=id=>document.getElementById(id);
 const esc=t=>String(t).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const store=JSON.parse(localStorage.getItem("pps")||'{"packs":0,"coll":{},"hist":[]}');
+function keyOf(id){const k=id.lastIndexOf("-");return [id.slice(0,k),id.slice(k+1).replace(/^0+(?=\w)/,"")]}
+if(!store.sets){store.sets={};for(const [id,c] of Object.entries(store.coll||{})){const [d,n]=keyOf(id);(store.sets[d]=store.sets[d]||{})[n]={name:c.name,rarity:c.rarity||"",imgs:c.imgs||[c.img],n:c.n}}}
 const save=()=>{try{localStorage.setItem("pps",JSON.stringify(store))}catch(e){}};
 /* ---------- robust images: try each URL in order, then a text placeholder ---------- */
 function img(srcs,label,sub,cls=""){return `<img class="${cls}" referrerpolicy="no-referrer" alt="${esc(label)}" data-srcs="${esc(JSON.stringify(srcs.slice(1)))}" data-label="${esc(label)}" data-sub="${esc(sub||"")}" src="${esc(srcs[0]||"")}" onerror="nextImg(this)">`}
@@ -226,11 +268,64 @@ function buildPack(s,p){const pack=[];
  pack.shift();pack.unshift({...pick(ENERGY[s.era==="wotc"?"wotc":"sv"])});return pack}
 /* ---------- views ---------- */
 let set=null,flippedN=0,current=[];
-function show(v){["vPick","vWheel","vPack"].forEach(x=>$(x).classList.toggle("on",x===v));
- $("back").style.display=v==="vPick"?"none":"";$("open").style.display=v==="vPack"?"":"none";$("reveal").style.display=v==="vPack"?"":"none"}
+function show(v){["vPick","vWheel","vPack","vShelf","vBinder"].forEach(x=>$(x).classList.toggle("on",x===v));
+ $("back").style.display=v==="vPick"?"none":"";$("binders").style.display=v==="vShelf"||v==="vBinder"?"none":"";$("open").style.display=v==="vPack"?"":"none";$("reveal").style.display=v==="vPack"?"":"none"}
 $("sets").innerHTML=SETS.map((s,i)=>`<div class="tile" data-i="${i}" style="--c1:${s.colors[0]};animation-delay:${i*70}ms"><img class="sym" referrerpolicy="no-referrer" src="https://images.pokemontcg.io/${s.ptcg}/symbol.png" onerror="this.remove()">
  <div class="logo">${img(logoSrcs(s),s.name,"").replace("<img ",'<img data-ph="txtlogo" ')}</div><h3>${esc(s.name)}</h3><small>${s.year}</small></div>`).join("");
 document.querySelectorAll(".tile").forEach(t=>t.onclick=()=>chooseSet(SETS[t.dataset.i]));
+/* ---------- binders ---------- */
+const BSETS=[...SETS,{name:"SV Basic Energy",ptcg:"sve",dex:"sve",serie:"sv",era:"sv",year:2023,colors:["#546e7a","#cfd8dc"],energy:true}];
+$("sets").insertAdjacentHTML("beforeend",`<div class="tile btile" style="--c1:#8d6e63"><div class="logo"><div class="bicon">📚</div></div><h3>My Binders</h3><small>COLLECTION</small></div>`);
+document.querySelector(".btile").onclick=()=>openShelf();$("binders").onclick=()=>openShelf();$("bshelf").onclick=()=>openShelf();
+const LISTS={};
+async function setList(s){if(LISTS[s.dex])return LISTS[s.dex];const ck="ppl_"+s.dex;try{const c=JSON.parse(localStorage.getItem(ck));if(c&&c.length)return LISTS[s.dex]=c}catch(e){}
+ const d=await fetchT(`https://api.tcgdex.net/v2/en/sets/${s.dex}`,15000);
+ const l=(d.cards||[]).map(c=>({n:String(c.localId).replace(/^0+(?=\w)/,""),lid:c.localId,name:c.name})).sort((a,b)=>(parseInt(a.n)||1e4)-(parseInt(b.n)||1e4)||a.n.localeCompare(b.n));
+ try{localStorage.setItem(ck,JSON.stringify(l))}catch(e){}return LISTS[s.dex]=l}
+const owned=s=>store.sets[s.dex]||{};
+async function openShelf(){show("vShelf");$("status").textContent="Your binders — tap one to open it.";
+ $("shelf").innerHTML=BSETS.map((s,i)=>`<div class="binder" data-i="${i}" style="--a:${s.colors[0]};--b:${s.colors[1]};animation-delay:${i*60}ms"><div class="spine"></div><div class="cover">
+  <div class="blogo">${s.energy?'<div class="txtlogo">BASIC ENERGY</div>':img(logoSrcs(s),s.name,"").replace("<img ",'<img data-ph="txtlogo" ')}</div><div class="bname">${esc(s.name)}</div>
+  <div class="bprog"><i style="width:0"></i></div><div class="bcount" id="bc${i}">${Object.keys(owned(s)).length} / …</div></div></div>`).join("");
+ document.querySelectorAll(".binder").forEach(b=>b.onclick=()=>openBinder(BSETS[b.dataset.i]));
+ BSETS.forEach(async(s,i)=>{try{const l=await setList(s);const o=owned(s),have=l.filter(c=>o[c.n]).length;$("bc"+i).textContent=`${have} / ${l.length} · ${Math.round(have/l.length*100)}%`;
+  document.querySelector(`.binder[data-i="${i}"] .bprog i`).style.width=(have/l.length*100)+"%"}catch(e){$("bc"+i).textContent=`${Object.keys(owned(s)).length} owned`}})}
+let B={s:null,list:[],page:0,filter:"all"};
+const perView=()=>innerWidth>=900?2:1;
+async function openBinder(s){B={s,list:[],page:0,filter:"all"};show("vBinder");$("btitle").textContent=s.name;$("book").innerHTML='<div class="bload">Loading set list…</div>';
+ document.querySelectorAll(".bfilt button").forEach(b=>b.classList.toggle("on",b.dataset.f==="all"));
+ try{B.list=await setList(s)}catch(e){$("book").innerHTML='<div class="bload">Could not load this set\'s card list. Check your connection.</div>';return}renderBook()}
+function slots(){const o=owned(B.s);return B.list.filter(c=>B.filter==="all"||(B.filter==="owned"?o[c.n]:!o[c.n]))}
+function pageHTML(p){const o=owned(B.s),l=slots().slice(p*9,p*9+9);let h="";
+ for(let k=0;k<9;k++){const c=l[k];if(!c){h+='<div class="pocket empty"></div>';continue}const own=o[c.n];
+  const srcs=own?own.imgs:cardSrcs(B.s,c.lid);
+  h+=`<div class="pocket ${own?"own":"miss"}" data-n="${esc(c.n)}">${own?img(srcs,c.name,own.rarity).replace("<img ",'<img loading="lazy" '):`<div class="slotnum">#${esc(c.lid)}</div><div class="slotname">${esc(c.name)}</div>`}${own?`<span class="cnt">×${own.n}</span>`:""}<div class="sleeve"></div></div>`}
+ return `<div class="page" data-p="${p}"><div class="pgrid">${h}</div><div class="pno">${p+1}</div></div>`}
+const pages=()=>Math.max(1,Math.ceil(slots().length/9));
+function renderBook(){const pv=perView(),N=pages();B.page=Math.max(0,Math.min(B.page,N-1));B.page-=B.page%pv;
+ let h="";for(let i=0;i<pv;i++)h+=B.page+i<N?pageHTML(B.page+i):'<div class="page blank"></div>';
+ $("book").className="book"+(pv===2?" spread":"");$("book").innerHTML=h+'<div class="ring"></div>';bindPockets();
+ const o=owned(B.s),have=B.list.filter(c=>o[c.n]).length;
+ $("bpage").textContent=`Page ${B.page+1}${pv===2&&B.page+2<=N?"–"+(B.page+2):""} of ${N} · ${have}/${B.list.length} collected`;
+ $("bprev").disabled=B.page<=0;$("bnext").disabled=B.page+pv>=N}
+function turn(dir){const pv=perView(),N=pages(),np=B.page+dir*pv;if(np<0||np>=N||B.turning)return;B.turning=true;
+ const book=$("book"),pgs=book.querySelectorAll(".page"),src=dir>0?pgs[pgs.length-1]:pgs[0];
+ const fl=src.cloneNode(true);fl.classList.add("flipping",dir>0?"fwd":"back");const r=src.getBoundingClientRect(),br=book.getBoundingClientRect();
+ Object.assign(fl.style,{left:(r.left-br.left)+"px",top:(r.top-br.top)+"px",width:r.width+"px",height:r.height+"px"});
+ B.page=np;renderBook();$("book").appendChild(fl);requestAnimationFrame(()=>requestAnimationFrame(()=>fl.classList.add("go")));
+ setTimeout(()=>{fl.remove();B.turning=false},620)}
+$("bprev").onclick=()=>turn(-1);$("bnext").onclick=()=>turn(1);
+document.querySelectorAll(".bfilt button").forEach(b=>b.onclick=()=>{B.filter=b.dataset.f;B.page=0;document.querySelectorAll(".bfilt button").forEach(x=>x.classList.toggle("on",x===b));renderBook()});
+{let d=null;const bw=$("bwrap");bw.addEventListener("pointerdown",e=>{d={x:e.clientX,y:e.clientY,t:e.target}});
+ bw.addEventListener("pointerup",e=>{if(!d)return;const dx=e.clientX-d.x,dy=e.clientY-d.y;const t=d.t;d=null;if(Math.abs(dx)>50&&Math.abs(dx)>Math.abs(dy)){turn(dx<0?1:-1);return}
+  if(Math.hypot(dx,dy)<10){const p=t.closest&&t.closest(".pocket.own");if(p)viewCard(p.dataset.n)}});
+ bw.addEventListener("pointercancel",()=>d=null)}
+addEventListener("resize",()=>{if($("vBinder").classList.contains("on"))renderBook()});
+function bindPockets(){}
+function viewCard(n){const own=owned(B.s)[n],c=B.list.find(x=>x.n===n);if(!own)return;const cd={name:own.name,rarity:own.rarity,imgs:own.imgs,tier:tier(own.rarity)};
+ const el=cardEl(cd,0);el.classList.add("flipped");tilt(el);$("vcard").innerHTML="";$("vcard").appendChild(el);
+ $("vinfo").innerHTML=`<b>${esc(own.name)}</b> · #${esc(c?c.lid:n)} · ${esc(own.rarity||"")} · owned ×${own.n}<br><small>tap outside to close</small>`;$("viewer").classList.add("on")}
+$("viewer").addEventListener("click",e=>{if(!e.target.closest(".card"))$("viewer").classList.remove("on")});
 $("sback").onclick=()=>$("back").onclick();$("back").onclick=()=>{window.PACK3D&&PACK3D.leaveStage();cancelAnimationFrame(raf);state="idle";show("vPick");$("status").textContent="Pick a set!"};
 $("open").onclick=()=>chooseSet(set);
 /* ---------- wheel ---------- */
@@ -275,7 +370,7 @@ function openPack(){const s=set,d=cache[s.dex];current=buildPack(s,d.pools);flip
   el.style.zIndex=100-i;el.style.setProperty("--off",`translate(${i*1.4}px,${i*2.2}px) rotate(${i?r:0}deg)`);el.style.animationDelay=(current.length-i)*45+"ms";if(i===current.length-1)el.classList.add("lastslot");st.appendChild(el)});
  bindStack();updCounter();
  const best=current[current.length-1];store.hist.unshift(`#${store.packs} ${s.name}: best pull ${best.name} (${best.rarity})`);store.hist=store.hist.slice(0,100);
- current.forEach(c=>{store.coll[c.id]=store.coll[c.id]||{name:c.name,rarity:c.rarity,imgs:c.imgs,n:0,t:TIERS[c.tier]};store.coll[c.id].imgs=c.imgs;store.coll[c.id].n++});save();render()}
+ current.forEach(c=>{const [d,n]=keyOf(c.id);const ss=store.sets[d]=store.sets[d]||{};ss[n]=ss[n]||{name:c.name,rarity:c.rarity,imgs:c.imgs,n:0};ss[n].imgs=c.imgs;ss[n].n++;store.coll[c.id]=store.coll[c.id]||{name:c.name,rarity:c.rarity,imgs:c.imgs,n:0,t:TIERS[c.tier]};store.coll[c.id].imgs=c.imgs;store.coll[c.id].n++});save();render()}
 const topEl=()=>$("stack")&&$("stack").querySelector(`.card[data-i="${topI}"]`);
 function updCounter(){const c=$("counter");if(c)c.textContent=`${Math.min(topI+(topEl()&&topEl().classList.contains("flipped")?1:0),current.length)} / ${current.length}`}
 function flipTop(){const el=topEl();if(!el||el.classList.contains("flipped"))return;el.classList.add("flipped");flippedN++;tilt(el);if(topI===current.length-1)celebrate(el,current[topI]);updCounter()}
@@ -336,5 +431,5 @@ function sparks(x,y,n,cols){for(let i=0;i<n;i++){const a=Math.random()*6.28,v=Ma
  for(const p of P){p.y-=p.v;p.a+=.02;if(p.y<-5){p.y=cv.height+5;p.x=Math.random()*cv.width}cx.globalAlpha=.25+.25*Math.sin(p.a);cx.fillStyle="#cfe0ff";cx.beginPath();cx.arc(p.x,p.y,p.r,0,6.28);cx.fill()}
  S=S.filter(s=>s.l>0);for(const s of S){s.x+=s.vx;s.y+=s.vy;s.vy+=.22;s.vx*=.98;s.l-=.012;cx.globalAlpha=Math.max(s.l,0);cx.fillStyle=s.c;cx.shadowBlur=12;cx.shadowColor=s.c;cx.beginPath();cx.arc(s.x,s.y,s.r,0,6.28);cx.fill();cx.shadowBlur=0}
  cx.globalAlpha=1;requestAnimationFrame(loop)})();
-</script><script defer src="vendor/app3d.js?v=10"></script>
+</script><script defer src="vendor/app3d.js?v=11"></script>
 <script>if(/[?&]debug/.test(location.search))document.getElementById("badge").style.display="block"</script></body></html>
