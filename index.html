@@ -69,11 +69,11 @@ button.ghost{background:var(--glass);color:var(--txt);box-shadow:none;backdrop-f
 /* cards */
 #board{display:flex;flex-wrap:wrap;justify-content:center;gap:22px;padding:30px 20px;perspective:1400px;max-width:1300px;margin:auto}
 .card{width:200px;height:279px;position:relative;cursor:pointer;animation:deal .55s cubic-bezier(.2,.8,.2,1) backwards;--rx:0deg;--ry:0deg;--mx:50%;--my:50%}
-.inner{position:absolute;inset:0;transform-style:preserve-3d;transition:transform .7s cubic-bezier(.3,1.3,.5,1);transform:rotateX(var(--rx)) rotateY(var(--ry))}
+.inner{position:absolute;inset:0;-webkit-transform-style:preserve-3d;transform-style:preserve-3d;transition:transform .7s cubic-bezier(.3,1.3,.5,1);transform:rotateX(var(--rx)) rotateY(var(--ry))}
 .card.flipped .inner{transform:rotateY(180deg) rotateX(var(--rx)) rotateY(var(--ry))}
 .card.flipped.tilting .inner{transition:transform .08s}
-.face{position:absolute;inset:0;backface-visibility:hidden;border-radius:11px;overflow:hidden;box-shadow:0 14px 30px #000a}
-.back{background:radial-gradient(circle at 50% 50%,#3a6ff7,#163b9b 60%,#0b1f5c);border:7px solid #f2c94c;display:flex;align-items:center;justify-content:center}
+.face{position:absolute;inset:0;-webkit-backface-visibility:hidden;backface-visibility:hidden;border-radius:11px;overflow:hidden;box-shadow:0 14px 30px #000a}
+.back{background:url(assets/card-back.jpg) center/cover no-repeat,radial-gradient(circle at 50% 50%,#3a6ff7,#163b9b 60%,#0b1f5c);border:0;display:flex;align-items:center;justify-content:center}
 .back:before{content:"";position:absolute;inset:0;background:repeating-conic-gradient(from 0deg,#ffffff0a 0 6deg,transparent 6deg 12deg)}
 .back:after{content:"";width:66px;height:66px;border-radius:50%;background:radial-gradient(circle,#fff 18%,#222 19% 26%,transparent 27%),linear-gradient(#e53935 46%,#222 46% 54%,#f5f5f5 54%);box-shadow:0 0 0 5px #222,0 6px 16px #000a;position:relative}
 .card:not(.flipped):hover .inner{transform:translateY(-8px) rotateX(8deg)}
@@ -86,9 +86,9 @@ button.ghost{background:var(--glass);color:var(--txt);box-shadow:none;backdrop-f
 .big .front .foil{background-blend-mode:hard-light}
 .tag{position:absolute;bottom:-34px;left:0;right:0;font-size:12px;text-align:center;color:#c8cff5;opacity:0;transition:opacity .4s .5s;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .card.flipped .tag{opacity:1}.card{margin-bottom:30px}
-.hit.flipped .inner{filter:drop-shadow(0 0 18px #ffd54acc)}
-.big.flipped .inner{filter:drop-shadow(0 0 22px #ff4ff8) drop-shadow(0 0 40px #4fe3ff);animation:pulse 1.6s infinite alternate}
-@keyframes pulse{to{filter:drop-shadow(0 0 30px #4fe3ff) drop-shadow(0 0 60px #ff4ff8)}}
+.hit.flipped .front{box-shadow:0 0 22px 4px #ffd54acc}
+.big.flipped .front{box-shadow:0 0 26px 6px #ff4ff8,0 0 46px 10px #4fe3ff;animation:pulse 1.6s infinite alternate}
+@keyframes pulse{to{box-shadow:0 0 34px 8px #4fe3ff,0 0 60px 14px #ff4ff8}}
 .lastslot:not(.flipped) .back{border-color:#fff;animation:tease 1.2s infinite alternate}@keyframes tease{to{box-shadow:0 0 30px 6px #fff,0 0 60px #ffd54a}}
 @keyframes deal{from{opacity:0;transform:translateY(-120px) rotate(-12deg) scale(.5)}}
 #burst{position:fixed;inset:0;z-index:40;pointer-events:none;opacity:0;background:radial-gradient(circle at var(--bx,50%) var(--by,50%),#fffbe6,#ffd54acc 10%,#ff4ff855 30%,transparent 60%)}
@@ -115,8 +115,8 @@ h2{margin:0 0 12px;font-family:Orbitron,Outfit,sans-serif;font-size:15px;letter-
 #tear.drag .seam{transition:none}
 #tear .zone{position:absolute;left:-30px;right:-30px;top:-30px;height:calc(14% + 60px);z-index:7;border:2px dashed #ffffff55;border-radius:12px;animation:zp 1.4s infinite alternate}
 @keyframes zp{to{border-color:#ffd54a;box-shadow:0 0 20px #ffd54a66}}#tear.drag .zone,#tear.rip .zone,#tear.rip .hint{opacity:0}
-.face.back{transform:translateZ(-1.6px) rotateY(0)}.front{transform:rotateY(180deg) translateZ(1.6px)}
-.slice{position:absolute;inset:0;border-radius:11px;background:linear-gradient(90deg,#d9d9d9,#9a9a9a,#e8e8e8);backface-visibility:visible}
+.face.back{-webkit-transform:translateZ(1.6px);transform:translateZ(1.6px)}.front{-webkit-transform:rotateY(180deg) translateZ(1.6px);transform:rotateY(180deg) translateZ(1.6px)}
+.slice{position:absolute;inset:0;border-radius:11px;background:linear-gradient(90deg,#d9d9d9,#9a9a9a,#e8e8e8);-webkit-backface-visibility:hidden;backface-visibility:hidden}
 .front .sparkle{position:absolute;inset:0;pointer-events:none;opacity:0;background-image:radial-gradient(circle,#fff 0 1px,transparent 2px),radial-gradient(circle,#fff8 0 1px,transparent 2px);background-size:23px 29px,37px 31px;background-position:calc(var(--mx)*.4) calc(var(--my)*.3),calc(var(--mx)*-.3) var(--my);mix-blend-mode:color-dodge;transition:opacity .3s}
 .hit .sparkle{opacity:.35}.big .sparkle{opacity:.6}.big.tilting .sparkle{opacity:1}
 .front:before{content:"";position:absolute;inset:0;z-index:3;border-radius:11px;box-shadow:inset 0 0 0 1px #fff4,inset 0 0 18px #0006;pointer-events:none}
@@ -126,7 +126,7 @@ h2{margin:0 0 12px;font-family:Orbitron,Outfit,sans-serif;font-size:15px;letter-
 #tear.three .zone{z-index:7}#tear.three .tp{animation:none}#tear>#c3d{position:fixed;z-index:0}#tear .tp,#tear .hint{z-index:2}
 #badge{display:none;position:fixed;right:10px;bottom:10px;z-index:99;font:700 11px/1 Outfit,sans-serif;letter-spacing:1px;padding:6px 10px;border-radius:999px;background:#000c;border:1px solid #fff4;color:#fff}
 #badge.three{border-color:#4fe3ff;color:#4fe3ff}#badge.css{border-color:#ff8fa3;color:#ff8fa3}
-.back .cbimg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:2;border-radius:4px}
+.back:before,.back:after{display:none}.back .cbimg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:2;border-radius:4px}
 #stageui{display:none}
 #vWheel.stage{position:fixed;inset:0;z-index:30;background:#04050d;animation:stagein .7s ease}
 @keyframes stagein{from{opacity:0}}
@@ -137,6 +137,10 @@ h2{margin:0 0 12px;font-family:Orbitron,Outfit,sans-serif;font-size:15px;letter-
 #vWheel.stage .hint{bottom:36px;font-size:16px;padding-left:48px}
 body.staged{overflow:hidden}
 .pk.real img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}.pk.real:before,.pk.real:after{display:none}.pk.real .foil{opacity:.3}.pk.real .metal{opacity:.6}
+/* backface-independent face swap (WebKit/iOS safe) */
+.card .front{visibility:hidden;transition:visibility 0s .3s}.card.flipped .front{visibility:visible}
+.card .back{visibility:visible;transition:visibility 0s .3s}.card.flipped .back{visibility:hidden}
+.card.flipped .slice{visibility:hidden}
 </style></head><body><div id="bg"></div><canvas id="fx"></canvas><div id="burst"></div>
 <div id="tear"></div><div id="badge">CSS · loading</div>
 <header><h1>PACK SIMULATOR</h1>
@@ -298,5 +302,5 @@ function sparks(x,y,n,cols){for(let i=0;i<n;i++){const a=Math.random()*6.28,v=Ma
  for(const p of P){p.y-=p.v;p.a+=.02;if(p.y<-5){p.y=cv.height+5;p.x=Math.random()*cv.width}cx.globalAlpha=.25+.25*Math.sin(p.a);cx.fillStyle="#cfe0ff";cx.beginPath();cx.arc(p.x,p.y,p.r,0,6.28);cx.fill()}
  S=S.filter(s=>s.l>0);for(const s of S){s.x+=s.vx;s.y+=s.vy;s.vy+=.22;s.vx*=.98;s.l-=.012;cx.globalAlpha=Math.max(s.l,0);cx.fillStyle=s.c;cx.shadowBlur=12;cx.shadowColor=s.c;cx.beginPath();cx.arc(s.x,s.y,s.r,0,6.28);cx.fill();cx.shadowBlur=0}
  cx.globalAlpha=1;requestAnimationFrame(loop)})();
-</script><script defer src="vendor/app3d.js?v=8"></script>
+</script><script defer src="vendor/app3d.js?v=9"></script>
 <script>if(/[?&]debug/.test(location.search))document.getElementById("badge").style.display="block"</script></body></html>

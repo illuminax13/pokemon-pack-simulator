@@ -13,8 +13,8 @@ if(!CanvasRenderingContext2D.prototype.roundRect)CanvasRenderingContext2D.protot
 if(!hasWebGL()){badge("CSS · no WebGL","css");window.PACK3D=null;return}
 let R;try{R=new THREE.WebGLRenderer({antialias:true,alpha:false,powerPreference:"high-performance"})}catch(e){try{R=new THREE.WebGLRenderer({antialias:false})}catch(e2){badge("CSS · WebGL init failed","css");window.PACK3D=null;return}}
 const mobile=matchMedia("(pointer:coarse)").matches||Math.min(innerWidth,innerHeight)<700;
-let tier=mobile?1:2;const TN=["Lite","Medium","High"];
-R.toneMapping=THREE.ACESFilmicToneMapping;R.toneMappingExposure=1.15;R.shadowMap.type=THREE.PCFSoftShadowMap;R.domElement.id="c3d";
+const QP=(location.search.match(/[?&]quality=(high|medium|lite)/)||[])[1];const FORCED=!!QP;let tier=QP?{lite:0,medium:1,high:2}[QP]:(mobile?1:2);const TN=["Lite","Medium","High"];
+R.toneMapping=THREE.ACESFilmicToneMapping;R.toneMappingExposure=.9;R.outputColorSpace=THREE.SRGBColorSpace;R.shadowMap.type=THREE.PCFSoftShadowMap;R.domElement.id="c3d";
 R.setClearColor(0x03040a,1);
 const W=2.4,H=4.2,D=.22,SEAL=.075,TEARV=.86;
 let ENV=null;try{ENV=new THREE.PMREMGenerator(R).fromScene(new RoomEnvironment(R),.04).texture}catch(e){}
@@ -52,25 +52,25 @@ function backTex(s){const c=document.createElement("canvas");c.width=256;c.heigh
 const cbTex=new THREE.TextureLoader().load(CARDBACK);cbTex.colorSpace=THREE.SRGBColorSpace;
 async function realTex(url){const im=await loadImg([url]);if(!im)return null;try{const t=document.createElement("canvas");t.width=t.height=2;const x=t.getContext("2d");x.drawImage(im,0,0,2,2);x.getImageData(0,0,1,1)}catch(e){return null}
  const t=new THREE.Texture(im);t.colorSpace=THREE.SRGBColorSpace;t.anisotropy=8;t.needsUpdate=true;return t}
-const realMat=map=>new THREE.MeshPhysicalMaterial({map,alphaMap:alphaTex,alphaTest:.5,metalness:.2,roughness:.38,clearcoat:.8,clearcoatRoughness:.2,iridescence:.18,iridescenceIOR:1.3,envMapIntensity:.9,side:THREE.DoubleSide});
+const realMat=map=>new THREE.MeshPhysicalMaterial({map,alphaMap:alphaTex,alphaTest:.5,metalness:.1,roughness:.42,clearcoat:.5,clearcoatRoughness:.25,iridescence:.12,iridescenceIOR:1.3,envMapIntensity:.45,side:THREE.DoubleSide});
 let realMats=null;
-const mat=map=>new THREE.MeshPhysicalMaterial({map,alphaMap:alphaTex,alphaTest:.5,metalness:.55,roughness:.28,clearcoat:1,clearcoatRoughness:.12,iridescence:.5,iridescenceIOR:1.5,envMapIntensity:1.3,side:THREE.DoubleSide});
+const mat=map=>new THREE.MeshPhysicalMaterial({map,alphaMap:alphaTex,alphaTest:.5,metalness:.35,roughness:.32,clearcoat:.8,clearcoatRoughness:.15,iridescence:.35,iridescenceIOR:1.5,envMapIntensity:.6,side:THREE.DoubleSide});
 function packMesh(fm,bm,v0=0,v1=1){const g=new THREE.Group();const f=new THREE.Mesh(v0===0&&v1===1?GF:geo(v0,v1,false),fm),b=new THREE.Mesh(v0===0&&v1===1?GB:geo(v0,v1,true),bm);f.castShadow=b.castShadow=true;g.add(f,b);return g}
 const glowTex=(()=>{const c=document.createElement("canvas");c.width=c.height=128;const x=c.getContext("2d");const g=x.createRadialGradient(64,64,0,64,64,64);g.addColorStop(0,"#fff");g.addColorStop(.3,"#ffe9a0");g.addColorStop(1,"#ffd54a00");x.fillStyle=g;x.fillRect(0,0,128,128);return new THREE.CanvasTexture(c)})();
 /* ---------- WHEEL STAGE: full-screen ring ---------- */
 const WS=new THREE.Scene();WS.environment=ENV;WS.background=new THREE.Color(0x04050d);WS.fog=new THREE.FogExp2(0x04050d,.045);
 const WC=new THREE.PerspectiveCamera(42,1,.1,200);
 const N=18,RING=11,STEP=Math.PI*2/N,FLOORY=-H/2-.4;
-const key=new THREE.SpotLight(0xffffff,260,40,.45,.6,1.4);key.position.set(0,11,4);key.target.position.set(0,0,0);key.castShadow=true;key.shadow.mapSize.set(1024,1024);WS.add(key,key.target);
-WS.add(new THREE.HemisphereLight(0x6677ff,0x110818,.6));
-const rimA=new THREE.PointLight(0xff3fd0,80,40);rimA.position.set(-9,3,-2);const rimB=new THREE.PointLight(0x3fd8ff,80,40);rimB.position.set(9,2,-2);WS.add(rimA,rimB);
+const key=new THREE.SpotLight(0xfff4e0,70,40,.45,.6,1.4);key.position.set(0,11,4);key.target.position.set(0,0,0);key.castShadow=true;key.shadow.mapSize.set(1024,1024);WS.add(key,key.target);
+WS.add(new THREE.HemisphereLight(0x8090ff,0x110818,.35));
+const rimA=new THREE.PointLight(0xff3fd0,22,40);rimA.position.set(-9,3,-2);const rimB=new THREE.PointLight(0x3fd8ff,22,40);rimB.position.set(9,2,-2);WS.add(rimA,rimB);
 // light shaft
-const shaft=new THREE.Mesh(new THREE.ConeGeometry(2.6,13,32,1,true),new THREE.MeshBasicMaterial({color:0xffe6a8,transparent:true,opacity:.07,blending:THREE.AdditiveBlending,depthWrite:false,side:THREE.DoubleSide}));shaft.position.set(0,4.3,0);WS.add(shaft);
+const shaft=new THREE.Mesh(new THREE.ConeGeometry(2.6,13,32,1,true),new THREE.MeshBasicMaterial({color:0xffe6a8,transparent:true,opacity:.035,blending:THREE.AdditiveBlending,depthWrite:false,side:THREE.DoubleSide}));shaft.position.set(0,4.3,0);WS.add(shaft);
 // floor
 let refl=null;try{refl=new Reflector(new THREE.CircleGeometry(40,64),{textureWidth:mobile?384:768,textureHeight:mobile?384:768,color:0x3a3f58});refl.rotation.x=-Math.PI/2;refl.position.y=FLOORY;WS.add(refl)}catch(e){}
 const fade=new THREE.Mesh(new THREE.CircleGeometry(40,64),new THREE.MeshStandardMaterial({color:0x05060f,transparent:true,opacity:.55,roughness:.3,metalness:.6}));fade.rotation.x=-Math.PI/2;fade.position.y=FLOORY+.005;fade.receiveShadow=true;WS.add(fade);
 const ringGlow=new THREE.Mesh(new THREE.RingGeometry(RING-.08,RING+.08,128),new THREE.MeshBasicMaterial({color:0xffd54a,transparent:true,opacity:.35,blending:THREE.AdditiveBlending}));ringGlow.rotation.x=-Math.PI/2;ringGlow.position.set(0,FLOORY+.02,-RING);WS.add(ringGlow);
-const spot=new THREE.Sprite(new THREE.SpriteMaterial({map:glowTex,transparent:true,opacity:.5,blending:THREE.AdditiveBlending,depthWrite:false}));spot.scale.set(7,7,1);spot.position.set(0,FLOORY+.05,0);WS.add(spot);
+const spot=new THREE.Sprite(new THREE.SpriteMaterial({map:glowTex,transparent:true,opacity:.5,blending:THREE.AdditiveBlending,depthWrite:false}));spot.scale.set(6,6,1);spot.position.set(0,FLOORY+.05,0);WS.add(spot);
 // particles
 const PC=mobile?500:1400;const pg=new THREE.BufferGeometry();const pp=new Float32Array(PC*3);for(let i=0;i<PC;i++){pp[i*3]=(Math.random()-.5)*60;pp[i*3+1]=Math.random()*20+FLOORY;pp[i*3+2]=(Math.random()-.5)*60-8}
 pg.setAttribute("position",new THREE.BufferAttribute(pp,3));const parts=new THREE.Points(pg,new THREE.PointsMaterial({size:.09,map:glowTex,color:0xbfd4ff,transparent:true,opacity:.8,blending:THREE.AdditiveBlending,depthWrite:false}));WS.add(parts);
@@ -86,7 +86,7 @@ function enterStage(){const ww=document.getElementById("wheelwrap");if(!ww.conta
 function leaveStage(){document.getElementById("vWheel").classList.remove("stage");document.body.classList.remove("staged")}
 /* ---------- TEAR SCENE ---------- */
 const TS=new THREE.Scene();TS.environment=ENV;TS.background=new THREE.Color(0x05060f);const TC=new THREE.PerspectiveCamera(35,1,.1,100);
-{const d=new THREE.DirectionalLight(0xffffff,2.2);d.position.set(3,8,6);TS.add(d,new THREE.AmbientLight(0x8899ff,.3));const a=new THREE.PointLight(0xff4fd8,30,30);a.position.set(-6,2,3);const b=new THREE.PointLight(0x4fe3ff,30,30);b.position.set(6,1,3);TS.add(a,b)}
+{const d=new THREE.DirectionalLight(0xffffff,1.4);d.position.set(3,8,6);TS.add(d,new THREE.AmbientLight(0x8899ff,.25));const a=new THREE.PointLight(0xff4fd8,12,30);a.position.set(-6,2,3);const b=new THREE.PointLight(0x4fe3ff,12,30);b.position.set(6,1,3);TS.add(a,b)}
 const tearG=new THREE.Group();TS.add(tearG);let body,strip,pivot,glow,spill,cards=[],tp={p:0,sp:0,dir:1,fin:0,start:0};
 const cardMats=[...Array(4)].map(()=>new THREE.MeshStandardMaterial({color:0xdddddd})).concat([new THREE.MeshStandardMaterial({map:cbTex,roughness:.35}),new THREE.MeshStandardMaterial({map:cbTex,roughness:.35})]);
 async function tearStart(art,i){tearG.clear();let fm;if(realMats&&i!=null)fm=realMats[packVariant(P.set,i)];else try{fm=mat(await frontTex(P.set,art))}catch(e){fm=back}
@@ -99,20 +99,20 @@ const tearP=(p,dir)=>{tp.p=p;tp.dir=dir||1},tearFinish=()=>{tp.fin=performance.n
 function tearEnd(){P.active2=false;tearG.clear();leaveStage();document.getElementById("wheelwrap").prepend(R.domElement)}
 /* ---------- render / quality ---------- */
 const comp=new EffectComposer(R);const rp=new RenderPass(WS,WC);comp.addPass(rp);
-const bloom=new UnrealBloomPass(new THREE.Vector2(256,256),.6,.55,.8);comp.addPass(bloom);comp.addPass(new OutputPass());
+const bloom=new UnrealBloomPass(new THREE.Vector2(256,256),.22,.4,.9);comp.addPass(bloom);comp.addPass(new OutputPass());
 function applyTier(){R.setPixelRatio(Math.min(devicePixelRatio,[.7,1.25,1.75][tier]));bloom.enabled=tier>0;if(refl)refl.visible=tier>1||(!mobile&&tier>0);R.shadowMap.enabled=tier>1;key.castShadow=tier>1;
  fade.material.opacity=refl&&refl.visible?.55:.9;parts.visible=true;lastW=0;badge("3D · "+TN[tier],"three");P.tier=TN[tier]}
 let lastW=0,lastH=0;function size(el,cam){const w=el.clientWidth||innerWidth,h=el.clientHeight||innerHeight;if(w!==lastW||h!==lastH){R.setSize(w,h,false);comp.setSize(w,h);bloom.resolution.set(w/2,h/2);lastW=w;lastH=h}cam.aspect=w/h;cam.updateProjectionMatrix();return[w,h]}
 const ease=t=>1-Math.pow(1-t,3);let ft=16,lastNow=0,slowSince=0,landT=0;
 function frame(now){requestAnimationFrame(frame);const T=now/1000;
- if(lastNow){ft=ft*.92+Math.min(now-lastNow,300)*.08;if(ft>40&&tier>0){if(!slowSince)slowSince=now;else if(now-slowSince>1500){tier--;applyTier();slowSince=0;ft=20}}else slowSince=0}lastNow=now;
+ if(lastNow){ft=ft*.92+Math.min(now-lastNow,300)*.08;if(!FORCED&&ft>40&&tier>0){if(!slowSince)slowSince=now;else if(now-slowSince>1500){tier--;applyTier();slowSince=0;ft=20}}else slowSince=0}lastNow=now;
  if(P.active2){const [w,h]=size(document.getElementById("tear"),TC);
   const dist=H*h/(435*2*Math.tan(THREE.MathUtils.degToRad(17.5)));TC.position.set(0,0,dist);TC.lookAt(0,0,0);
   const k=Math.min((now-tp.start)/900,1);tearG.rotation.y=(1-ease(k))*Math.PI*1.2+Math.sin(T*1.3)*.04;tearG.rotation.x=Math.sin(T*.9)*.03;
   tp.sp+=((tp.fin?1:tp.p)-tp.sp)*(tp.fin?.3:.35);const p=tp.sp,dir=tp.dir;
   pivot.position.set(dir>0?W/2:-W/2,(TEARV-.5)*H,0);strip.position.set(dir>0?-W/2:W/2,-(TEARV-.5)*H,0);pivot.rotation.set(-p*.7,dir*p*.35,dir*p*.55);
-  glow.material.opacity=Math.min(1,p*1.4);glow.scale.set(W*1.8*Math.max(p,.05),.5+p*1.5,1);spill.intensity=p*25;
-  if(tp.fin){const f=(now-tp.fin)/1000;pivot.position.x+=dir*f*f*14;pivot.position.y+=f*6;pivot.rotation.z+=dir*f*4;glow.scale.set(W*2.4,1.5+f*5,1);glow.material.opacity=Math.max(0,1.2-f*.8);spill.intensity=25+f*40;
+  glow.material.opacity=Math.min(1,p*1.4);glow.scale.set(W*1.8*Math.max(p,.05),.5+p*1.5,1);spill.intensity=p*10;
+  if(tp.fin){const f=(now-tp.fin)/1000;pivot.position.x+=dir*f*f*14;pivot.position.y+=f*6;pivot.rotation.z+=dir*f*4;glow.scale.set(W*2.4,1.5+f*5,1);glow.material.opacity=Math.max(0,1.2-f*.8);spill.intensity=10+f*15;
    cards.forEach((c,i)=>{const t=Math.max(0,Math.min(1,(f-.25-i*.12)/.6));c.visible=t>0;c.position.set((i-2)*.12*t,-.3+ease(t)*(H*.72),.05+i*.015);c.rotation.z=(i-2)*.06*t});tearG.rotation.y=0;body.position.y=-Math.max(0,f-1)*6}
   rp.scene=TS;rp.camera=TC;comp.render();return}
  const vw=document.getElementById("vWheel");if(!vw.classList.contains("on")||!slots.length)return;
@@ -126,8 +126,8 @@ function frame(now){requestAnimationFrame(frame);const T=now/1000;
   g.rotation.set(Math.sin(T+i*.7)*.03,th+(landed&&ad<.5?ease(lt)*Math.PI*2:Math.sin(T*.8+i)*.05),-vel*.002);g.visible=Math.cos(th)>-.35});
  // camera motion: gentle orbit, pulls back with speed, pushes in when landed
  const cz=8.2+av*3-ease(lt)*2.2,cy=1.5+av*1.2-ease(lt)*.5;WC.position.set(Math.sin(T*.25)*.8,cy+Math.sin(T*.4)*.15,cz);WC.lookAt(0,.2+ease(lt)*.8,-1.5);
- parts.rotation.y=T*.02;shaft.material.opacity=.06+ease(lt)*.12;spot.material.opacity=.45+ease(lt)*.5;key.intensity=260+ease(lt)*240;ringGlow.material.opacity=.25+av*.4;
- rp.scene=WS;rp.camera=WC;bloom.strength=.55+ease(lt)*.6;comp.render()}
+ parts.rotation.y=T*.02;shaft.material.opacity=.03+ease(lt)*.04;spot.material.opacity=.22+ease(lt)*.2;key.intensity=70+ease(lt)*40;ringGlow.material.opacity=.2+av*.3;
+ rp.scene=WS;rp.camera=WC;bloom.strength=.22+ease(lt)*.2;comp.render()}
 const P=window.PACK3D={ok:true,get _slots(){return slots},get _mats(){return mats},active:true,setPacks,tearStart,tearP,tearFinish,tearEnd,leaveStage,get tierName(){return TN[tier]}};
 applyTier();requestAnimationFrame(frame);
 if(document.getElementById("vWheel").classList.contains("on")&&packArts.length)setPacks(set,packArts);
