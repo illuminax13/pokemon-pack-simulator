@@ -106,7 +106,7 @@ h2{margin:0 0 12px;font-family:Orbitron,Outfit,sans-serif;font-size:15px;letter-
 @media (prefers-reduced-motion:reduce){*{animation-duration:.01s!important}}
 #wheelwrap,#tear{touch-action:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}
 #wheelwrap{cursor:grab}#wheelwrap.drag{cursor:grabbing}#strip img,#tear img{pointer-events:none;-webkit-user-drag:none}
-.hint{position:absolute;left:50%;bottom:14px;transform:translateX(-50%);z-index:4;padding:8px 18px 8px 40px;border-radius:999px;background:#0009;border:1px solid #ffffff30;backdrop-filter:blur(8px);font-weight:500;letter-spacing:1px;font-size:14px;color:#fff;display:flex;gap:10px;align-items:center;pointer-events:none;transition:opacity .4s}
+.hint{position:absolute;left:50%;bottom:14px;transform:translateX(-50%);z-index:4;padding:8px 18px 8px 50px;border-radius:999px;background:#0009;border:1px solid #ffffff30;backdrop-filter:blur(8px);font-weight:500;letter-spacing:1px;font-size:14px;color:#fff;display:flex;gap:10px;align-items:center;pointer-events:none;transition:opacity .4s}
 .hint.off{opacity:0}.hand{display:inline-block;font-size:20px;animation:swipe 1.6s ease-in-out infinite}
 @keyframes swipe{0%{transform:translateX(18px) rotate(10deg);opacity:0}20%{opacity:1}70%{transform:translateX(-22px) rotate(-10deg);opacity:1}100%{transform:translateX(-26px);opacity:0}}
 #tear .hint{bottom:auto;top:calc(50% - 280px)}#tear .tp{cursor:ew-resize}
@@ -124,14 +124,26 @@ h2{margin:0 0 12px;font-family:Orbitron,Outfit,sans-serif;font-size:15px;letter-
 #wheelwrap.three #strip{opacity:0}#wheelwrap.three #pointer{opacity:.5}
 #tear.three .tp>.pack,#tear.three .seam,#tear.three .glowline{opacity:0}
 #tear.three .zone{z-index:7}#tear.three .tp{animation:none}#tear>#c3d{position:fixed;z-index:0}#tear .tp,#tear .hint{z-index:2}
+#badge{display:none;position:fixed;right:10px;bottom:10px;z-index:99;font:700 11px/1 Outfit,sans-serif;letter-spacing:1px;padding:6px 10px;border-radius:999px;background:#000c;border:1px solid #fff4;color:#fff}
+#badge.three{border-color:#4fe3ff;color:#4fe3ff}#badge.css{border-color:#ff8fa3;color:#ff8fa3}
+.back .cbimg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:2;border-radius:4px}
+#stageui{display:none}
+#vWheel.stage{position:fixed;inset:0;z-index:30;background:#04050d;animation:stagein .7s ease}
+@keyframes stagein{from{opacity:0}}
+#vWheel.stage #wheelwrap{position:absolute;inset:0;height:auto;margin:0;border:0;background:none;box-shadow:none}
+#vWheel.stage #wheelwrap:before,#vWheel.stage #wheelwrap:after{display:none}#vWheel.stage #pointer{display:none}
+#vWheel.stage #stageui{display:flex;position:absolute;top:0;left:0;right:0;z-index:5;padding:16px 20px;gap:14px;align-items:center;pointer-events:none;background:linear-gradient(#000a,transparent)}
+#stageui button{pointer-events:auto}#sstatus{flex:1;font-weight:500;color:#dfe6ff;text-shadow:0 2px 6px #000}.sstats{color:#b9bfe6}.sstats b{color:var(--gold)}
+#vWheel.stage .hint{bottom:36px;font-size:16px;padding-left:48px}
+body.staged{overflow:hidden}
 </style></head><body><div id="bg"></div><canvas id="fx"></canvas><div id="burst"></div>
-<div id="tear"></div>
+<div id="tear"></div><div id="badge">CSS · loading</div>
 <header><h1>PACK SIMULATOR</h1>
 <button id="back" class="ghost">← Sets</button><button id="open">Open Another</button><button id="reveal" class="ghost">Reveal All</button>
 <div class="stats"><span>Packs <b id="count">0</b></span><span>Unique <b id="uniq">0</b></span><a href="#" id="reset">reset</a></div></header>
 <div id="status">Choose a set to begin.</div>
 <div id="vPick" class="view on"><div id="sets"></div></div>
-<div id="vWheel" class="view"><div id="wheelwrap"><div id="pointer"></div><div id="strip"></div><div class="hint" id="whint"><span class="hand">👆</span>Swipe to spin</div></div>
+<div id="vWheel" class="view"><div id="stageui"><button id="sback" class="ghost">← Sets</button><div id="sstatus"></div><div class="sstats">Packs <b id="scount">0</b></div></div><div id="wheelwrap"><div id="pointer"></div><div id="strip"></div><div class="hint" id="whint"><span class="hand">👆</span>Swipe to spin</div></div>
 </div>
 <div id="vPack" class="view"><div id="board"></div></div>
 <section><h2>Recent pulls</h2><div id="hist"></div></section>
@@ -197,7 +209,7 @@ function show(v){["vPick","vWheel","vPack"].forEach(x=>$(x).classList.toggle("on
 $("sets").innerHTML=SETS.map((s,i)=>`<div class="tile" data-i="${i}" style="--c1:${s.colors[0]};animation-delay:${i*70}ms"><img class="sym" referrerpolicy="no-referrer" src="https://images.pokemontcg.io/${s.ptcg}/symbol.png" onerror="this.remove()">
  <div class="logo">${img(logoSrcs(s),s.name,"").replace("<img ",'<img data-ph="txtlogo" ')}</div><h3>${esc(s.name)}</h3><small>${s.year}</small></div>`).join("");
 document.querySelectorAll(".tile").forEach(t=>t.onclick=()=>chooseSet(SETS[t.dataset.i]));
-$("back").onclick=()=>{cancelAnimationFrame(raf);state="idle";show("vPick");$("status").textContent="Pick a set!"};
+$("sback").onclick=()=>$("back").onclick();$("back").onclick=()=>{window.PACK3D&&PACK3D.leaveStage();cancelAnimationFrame(raf);state="idle";show("vPick");$("status").textContent="Pick a set!"};
 $("open").onclick=()=>chooseSet(set);
 /* ---------- wheel ---------- */
 const PW=180,NP=70;let raf=0,pos=0,speed=0,state="idle",packArts=[],lastTick=-1;
@@ -235,7 +247,7 @@ function openPack(){const s=set,d=cache[s.dex];current=buildPack(s,d.pools);flip
  show("vPack");$("status").textContent=`${s.name}: click cards to flip — best card last!`;const b=$("board");b.innerHTML="";
  current.forEach((c,i)=>{const el=document.createElement("div");el.className="card"+(c.rev?" rev":"")+(TIERS[c.tier]>=3?" hit":"")+(TIERS[c.tier]>=4?" big":"")+(i===current.length-1?" lastslot":"");
   el.style.animationDelay=i*90+"ms";
-  el.innerHTML=`<div class="slice" style="transform:translateZ(-.8px)"></div><div class="slice" style="transform:translateZ(0)"></div><div class="slice" style="transform:translateZ(.8px)"></div><div class="face back"></div><div class="face front">${img(c.imgs,c.name,c.rarity)}<div class="foil"></div><div class="sparkle"></div><div class="glare"></div></div>`;el.innerHTML=`<div class="inner">${el.innerHTML}</div><div class="tag">${esc(c.name)} · ${esc(c.rarity)}${c.rev?" (Reverse)":""}</div>`;tilt(el);
+  el.innerHTML=`<div class="slice" style="transform:translateZ(-.8px)"></div><div class="slice" style="transform:translateZ(0)"></div><div class="slice" style="transform:translateZ(.8px)"></div><div class="face back"><img class="cbimg" src="assets/card-back.jpg" alt="" draggable="false" onerror="this.remove()"></div><div class="face front">${img(c.imgs,c.name,c.rarity)}<div class="foil"></div><div class="sparkle"></div><div class="glare"></div></div>`;el.innerHTML=`<div class="inner">${el.innerHTML}</div><div class="tag">${esc(c.name)} · ${esc(c.rarity)}${c.rev?" (Reverse)":""}</div>`;tilt(el);
   el.onclick=()=>flip(el,i);b.appendChild(el)});
  const best=current[current.length-1];store.hist.unshift(`#${store.packs} ${s.name}: best pull ${best.name} (${best.rarity})`);store.hist=store.hist.slice(0,100);
  current.forEach(c=>{store.coll[c.id]=store.coll[c.id]||{name:c.name,rarity:c.rarity,imgs:c.imgs,n:0,t:TIERS[c.tier]};store.coll[c.id].imgs=c.imgs;store.coll[c.id].n++});save();render()}
@@ -247,7 +259,7 @@ $("reset").onclick=e=>{e.preventDefault();if(confirm("Clear collection?")){local
 function render(){$("count").textContent=store.packs;const ks=Object.keys(store.coll);$("uniq").textContent=ks.length;
  $("hist").innerHTML=store.hist.map(h=>`<div>${esc(h)}</div>`).join("");
  $("coll").innerHTML=ks.sort((a,b)=>store.coll[b].t-store.coll[a].t).map(k=>{const c=store.coll[k];return `<div title="${esc(c.name)}">${img(c.imgs||[c.img],c.name,c.rarity||"")}<span>×${c.n}</span></div>`}).join("")}
-show("vPick");render();
+show("vPick");render();new MutationObserver(()=>{$("sstatus").textContent=$("status").textContent;$("scount").textContent=store.packs}).observe($("status"),{childList:true,characterData:true,subtree:true});
 
 function packHTML(s,a,h){const c=s.colors;return `<div class="pack"><div class="pk" style="background:linear-gradient(${150+h}deg,${c[0]},${c[1]} 55%,${c[0]})"><div class="plogo">${img(logoSrcs(s),s.name,"")}</div>
  <div class="art" style="background-image:url('${a.imgs[0]}'),url('${a.imgs[2]||a.imgs[1]||""}')"></div><div class="metal"></div><div class="foil"></div><div class="pname">BOOSTER · ${esc(a.name.toUpperCase())}</div></div></div>`}
@@ -283,108 +295,5 @@ function sparks(x,y,n,cols){for(let i=0;i<n;i++){const a=Math.random()*6.28,v=Ma
  for(const p of P){p.y-=p.v;p.a+=.02;if(p.y<-5){p.y=cv.height+5;p.x=Math.random()*cv.width}cx.globalAlpha=.25+.25*Math.sin(p.a);cx.fillStyle="#cfe0ff";cx.beginPath();cx.arc(p.x,p.y,p.r,0,6.28);cx.fill()}
  S=S.filter(s=>s.l>0);for(const s of S){s.x+=s.vx;s.y+=s.vy;s.vy+=.22;s.vx*=.98;s.l-=.012;cx.globalAlpha=Math.max(s.l,0);cx.fillStyle=s.c;cx.shadowBlur=12;cx.shadowColor=s.c;cx.beginPath();cx.arc(s.x,s.y,s.r,0,6.28);cx.fill();cx.shadowBlur=0}
  cx.globalAlpha=1;requestAnimationFrame(loop)})();
-</script><script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
-<script type="module">
-import * as THREE from "three";
-import {RoomEnvironment} from "three/addons/environments/RoomEnvironment.js";
-import {Reflector} from "three/addons/objects/Reflector.js";
-import {EffectComposer} from "three/addons/postprocessing/EffectComposer.js";
-import {RenderPass} from "three/addons/postprocessing/RenderPass.js";
-import {UnrealBloomPass} from "three/addons/postprocessing/UnrealBloomPass.js";
-import {OutputPass} from "three/addons/postprocessing/OutputPass.js";
-try{
-const W=2.4,H=4.2,D=.22,SEAL=.075,TEARV=.86,SPACING=2.9;
-const mobile=matchMedia("(pointer:coarse)").matches||innerWidth<700;
-const R=new THREE.WebGLRenderer({antialias:!mobile,alpha:true,powerPreference:"high-performance"});
-if(!R.getContext())throw Error("no webgl");
-R.setPixelRatio(Math.min(devicePixelRatio,mobile?1.25:1.75));R.toneMapping=THREE.ACESFilmicToneMapping;R.toneMappingExposure=1.1;
-R.shadowMap.enabled=true;R.shadowMap.type=THREE.PCFSoftShadowMap;R.domElement.id="c3d";
-const pm=new THREE.PMREMGenerator(R);const ENV=pm.fromScene(new RoomEnvironment(R),.04).texture;
-/* ---------- geometry: puffy pouch, crimped seals ---------- */
-function z(u,v){if(v<SEAL||v>1-SEAL)return .006*Math.sin(u*90)+.004;const vv=(v-.5)/(.5-SEAL);return D*Math.pow(Math.max(0,1-Math.pow(Math.abs(u),5)),.7)*Math.pow(Math.max(0,1-Math.pow(Math.abs(vv),7)),.6)+.004}
-function geo(v0,v1,back){const nu=48,nv=Math.max(4,Math.round(90*(v1-v0)));const g=new THREE.PlaneGeometry(W,H*(v1-v0),nu,nv);const p=g.attributes.position,uv=g.attributes.uv;
- for(let i=0;i<p.count;i++){const u=uv.getX(i)*2-1,v=v0+uv.getY(i)*(v1-v0);p.setXYZ(i,(back?-u:u)*W/2,(v-.5)*H,z(u,v)*(back?-1:1));uv.setXY(i,back?1-uv.getX(i):uv.getX(i),v)}
- if(back)g.index.array.reverse();g.computeVertexNormals();return g}
-/* ---------- textures ---------- */
-const loadImg=srcs=>new Promise(res=>{const l=[...srcs];const n=()=>{if(!l.length)return res(null);const im=new Image();im.crossOrigin="anonymous";im.onload=()=>res(im);im.onerror=n;im.src=l.shift()};n()});
-const alphaTex=(()=>{const c=document.createElement("canvas");c.width=256;c.height=1024;const x=c.getContext("2d");x.fillStyle="#fff";x.fillRect(0,0,256,1024);x.fillStyle="#000";
- for(const y of[0,1024]){x.beginPath();x.moveTo(0,y);for(let i=0;i<=24;i++)x.lineTo(i*256/24,y+(i%2?(y?-1:1)*16:0));x.lineTo(256,y);x.fill()}return new THREE.CanvasTexture(c)})();
-function sealBands(x,w,h){for(const y0 of[0,h*(1-SEAL)]){const g=x.createLinearGradient(0,y0,0,y0+h*SEAL);g.addColorStop(0,"#ddd");g.addColorStop(.5,"#888");g.addColorStop(1,"#eee");x.fillStyle=g;x.fillRect(0,y0,w,h*SEAL);
- x.fillStyle="#0004";for(let i=0;i<w;i+=7)x.fillRect(i,y0,3,h*SEAL)}}
-async function frontTex(s,art){const c=document.createElement("canvas");c.width=512;c.height=896;const x=c.getContext("2d"),w=512,h=896;
- let g=x.createLinearGradient(0,0,w,h);g.addColorStop(0,s.colors[0]);g.addColorStop(.55,s.colors[1]);g.addColorStop(1,s.colors[0]);x.fillStyle=g;x.fillRect(0,0,w,h);
- x.globalAlpha=.12;for(let i=-h;i<w;i+=26){x.fillStyle=i%52?"#fff":"#000";x.beginPath();x.moveTo(i,h);x.lineTo(i+h*.6,0);x.lineTo(i+h*.6+13,0);x.lineTo(i+13,h);x.fill()}x.globalAlpha=1;
- const [logo,ai]=await Promise.all([loadImg(logoSrcs(s)),loadImg(art.imgs)]);
- if(ai){x.save();x.shadowColor="#000a";x.shadowBlur=24;x.beginPath();x.roundRect(52,250,408,480,22);x.fillStyle="#fff";x.fill();x.restore();
-  x.save();x.beginPath();x.roundRect(60,258,392,464,18);x.clip();const sw=ai.width*.84,sh=sw*464/392;x.drawImage(ai,ai.width*.08,ai.height*.1,sw,sh,60,258,392,464);x.restore()}
- if(logo){const r=Math.min(400/logo.width,150/logo.height);x.shadowColor="#000c";x.shadowBlur=14;x.drawImage(logo,w/2-logo.width*r/2,165-logo.height*r/2,logo.width*r,logo.height*r);x.shadowBlur=0}
- else{x.fillStyle="#fff";x.font="900 54px Orbitron,sans-serif";x.textAlign="center";x.fillText(s.name.toUpperCase(),w/2,180)}
- x.fillStyle="#fff";x.textAlign="center";x.font="800 26px Outfit,sans-serif";x.shadowColor="#000";x.shadowBlur=8;x.fillText("BOOSTER PACK · "+art.name.toUpperCase().slice(0,22),w/2,775);
- x.font="600 16px Outfit,sans-serif";x.fillText("POKÉMON TRADING CARD GAME · 10 CARDS",w/2,808);x.shadowBlur=0;sealBands(x,w,h);
- const t=new THREE.CanvasTexture(c);t.colorSpace=THREE.SRGBColorSpace;t.anisotropy=4;return t}
-function backTex(s){const c=document.createElement("canvas");c.width=256;c.height=448;const x=c.getContext("2d");const g=x.createLinearGradient(0,0,0,448);g.addColorStop(0,s.colors[1]);g.addColorStop(1,s.colors[0]);x.fillStyle=g;x.fillRect(0,0,256,448);
- x.fillStyle="#0007";x.fillRect(30,70,196,230);x.fillStyle="#fff9";for(let i=0;i<14;i++)x.fillRect(42,86+i*14,170-(i*37%60),5);x.fillStyle="#fff";x.fillRect(70,330,116,50);x.fillStyle="#000";for(let i=0;i<40;i++)x.fillRect(76+i*2.6,336,i%3?1:2,38);
- sealBands(x,256,448);const t=new THREE.CanvasTexture(c);t.colorSpace=THREE.SRGBColorSpace;return t}
-const mat=map=>new THREE.MeshPhysicalMaterial({map,alphaMap:alphaTex,alphaTest:.5,metalness:.55,roughness:.28,clearcoat:1,clearcoatRoughness:.12,iridescence:.55,iridescenceIOR:1.5,envMapIntensity:1.3,side:THREE.DoubleSide});
-function packMesh(fm,bm,v0=0,v1=1){const g=new THREE.Group();const f=new THREE.Mesh(geo(v0,v1,false),fm),b=new THREE.Mesh(geo(v0,v1,true),bm);f.castShadow=b.castShadow=true;g.add(f,b);return g}
-function lights(sc){sc.environment=ENV;const d=new THREE.DirectionalLight(0xffffff,2.2);d.position.set(3,8,6);d.castShadow=true;d.shadow.mapSize.set(1024,1024);d.shadow.radius=6;
- Object.assign(d.shadow.camera,{left:-12,right:12,top:8,bottom:-8});sc.add(d,new THREE.AmbientLight(0x8899ff,.3));const r=new THREE.PointLight(0xff4fd8,30,30);r.position.set(-6,2,3);sc.add(r);const b=new THREE.PointLight(0x4fe3ff,30,30);b.position.set(6,1,3);sc.add(b)}
-/* ---------- wheel scene ---------- */
-const WS=new THREE.Scene();lights(WS);WS.fog=new THREE.Fog(0x05060f,12,26);
-const WC=new THREE.PerspectiveCamera(32,2,.1,100);WC.position.set(0,.4,10.5);WC.lookAt(0,-.2,0);
-const FLOORY=-H/2-.35;
-const refl=new Reflector(new THREE.PlaneGeometry(60,30),{textureWidth:512,textureHeight:256,color:0x30344a});refl.rotation.x=-Math.PI/2;refl.position.y=FLOORY;WS.add(refl);
-const fade=new THREE.Mesh(new THREE.PlaneGeometry(60,30),new THREE.MeshBasicMaterial({color:0x05060f,transparent:true,opacity:.6}));fade.rotation.x=-Math.PI/2;fade.position.y=FLOORY+.005;WS.add(fade);
-const shc=new THREE.Mesh(new THREE.PlaneGeometry(60,30),new THREE.ShadowMaterial({opacity:.5}));shc.rotation.x=-Math.PI/2;shc.position.y=FLOORY+.01;shc.receiveShadow=true;WS.add(shc);
-let mats=[],back=null,slots=[];
-async function setPacks(s,arts){const ww=document.getElementById("wheelwrap");ww.classList.remove("three");
- back=mat(backTex(s));const fts=await Promise.all(arts.map(a=>frontTex(s,a)));mats=fts.map(mat);
- slots.forEach(o=>WS.remove(o.g));slots=[];for(let k=0;k<13;k++){const g=packMesh(mats[0],back);WS.add(g);slots.push({g})}
- if(!ww.contains(R.domElement))ww.prepend(R.domElement);ww.classList.add("three");P.set=s;P.arts=arts}
-/* ---------- tear scene ---------- */
-const TS=new THREE.Scene();lights(TS);const TC=new THREE.PerspectiveCamera(35,1,.1,100);
-const tearG=new THREE.Group();TS.add(tearG);let body,strip,pivot,glow,spill,cards=[],tp={p:0,dir:1,t:0,fin:0,start:0};
-const glowTex=(()=>{const c=document.createElement("canvas");c.width=c.height=128;const x=c.getContext("2d");const g=x.createRadialGradient(64,64,0,64,64,64);g.addColorStop(0,"#fff");g.addColorStop(.3,"#ffe9a0");g.addColorStop(1,"#ffd54a00");x.fillStyle=g;x.fillRect(0,0,128,128);return new THREE.CanvasTexture(c)})();
-const cardBack=(()=>{const c=document.createElement("canvas");c.width=128;c.height=178;const x=c.getContext("2d");x.fillStyle="#f2c94c";x.fillRect(0,0,128,178);const g=x.createRadialGradient(64,89,4,64,89,80);g.addColorStop(0,"#3a6ff7");g.addColorStop(1,"#0b1f5c");x.fillStyle=g;x.fillRect(6,6,116,166);
- x.fillStyle="#e53935";x.beginPath();x.arc(64,89,22,Math.PI,0);x.fill();x.fillStyle="#eee";x.beginPath();x.arc(64,89,22,0,Math.PI);x.fill();x.fillStyle="#222";x.fillRect(42,87,44,4);x.beginPath();x.arc(64,89,7,0,7);x.fill();const t=new THREE.CanvasTexture(c);t.colorSpace=THREE.SRGBColorSpace;return t})();
-async function tearStart(art){tearG.clear();const fm=mat(await frontTex(P.set,art));
- body=packMesh(fm,back,0,TEARV);pivot=new THREE.Group();strip=packMesh(fm,back,TEARV,1);pivot.add(strip);tearG.add(body,pivot);
- glow=new THREE.Sprite(new THREE.SpriteMaterial({map:glowTex,blending:THREE.AdditiveBlending,transparent:true,depthWrite:false,opacity:0}));glow.position.set(0,(TEARV-.5)*H,0);glow.scale.set(W*1.6,1,1);tearG.add(glow);
- spill=new THREE.PointLight(0xffe29a,0,12);spill.position.set(0,(TEARV-.5)*H+.2,1);tearG.add(spill);
- cards=[];const cm=[new THREE.MeshStandardMaterial({color:0xdddddd}),new THREE.MeshStandardMaterial({color:0xdddddd}),new THREE.MeshStandardMaterial({color:0xdddddd}),new THREE.MeshStandardMaterial({color:0xdddddd}),new THREE.MeshStandardMaterial({map:cardBack,roughness:.4}),new THREE.MeshStandardMaterial({map:cardBack,roughness:.4})];
- for(let i=0;i<5;i++){const c=new THREE.Mesh(new THREE.BoxGeometry(W*.82,W*.82*1.39,.012),cm);c.position.set(0,-.3,0);c.visible=false;tearG.add(c);cards.push(c)}
- tp={p:0,sp:0,dir:1,fin:0,start:performance.now()};const t=document.getElementById("tear");t.prepend(R.domElement);P.active2=true}
-function tearP(p,dir){tp.p=p;tp.dir=dir||1}
-function tearFinish(){tp.fin=performance.now()}
-function tearEnd(){P.active2=false;tearG.clear();const ww=document.getElementById("wheelwrap");ww.prepend(R.domElement)}
-/* ---------- render ---------- */
-const comp=new EffectComposer(R);const rp=new RenderPass(WS,WC);comp.addPass(rp);
-const bloom=new UnrealBloomPass(new THREE.Vector2(256,256),.55,.5,.82);comp.addPass(bloom);comp.addPass(new OutputPass());
-let lastW=0,lastH=0;function size(el,cam){const w=el.clientWidth,h=el.clientHeight;if(w!==lastW||h!==lastH){R.setSize(w,h,false);comp.setSize(w,h);bloom.resolution.set(w/2,h/2);lastW=w;lastH=h}cam.aspect=w/h;cam.updateProjectionMatrix();return[w,h]}
-const ease=t=>1-Math.pow(1-t,3);
-let ft=16,lq=false,lastNow=0;function frame(now){requestAnimationFrame(frame);const T=now/1000;if(lastNow){ft=ft*.9+Math.min(now-lastNow,500)*.1;if(ft>45&&!lq&&now>3000){lq=true;R.setPixelRatio(.75);lastW=0;bloom.enabled=false;refl.visible=false;R.shadowMap.enabled=false;fade.material.opacity=.85;console.log('PACK3D low-quality mode')}}lastNow=now;
- if(P.active2){const [w,h]=size(document.getElementById("tear"),TC);
-  const dist=H*h/(435*2*Math.tan(THREE.MathUtils.degToRad(17.5)));TC.position.set(0,0,dist);TC.lookAt(0,0,0);
-  const k=Math.min((now-tp.start)/900,1);tearG.rotation.y=(1-ease(k))*Math.PI*1.2+Math.sin(T*1.3)*.04;tearG.rotation.x=Math.sin(T*.9)*.03;
-  tp.sp+=( (tp.fin?1:tp.p)-tp.sp)*(tp.fin?.3:.35);const p=tp.sp,dir=tp.dir;
-  pivot.position.set(dir>0?W/2:-W/2,(TEARV-.5)*H,0);strip.position.set(dir>0?-W/2:W/2,-(TEARV-.5)*H,0);
-  pivot.rotation.set(-p*.7,dir*p*.35,dir*p*.55);
-  glow.material.opacity=Math.min(1,p*1.4);glow.scale.set(W*1.8*Math.max(p,.05),.5+p*1.5,1);spill.intensity=p*25;
-  if(tp.fin){const f=(now-tp.fin)/1000;pivot.position.x+=dir*f*f*14;pivot.position.y+=f*6;pivot.rotation.z+=dir*f*4;
-   glow.scale.set(W*2.4,1.5+f*5,1);glow.material.opacity=Math.max(0,1.2-f*.8);spill.intensity=25+f*40;
-   cards.forEach((c,i)=>{const t=Math.max(0,Math.min(1,(f-.25-i*.12)/.6));c.visible=t>0;c.position.set((i-2)*.12*t,-.3+ease(t)*(H*.72),.05+i*.015);c.rotation.z=(i-2)*.06*t});
-   tearG.rotation.y=0;body.position.y=-Math.max(0,f-1)*6}
-  rp.scene=TS;rp.camera=TC;comp.render();return}
- const ww=document.getElementById("wheelwrap");if(!ww.classList.contains("three")||!document.getElementById("vWheel").classList.contains("on")||!mats.length)return;
- size(ww,WC);const c=pos/PW,ci=Math.round(c),landed=state==="landed",vel=typeof speed==="number"?speed:0;
- slots.forEach((o,k)=>{const i=ci+k-6,dx=i-c,g=o.g;g.children[0].material=mats[((i%4)+4)%4];const ad=Math.abs(dx);
-  const lift=Math.max(0,1-ad)*(landed?.9:.35);g.position.set(dx*SPACING,lift+Math.sin(T*1.6+i)*.06,-ad*ad*.55+lift*1.4);
-  g.rotation.set(Math.sin(T*1.1+i*.7)*.03,-dx*.32+Math.sin(T*.8+i)*.05+(landed&&ad<.5?Math.sin(T*3)*.08:0),-vel*.0025)});
- rp.scene=WS;rp.camera=WC;bloom.strength=landed?.9:.55;comp.render()}
-const P=window.PACK3D={ok:true,get active(){return true},setPacks,tearStart,tearP,tearFinish,tearEnd};
-requestAnimationFrame(frame);
-if(document.getElementById("vWheel").classList.contains("on")&&packArts.length)setPacks(set,packArts);
-console.log("PACK3D ready");
-}catch(e){console.warn("3D disabled, using CSS packs:",e);window.PACK3D=null}
-
-</script></body></html>
+</script><script defer src="vendor/app3d.js?v=7"></script>
+<script>if(/[?&]debug/.test(location.search))document.getElementById("badge").style.display="block"</script></body></html>
