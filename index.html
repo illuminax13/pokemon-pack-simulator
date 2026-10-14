@@ -136,6 +136,7 @@ h2{margin:0 0 12px;font-family:Orbitron,Outfit,sans-serif;font-size:15px;letter-
 #stageui button{pointer-events:auto}#sstatus{flex:1;font-weight:500;color:#dfe6ff;text-shadow:0 2px 6px #000}.sstats{color:#b9bfe6}.sstats b{color:var(--gold)}
 #vWheel.stage .hint{bottom:36px;font-size:16px;padding-left:48px}
 body.staged{overflow:hidden}
+.pk.real img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}.pk.real:before,.pk.real:after{display:none}.pk.real .foil{opacity:.3}.pk.real .metal{opacity:.6}
 </style></head><body><div id="bg"></div><canvas id="fx"></canvas><div id="burst"></div>
 <div id="tear"></div><div id="badge">CSS · loading</div>
 <header><h1>PACK SIMULATOR</h1>
@@ -157,6 +158,8 @@ const SETS=[
  {name:"Scarlet & Violet 151",ptcg:"sv3pt5",dex:"sv03.5",serie:"sv",era:"sv",year:2023,colors:["#d32f2f","#1e88e5"]},
  {name:"Surging Sparks",ptcg:"sv8",dex:"sv08",serie:"sv",era:"sv",year:2024,colors:["#f9a825","#6a1b9a"]},
 ];
+const PACKART={"base1": ["assets/packs/base1/venusaur.jpg", "assets/packs/base1/charizard.jpg", "assets/packs/base1/blastoise.jpg", "assets/packs/base1/venusaur-unlimited.jpg", "assets/packs/base1/blastoise-unlimited.jpg", "assets/packs/base1/charizard-unlimited.jpg"], "base2": ["assets/packs/base2/scyther.jpg", "assets/packs/base2/flareon.jpg", "assets/packs/base2/wigglytuff.jpg"], "base3": ["assets/packs/base3/aerodactyl.jpg", "assets/packs/base3/lapras.jpg", "assets/packs/base3/zapdos.jpg"], "swsh7": ["assets/packs/swsh7/rayquaza.jpg", "assets/packs/swsh7/umbreon.jpg", "assets/packs/swsh7/sylveon.jpg", "assets/packs/swsh7/duraludon.jpg"], "sv03.5": ["assets/packs/sv03.5/mew.jpg"], "sv08": ["assets/packs/sv08/pikachu.jpg", "assets/packs/sv08/latias.jpg", "assets/packs/sv08/archaludon.jpg", "assets/packs/sv08/exeggutor.jpg"]};
+const VSEQ={};function packVariant(s,i){const l=PACKART[s.dex];if(!l)return -1;let q=VSEQ[s.dex];if(!q){q=VSEQ[s.dex]=[];for(let k=0;k<16;k++){let v,t=0;do{v=Math.floor(Math.random()*l.length);t++}while(l.length>1&&t<50&&(v===q[k-1]||(k===15&&v===q[0])));q.push(v)}}return q[((i%16)+16)%16]}
 const TIERS={common:0,uncommon:1,rare:2,holo:3,ultra:4,illus:5,sir:6};
 function tier(r){r=(r||"").toLowerCase();
  if(/special illustration|hyper|secret|gold|rainbow/.test(r))return"sir";
@@ -217,7 +220,7 @@ async function chooseSet(s){set=s;show("vWheel");$("status").textContent=`Loadin
  let d;try{d=await getCards(s)}catch(e){$("status").textContent="Couldn't load cards ("+e.message+"). Check your connection and try again.";return}
  const hits=[...(d.pools.sir||[]),...(d.pools.illus||[]),...(d.pools.ultra||[]),...(d.pools.holo||[]),...(d.pools.rare||[])];
  packArts=Array.from({length:4},()=>pick(hits.length?hits:Object.values(d.pools).flat()));
- $("strip").innerHTML=Array.from({length:NP},(_,i)=>packHTML(s,packArts[i%4],(i%4)*25)).join("");
+ $("strip").innerHTML=Array.from({length:NP},(_,i)=>packHTML(s,packArts[i%4],(i%4)*25,i)).join("");
  pos=PW*36;speed=0;lastTick=-1;state="idle";window.PACK3D&&PACK3D.setPacks(s,packArts);render();draw();$("whint").classList.remove("off");
  $("status").textContent=`${s.name}: ${d.n} cards via ${d.src}. Swipe the packs — faster swipe, longer spin!`}
 function wrap(){const L=PW*4*4;if(pos<PW*12){pos+=L}else if(pos>PW*(NP-12)){pos-=L}}
@@ -241,7 +244,7 @@ function snap(){state="snap";const from0=pos,target=Math.round(pos/PW+Math.sign(
   if(t<1){raf=requestAnimationFrame(step);return}
   if(travel<PW*3){state="idle";$("whint").classList.remove("off");$("status").textContent="Give it a real swipe to spin!";return}
   state="landed";const i=Math.round(pos/PW),el=$("strip").children[i];el.classList.add("landed");
-  $("status").textContent="You got a pack!";setTimeout(()=>tearPack(packArts[i%4]),1100)};raf=requestAnimationFrame(step)}
+  $("status").textContent="You got a pack!";setTimeout(()=>tearPack(packArts[i%4],i),1100)};raf=requestAnimationFrame(step)}
 /* ---------- reveal ---------- */
 function openPack(){const s=set,d=cache[s.dex];current=buildPack(s,d.pools);flippedN=0;state="idle";store.packs++;
  show("vPack");$("status").textContent=`${s.name}: click cards to flip — best card last!`;const b=$("board");b.innerHTML="";
@@ -261,11 +264,11 @@ function render(){$("count").textContent=store.packs;const ks=Object.keys(store.
  $("coll").innerHTML=ks.sort((a,b)=>store.coll[b].t-store.coll[a].t).map(k=>{const c=store.coll[k];return `<div title="${esc(c.name)}">${img(c.imgs||[c.img],c.name,c.rarity||"")}<span>×${c.n}</span></div>`}).join("")}
 show("vPick");render();new MutationObserver(()=>{$("sstatus").textContent=$("status").textContent;$("scount").textContent=store.packs}).observe($("status"),{childList:true,characterData:true,subtree:true});
 
-function packHTML(s,a,h){const c=s.colors;return `<div class="pack"><div class="pk" style="background:linear-gradient(${150+h}deg,${c[0]},${c[1]} 55%,${c[0]})"><div class="plogo">${img(logoSrcs(s),s.name,"")}</div>
+function packHTML(s,a,h,i){const c=s.colors,v=packVariant(s,i||0);if(v>=0)return `<div class="pack"><div class="pk real"><img src="${PACKART[s.dex][v]}" alt="${esc(s.name)} booster" draggable="false"><div class="metal"></div><div class="foil"></div></div></div>`;return `<div class="pack"><div class="pk" style="background:linear-gradient(${150+h}deg,${c[0]},${c[1]} 55%,${c[0]})"><div class="plogo">${img(logoSrcs(s),s.name,"")}</div>
  <div class="art" style="background-image:url('${a.imgs[0]}'),url('${a.imgs[2]||a.imgs[1]||""}')"></div><div class="metal"></div><div class="foil"></div><div class="pname">BOOSTER · ${esc(a.name.toUpperCase())}</div></div></div>`}
-function tearPack(a){const t=$("tear"),p=packHTML(set,a,0);
+function tearPack(a,i){const t=$("tear"),p=packHTML(set,a,0,i);
  t.className="";t.innerHTML=`<div class="pack tp" style="position:relative">${p.replace('class="pack"','class="pack bot" style="width:100%;height:100%"')}${p.replace('class="pack"','class="pack top" style="width:100%;height:100%"')}<div class="seam"></div><div class="glowline"></div><div class="zone"></div></div><div class="hint"><span class="hand">👆</span>Swipe across the top to tear</div>`;
-if(window.PACK3D&&PACK3D.active){t.classList.add("three");PACK3D.tearStart(a)}
+if(window.PACK3D&&PACK3D.active){t.classList.add("three");PACK3D.tearStart(a,i)}
  t.classList.add("on");$("status").textContent="Swipe across the top seal to tear it open!";
  const pk=t.querySelector(".tp"),top=t.querySelector(".top"),seam=t.querySelector(".seam");let st=null,done=false;
  const setP=(p,dir)=>{window.PACK3D&&PACK3D.tearP(p,dir);top.style.transformOrigin=dir>0?"100% 100%":"0% 100%";top.style.transform=`translateY(${-p*14}px) rotate(${-dir*p*16}deg)`;
@@ -295,5 +298,5 @@ function sparks(x,y,n,cols){for(let i=0;i<n;i++){const a=Math.random()*6.28,v=Ma
  for(const p of P){p.y-=p.v;p.a+=.02;if(p.y<-5){p.y=cv.height+5;p.x=Math.random()*cv.width}cx.globalAlpha=.25+.25*Math.sin(p.a);cx.fillStyle="#cfe0ff";cx.beginPath();cx.arc(p.x,p.y,p.r,0,6.28);cx.fill()}
  S=S.filter(s=>s.l>0);for(const s of S){s.x+=s.vx;s.y+=s.vy;s.vy+=.22;s.vx*=.98;s.l-=.012;cx.globalAlpha=Math.max(s.l,0);cx.fillStyle=s.c;cx.shadowBlur=12;cx.shadowColor=s.c;cx.beginPath();cx.arc(s.x,s.y,s.r,0,6.28);cx.fill();cx.shadowBlur=0}
  cx.globalAlpha=1;requestAnimationFrame(loop)})();
-</script><script defer src="vendor/app3d.js?v=7"></script>
+</script><script defer src="vendor/app3d.js?v=8"></script>
 <script>if(/[?&]debug/.test(location.search))document.getElementById("badge").style.display="block"</script></body></html>

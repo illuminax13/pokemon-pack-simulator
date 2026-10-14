@@ -50,6 +50,10 @@ function backTex(s){const c=document.createElement("canvas");c.width=256;c.heigh
  x.fillStyle="#0007";x.fillRect(30,70,196,230);x.fillStyle="#fff9";for(let i=0;i<14;i++)x.fillRect(42,86+i*14,170-(i*37%60),5);x.fillStyle="#fff";x.fillRect(70,330,116,50);x.fillStyle="#000";for(let i=0;i<40;i++)x.fillRect(76+i*2.6,336,i%3?1:2,38);
  sealBands(x,256,448);return canvasTex(c)}
 const cbTex=new THREE.TextureLoader().load(CARDBACK);cbTex.colorSpace=THREE.SRGBColorSpace;
+async function realTex(url){const im=await loadImg([url]);if(!im)return null;try{const t=document.createElement("canvas");t.width=t.height=2;const x=t.getContext("2d");x.drawImage(im,0,0,2,2);x.getImageData(0,0,1,1)}catch(e){return null}
+ const t=new THREE.Texture(im);t.colorSpace=THREE.SRGBColorSpace;t.anisotropy=8;t.needsUpdate=true;return t}
+const realMat=map=>new THREE.MeshPhysicalMaterial({map,alphaMap:alphaTex,alphaTest:.5,metalness:.2,roughness:.38,clearcoat:.8,clearcoatRoughness:.2,iridescence:.18,iridescenceIOR:1.3,envMapIntensity:.9,side:THREE.DoubleSide});
+let realMats=null;
 const mat=map=>new THREE.MeshPhysicalMaterial({map,alphaMap:alphaTex,alphaTest:.5,metalness:.55,roughness:.28,clearcoat:1,clearcoatRoughness:.12,iridescence:.5,iridescenceIOR:1.5,envMapIntensity:1.3,side:THREE.DoubleSide});
 function packMesh(fm,bm,v0=0,v1=1){const g=new THREE.Group();const f=new THREE.Mesh(v0===0&&v1===1?GF:geo(v0,v1,false),fm),b=new THREE.Mesh(v0===0&&v1===1?GB:geo(v0,v1,true),bm);f.castShadow=b.castShadow=true;g.add(f,b);return g}
 const glowTex=(()=>{const c=document.createElement("canvas");c.width=c.height=128;const x=c.getContext("2d");const g=x.createRadialGradient(64,64,0,64,64,64);g.addColorStop(0,"#fff");g.addColorStop(.3,"#ffe9a0");g.addColorStop(1,"#ffd54a00");x.fillStyle=g;x.fillRect(0,0,128,128);return new THREE.CanvasTexture(c)})();
@@ -76,6 +80,7 @@ let mats=[],back=null,slots=[];const ringG=new THREE.Group();WS.add(ringG);
 async function setPacks(s,arts){P.set=s;back=mat(backTex(s));const plain=mat(basicFront(s));mats=arts.map(()=>plain);
  ringG.clear();slots=[];for(let k=0;k<N;k++){const g=packMesh(mats[0],back);ringG.add(g);slots.push(g)}
  enterStage();
+ realMats=null;const RL=PACKART[s.dex];if(RL){const rt=await Promise.all(RL.map(realTex));if(rt.every(Boolean)){realMats=rt.map(realMat);P.real=rt.length;return}}P.real=0;
  const fts=await Promise.all(arts.map(a=>frontTex(s,a).catch(()=>null)));mats=fts.map(t=>t?mat(t):plain)}
 function enterStage(){const ww=document.getElementById("wheelwrap");if(!ww.contains(R.domElement))ww.prepend(R.domElement);ww.classList.add("three");document.getElementById("vWheel").classList.add("stage");document.body.classList.add("staged")}
 function leaveStage(){document.getElementById("vWheel").classList.remove("stage");document.body.classList.remove("staged")}
@@ -84,7 +89,7 @@ const TS=new THREE.Scene();TS.environment=ENV;TS.background=new THREE.Color(0x05
 {const d=new THREE.DirectionalLight(0xffffff,2.2);d.position.set(3,8,6);TS.add(d,new THREE.AmbientLight(0x8899ff,.3));const a=new THREE.PointLight(0xff4fd8,30,30);a.position.set(-6,2,3);const b=new THREE.PointLight(0x4fe3ff,30,30);b.position.set(6,1,3);TS.add(a,b)}
 const tearG=new THREE.Group();TS.add(tearG);let body,strip,pivot,glow,spill,cards=[],tp={p:0,sp:0,dir:1,fin:0,start:0};
 const cardMats=[...Array(4)].map(()=>new THREE.MeshStandardMaterial({color:0xdddddd})).concat([new THREE.MeshStandardMaterial({map:cbTex,roughness:.35}),new THREE.MeshStandardMaterial({map:cbTex,roughness:.35})]);
-async function tearStart(art){tearG.clear();let fm;try{fm=mat(await frontTex(P.set,art))}catch(e){fm=back}
+async function tearStart(art,i){tearG.clear();let fm;if(realMats&&i!=null)fm=realMats[packVariant(P.set,i)];else try{fm=mat(await frontTex(P.set,art))}catch(e){fm=back}
  body=packMesh(fm,back,0,TEARV);pivot=new THREE.Group();strip=packMesh(fm,back,TEARV,1);pivot.add(strip);tearG.add(body,pivot);
  glow=new THREE.Sprite(new THREE.SpriteMaterial({map:glowTex,blending:THREE.AdditiveBlending,transparent:true,depthWrite:false,opacity:0}));glow.position.set(0,(TEARV-.5)*H,0);glow.scale.set(W*1.6,1,1);tearG.add(glow);
  spill=new THREE.PointLight(0xffe29a,0,12);spill.position.set(0,(TEARV-.5)*H+.2,1);tearG.add(spill);
@@ -115,7 +120,7 @@ function frame(now){requestAnimationFrame(frame);const T=now/1000;
  const c=pos/PW,ci=Math.round(c),landed=state==="landed",vel=typeof speed==="number"?speed:0,av=Math.min(Math.abs(vel)/40,1);
  if(landed&&!landT)landT=now;if(!landed)landT=0;const lt=landT?Math.min((now-landT)/1000,1):0;
  slots.forEach((g,k)=>{const i=ci+k-Math.floor(N/2),dx=i-c,th=dx*STEP,ad=Math.abs(dx);
-  g.children[0].material=mats[((i%4)+4)%4]||mats[0];
+  g.children[0].material=realMats?realMats[packVariant(P.set,i)]:(mats[((i%4)+4)%4]||mats[0]);
   const front=Math.max(0,1-ad);const lift=front*(.25+ease(lt)*1.2);
   g.position.set(Math.sin(th)*RING,lift+Math.sin(T*1.4+i)*.07,Math.cos(th)*RING-RING+front*(.8+ease(lt)*1.6));
   g.rotation.set(Math.sin(T+i*.7)*.03,th+(landed&&ad<.5?ease(lt)*Math.PI*2:Math.sin(T*.8+i)*.05),-vel*.002);g.visible=Math.cos(th)>-.35});
