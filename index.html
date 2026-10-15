@@ -278,6 +278,28 @@ h2{font-size:13px;letter-spacing:3px}
 .binder:after{transform:none}
 .blogo img{filter:none;image-rendering:auto}
 .pocket img{image-rendering:auto}
+/* ---- coverflow wheel (TCG Pocket style: bright, crisp DOM art) ---- */
+#vWheel.stage{background:linear-gradient(180deg,#c6d6e8 0%,#dfe9f4 30%,#f3f7fb 58%,#ffffff 72%,#e9f0f7 100%)}
+#vWheel.stage #sstatus{visibility:hidden}#vWheel.stage .hint{white-space:nowrap}
+#vWheel.stage #wheelwrap{background:linear-gradient(180deg,transparent 0 64%,rgba(255,255,255,.55) 66%,rgba(214,226,240,.6) 100%)}
+#vWheel.stage #wheelwrap>#c3d{display:none}
+#vWheel.stage #wheelwrap.three #strip{opacity:1}
+#vWheel.stage #strip{position:absolute;inset:0;display:block;perspective:1100px;perspective-origin:50% 45%;will-change:auto;filter:none!important;transform:none!important}
+#vWheel.stage .pack{position:absolute;left:50%;top:44%;width:var(--pw);height:var(--ph);margin:calc(var(--ph)/-2) 0 0 calc(var(--pw)/-2);transition:none;filter:none;transform-style:flat;backface-visibility:visible;
+ -webkit-box-reflect:below 4px linear-gradient(transparent 52%,rgba(255,255,255,.32))}
+#vWheel.stage .pack.tick{filter:none}
+#vWheel.stage .pack.landed{animation:none;transition:transform .5s cubic-bezier(.2,.8,.2,1)}
+#vWheel.stage .pk{border-radius:4px;box-shadow:none}
+#vWheel.stage .pk.real .foil{display:none}
+#vWheel.stage .pk.real .metal{opacity:1;background:linear-gradient(90deg,rgba(0,0,0,.13),transparent 9%,transparent 91%,rgba(0,0,0,.15)),linear-gradient(180deg,rgba(255,255,255,.08),transparent 25%,transparent 85%,rgba(0,0,0,.06))}
+#vWheel.stage .pk img{image-rendering:auto}
+#vWheel.stage #stageui{background:none}
+#vWheel.stage #sstatus{color:#46566b;text-shadow:none;font-size:13px}#vWheel.stage .sstats{color:#5b6b80}#vWheel.stage .sstats b{color:#d48a00}
+#vWheel.stage #sback{background:rgba(255,255,255,.75);color:#24324a;border:1px solid rgba(30,50,80,.12);box-shadow:0 2px 8px rgba(30,50,80,.12)}
+#vWheel.stage .hint{background:rgba(255,255,255,.8);color:#24324a;border-color:rgba(30,50,80,.12);box-shadow:0 4px 14px rgba(30,50,80,.12)}
+#skip{display:none}#vWheel.stage #skip{display:flex;position:absolute;right:calc(18px + var(--sa-r,0px));bottom:calc(26px + var(--sa-b,0px));z-index:6;width:48px;height:48px;padding:0;border-radius:50%;align-items:center;justify-content:center;
+ background:rgba(255,255,255,.85);border:1px solid rgba(30,50,80,.15);box-shadow:0 4px 14px rgba(30,50,80,.18);color:#33445c}
+#skip svg{width:22px;height:22px}
 </style></head><body><div id="bg"></div><canvas id="fx"></canvas><div id="burst"></div>
 <div id="tear"></div><div id="badge">CSS · loading</div>
 <header><h1>PACK SIMULATOR</h1>
@@ -289,7 +311,7 @@ h2{font-size:13px;letter-spacing:3px}
 <div id="vBinder" class="view"><div id="bbar"><button id="bshelf" class="ghost">← Shelf</button><h3 id="btitle"></h3><div class="bfilt"><button data-f="all" class="ghost on">All</button><button data-f="owned" class="ghost">Owned</button><button data-f="missing" class="ghost">Missing</button></div></div>
 <div id="bwrap"><button id="bprev" class="bnav ghost">‹</button><div id="book"></div><button id="bnext" class="bnav ghost">›</button></div><div id="bpage"></div></div>
 <div id="viewer"><div id="vcard"></div><div id="vinfo"></div></div>
-<div id="vWheel" class="view"><div id="stageui"><button id="sback" class="ghost">← Sets</button><div id="sstatus"></div><div class="sstats">Packs <b id="scount">0</b></div></div><div id="wheelwrap"><div id="pointer"></div><div id="strip"></div><div class="hint" id="whint"><span class="hand">👆</span>Swipe to spin</div></div>
+<div id="vWheel" class="view"><div id="stageui"><button id="sback" class="ghost">← Sets</button><div id="sstatus"></div><div class="sstats">Packs <b id="scount">0</b></div></div><div id="wheelwrap"><div id="pointer"></div><div id="strip"></div><button id="skip" aria-label="Spin"><svg viewBox="0 0 24 24"><path d="M6 4l11 8-11 8z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M19 4v16" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></button><div class="hint" id="whint"><span class="hand">👆</span>Swipe to spin</div></div>
 </div>
 <div id="vPack" class="view"><div id="board"></div></div>
 <section><h2>Recent pulls</h2><div id="hist"></div></section>
@@ -415,7 +437,7 @@ function viewCard(n){const own=owned(B.s)[n],c=B.list.find(x=>x.n===n);if(!own)r
  const el=cardEl(cd,0);el.classList.add("flipped");tilt(el);$("vcard").innerHTML="";$("vcard").appendChild(el);
  $("vinfo").innerHTML=`<b>${esc(own.name)}</b> · #${esc(c?c.lid:n)} · ${esc(own.rarity||"")} · owned ×${own.n}<br><small>tap outside to close</small>`;$("viewer").classList.add("on")}
 $("viewer").addEventListener("click",e=>{if(!e.target.closest(".card"))$("viewer").classList.remove("on")});
-$("sback").onclick=()=>$("back").onclick();$("back").onclick=()=>{window.PACK3D&&PACK3D.leaveStage();cancelAnimationFrame(raf);state="idle";show("vPick");$("status").textContent="Pick a set!"};
+$("sback").onclick=()=>$("back").onclick();$("back").onclick=()=>{window.PACK3D&&PACK3D.leaveStage();$("vWheel").classList.remove("stage");document.body.classList.remove("staged");cancelAnimationFrame(raf);state="idle";show("vPick");$("status").textContent="Pick a set!"};
 $("open").onclick=()=>chooseSet(set);
 /* ---------- wheel ---------- */
 const PW=180,NP=70;let raf=0,pos=0,speed=0,state="idle",packArts=[],lastTick=-1;
@@ -424,12 +446,22 @@ async function chooseSet(s){set=s;show("vWheel");$("status").textContent=`Loadin
  const hits=[...(d.pools.sir||[]),...(d.pools.illus||[]),...(d.pools.ultra||[]),...(d.pools.holo||[]),...(d.pools.rare||[])];
  packArts=Array.from({length:4},()=>pick(hits.length?hits:Object.values(d.pools).flat()));
  $("strip").innerHTML=Array.from({length:NP},(_,i)=>packHTML(s,packArts[i%4],(i%4)*25,i)).join("");
- pos=PW*36;speed=0;lastTick=-1;state="idle";window.PACK3D&&PACK3D.setPacks(s,packArts);render();draw();$("whint").classList.remove("off");
+ pos=PW*36;speed=0;lastTick=-1;state="idle";$("vWheel").classList.add("stage");document.body.classList.add("staged");window.PACK3D&&PACK3D.setPacks(s,packArts);render();draw();$("whint").classList.remove("off");
  $("status").textContent=`${s.name}: ${d.n} cards via ${d.src}. Swipe the packs — faster swipe, longer spin!`}
 function wrap(){const L=PW*4*4;if(pos<PW*12){pos+=L}else if(pos>PW*(NP-12)){pos-=L}}
-function draw(){wrap();const w=$("wheelwrap").clientWidth;const x=w/2-PW/2+10-pos;$("strip").style.transform=`translateX(${x}px)`;$("strip").style.filter=Math.abs(speed)<3?"":`blur(${Math.min(Math.abs(speed)/7,5).toFixed(1)}px)`;
+function draw(){wrap();const ww_=$("wheelwrap"),st=$("strip"),w=ww_.clientWidth||innerWidth,h=ww_.clientHeight||innerHeight;
+ const ph=Math.round(Math.min(w*.54*1.75,h*.56)),pw=Math.round(ph/1.75);st.style.setProperty("--pw",pw+"px");st.style.setProperty("--ph",ph+"px");
+ const u=pos/PW,ch=st.children,c0=Math.round(u),landedNow=state==="landed";
+ for(let i=Math.max(0,c0-6);i<=Math.min(ch.length-1,c0+6);i++){const el=ch[i],d=i-u,ad=Math.abs(d),sg=Math.sign(d);
+  if(ad>4.5){el.style.visibility="hidden";continue}el.style.visibility="";
+  const n=Math.min(ad,1),f=Math.max(0,ad-1),tx=sg*(n*pw*1.06+f*pw*.2),tz=-(n*pw*.35+f*pw*1.5),ry=-sg*n*34;
+  el.style.zIndex=String(100-Math.round(ad*10));el.style.opacity=ad>1?String(Math.max(0,(ad<2?1-(ad-1)*.45:.55*(1-(ad-2)/2.2))).toFixed(3)):"";
+  el.style.transform=ad<.001?(landedNow?"translateY(-10px) scale(1.03)":"none"):`translate3d(${tx.toFixed(1)}px,0,${tz.toFixed(1)}px) rotateY(${ry.toFixed(2)}deg)`}
+ for(const k of[c0-7,c0+7])if(ch[k])ch[k].style.visibility="hidden";
  const idx=Math.round(pos/PW);if(idx!==lastTick){const p=$("strip").children;p[lastTick]?.classList.remove("tick");p[idx]?.classList.add("tick");lastTick=idx}}
 /* swipe physics */
+$("skip").onclick=e=>{e.stopPropagation();if(state!=="idle")return;cancelAnimationFrame(raf);document.querySelectorAll(".pack.landed").forEach(p=>p.classList.remove("landed"));travel=0;speed=55+Math.random()*30;state="fling";$("whint").classList.add("off");fling()};
+$("skip").addEventListener("pointerdown",e=>e.stopPropagation());
 let drag=null,travel=0;const ww=$("wheelwrap");
 ww.addEventListener("pointerdown",e=>{if(state!=="idle"&&state!=="fling")return;cancelAnimationFrame(raf);ww.setPointerCapture(e.pointerId);ww.classList.add("drag");
  document.querySelectorAll(".pack.landed").forEach(p=>p.classList.remove("landed"));
@@ -446,7 +478,7 @@ function snap(){state="snap";const from0=pos,target=Math.round(pos/PW+Math.sign(
  const step=now=>{const t=Math.min((now-t0)/dur,1),e=1-Math.pow(1-t,3);pos=from0+dist*e;speed=0;draw();
   if(t<1){raf=requestAnimationFrame(step);return}
   if(travel<PW*3){state="idle";$("whint").classList.remove("off");$("status").textContent="Give it a real swipe to spin!";return}
-  state="landed";const i=Math.round(pos/PW),el=$("strip").children[i];el.classList.add("landed");
+  state="landed";const i=Math.round(pos/PW),el=$("strip").children[i];el.classList.add("landed");draw();
   $("status").textContent="You got a pack!";setTimeout(()=>tearPack(packArts[i%4],i),1100)};raf=requestAnimationFrame(step)}
 /* ---------- reveal ---------- */
 function cardEl(c,i){const el=document.createElement("div");el.className="card"+(c.rev?" rev":"")+(TIERS[c.tier]>=3?" hit":"")+(TIERS[c.tier]>=4?" big":"");
@@ -520,5 +552,5 @@ function sparks(x,y,n,cols){for(let i=0;i<n;i++){const a=Math.random()*6.28,v=Ma
  for(const p of P){p.y-=p.v;p.a+=.02;if(p.y<-5){p.y=cv.height+5;p.x=Math.random()*cv.width}cx.globalAlpha=.25+.25*Math.sin(p.a);cx.fillStyle="#cfe0ff";cx.beginPath();cx.arc(p.x,p.y,p.r,0,6.28);cx.fill()}
  S=S.filter(s=>s.l>0);for(const s of S){s.x+=s.vx;s.y+=s.vy;s.vy+=.22;s.vx*=.98;s.l-=.012;cx.globalAlpha=Math.max(s.l,0);cx.fillStyle=s.c;cx.shadowBlur=12;cx.shadowColor=s.c;cx.beginPath();cx.arc(s.x,s.y,s.r,0,6.28);cx.fill();cx.shadowBlur=0}
  cx.globalAlpha=1;requestAnimationFrame(loop)})();
-</script><script defer src="vendor/app3d.js?v=13"></script>
+</script><script defer src="vendor/app3d.js?v=14"></script>
 <script>if(/[?&]debug/.test(location.search))document.getElementById("badge").style.display="block"</script></body></html>

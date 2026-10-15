@@ -95,7 +95,7 @@ async function setPacks(s,arts){P.set=s;back=mat(backTex(s));const plain=mat(bas
  enterStage();
  realMats=null;const RL=PACKART[s.dex];if(RL){const rt=await Promise.all(RL.map(realTex));if(rt.every(Boolean)){realMats=rt.map(realMat);P.real=rt.length;return}}P.real=0;
  const fts=await Promise.all(arts.map(a=>frontTex(s,a).catch(()=>null)));mats=fts.map(t=>t?mat(t):plain)}
-function enterStage(){const ww=document.getElementById("wheelwrap");if(!ww.contains(R.domElement))ww.prepend(R.domElement);ww.classList.add("three");document.getElementById("vWheel").classList.add("stage");document.body.classList.add("staged")}
+function enterStage(){const ww=document.getElementById("wheelwrap");if(!ww.contains(R.domElement))ww.prepend(R.domElement);document.getElementById("vWheel").classList.add("stage");document.body.classList.add("staged")}
 function leaveStage(){document.getElementById("vWheel").classList.remove("stage");document.body.classList.remove("staged")}
 /* ---------- TEAR SCENE ---------- */
 const TS=new THREE.Scene();TS.environment=ENV;TS.background=new THREE.Color(0x05060f);const TC=new THREE.PerspectiveCamera(35,1,.1,100);
@@ -128,6 +128,7 @@ function frame(now){requestAnimationFrame(frame);const T=now/1000;
   if(tp.fin){const f=(now-tp.fin)/1000;pivot.position.x+=dir*f*f*14;pivot.position.y+=f*6;pivot.rotation.z+=dir*f*4;glow.scale.set(W*1.6,1+f*2,1);glow.material.opacity=Math.max(0,.35-f*.3);spill.intensity=Math.max(0,3.5+f*2-f*f*1.5);
    cards.forEach((c,i)=>{const t=Math.max(0,Math.min(1,(f-.25-i*.12)/.6));c.visible=t>0;c.position.set((i-2)*.12*t,-.3+ease(t)*(H*.72),.05+i*.015);c.rotation.z=(i-2)*.06*t});tearG.rotation.y=0;body.position.y=-Math.max(0,f-1)*6}
   rp.scene=TS;rp.camera=TC;bloom.strength=.12;R.toneMappingExposure=.82;comp.render();R.toneMappingExposure=.9;return}
+ return; // wheel is now a crisp DOM coverflow; WebGL only renders the tear scene
  const vw=document.getElementById("vWheel");if(!vw.classList.contains("on")||!slots.length)return;
  size(document.getElementById("wheelwrap"),WC);
  const c=pos/PW,ci=Math.round(c),landed=state==="landed",vel=typeof speed==="number"?speed:0,av=Math.min(Math.abs(vel)/40,1);
