@@ -271,6 +271,13 @@ h2{font-size:13px;letter-spacing:3px}
 @media (max-width:640px){header{padding-top:calc(8px + var(--sa-t));gap:8px}h1{font-size:15px;width:100%;margin:0}header button{padding:7px 13px;font-size:13px}.stats{margin-left:auto;font-size:12px}.stats span{padding:4px 8px}
  #status{font-size:13px;padding-top:8px}#sets{grid-template-columns:1fr 1fr;gap:12px;padding:14px}.tile{padding:14px 10px 12px}.tile .logo{height:70px}.tile .logo img{max-height:70px}.tile h3{font-size:14px}
  #shelf{grid-template-columns:1fr 1fr;gap:26px 18px;padding:22px 18px 40px}section{margin:18px 10px}}
+/* crisp binders at high DPR: no filter/3D raster layers */
+.binder,.binder:hover,.binder:active{filter:none;transform-style:flat;will-change:auto}
+.binder:hover{transform:translateY(-6px)}.binder:active{transform:translateY(-2px) scale(.98)}
+.binder .cover{box-shadow:0 14px 18px -6px rgba(0,0,0,.6),0 4px 8px rgba(0,0,0,.35),inset 0 0 0 1px rgba(255,255,255,.08),inset -8px 0 14px rgba(0,0,0,.35)}
+.binder:after{transform:none}
+.blogo img{filter:none;image-rendering:auto}
+.pocket img{image-rendering:auto}
 </style></head><body><div id="bg"></div><canvas id="fx"></canvas><div id="burst"></div>
 <div id="tear"></div><div id="badge">CSS · loading</div>
 <header><h1>PACK SIMULATOR</h1>
@@ -296,7 +303,7 @@ const SETS=[
  {name:"Scarlet & Violet 151",ptcg:"sv3pt5",dex:"sv03.5",serie:"sv",era:"sv",year:2023,colors:["#d32f2f","#1e88e5"]},
  {name:"Surging Sparks",ptcg:"sv8",dex:"sv08",serie:"sv",era:"sv",year:2024,colors:["#f9a825","#6a1b9a"]},
 ];
-const PACKART={"base1": ["assets/packs/base1/venusaur.jpg", "assets/packs/base1/charizard.jpg", "assets/packs/base1/blastoise.jpg", "assets/packs/base1/venusaur-unlimited.jpg", "assets/packs/base1/blastoise-unlimited.jpg", "assets/packs/base1/charizard-unlimited.jpg"], "base2": ["assets/packs/base2/scyther.jpg", "assets/packs/base2/flareon.jpg", "assets/packs/base2/wigglytuff.jpg"], "base3": ["assets/packs/base3/aerodactyl.jpg", "assets/packs/base3/lapras.jpg", "assets/packs/base3/zapdos.jpg"], "swsh7": ["assets/packs/swsh7/rayquaza.jpg", "assets/packs/swsh7/umbreon.jpg", "assets/packs/swsh7/sylveon.jpg", "assets/packs/swsh7/duraludon.jpg"], "sv03.5": ["assets/packs/sv03.5/mew.jpg"], "sv08": ["assets/packs/sv08/pikachu.jpg", "assets/packs/sv08/latias.jpg", "assets/packs/sv08/archaludon.jpg", "assets/packs/sv08/exeggutor.jpg"]};
+const PACKART={"base1": ["assets/packs/base1/venusaur.jpg", "assets/packs/base1/charizard.jpg", "assets/packs/base1/blastoise.jpg", "assets/packs/base1/venusaur-shadowless.jpg", "assets/packs/base1/venusaur-unlimited.jpg", "assets/packs/base1/blastoise-unlimited.jpg", "assets/packs/base1/charizard-unlimited.jpg"], "base2": ["assets/packs/base2/scyther.jpg", "assets/packs/base2/flareon.jpg", "assets/packs/base2/wigglytuff.jpg"], "base3": ["assets/packs/base3/aerodactyl.jpg", "assets/packs/base3/lapras.jpg", "assets/packs/base3/zapdos.jpg"], "swsh7": ["assets/packs/swsh7/rayquaza.jpg", "assets/packs/swsh7/umbreon.jpg", "assets/packs/swsh7/sylveon.jpg", "assets/packs/swsh7/duraludon.jpg"], "sv03.5": ["assets/packs/sv03.5/mew.jpg"], "sv08": ["assets/packs/sv08/pikachu.jpg", "assets/packs/sv08/latias.jpg", "assets/packs/sv08/archaludon.jpg", "assets/packs/sv08/exeggutor.jpg"]};
 const VSEQ={};function packVariant(s,i){const l=PACKART[s.dex];if(!l)return -1;let q=VSEQ[s.dex];if(!q){q=VSEQ[s.dex]=[];for(let k=0;k<16;k++){let v,t=0;do{v=Math.floor(Math.random()*l.length);t++}while(l.length>1&&t<50&&(v===q[k-1]||(k===15&&v===q[0])));q.push(v)}}return q[((i%16)+16)%16]}
 const TIERS={common:0,uncommon:1,rare:2,holo:3,ultra:4,illus:5,sir:6};
 function tier(r){r=(r||"").toLowerCase();
@@ -313,13 +320,14 @@ if(!store.sets){store.sets={};for(const [id,c] of Object.entries(store.coll||{})
 const save=()=>{try{localStorage.setItem("pps",JSON.stringify(store))}catch(e){}};
 /* ---------- robust images: try each URL in order, then a text placeholder ---------- */
 function img(srcs,label,sub,cls=""){return `<img class="${cls}" referrerpolicy="no-referrer" alt="${esc(label)}" data-srcs="${esc(JSON.stringify(srcs.slice(1)))}" data-label="${esc(label)}" data-sub="${esc(sub||"")}" src="${esc(srcs[0]||"")}" onerror="nextImg(this)">`}
-function nextImg(el){const rest=JSON.parse(el.dataset.srcs||"[]");
+function nextImg(el){el.removeAttribute("srcset");const rest=JSON.parse(el.dataset.srcs||"[]");
  if(rest.length){el.dataset.srcs=JSON.stringify(rest.slice(1));el.src=rest[0];return}
  el.onerror=null;const d=document.createElement("div");d.className=el.dataset.ph||"ph";
  d.innerHTML=`<div style="font-size:18px">${esc(el.dataset.label)}</div><div style="font-size:12px;margin-top:6px">${esc(el.dataset.sub)}</div>`;el.replaceWith(d)}
+function srcsetFor(u){u=u||"";const sz=' sizes="(min-width:900px) 130px, 31vw" ';if(/\/high\.webp$/.test(u))return `srcset="${esc(u.replace(/high\.webp$/,"low.webp"))} 245w, ${esc(u)} 600w"`+sz;if(/_hires\.png$/.test(u))return `srcset="${esc(u.replace(/_hires\.png$/,".png"))} 245w, ${esc(u)} 734w"`+sz;return ""}
 function cardSrcs(s,localId,extra=[]){const n=String(localId).replace(/^0+(?=\d)/,"");const base=`https://assets.tcgdex.net/en/${s.serie}/${s.dex}/${localId}`;
  return [`${base}/high.webp`,...extra,`${base}/low.webp`,`${base}/high.png`,`${base}/low.png`,`https://images.pokemontcg.io/${s.ptcg}/${n}.png`,`https://images.pokemontcg.io/${s.ptcg}/${n}_hires.png`].filter((v,i,a)=>v&&a.indexOf(v)===i)}
-const logoSrcs=s=>[`https://assets.tcgdex.net/en/${s.serie}/${s.dex}/logo.png`,`https://images.pokemontcg.io/${s.ptcg}/logo.png`,`https://assets.tcgdex.net/en/${s.serie}/${s.dex}/logo.webp`];
+const logoSrcs=s=>[`assets/logos/${s.dex}.png`,`https://assets.tcgdex.net/en/${s.serie}/${s.dex}/logo.png`,`https://images.pokemontcg.io/${s.ptcg}/logo.png`,`https://assets.tcgdex.net/en/${s.serie}/${s.dex}/logo.webp`];
 /* ---------- data ---------- */
 async function fetchT(u,ms=8000){const c=new AbortController();const t=setTimeout(()=>c.abort(),ms);try{const r=await fetch(u,{signal:c.signal});if(!r.ok)throw Error(r.status);return await r.json()}finally{clearTimeout(t)}}
 async function loadPTCG(s){const d=await fetchT(`https://api.pokemontcg.io/v2/cards?q=set.id:${s.ptcg}&pageSize=250&select=id,name,number,rarity,images`);
@@ -380,7 +388,7 @@ function slots(){const o=owned(B.s);return B.list.filter(c=>B.filter==="all"||(B
 function pageHTML(p){const o=owned(B.s),l=slots().slice(p*9,p*9+9);let h="";
  for(let k=0;k<9;k++){const c=l[k];if(!c){h+='<div class="pocket empty"></div>';continue}const own=o[c.n];
   const srcs=own?own.imgs:cardSrcs(B.s,c.lid);
-  h+=`<div class="pocket ${own?"own":"miss"}" data-n="${esc(c.n)}">${own?img(srcs,c.name,own.rarity).replace("<img ",'<img loading="lazy" '):`<div class="slotnum">#${esc(c.lid)}</div><div class="slotname">${esc(c.name)}</div>`}${own?`<span class="cnt">×${own.n}</span>`:""}<div class="sleeve"></div></div>`}
+  h+=`<div class="pocket ${own?"own":"miss"}" data-n="${esc(c.n)}">${own?img(srcs,c.name,own.rarity).replace("<img ",'<img loading="lazy" decoding="async" '+srcsetFor(srcs[0])):`<div class="slotnum">#${esc(c.lid)}</div><div class="slotname">${esc(c.name)}</div>`}${own?`<span class="cnt">×${own.n}</span>`:""}<div class="sleeve"></div></div>`}
  return `<div class="page" data-p="${p}"><div class="pgrid">${h}</div><div class="pno">${p+1}</div></div>`}
 const pages=()=>Math.max(1,Math.ceil(slots().length/9));
 function renderBook(){const pv=perView(),N=pages();B.page=Math.max(0,Math.min(B.page,N-1));B.page-=B.page%pv;
@@ -512,5 +520,5 @@ function sparks(x,y,n,cols){for(let i=0;i<n;i++){const a=Math.random()*6.28,v=Ma
  for(const p of P){p.y-=p.v;p.a+=.02;if(p.y<-5){p.y=cv.height+5;p.x=Math.random()*cv.width}cx.globalAlpha=.25+.25*Math.sin(p.a);cx.fillStyle="#cfe0ff";cx.beginPath();cx.arc(p.x,p.y,p.r,0,6.28);cx.fill()}
  S=S.filter(s=>s.l>0);for(const s of S){s.x+=s.vx;s.y+=s.vy;s.vy+=.22;s.vx*=.98;s.l-=.012;cx.globalAlpha=Math.max(s.l,0);cx.fillStyle=s.c;cx.shadowBlur=12;cx.shadowColor=s.c;cx.beginPath();cx.arc(s.x,s.y,s.r,0,6.28);cx.fill();cx.shadowBlur=0}
  cx.globalAlpha=1;requestAnimationFrame(loop)})();
-</script><script defer src="vendor/app3d.js?v=12"></script>
+</script><script defer src="vendor/app3d.js?v=13"></script>
 <script>if(/[?&]debug/.test(location.search))document.getElementById("badge").style.display="block"</script></body></html>
