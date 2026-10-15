@@ -328,6 +328,9 @@ h2{font-size:13px;letter-spacing:3px}
 #vPack.on:after{content:"";position:fixed;inset:0;z-index:80;pointer-events:none;background:linear-gradient(180deg,#dfe9f4,#ffffff);animation:lightfade .7s ease forwards}
 @keyframes lightfade{to{opacity:0;visibility:hidden}}
 .hint .hand{margin-right:14px;line-height:0}
+#vWheel.stage .pack.landed{filter:drop-shadow(0 0 12px rgba(110,170,255,.55))}
+#vWheel.stage .pack.landed .pk{animation:bob 1.8s ease-in-out infinite}@keyframes bob{50%{transform:translateY(-7px)}}
+#vWheel.stage .pack{cursor:pointer}
 </style></head><body><div id="bg"></div><canvas id="fx"></canvas><div id="burst"></div>
 <div id="tear"></div><div id="badge">CSS · loading</div>
 <header><h1>PACK SIMULATOR</h1>
@@ -339,7 +342,7 @@ h2{font-size:13px;letter-spacing:3px}
 <div id="vBinder" class="view"><div id="bbar"><button id="bshelf" class="ghost">← Shelf</button><h3 id="btitle"></h3><div class="bfilt"><button data-f="all" class="ghost on">All</button><button data-f="owned" class="ghost">Owned</button><button data-f="missing" class="ghost">Missing</button></div></div>
 <div id="bwrap"><button id="bprev" class="bnav ghost">‹</button><div id="book"></div><button id="bnext" class="bnav ghost">›</button></div><div id="bpage"></div></div>
 <div id="viewer"><div id="vcard"></div><div id="vinfo"></div></div>
-<div id="vWheel" class="view"><div id="stageui"><button id="sback" class="ghost">← Sets</button><div id="sstatus"></div><div class="sstats">Packs <b id="scount">0</b></div></div><div id="wheelwrap"><div id="pointer"></div><div id="strip"></div><button id="skip" aria-label="Spin"><svg viewBox="0 0 24 24"><path d="M6 4l11 8-11 8z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M19 4v16" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></button><div class="hint" id="whint"><span class="hand"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M9 11V4.5a1.5 1.5 0 0 1 3 0V10m0-1.5a1.5 1.5 0 0 1 3 0V11m0-1a1.5 1.5 0 0 1 3 0v4.5c0 3.6-2.4 6.5-6 6.5-2.6 0-4-1.2-5.3-3L4.4 14.6a1.5 1.5 0 0 1 2.3-1.9L9 15" fill="#fff" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Swipe to spin</div></div>
+<div id="vWheel" class="view"><div id="stageui"><button id="sback" class="ghost">← Sets</button><div id="sstatus"></div><div class="sstats">Packs <b id="scount">0</b></div></div><div id="wheelwrap"><div id="pointer"></div><div id="strip"></div><button id="skip" aria-label="Spin"><svg viewBox="0 0 24 24"><path d="M6 4l11 8-11 8z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M19 4v16" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></button><div class="hint" id="whint"><span class="hand"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M9 11V4.5a1.5 1.5 0 0 1 3 0V10m0-1.5a1.5 1.5 0 0 1 3 0V11m0-1a1.5 1.5 0 0 1 3 0v4.5c0 3.6-2.4 6.5-6 6.5-2.6 0-4-1.2-5.3-3L4.4 14.6a1.5 1.5 0 0 1 2.3-1.9L9 15" fill="#fff" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span id="whtxt">Swipe to spin</span></div></div>
 </div>
 <div id="vPack" class="view"><div id="board"></div></div>
 <section><h2>Recent pulls</h2><div id="hist"></div></section>
@@ -484,30 +487,37 @@ function draw(){wrap();const ww_=$("wheelwrap"),st=$("strip"),w=ww_.clientWidth|
   if(ad>4.5){el.style.visibility="hidden";continue}el.style.visibility="";
   const n=Math.min(ad,1),f=Math.max(0,ad-1),tx=sg*(n*pw*1.06+f*pw*.2),tz=-(n*pw*.35+f*pw*1.5),ry=-sg*n*34;
   el.style.zIndex=String(100-Math.round(ad*10));el.style.opacity=ad>1?String(Math.max(0,(ad<2?1-(ad-1)*.45:.55*(1-(ad-2)/2.2))).toFixed(3)):"";
-  el.style.transform=ad<.001?(landedNow?"translateY(-10px) scale(1.03)":"none"):`translate3d(${tx.toFixed(1)}px,0,${tz.toFixed(1)}px) rotateY(${ry.toFixed(2)}deg)`}
- for(const k of[c0-7,c0+7])if(ch[k])ch[k].style.visibility="hidden";
+  el.style.transform=ad<.001?(landedNow?"translateY(-8px)":"none"):`translate3d(${tx.toFixed(1)}px,0,${tz.toFixed(1)}px) rotateY(${ry.toFixed(2)}deg)`}
+ for(let k=0;k<ch.length;k++)if(k<c0-6||k>c0+6){if(ch[k].style.visibility!=="hidden")ch[k].style.visibility="hidden"}
  const idx=Math.round(pos/PW);if(idx!==lastTick){const p=$("strip").children;p[lastTick]?.classList.remove("tick");p[idx]?.classList.add("tick");lastTick=idx}}
 /* swipe physics */
-$("skip").onclick=e=>{e.stopPropagation();if(state!=="idle")return;cancelAnimationFrame(raf);document.querySelectorAll(".pack.landed").forEach(p=>p.classList.remove("landed"));travel=0;speed=55+Math.random()*30;state="fling";$("whint").classList.add("off");fling()};
+$("skip").onclick=e=>{e.stopPropagation();if(state!=="idle"&&state!=="landed")return;setHint("Swipe to spin");cancelAnimationFrame(raf);document.querySelectorAll(".pack.landed").forEach(p=>p.classList.remove("landed"));travel=0;speed=55+Math.random()*30;state="fling";$("whint").classList.add("off");fling()};
 $("skip").addEventListener("pointerdown",e=>e.stopPropagation());
 let drag=null,travel=0;const ww=$("wheelwrap");
-ww.addEventListener("pointerdown",e=>{if(state!=="idle"&&state!=="fling")return;cancelAnimationFrame(raf);ww.setPointerCapture(e.pointerId);ww.classList.add("drag");
+ww.addEventListener("pointerdown",e=>{if(state!=="idle"&&state!=="fling"&&state!=="landed")return;if(state==="landed")state="idle";setHint("Swipe to spin");cancelAnimationFrame(raf);ww.setPointerCapture(e.pointerId);ww.classList.add("drag");
  document.querySelectorAll(".pack.landed").forEach(p=>p.classList.remove("landed"));
- if(state==="idle")travel=0;state="drag";speed=0;drag={x:e.clientX,samples:[{x:e.clientX,t:e.timeStamp||performance.now()}]};drag.prev=drag.samples[0];$("whint").classList.add("off");e.preventDefault()});
-ww.addEventListener("pointermove",e=>{if(state!=="drag")return;const dx=e.clientX-drag.x;drag.x=e.clientX;pos-=dx;travel+=Math.abs(dx);
+ if(state==="idle")travel=0;state="drag";speed=0;drag={x0:e.clientX,y0:e.clientY,t0:performance.now(),moved:0,x:e.clientX,samples:[{x:e.clientX,t:e.timeStamp||performance.now()}]};drag.prev=drag.samples[0];$("whint").classList.add("off");e.preventDefault()});
+ww.addEventListener("pointermove",e=>{if(state!=="drag")return;const dx=e.clientX-drag.x;drag.x=e.clientX;drag.moved=Math.max(drag.moved,Math.hypot(e.clientX-drag.x0,e.clientY-drag.y0));if(drag.moved<8)return;pos-=dx;travel+=Math.abs(dx);
  const t=e.timeStamp||performance.now();drag.samples.push({x:e.clientX,t});drag.samples=drag.samples.filter(s=>t-s.t<120).slice(-8);if(drag.samples.length<2)drag.samples.unshift(drag.prev);drag.prev={x:e.clientX,t};draw()});
-function release(e){if(state!=="drag")return;ww.classList.remove("drag");const sm=drag.samples,t=e.timeStamp||performance.now();const l=sm[sm.length-1],f=t-l.t>150?l:sm[0];
+function release(e){if(state!=="drag")return;ww.classList.remove("drag");if(drag.moved<8&&e.type==="pointerup"){state="idle";return tapAt(e.clientX,e.clientY)}const sm=drag.samples,t=e.timeStamp||performance.now();const l=sm[sm.length-1],f=t-l.t>150?l:sm[0];
  const vx=(l.t-f.t)>0?(l.x-f.x)/(l.t-f.t):0; // px/ms
  speed=Math.max(-90,Math.min(90,-vx*16.7));state="fling";fling()}
 ww.addEventListener("pointerup",release);ww.addEventListener("pointercancel",release);
 function fling(){let lt=performance.now();const loop=now=>{if(state!=="fling")return;const k=Math.min((now-lt)/16.7,4);lt=now;pos+=speed*k;travel+=Math.abs(speed*k);speed*=Math.pow(Math.abs(speed)>20?0.985:0.965,k);draw();
   if(Math.abs(speed)<1.6)return snap();raf=requestAnimationFrame(loop)};raf=requestAnimationFrame(loop)}
+function setHint(t){const h=$("whtxt");if(h)h.textContent=t}
+function tapAt(x,y){const el=document.elementFromPoint(x,y),pk=el&&el.closest&&el.closest("#strip .pack");const ch=[...$("strip").children],c=Math.round(pos/PW);
+ if(!pk){landHere(false);return}const i=ch.indexOf(pk);if(i<0)return;
+ if(i===c){state="opening";$("whint").classList.add("off");pk.classList.remove("landed");tearPack(packArts[i%4],i);return}
+ snapTo(i)}
+function snapTo(i){cancelAnimationFrame(raf);state="snap";const from0=pos,dist=i*PW-from0,t0=performance.now(),dur=320+Math.min(Math.abs(dist),PW*4)*.8;
+ const step=now=>{const t=Math.min((now-t0)/dur,1),e=1-Math.pow(1-t,3);pos=from0+dist*e;draw();if(t<1){raf=requestAnimationFrame(step);return}landHere(true)};raf=requestAnimationFrame(step)}
+function landHere(msg){state="landed";const i=Math.round(pos/PW);pos=i*PW;document.querySelectorAll(".pack.landed").forEach(p=>p.classList.remove("landed"));const el=$("strip").children[i];el&&el.classList.add("landed");draw();
+ setHint("Tap to open");$("whint").classList.remove("off");if(msg)$("status").textContent="Tap the pack to open it — or swipe again!"}
 function snap(){state="snap";const from0=pos,target=Math.round(pos/PW+Math.sign(speed)*0.35)*PW,dist=target-from0,t0=performance.now(),dur=350+Math.abs(dist)*3;
  const step=now=>{const t=Math.min((now-t0)/dur,1),e=1-Math.pow(1-t,3);pos=from0+dist*e;speed=0;draw();
   if(t<1){raf=requestAnimationFrame(step);return}
-  if(travel<PW*3){state="idle";$("whint").classList.remove("off");$("status").textContent="Give it a real swipe to spin!";return}
-  state="landed";const i=Math.round(pos/PW),el=$("strip").children[i];el.classList.add("landed");draw();
-  $("status").textContent="You got a pack!";setTimeout(()=>tearPack(packArts[i%4],i),1100)};raf=requestAnimationFrame(step)}
+  landHere(true)};raf=requestAnimationFrame(step)}
 /* ---------- reveal ---------- */
 function cardEl(c,i){const el=document.createElement("div");el.className="card"+(c.rev?" rev":"")+(TIERS[c.tier]>=3?" hit":"")+(TIERS[c.tier]>=4?" big":"");
  el.innerHTML=`<div class="inner"><div class="slice" style="transform:translateZ(-.8px)"></div><div class="slice" style="transform:translateZ(0)"></div><div class="slice" style="transform:translateZ(.8px)"></div><div class="face back"><img class="cbimg" src="assets/card-back.jpg" alt="" draggable="false" onerror="this.remove()"></div><div class="face front">${img(c.imgs,c.name,c.rarity)}<div class="foil"></div><div class="sparkle"></div><div class="glare"></div></div></div><div class="tag">${esc(c.name)} · ${esc(c.rarity)}${c.rev?" (Reverse)":""}</div>`;return el}
