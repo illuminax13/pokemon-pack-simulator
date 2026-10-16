@@ -487,12 +487,13 @@ function swshPack(s,p,pack,C){const R=C.rates,m={};Object.values(p).flat().forEa
  for(let i=0;i<5;i++)pack.push({...g("c")});for(let i=0;i<3;i++)pack.push({...g("u")});
  pack.push({...g(roll([["c",.5],["u",.3],["r",.2]]),"c"),rev:true});
  const k=slotRoll([["sec",R.sec],["ur",R.ur],["vmax",R.vmax],["v",R.v],["holo",R.holo]]);pack.push({...g(k||"r","r")});finish(pack)}
-function buildPack(s,p){const pack=[],C=(PR&&PR[s.dex])||{rates:{}},E=ENERGY[s.era==="wotc"?"wotc":"sv"];
- if(s.era==="wotc"){const R=C.rates.holo??1/3,ne=C.energy||1;for(let i=0;i<7-ne;i++)pack.push({...from(p,"common")});for(let i=1;i<ne;i++)pack.unshift({...pick(E)});
+function buildPack(s,p){const pack=[],C=(PR&&PR[s.dex])||{rates:{}};
+ if(s.era==="wotc"){const R=C.rates.holo??1/3,ne=C.energy||0;for(let i=0;i<7-ne;i++)pack.push({...from(p,"common")});
+  for(let i=0;i<ne;i++)pack.splice(Math.floor(Math.random()*(pack.length+1)),0,{...pick(ENERGY.wotc)});
   for(let i=0;i<3;i++)pack.push({...from(p,"uncommon")});pack.push({...from(p,Math.random()<R?"holo":"rare","rare","holo")})}
  else if(s.serie==="swsh")swshPack(s,p,pack,C);
  else modernPack(s,p,pack,C);
- pack.unshift({...pick(E)});return pack}
+ return pack}
 /* ---------- views ---------- */
 let set=null,flippedN=0,current=[];
 function show(v){["vPick","vWheel","vPack","vShelf","vBinder"].forEach(x=>$(x).classList.toggle("on",x===v));
@@ -504,7 +505,7 @@ $("sets").innerHTML=ERAS.map(([g,label])=>{const l=SETS.map((s,i)=>[s,i]).filter
  <div class="logo">${img(logoSrcs(s),s.name,"").replace("<img ",'<img loading="lazy" data-ph="txtlogo" ')}</div><h3>${esc(s.name)}</h3><small>${s.year}</small></div>`).join("")}).join("");
 document.querySelectorAll(".tile").forEach(t=>t.onclick=()=>chooseSet(SETS[t.dataset.i]));
 /* ---------- binders ---------- */
-const BSETS=[...SETS,{name:"SV Basic Energy",ptcg:"sve",dex:"sve",serie:"sv",era:"sv",year:2023,colors:["#546e7a","#cfd8dc"],energy:true}];
+const BSETS=[...SETS];/* SV Basic Energy binder hidden: no set pulls SV energy (saved data kept) */
 $("sets").insertAdjacentHTML("beforeend",`<div class="tile btile" style="--c1:#8d6e63"><div class="logo"><div class="bicon">📚</div></div><h3>My Binders</h3><small>COLLECTION</small></div>`);
 document.querySelector(".btile").onclick=()=>openShelf();$("binders").onclick=()=>openShelf();$("bshelf").onclick=()=>openShelf();
 const LISTS={};

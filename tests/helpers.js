@@ -1,14 +1,14 @@
 const {expect} = require('@playwright/test');
 
 const SETS = [
-  {i:0, name:'Base Set', era:'wotc', n:11},
-  {i:1, name:'Jungle', era:'wotc', n:11},
-  {i:2, name:'Fossil', era:'wotc', n:11},
-  {i:3, name:'Evolving Skies', era:'sv', n:11},
-  {i:4, name:'Scarlet & Violet 151', era:'sv', n:11},
-  {i:5, name:'Surging Sparks', era:'sv', n:11},
-  {i:6, name:'Prismatic Evolutions', era:'sv', n:11},
-  {i:16, name:'Pitch Black', era:'me', n:11},
+  {i:0, name:'Base Set', era:"wotc", n:11},
+  {i:1, name:'Jungle', era:"wotc", n:11},
+  {i:2, name:'Fossil', era:"wotc", n:11},
+  {i:3, name:'Evolving Skies', era:'sv', n:10},
+  {i:4, name:'Scarlet & Violet 151', era:'sv', n:10},
+  {i:5, name:'Surging Sparks', era:'sv', n:10},
+  {i:6, name:'Prismatic Evolutions', era:'sv', n:10},
+  {i:16, name:'Pitch Black', era:'me', n:10},
 ];
 
 async function gotoApp(page, path='/') {

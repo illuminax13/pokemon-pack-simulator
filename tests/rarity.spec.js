@@ -10,7 +10,7 @@ test('rarity distribution over 1000 packs', async ({page}) => {
     for (let i=0;i<n;i++) {
       const p = buildPack(s, pools);
       if (p.length !== 11) badLen++;
-      if (!p[0].energy) badTop++;
+      if (p.filter(x=>x.energy).length !== 2) badTop++;
       const last = p[p.length-1];
       if (!(last.tier==='rare' || last.tier==='holo' || last.tier==='ultra' || last.tier==='illus' || last.tier==='sir')) badBottom++;
     }
@@ -35,8 +35,8 @@ test('rarity distribution over 1000 packs', async ({page}) => {
     let badTop=0, badBottom=0, badLen=0;
     for (let i=0;i<1000;i++) {
       const p = buildPack(s, pools);
-      if (p.length !== 11) badLen++;
-      if (!p[0].energy) badTop++;
+      if (p.length !== 10) badLen++;
+      if (p.some(x=>x.energy)) badTop++;
       const last = p[p.length-1];
       const ok = ['rare','holo','ultra','illus','sir'].includes(last.tier);
       if (!ok) badBottom++;
