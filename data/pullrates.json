@@ -1,0 +1,364 @@
+{
+ "_doc": "Per-pack probabilities. 11 cards everywhere: energy on top. SV/ME: 4C, 3U, reverse A (ACE SPEC / Master Ball / Poke Ball foil can replace), reverse B (IR/SIR/HR can replace), rare slot (DR/UR replace R). SWSH: 5C, 3U, 1 reverse, rare slot. No documented English god packs modelled.",
+ "base1": {
+  "structure": "wotc",
+  "energy": 2,
+  "rates": {
+   "holo": 0.333333
+  },
+  "oneIn": {
+   "holo": 3
+  },
+  "source": "https://bulbapedia.bulbagarden.net/wiki/Base_Set_(TCG)",
+  "estimated": false,
+  "note": "11 cards: 2 basic energy, 5C, 3U, 1 rare (holo 1/3)"
+ },
+ "base2": {
+  "structure": "wotc",
+  "energy": 1,
+  "rates": {
+   "holo": 0.333333
+  },
+  "oneIn": {
+   "holo": 3
+  },
+  "source": "https://bulbapedia.bulbagarden.net/wiki/Jungle_(TCG)",
+  "estimated": false,
+  "note": "11 cards: 7C, 3U, 1 rare (holo 1/3); sim swaps 1 common for the energy on top"
+ },
+ "base3": {
+  "structure": "wotc",
+  "energy": 1,
+  "rates": {
+   "holo": 0.333333
+  },
+  "oneIn": {
+   "holo": 3
+  },
+  "source": "https://bulbapedia.bulbagarden.net/wiki/Fossil_(TCG)",
+  "estimated": false,
+  "note": "11 cards: 7C, 3U, 1 rare (holo 1/3); sim swaps 1 common for the energy on top"
+ },
+ "swsh7": {
+  "structure": "swsh",
+  "rates": {
+   "holo": 0.333333,
+   "v": 0.111111,
+   "vmax": 0.055556,
+   "ur": 0.038462,
+   "sec": 0.016667
+  },
+  "oneIn": {
+   "holo": 3,
+   "v": 9,
+   "vmax": 18,
+   "ur": 26,
+   "sec": 60
+  },
+  "source": "https://pullrates.com/set/evolving-skies",
+  "estimated": false,
+  "note": "Secret = rainbow (1/88) + gold, combined 1/60 estimated."
+ },
+ "sv03.5": {
+  "structure": "sv",
+  "rates": {
+   "dr": 0.125,
+   "ur": 0.0625,
+   "ir": 0.083333,
+   "sir": 0.03125,
+   "hr": 0.019608,
+   "ace": 0,
+   "pb": 0,
+   "mb": 0
+  },
+  "oneIn": {
+   "dr": 8,
+   "ur": 16,
+   "ir": 12,
+   "sir": 32,
+   "hr": 51
+  },
+  "source": "https://www.tcgplayer.com/content/article/Pok%C3%A9mon-TCG-Scarlet-Violet%E2%80%94151-Pull-Rates/b237df74-fbb0-40d0-9e13-d69ee6e804d9/",
+  "estimated": false,
+  "note": "English 151 has no Poke Ball/Master Ball reverses."
+ },
+ "sv08": {
+  "structure": "sv",
+  "rates": {
+   "dr": 0.166667,
+   "ur": 0.066667,
+   "ir": 0.076923,
+   "sir": 0.011494,
+   "hr": 0.005291,
+   "ace": 0.05,
+   "pb": 0,
+   "mb": 0
+  },
+  "oneIn": {
+   "dr": 6,
+   "ur": 15,
+   "ir": 13,
+   "sir": 87,
+   "hr": 189,
+   "ace": 20
+  },
+  "source": "https://pullrates.com/set/surging-sparks",
+  "estimated": false
+ },
+ "sv08.5": {
+  "structure": "sv",
+  "rates": {
+   "dr": 0.166667,
+   "ur": 0.076923,
+   "ir": 0,
+   "sir": 0.022222,
+   "hr": 0.005556,
+   "ace": 0.047619,
+   "pb": 0.333333,
+   "mb": 0.05
+  },
+  "oneIn": {
+   "dr": 6,
+   "ur": 13,
+   "sir": 45,
+   "hr": 180,
+   "ace": 21,
+   "pb": 3,
+   "mb": 20
+  },
+  "source": "https://www.tcgplayer.com/content/article/Pok%C3%A9mon-TCG-Prismatic-Evolutions-Pull-Rates/d94889ea-f76a-4a13-b74d-5b0b071220a7/",
+  "estimated": false,
+  "note": "No Illustration Rares in set; demigod packs not modelled."
+ },
+ "sv09": {
+  "structure": "sv",
+  "rates": {
+   "dr": 0.166667,
+   "ur": 0.066667,
+   "ir": 0.076923,
+   "sir": 0.011111,
+   "hr": 0.006667,
+   "ace": 0,
+   "pb": 0,
+   "mb": 0
+  },
+  "oneIn": {
+   "dr": 6,
+   "ur": 15,
+   "ir": 13,
+   "sir": 90,
+   "hr": 150
+  },
+  "source": "https://pullrates.com/set/journey-together",
+  "estimated": false
+ },
+ "sv10": {
+  "structure": "sv",
+  "rates": {
+   "dr": 0.2,
+   "ur": 0.0625,
+   "ir": 0.083333,
+   "sir": 0.010638,
+   "hr": 0.006897,
+   "ace": 0,
+   "pb": 0,
+   "mb": 0
+  },
+  "oneIn": {
+   "dr": 5,
+   "ur": 16,
+   "ir": 12,
+   "sir": 94,
+   "hr": 145
+  },
+  "source": "https://rarecards.nl/en/blogs/tcg-blogs/top-10-pokemon-sets-met-beste-pull-rates-in-2026",
+  "estimated": false,
+  "note": "UR estimated; HR per poke-life.com"
+ },
+ "sv10.5b": {
+  "structure": "sv",
+  "rates": {
+   "dr": 0.2,
+   "ur": 0.058824,
+   "ir": 0.166667,
+   "sir": 0.0125,
+   "hr": 0.001,
+   "ace": 0,
+   "pb": 0.333333,
+   "mb": 0.052632
+  },
+  "oneIn": {
+   "dr": 5,
+   "ur": 17,
+   "ir": 6,
+   "sir": 80,
+   "hr": 1000,
+   "pb": 3,
+   "mb": 19
+  },
+  "source": "https://www.tcgplayer.com/content/article/Pok%C3%A9mon-TCG-Black-Bolt-and-White-Flare-Pull-Rates/bac92199-a2a7-4668-b4a4-2647a111776f/",
+  "estimated": false,
+  "note": "Black White Rare unmeasured; 1/1000 estimated."
+ },
+ "sv10.5w": {
+  "structure": "sv",
+  "rates": {
+   "dr": 0.2,
+   "ur": 0.058824,
+   "ir": 0.166667,
+   "sir": 0.0125,
+   "hr": 0.001,
+   "ace": 0,
+   "pb": 0.333333,
+   "mb": 0.052632
+  },
+  "oneIn": {
+   "dr": 5,
+   "ur": 17,
+   "ir": 6,
+   "sir": 80,
+   "hr": 1000,
+   "pb": 3,
+   "mb": 19
+  },
+  "source": "https://www.tcgplayer.com/content/article/Pok%C3%A9mon-TCG-Black-Bolt-and-White-Flare-Pull-Rates/bac92199-a2a7-4668-b4a4-2647a111776f/",
+  "estimated": false,
+  "note": "Black White Rare unmeasured; 1/1000 estimated."
+ },
+ "me01": {
+  "structure": "sv",
+  "rates": {
+   "dr": 0.2,
+   "ur": 0.083333,
+   "ir": 0.111111,
+   "sir": 0.009901,
+   "hr": 0.000794,
+   "ace": 0,
+   "pb": 0,
+   "mb": 0
+  },
+  "oneIn": {
+   "dr": 5,
+   "ur": 12,
+   "ir": 9,
+   "sir": 101,
+   "hr": 1260
+  },
+  "source": "https://pullrates.com/set/mega-evolution",
+  "estimated": false
+ },
+ "me02": {
+  "structure": "sv",
+  "rates": {
+   "dr": 0.2,
+   "ur": 0.083333,
+   "ir": 0.111111,
+   "sir": 0.0125,
+   "hr": 0.0008,
+   "ace": 0,
+   "pb": 0,
+   "mb": 0
+  },
+  "oneIn": {
+   "dr": 5,
+   "ur": 12,
+   "ir": 9,
+   "sir": 80,
+   "hr": 1250
+  },
+  "source": "https://pullrates.com/set/phantasmal-flames",
+  "estimated": false
+ },
+ "me02.5": {
+  "structure": "sv",
+  "rates": {
+   "dr": 0.2,
+   "ur": 0.047619,
+   "ir": 0.111111,
+   "sir": 0.014286,
+   "hr": 0.001901,
+   "ace": 0,
+   "pb": 0,
+   "mb": 0
+  },
+  "oneIn": {
+   "dr": 5,
+   "ur": 21,
+   "ir": 9,
+   "sir": 70,
+   "hr": 526
+  },
+  "source": "https://pullrates.com/set/ascended-heroes",
+  "estimated": false,
+  "note": "MHR per poke-life.com; Mega Attack Rares (1/300) not in card data."
+ },
+ "me03": {
+  "structure": "sv",
+  "rates": {
+   "dr": 0.2,
+   "ur": 0.083333,
+   "ir": 0.111111,
+   "sir": 0.012346,
+   "hr": 0.00056,
+   "ace": 0,
+   "pb": 0,
+   "mb": 0
+  },
+  "oneIn": {
+   "dr": 5,
+   "ur": 12,
+   "ir": 9,
+   "sir": 81,
+   "hr": 1786
+  },
+  "source": "https://pullrates.com/set/perfect-order",
+  "estimated": false,
+  "note": "Small sample (~3.6k packs)."
+ },
+ "me04": {
+  "structure": "sv",
+  "rates": {
+   "dr": 0.2,
+   "ur": 0.083333,
+   "ir": 0.111111,
+   "sir": 0.012048,
+   "hr": 0.001046,
+   "ace": 0,
+   "pb": 0,
+   "mb": 0
+  },
+  "oneIn": {
+   "dr": 5,
+   "ur": 12,
+   "ir": 9,
+   "sir": 83,
+   "hr": 956
+  },
+  "source": "https://pullrates.com/set/chaos-rising",
+  "estimated": true,
+  "note": "Early/small sample."
+ },
+ "me05": {
+  "structure": "sv",
+  "rates": {
+   "dr": 0.2,
+   "ur": 0.083333,
+   "ir": 0.111111,
+   "sir": 0.0125,
+   "hr": 0.000925,
+   "ace": 0,
+   "pb": 0,
+   "mb": 0
+  },
+  "oneIn": {
+   "dr": 5,
+   "ur": 12,
+   "ir": 9,
+   "sir": 80,
+   "hr": 1081
+  },
+  "source": "https://pullrates.com/set/pitch-black",
+  "estimated": true,
+  "note": "Early/small sample."
+ }
+}
