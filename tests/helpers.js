@@ -1,0 +1,83 @@
+const {expect} = require('@playwright/test');
+
+const SETS = [
+  {i:0, name:'Base Set', era:'wotc', n:10},
+  {i:1, name:'Jungle', era:'wotc', n:10},
+  {i:2, name:'Fossil', era:'wotc', n:10},
+  {i:3, name:'Evolving Skies', era:'sv', n:10},
+  {i:4, name:'Scarlet & Violet 151', era:'sv', n:10},
+  {i:5, name:'Surging Sparks', era:'sv', n:10},
+];
+
+async function gotoApp(page, path='/') {
+  const errs=[], unhandled=[];
+  page.on('pageerror', e => errs.push(String(e)));
+  page.on('console', m => { if (m.type()==='error') errs.push('console:'+m.text()); });
+  page.on('pageerror', ()=>{});
+  await page.addInitScript(() => {
+    window.__rej = [];
+    window.addEventListener('unhandledrejection', e => window.__rej.push(String(e.reason)));
+  });
+  await page.goto(path);
+  await page.waitForSelector('.tile', {timeout: 30000});
+  return {errs, unhandled: () => page.evaluate(() => window.__rej||[])};
+}
+
+async function chooseSet(page, i=0) {
+  await page.locator(`.tile[data-i="${i}"]`).click();
+  await page.waitForFunction(() => /Swipe the packs|Tap to open/.test(document.body.innerText), null, {timeout: 60000});
+  await page.waitForTimeout(400);
+}
+
+async function skipAndLand(page) {
+  await page.locator('#skip').click();
+  await page.waitForFunction(() => state === 'landed', null, {timeout: 60000});
+  await page.waitForTimeout(300);
+}
+
+async function tapCenterPack(page) {
+  const box = await page.locator('#wheelwrap').boundingBox();
+  await page.mouse.click(box.x + box.width/2, box.y + box.height*0.44);
+  await page.waitForSelector('#tear.on', {timeout: 10000});
+}
+
+async function doTear(page, {partial=false} = {}) {
+  await page.waitForSelector('#tear .tp', {timeout: 10000});
+  await page.waitForFunction(() => { const tp=document.querySelector('#tear .tp'); return tp && tp.getAnimations().every(x=>x.playState!=='running'); }, null, {timeout: 5000}).catch(()=>{});
+  await page.waitForTimeout(150);
+  const r = await page.evaluate(() => {
+    const b = document.querySelector('#tear .tp').getBoundingClientRect();
+    return {l:b.left, t:b.top, w:b.width, h:b.height};
+  });
+  const y = r.t + r.h * 0.07;
+  await page.mouse.move(r.l + 4, y);
+  await page.mouse.down();
+  const frac = partial ? 0.35 : 0.85;
+  for (let i = 1; i <= 12; i++) {
+    await page.mouse.move(r.l + 4 + (r.w * frac - 4) * i / 12, y);
+    await page.waitForTimeout(20);
+  }
+  await page.mouse.up();
+  if (partial) {
+    await page.waitForTimeout(700);
+    await page.waitForFunction(() => (window.__tearCur||0) < 0.05, null, {timeout: 5000});
+    return page.evaluate(() => window.__tearCur);
+  }
+  await page.waitForFunction(() => document.querySelector('#vPack.on') || document.getElementById('tear').classList.contains('rip'), null, {timeout: 10000});
+  await page.waitForSelector('#vPack.on', {timeout: 15000});
+  await page.waitForFunction(() => !document.getElementById('tear').classList.contains('on'), null, {timeout: 10000});
+  await page.waitForTimeout(1200);
+}
+
+async function revealAll(page) {
+  await page.locator('#reveal').click();
+  await page.waitForSelector('#summary.on', {timeout: 60000});
+}
+
+async function openShelf(page) {
+  await page.locator('#binders').click();
+  await page.waitForSelector('#vShelf.on', {timeout: 10000});
+  await page.waitForTimeout(800);
+}
+
+module.exports = {SETS, gotoApp, chooseSet, skipAndLand, tapCenterPack, doTear, revealAll, openShelf, expect};
