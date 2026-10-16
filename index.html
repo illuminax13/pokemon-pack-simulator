@@ -455,7 +455,7 @@ async function loadPTCG(s){const d=await fetchT(`https://api.pokemontcg.io/v2/ca
 async function loadDex(s){const d=await fetchT(`https://api.tcgdex.net/v2/en/sets/${s.dex}`,15000);
  const out=(d.cards||[]).map(c=>({id:c.id,name:c.name,rarity:c.rarity||"Common",imgs:cardSrcs(s,c.localId,c.image?[c.image+"/high.webp",c.image+"/low.webp"]:[])}));
  if(!out.length)throw Error("no cards");return out}
-async function getCards(s){if(cache[s.dex])return cache[s.dex];
+async function getCards(s){await loadPR();if(cache[s.dex])return cache[s.dex];
  const ck="ppc_v"+DATA_V+"_"+s.dex;try{const c=JSON.parse(localStorage.getItem(ck));if(c&&c.n&&c.pools)return cache[s.dex]=c}catch(e){}
  let cards,src;
  try{cards=await loadStatic(s);src="local"}catch(e1){try{cards=await loadPTCG(s);src="pokemontcg.io"}catch(e2){cards=await loadDex(s);src="TCGdex"}}
@@ -471,27 +471,28 @@ const ENERGY={wotc:[[97,"Fighting"],[98,"Fire"],[99,"Grass"],[100,"Lightning"],[
 const RPOOLS=new WeakMap();
 function rpools(p){let m=RPOOLS.get(p);if(m)return m;m={};Object.values(p).flat().forEach(c=>{const r=(c.rarity||"").toLowerCase();
  const k=/ace spec/.test(r)?"ace":/special illustration/.test(r)?"sir":/illustration/.test(r)?"ir":/hyper|black white/.test(r)?"hr":/double/.test(r)?"dr":/ultra/.test(r)?"ur":r==="rare"?"r":/uncommon/.test(r)?"u":/rare/.test(r)?"r":"c";(m[k]=m[k]||[]).push(c)});RPOOLS.set(p,m);return m}
-const RATES={def:{ace:1/20,ir:1/12.8,sir:1/86,hr:1/137,dr:1/6,ur:1/15},"sv08.5":{ace:1/21,ir:0,sir:1/45,hr:1/180,dr:1/5,ur:1/13},"sv10.5b":{ace:0,ir:1/6,sir:1/90,hr:1/600,dr:1/5,ur:1/18},"sv10.5w":{ace:0,ir:1/6,sir:1/90,hr:1/600,dr:1/5,ur:1/18},me:{ace:1/20,ir:1/12,sir:1/100,hr:1/1300,dr:1/6,ur:1/16}};
-function modernPack(s,p,pack){const m=rpools(p),R=RATES[s.dex]||(s.serie==="me"?RATES.me:RATES.def),has=k=>m[k]&&m[k].length,g=(...ks)=>{for(const k of ks)if(has(k))return pick(m[k]);return from(p,"common")};
- const rev=()=>({...g(roll([["c",.5],["u",.3],["r",.2]]),"u","c"),rev:true});
- for(let i=0;i<4;i++)pack.push({...g("c")});for(let i=0;i<3;i++)pack.push({...g("u","c")});
- pack.push(has("ace")&&Math.random()<R.ace?{...g("ace")}:rev());
- const x=Math.random(),h=[["hr",R.hr],["sir",R.sir],["ir",R.ir]].filter(([k,w])=>w&&has(k));let acc=0,hit=null;for(const[k,w]of h){acc+=w;if(x<acc){hit=k;break}}
- pack.push(hit?{...g(hit)}:rev());
- const y=Math.random();pack.push({...(y<R.ur&&has("ur")?g("ur"):y<R.ur+R.dr&&has("dr")?g("dr"):g("r","dr","u"))});
- const last=pack.pop();pack.sort((a,b)=>TIERS[a.tier]-TIERS[b.tier]);const top=pack[pack.length-1];
+let PR=null;async function loadPR(){if(PR)return PR;try{PR=await fetchT("data/pullrates.json",12000)}catch(e){PR={}}return PR}
+function slotRoll(opts){const x=Math.random();let acc=0;for(const[k,w]of opts){if(!w)continue;acc+=w;if(x<acc)return k}return null}
+function finish(pack){const last=pack.pop();pack.sort((a,b)=>TIERS[a.tier]-TIERS[b.tier]);const top=pack[pack.length-1];
  if(TIERS[top.tier]>TIERS[last.tier]){pack.pop();pack.push(last,top)}else pack.push(last)}
-function buildPack(s,p){const pack=[];
- if(s.era==="wotc"){for(let i=0;i<6;i++)pack.push({...from(p,"common")});for(let i=0;i<3;i++)pack.push({...from(p,"uncommon")});
-  pack.push({...from(p,Math.random()<1/3?"holo":"rare","rare","holo")});}
- else if(s.serie==="sv"||s.serie==="me"){modernPack(s,p,pack)}
- else{for(let i=0;i<4;i++)pack.push({...from(p,"common")});for(let i=0;i<3;i++)pack.push({...from(p,"uncommon")});
-  pack.push({...from(p,"common","uncommon","rare"),rev:true});
-  const t=roll([["sir",.012],["illus",.08],["common",.908]]);
-  pack.push(t==="common"?{...from(p,"common","uncommon","rare"),rev:true}:{...from(p,t,"ultra")});
-  pack.push({...from(p,roll([["sir",.015],["ultra",.06],["rare",.925]]),"rare","holo")});
-  pack.sort((a,b)=>TIERS[a.tier]-TIERS[b.tier]);}
- pack.shift();pack.unshift({...pick(ENERGY[s.era==="wotc"?"wotc":"sv"])});return pack}
+function modernPack(s,p,pack,C){const m=rpools(p),R=C.rates||{},has=k=>m[k]&&m[k].length,g=(...ks)=>{for(const k of ks)if(has(k))return pick(m[k]);return from(p,"common")};
+ const rev=pat=>{const c={...g(roll([["c",.5],["u",.3],["r",.2]]),"u","c"),rev:true};if(pat)c.pat=pat;return c};
+ for(let i=0;i<4;i++)pack.push({...g("c")});for(let i=0;i<3;i++)pack.push({...g("u","c")});
+ const a=slotRoll([["ace",has("ace")&&R.ace],["mb",R.mb],["pb",R.pb]]);pack.push(a==="ace"?{...g("ace")}:rev(a));
+ const h=slotRoll([["hr",has("hr")&&R.hr],["sir",has("sir")&&R.sir],["ir",has("ir")&&R.ir]]);pack.push(h?{...g(h)}:rev());
+ const r=slotRoll([["ur",has("ur")&&R.ur],["dr",has("dr")&&R.dr]]);pack.push({...(r?g(r):g("r","dr","u"))});finish(pack)}
+function swshPack(s,p,pack,C){const R=C.rates,m={};Object.values(p).flat().forEach(c=>{const r=(c.rarity||"").toLowerCase();
+  const k=/secret/.test(r)?"sec":/vmax/.test(r)?"vmax":/holo rare v|rare holo v/.test(r)?"v":/ultra/.test(r)?"ur":/holo/.test(r)?"holo":r==="rare"?"r":/uncommon/.test(r)?"u":"c";(m[k]=m[k]||[]).push(c)});
+ const g=(...ks)=>{for(const k of ks)if(m[k]&&m[k].length)return pick(m[k]);return from(p,"common")};
+ for(let i=0;i<5;i++)pack.push({...g("c")});for(let i=0;i<3;i++)pack.push({...g("u")});
+ pack.push({...g(roll([["c",.5],["u",.3],["r",.2]]),"c"),rev:true});
+ const k=slotRoll([["sec",R.sec],["ur",R.ur],["vmax",R.vmax],["v",R.v],["holo",R.holo]]);pack.push({...g(k||"r","r")});finish(pack)}
+function buildPack(s,p){const pack=[],C=(PR&&PR[s.dex])||{rates:{}},E=ENERGY[s.era==="wotc"?"wotc":"sv"];
+ if(s.era==="wotc"){const R=C.rates.holo??1/3,ne=C.energy||1;for(let i=0;i<7-ne;i++)pack.push({...from(p,"common")});for(let i=1;i<ne;i++)pack.unshift({...pick(E)});
+  for(let i=0;i<3;i++)pack.push({...from(p,"uncommon")});pack.push({...from(p,Math.random()<R?"holo":"rare","rare","holo")})}
+ else if(s.serie==="swsh")swshPack(s,p,pack,C);
+ else modernPack(s,p,pack,C);
+ pack.unshift({...pick(E)});return pack}
 /* ---------- views ---------- */
 let set=null,flippedN=0,current=[];
 function show(v){["vPick","vWheel","vPack","vShelf","vBinder"].forEach(x=>$(x).classList.toggle("on",x===v));
@@ -616,7 +617,7 @@ function foilCls(c,era){const t=c.tier||tier(c.rarity),m=era!=="wotc";
  const f=TIERS[t]>=4?"f-etch":c.rev?"f-rev":(t==="holo"||(m&&t==="rare"))?"f-holo":"";return (f?" "+f:"")+(m?" e-mod":" e-wotc")+" t-"+t}
 function fxHTML(c){return c.rev?'<div class="fx"><i class="a"></i><i class="b"></i></div>':'<div class="fx"><i class="a"></i><i class="b"></i></div>'}
 function cardEl(c,i){const el=document.createElement("div");el.className="card"+foilCls(c,(c.era||(set&&set.era)))+(c.rev?" rev":"")+(TIERS[c.tier]>=3?" hit":"")+(TIERS[c.tier]>=4?" big":"");
- el.innerHTML=`<div class="inner"><div class="slice" style="transform:translateZ(-.8px)"></div><div class="slice" style="transform:translateZ(0)"></div><div class="slice" style="transform:translateZ(.8px)"></div><div class="face back"><img class="cbimg" src="assets/card-back.jpg" alt="" draggable="false" onerror="this.remove()"></div><div class="face front">${img(c.imgs,c.name,c.rarity)}<div class="foil"></div>${fxHTML(c)}<div class="sparkle"></div><div class="glare"></div></div></div><div class="tag">${esc(c.name)} · ${esc(c.rarity)}${c.rev?" (Reverse)":""}</div>`;return el}
+ el.innerHTML=`<div class="inner"><div class="slice" style="transform:translateZ(-.8px)"></div><div class="slice" style="transform:translateZ(0)"></div><div class="slice" style="transform:translateZ(.8px)"></div><div class="face back"><img class="cbimg" src="assets/card-back.jpg" alt="" draggable="false" onerror="this.remove()"></div><div class="face front">${img(c.imgs,c.name,c.rarity)}<div class="foil"></div>${fxHTML(c)}<div class="sparkle"></div><div class="glare"></div></div></div><div class="tag">${esc(c.name)} · ${esc(c.rarity)}${c.rev?(c.pat==="mb"?" (Master Ball Reverse)":c.pat==="pb"?" (Poké Ball Reverse)":" (Reverse)"):""}</div>`;return el}
 let topI=0,busy=false,packGen=0,revealing=false;
 function openPack(){packGen++;revealing=false;const s=set,d=cache[s.dex];current=buildPack(s,d.pools);flippedN=0;topI=0;busy=false;state="idle";store.packs++;
  show("vPack");$("status").textContent=`${s.name}: tap the top card to flip, tap again to set it aside.`;const b=$("board");b.className="stackmode";

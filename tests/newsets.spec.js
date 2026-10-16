@@ -11,8 +11,8 @@ test('picker grouped by era newest first, all new sets load with real pack art',
     for (const s of SETS.slice(6)) {
       const c = await getCards(s); const pools = c.pools; let bad = 0, hits = {};
       for (let i = 0; i < 2000; i++) { const p = buildPack(s, pools);
-        if (p.length !== 10 || !p[0].energy) bad++;
-        const best = Math.max(...p.map(x => TIERS[x.tier])); if (TIERS[p[9].tier] !== best) bad++;
+        if (p.length !== 11 || !p[0].energy) bad++;
+        const best = Math.max(...p.map(x => TIERS[x.tier])); if (TIERS[p[p.length-1].tier] !== best) bad++;
         p.forEach(x => { hits[x.rarity] = (hits[x.rarity]||0) + 1 }); }
       out[s.dex] = {n: c.n, src: c.src, bad, art: (PACKART[s.dex]||[]).length, hits};
     }

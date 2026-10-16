@@ -1,4 +1,4 @@
-const CACHE='pps-v22';
+const CACHE='pps-v23';
 const fail=()=>new Response('',{status:504,statusText:'offline'});
 const SHELL=['./','./index.html','./manifest.webmanifest','./assets/card-back.jpg','./assets/icons/favicon-64.png','./assets/icons/apple-touch-icon.png'];
 self.addEventListener('install',e=>{e.waitUntil(caches.open(CACHE).then(c=>c.addAll(SHELL)).then(()=>self.skipWaiting()))});
