@@ -7,6 +7,8 @@ const SETS = [
   {i:3, name:'Evolving Skies', era:'sv', n:10},
   {i:4, name:'Scarlet & Violet 151', era:'sv', n:10},
   {i:5, name:'Surging Sparks', era:'sv', n:10},
+  {i:6, name:'Prismatic Evolutions', era:'sv', n:10},
+  {i:16, name:'Pitch Black', era:'me', n:10},
 ];
 
 async function gotoApp(page, path='/') {

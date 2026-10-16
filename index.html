@@ -345,6 +345,9 @@ h2{font-size:13px;letter-spacing:3px}
 #tear .ff{z-index:6}
 #tear .cardsout{z-index:0}#tear .tp>.bot{z-index:1}#tear .tp>.gap{z-index:2}#tear .tp>.top{z-index:3}
 #tear .cardsout{top:9%}
+.tile{backdrop-filter:none;-webkit-backdrop-filter:none;contain:layout paint}
+#sets .era{grid-column:1/-1;display:flex;align-items:baseline;gap:12px;margin:14px 4px -4px;font-size:15px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:#e8ecff}
+#sets .era:first-child{margin-top:0}#sets .era:after{content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--line),transparent);align-self:center}#sets .era small{font-size:11px;letter-spacing:2px;color:#9aa3d6;font-weight:600}
 </style></head><body><div id="bg"></div><canvas id="fx"></canvas><div id="burst"></div>
 <div id="tear"></div><div id="badge">CSS · loading</div>
 <header><h1>PACK SIMULATOR</h1>
@@ -369,12 +372,23 @@ const SETS=[
  {name:"Evolving Skies",ptcg:"swsh7",dex:"swsh7",serie:"swsh",era:"sv",year:2021,colors:["#1565c0","#4fc3f7"]},
  {name:"Scarlet & Violet 151",ptcg:"sv3pt5",dex:"sv03.5",serie:"sv",era:"sv",year:2023,colors:["#d32f2f","#1e88e5"]},
  {name:"Surging Sparks",ptcg:"sv8",dex:"sv08",serie:"sv",era:"sv",year:2024,colors:["#f9a825","#6a1b9a"]},
+ {name:"Prismatic Evolutions",ptcg:"sv8pt5",dex:"sv08.5",serie:"sv",era:"sv",year:2025,colors:["#ec407a","#7e57c2"]},
+ {name:"Journey Together",ptcg:"sv9",dex:"sv09",serie:"sv",era:"sv",year:2025,colors:["#1e88e5","#ffb300"]},
+ {name:"Destined Rivals",ptcg:"sv10",dex:"sv10",serie:"sv",era:"sv",year:2025,colors:["#b71c1c","#212121"]},
+ {name:"Black Bolt",ptcg:"zsv10pt5",dex:"sv10.5b",serie:"sv",era:"sv",year:2025,colors:["#263238","#90a4ae"]},
+ {name:"White Flare",ptcg:"rsv10pt5",dex:"sv10.5w",serie:"sv",era:"sv",year:2025,colors:["#eceff1","#ff7043"]},
+ {name:"Mega Evolution",ptcg:"me1",dex:"me01",serie:"me",era:"me",year:2025,colors:["#00897b","#cddc39"]},
+ {name:"Phantasmal Flames",ptcg:"me2",dex:"me02",serie:"me",era:"me",year:2025,colors:["#4a148c","#ff6d00"]},
+ {name:"Ascended Heroes",ptcg:"me2pt5",dex:"me02.5",serie:"me",era:"me",year:2026,colors:["#ffb300","#d81b60"]},
+ {name:"Perfect Order",ptcg:"me3",dex:"me03",serie:"me",era:"me",year:2026,colors:["#0277bd","#f06292"]},
+ {name:"Chaos Rising",ptcg:"me4",dex:"me04",serie:"me",era:"me",year:2026,colors:["#2e7d32","#e53935"]},
+ {name:"Pitch Black",ptcg:"me5",dex:"me05",serie:"me",era:"me",year:2026,colors:["#1a1a2e","#7c4dff"]},
 ];
-const PACKART={"base1": ["assets/packs/base1/venusaur.webp", "assets/packs/base1/charizard.webp", "assets/packs/base1/blastoise.webp", "assets/packs/base1/venusaur-shadowless.webp", "assets/packs/base1/venusaur-unlimited.webp", "assets/packs/base1/blastoise-unlimited.webp", "assets/packs/base1/charizard-unlimited.webp"], "base2": ["assets/packs/base2/scyther.webp", "assets/packs/base2/flareon.webp", "assets/packs/base2/wigglytuff.webp"], "base3": ["assets/packs/base3/aerodactyl.webp", "assets/packs/base3/lapras.webp", "assets/packs/base3/zapdos.webp"], "sv03.5": ["assets/packs/sv03.5/mew.webp"], "sv08": ["assets/packs/sv08/pikachu.webp", "assets/packs/sv08/latias.webp", "assets/packs/sv08/archaludon.webp", "assets/packs/sv08/exeggutor.webp"], "swsh7": ["assets/packs/swsh7/rayquaza.webp", "assets/packs/swsh7/umbreon.webp", "assets/packs/swsh7/sylveon.webp", "assets/packs/swsh7/duraludon.webp"]};
+const PACKART={"base1": ["assets/packs/base1/venusaur.webp", "assets/packs/base1/charizard.webp", "assets/packs/base1/blastoise.webp", "assets/packs/base1/venusaur-shadowless.webp", "assets/packs/base1/venusaur-unlimited.webp", "assets/packs/base1/blastoise-unlimited.webp", "assets/packs/base1/charizard-unlimited.webp"], "base2": ["assets/packs/base2/scyther.webp", "assets/packs/base2/flareon.webp", "assets/packs/base2/wigglytuff.webp"], "base3": ["assets/packs/base3/aerodactyl.webp", "assets/packs/base3/lapras.webp", "assets/packs/base3/zapdos.webp"], "sv03.5": ["assets/packs/sv03.5/mew.webp"], "sv08": ["assets/packs/sv08/pikachu.webp", "assets/packs/sv08/latias.webp", "assets/packs/sv08/archaludon.webp", "assets/packs/sv08/exeggutor.webp"], "swsh7": ["assets/packs/swsh7/rayquaza.webp", "assets/packs/swsh7/umbreon.webp", "assets/packs/swsh7/sylveon.webp", "assets/packs/swsh7/duraludon.webp"], "sv08.5": ["assets/packs/sv08.5/eevee-sylveon.webp", "assets/packs/sv08.5/espeon-umbreon.webp", "assets/packs/sv08.5/leafeon-glaceon.webp", "assets/packs/sv08.5/vaporeon-jolteon-flareon.webp"], "sv09": ["assets/packs/sv09/hop-zacian.webp", "assets/packs/sv09/iono-bellibolt.webp", "assets/packs/sv09/lillie-clefairy.webp", "assets/packs/sv09/n-zoroark.webp"], "sv10": ["assets/packs/sv10/team-rocket.webp", "assets/packs/sv10/giovanni-mewtwo.webp", "assets/packs/sv10/cynthia-garchomp.webp", "assets/packs/sv10/ethan-ho-oh.webp"], "sv10.5b": ["assets/packs/sv10.5b/zekrom.webp"], "sv10.5w": ["assets/packs/sv10.5w/reshiram.webp"], "me01": ["assets/packs/me01/mega-gardevoir.webp", "assets/packs/me01/mega-lucario.webp", "assets/packs/me01/mega-venusaur.webp", "assets/packs/me01/mega-kangaskhan.webp"], "me02": ["assets/packs/me02/mega-charizard-x.webp", "assets/packs/me02/mega-gengar.webp", "assets/packs/me02/mega-heracross.webp", "assets/packs/me02/mega-lopunny.webp"], "me02.5": ["assets/packs/me02.5/heroes.webp"], "me03": ["assets/packs/me03/mega-zygarde.webp", "assets/packs/me03/mega-starmie.webp", "assets/packs/me03/mega-clefable.webp", "assets/packs/me03/meowth.webp"], "me04": ["assets/packs/me04/mega-greninja.webp", "assets/packs/me04/mega-floette.webp", "assets/packs/me04/mega-pyroar.webp", "assets/packs/me04/mega-dragalge.webp"], "me05": ["assets/packs/me05/mega-darkrai.webp", "assets/packs/me05/mega-zeraora.webp", "assets/packs/me05/mega-chandelure.webp", "assets/packs/me05/mega-excadrill.webp"]};
 const VSEQ={};function packVariant(s,i){const l=PACKART[s.dex];if(!l)return -1;let q=VSEQ[s.dex];if(!q){q=VSEQ[s.dex]=[];for(let k=0;k<16;k++){let v,t=0;do{v=Math.floor(Math.random()*l.length);t++}while(l.length>1&&t<50&&(v===q[k-1]||(k===15&&v===q[0])));q.push(v)}}return q[((i%16)+16)%16]}
 const TIERS={common:0,uncommon:1,rare:2,holo:3,ultra:4,illus:5,sir:6};
 function tier(r){r=(r||"").toLowerCase();
- if(/special illustration|hyper|secret|gold|rainbow/.test(r))return"sir";
+ if(/special illustration|hyper|secret|gold|rainbow|black white/.test(r))return"sir";
  if(/illustration/.test(r))return"illus";
  if(/double|ultra|ex|gx|vmax|vstar|holo rare v|rare holo v|ace spec/.test(r))return"ultra";
  if(/holo/.test(r))return"holo"; if(r==="rare")return"rare";
@@ -419,9 +433,24 @@ function from(p,...ts){for(const t of ts)if(p[t]&&p[t].length)return pick(p[t]);
 function roll(table){let x=Math.random();for(const[t,w]of table){if((x-=w)<0)return t}return table[table.length-1][0]}
 const ENERGY={wotc:[[97,"Fighting"],[98,"Fire"],[99,"Grass"],[100,"Lightning"],[101,"Psychic"],[102,"Water"]].map(([n,t])=>({id:"base1-"+n,name:t+" Energy",rarity:"Basic Energy",tier:"common",energy:true,imgs:[`https://assets.tcgdex.net/en/base/base1/${n}/high.webp`,`https://images.pokemontcg.io/base1/${n}.png`,`https://assets.tcgdex.net/en/base/base1/${n}/low.png`]})),
  sv:["Grass","Fire","Water","Lightning","Psychic","Fighting","Darkness","Metal"].map((t,i)=>({id:"sve-"+(i+1),name:"Basic "+t+" Energy",rarity:"Basic Energy",tier:"common",energy:true,imgs:[`https://images.pokemontcg.io/sve/${i+1}_hires.png`,`https://images.pokemontcg.io/sve/${i+1}.png`]}))};
+/* SV / Mega Evolution era slots: 4C 3U, reverse (ACE SPEC can replace), reverse-or-hit (IR/SIR/HR), rare slot (R/DR/UR). Rates ~ community-tracked pull rates. */
+const RPOOLS=new WeakMap();
+function rpools(p){let m=RPOOLS.get(p);if(m)return m;m={};Object.values(p).flat().forEach(c=>{const r=(c.rarity||"").toLowerCase();
+ const k=/ace spec/.test(r)?"ace":/special illustration/.test(r)?"sir":/illustration/.test(r)?"ir":/hyper|black white/.test(r)?"hr":/double/.test(r)?"dr":/ultra/.test(r)?"ur":r==="rare"?"r":/uncommon/.test(r)?"u":/rare/.test(r)?"r":"c";(m[k]=m[k]||[]).push(c)});RPOOLS.set(p,m);return m}
+const RATES={def:{ace:1/20,ir:1/12.8,sir:1/86,hr:1/137,dr:1/6,ur:1/15},"sv08.5":{ace:1/21,ir:0,sir:1/45,hr:1/180,dr:1/5,ur:1/13},"sv10.5b":{ace:0,ir:1/6,sir:1/90,hr:1/600,dr:1/5,ur:1/18},"sv10.5w":{ace:0,ir:1/6,sir:1/90,hr:1/600,dr:1/5,ur:1/18},me:{ace:1/20,ir:1/12,sir:1/100,hr:1/1300,dr:1/6,ur:1/16}};
+function modernPack(s,p,pack){const m=rpools(p),R=RATES[s.dex]||(s.serie==="me"?RATES.me:RATES.def),has=k=>m[k]&&m[k].length,g=(...ks)=>{for(const k of ks)if(has(k))return pick(m[k]);return from(p,"common")};
+ const rev=()=>({...g(roll([["c",.5],["u",.3],["r",.2]]),"u","c"),rev:true});
+ for(let i=0;i<4;i++)pack.push({...g("c")});for(let i=0;i<3;i++)pack.push({...g("u","c")});
+ pack.push(has("ace")&&Math.random()<R.ace?{...g("ace")}:rev());
+ const x=Math.random(),h=[["hr",R.hr],["sir",R.sir],["ir",R.ir]].filter(([k,w])=>w&&has(k));let acc=0,hit=null;for(const[k,w]of h){acc+=w;if(x<acc){hit=k;break}}
+ pack.push(hit?{...g(hit)}:rev());
+ const y=Math.random();pack.push({...(y<R.ur&&has("ur")?g("ur"):y<R.ur+R.dr&&has("dr")?g("dr"):g("r","dr","u"))});
+ const last=pack.pop();pack.sort((a,b)=>TIERS[a.tier]-TIERS[b.tier]);const top=pack[pack.length-1];
+ if(TIERS[top.tier]>TIERS[last.tier]){pack.pop();pack.push(last,top)}else pack.push(last)}
 function buildPack(s,p){const pack=[];
  if(s.era==="wotc"){for(let i=0;i<6;i++)pack.push({...from(p,"common")});for(let i=0;i<3;i++)pack.push({...from(p,"uncommon")});
   pack.push({...from(p,Math.random()<1/3?"holo":"rare","rare","holo")});}
+ else if(s.serie==="sv"||s.serie==="me"){modernPack(s,p,pack)}
  else{for(let i=0;i<4;i++)pack.push({...from(p,"common")});for(let i=0;i<3;i++)pack.push({...from(p,"uncommon")});
   pack.push({...from(p,"common","uncommon","rare"),rev:true});
   const t=roll([["sir",.012],["illus",.08],["common",.908]]);
@@ -434,8 +463,10 @@ let set=null,flippedN=0,current=[];
 function show(v){["vPick","vWheel","vPack","vShelf","vBinder"].forEach(x=>$(x).classList.toggle("on",x===v));
  $("back").style.display=v==="vPick"?"none":"";$("binders").style.display=v==="vShelf"||v==="vBinder"?"none":"";$("open").style.display=v==="vPack"?"":"none";$("reveal").style.display=v==="vPack"?"":"none";
  if(v!=="vWheel"){$("vWheel").classList.remove("stage");document.body.classList.remove("staged")} }
-$("sets").innerHTML=SETS.map((s,i)=>`<div class="tile" data-i="${i}" style="--c1:${s.colors[0]};animation-delay:${i*70}ms"><img class="sym" referrerpolicy="no-referrer" src="https://images.pokemontcg.io/${s.ptcg}/symbol.png" onerror="this.remove()">
- <div class="logo">${img(logoSrcs(s),s.name,"").replace("<img ",'<img data-ph="txtlogo" ')}</div><h3>${esc(s.name)}</h3><small>${s.year}</small></div>`).join("");
+const ERAS=[["me","Mega Evolution"],["sv","Scarlet & Violet"],["swsh","Sword & Shield"],["base","Classic"]];
+$("sets").innerHTML=ERAS.map(([g,label])=>{const l=SETS.map((s,i)=>[s,i]).filter(([s])=>s.serie===g).reverse();if(!l.length)return"";
+ return `<h2 class="era" data-era="${g}"><span>${label}</span><small>${l.length} set${l.length>1?"s":""}</small></h2>`+l.map(([s,i],k)=>`<div class="tile" data-i="${i}" style="--c1:${s.colors[0]};animation-delay:${Math.min(k,8)*60}ms"><img class="sym" referrerpolicy="no-referrer" src="https://images.pokemontcg.io/${s.ptcg}/symbol.png" onerror="this.remove()">
+ <div class="logo">${img(logoSrcs(s),s.name,"").replace("<img ",'<img loading="lazy" data-ph="txtlogo" ')}</div><h3>${esc(s.name)}</h3><small>${s.year}</small></div>`).join("")}).join("");
 document.querySelectorAll(".tile").forEach(t=>t.onclick=()=>chooseSet(SETS[t.dataset.i]));
 /* ---------- binders ---------- */
 const BSETS=[...SETS,{name:"SV Basic Energy",ptcg:"sve",dex:"sve",serie:"sv",era:"sv",year:2023,colors:["#546e7a","#cfd8dc"],energy:true}];
@@ -654,6 +685,6 @@ function sparks(x,y,n,cols){for(let i=0;i<n;i++){const a=Math.random()*6.28,v=Ma
 </script>
 <script>if(/[?&]debug/.test(location.search))document.getElementById("badge").style.display="block"
 if("serviceWorker" in navigator){window.addEventListener("load",()=>{navigator.serviceWorker.register("sw.js").catch(()=>{});
- let refreshing=false;navigator.serviceWorker.addEventListener("controllerchange",()=>{if(refreshing)return;refreshing=true;/* soft hint */const b=document.createElement("button");b.textContent="Update available — tap to reload";b.setAttribute("aria-label","Reload to update app");
+ const hadCtl=!!navigator.serviceWorker.controller;let refreshing=false;navigator.serviceWorker.addEventListener("controllerchange",()=>{if(refreshing||!hadCtl)return;refreshing=true;/* soft hint */const b=document.createElement("button");b.textContent="Update available — tap to reload";b.setAttribute("aria-label","Reload to update app");
   Object.assign(b.style,{position:"fixed",left:"50%",bottom:"18px",transform:"translateX(-50%)",zIndex:200,padding:"10px 18px"});b.onclick=()=>location.reload();document.body.appendChild(b);});
  navigator.serviceWorker.addEventListener("message",e=>{if(e.data&&e.data.type==="SW_UPDATED"&&navigator.serviceWorker.controller){/* banner already from controllerchange */}})})}</script></body></html>

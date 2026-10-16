@@ -12,7 +12,7 @@ test('binders shelf, open, page, filter, viewer', async ({page}) => {
 
   await openShelf(page);
   const binders = page.locator('.binder');
-  await expect(binders).toHaveCount(7);
+  await expect(binders).toHaveCount(18);
   // counts should not be skeleton forever
   await page.waitForFunction(() => ![...document.querySelectorAll('[id^=bc]')].some(e => e.classList.contains('loading')), null, {timeout: 30000});
   const txt = await page.locator('#bc0').textContent();
