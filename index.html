@@ -3,6 +3,7 @@
 <meta name="theme-color" content="#06070f"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="Pack Sim">
 <link rel="manifest" href="manifest.webmanifest"><link rel="icon" type="image/png" href="assets/icons/favicon-64.png"><link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://assets.tcgdex.net" crossorigin><link rel="preconnect" href="https://images.pokemontcg.io" crossorigin><link rel="dns-prefetch" href="https://api.tcgdex.net">
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700;900&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
 <style>
 :root{--gold:#ffd54a;--gold2:#ff9f1c;--glass:rgba(255,255,255,.06);--line:rgba(255,255,255,.12);--txt:#e9ecff}
@@ -11,7 +12,7 @@ body{margin:0;font-family:Outfit,system-ui,"Segoe UI",sans-serif;color:var(--txt
 #bg{position:fixed;inset:0;z-index:-2;background:radial-gradient(1200px 700px at 15% 10%,#3b1d7a55,transparent 60%),radial-gradient(900px 600px at 85% 20%,#0d6efd44,transparent 60%),radial-gradient(1000px 800px at 50% 110%,#ff2e6340,transparent 60%),#05060f;animation:bgshift 18s ease-in-out infinite alternate}
 @keyframes bgshift{to{filter:hue-rotate(40deg)}}
 #fx{position:fixed;inset:0;z-index:-1;pointer-events:none}
-header{position:sticky;top:0;z-index:20;display:flex;flex-wrap:wrap;gap:12px;align-items:center;padding:14px 28px;background:rgba(8,10,25,.55);backdrop-filter:blur(18px) saturate(160%);border-bottom:1px solid var(--line)}
+header{position:sticky;top:0;z-index:20;display:flex;flex-wrap:wrap;gap:12px;align-items:center;padding:14px 28px;background:rgba(8,10,25,.55);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
 h1{margin:0 14px 0 0;font-family:Orbitron,Outfit,sans-serif;font-size:22px;letter-spacing:2px;background:linear-gradient(90deg,#fff6c9,var(--gold),var(--gold2),#fff6c9);background-size:200%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shine 6s linear infinite}
 @keyframes shine{to{background-position:200%}}
 button{font-family:inherit;font-size:15px;font-weight:700;letter-spacing:.5px;padding:10px 20px;border-radius:999px;border:1px solid #ffffff30;cursor:pointer;color:#1b1300;
@@ -253,7 +254,7 @@ h2{font-size:13px;letter-spacing:3px}
 #stack .card .face{box-shadow:0 2px 3px rgba(0,0,0,.35)}#stack .card[data-i]:first-child .face{box-shadow:0 18px 40px rgba(0,0,0,.55)}
 #stack .card:active{transition:transform .08s}
 #tray{position:fixed;left:0;right:0;bottom:0;z-index:25;flex-wrap:nowrap;justify-content:flex-start;overflow-x:auto;gap:6px;min-height:0;max-width:none;
- padding:10px calc(14px + var(--sa-r)) calc(10px + var(--sa-b)) calc(14px + var(--sa-l));background:rgba(6,8,16,.78);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-top:1px solid var(--line);scrollbar-width:none}
+ padding:10px calc(14px + var(--sa-r)) calc(10px + var(--sa-b)) calc(14px + var(--sa-l));background:rgba(6,8,16,.88);border-top:1px solid var(--line);scrollbar-width:none}
 #tray:empty{display:none}#tray::-webkit-scrollbar{display:none}
 .mini{flex:none;width:40px;border-radius:3px;box-shadow:0 3px 8px rgba(0,0,0,.6)}
 /* rarity holo refinements */
@@ -369,7 +370,7 @@ const SETS=[
  {name:"Scarlet & Violet 151",ptcg:"sv3pt5",dex:"sv03.5",serie:"sv",era:"sv",year:2023,colors:["#d32f2f","#1e88e5"]},
  {name:"Surging Sparks",ptcg:"sv8",dex:"sv08",serie:"sv",era:"sv",year:2024,colors:["#f9a825","#6a1b9a"]},
 ];
-const PACKART={"base1": ["assets/packs/base1/venusaur.jpg", "assets/packs/base1/charizard.jpg", "assets/packs/base1/blastoise.jpg", "assets/packs/base1/venusaur-shadowless.jpg", "assets/packs/base1/venusaur-unlimited.jpg", "assets/packs/base1/blastoise-unlimited.jpg", "assets/packs/base1/charizard-unlimited.jpg"], "base2": ["assets/packs/base2/scyther.jpg", "assets/packs/base2/flareon.jpg", "assets/packs/base2/wigglytuff.jpg"], "base3": ["assets/packs/base3/aerodactyl.jpg", "assets/packs/base3/lapras.jpg", "assets/packs/base3/zapdos.jpg"], "swsh7": ["assets/packs/swsh7/rayquaza.jpg", "assets/packs/swsh7/umbreon.jpg", "assets/packs/swsh7/sylveon.jpg", "assets/packs/swsh7/duraludon.jpg"], "sv03.5": ["assets/packs/sv03.5/mew.jpg"], "sv08": ["assets/packs/sv08/pikachu.jpg", "assets/packs/sv08/latias.jpg", "assets/packs/sv08/archaludon.jpg", "assets/packs/sv08/exeggutor.jpg"]};
+const PACKART={"base1": ["assets/packs/base1/venusaur.webp", "assets/packs/base1/charizard.webp", "assets/packs/base1/blastoise.webp", "assets/packs/base1/venusaur-shadowless.webp", "assets/packs/base1/venusaur-unlimited.webp", "assets/packs/base1/blastoise-unlimited.webp", "assets/packs/base1/charizard-unlimited.webp"], "base2": ["assets/packs/base2/scyther.webp", "assets/packs/base2/flareon.webp", "assets/packs/base2/wigglytuff.webp"], "base3": ["assets/packs/base3/aerodactyl.webp", "assets/packs/base3/lapras.webp", "assets/packs/base3/zapdos.webp"], "sv03.5": ["assets/packs/sv03.5/mew.webp"], "sv08": ["assets/packs/sv08/pikachu.webp", "assets/packs/sv08/latias.webp", "assets/packs/sv08/archaludon.webp", "assets/packs/sv08/exeggutor.webp"], "swsh7": ["assets/packs/swsh7/rayquaza.webp", "assets/packs/swsh7/umbreon.webp", "assets/packs/swsh7/sylveon.webp", "assets/packs/swsh7/duraludon.webp"]};
 const VSEQ={};function packVariant(s,i){const l=PACKART[s.dex];if(!l)return -1;let q=VSEQ[s.dex];if(!q){q=VSEQ[s.dex]=[];for(let k=0;k<16;k++){let v,t=0;do{v=Math.floor(Math.random()*l.length);t++}while(l.length>1&&t<50&&(v===q[k-1]||(k===15&&v===q[0])));q.push(v)}}return q[((i%16)+16)%16]}
 const TIERS={common:0,uncommon:1,rare:2,holo:3,ultra:4,illus:5,sir:6};
 function tier(r){r=(r||"").toLowerCase();
@@ -393,19 +394,25 @@ function nextImg(el){el.removeAttribute("srcset");const rest=JSON.parse(el.datas
 function srcsetFor(u){u=u||"";const sz=' sizes="(min-width:900px) 130px, 31vw" ';if(/\/high\.webp$/.test(u))return `srcset="${esc(u.replace(/high\.webp$/,"low.webp"))} 245w, ${esc(u)} 600w"`+sz;if(/_hires\.png$/.test(u))return `srcset="${esc(u.replace(/_hires\.png$/,".png"))} 245w, ${esc(u)} 734w"`+sz;return ""}
 function cardSrcs(s,localId,extra=[]){const n=String(localId).replace(/^0+(?=\d)/,"");const base=`https://assets.tcgdex.net/en/${s.serie}/${s.dex}/${localId}`;
  return [`${base}/high.webp`,...extra,`${base}/low.webp`,`${base}/high.png`,`${base}/low.png`,`https://images.pokemontcg.io/${s.ptcg}/${n}.png`,`https://images.pokemontcg.io/${s.ptcg}/${n}_hires.png`].filter((v,i,a)=>v&&a.indexOf(v)===i)}
-const logoSrcs=s=>[`assets/logos/${s.dex}.png`,`https://assets.tcgdex.net/en/${s.serie}/${s.dex}/logo.png`,`https://images.pokemontcg.io/${s.ptcg}/logo.png`,`https://assets.tcgdex.net/en/${s.serie}/${s.dex}/logo.webp`];
+const logoSrcs=s=>[`assets/logos/${s.dex}.webp`,`assets/logos/${s.dex}.png`,`https://assets.tcgdex.net/en/${s.serie}/${s.dex}/logo.png`,`https://images.pokemontcg.io/${s.ptcg}/logo.png`,`https://assets.tcgdex.net/en/${s.serie}/${s.dex}/logo.webp`];
 /* ---------- data ---------- */
 async function fetchT(u,ms=8000){const c=new AbortController();const t=setTimeout(()=>c.abort(),ms);try{const r=await fetch(u,{signal:c.signal});if(!r.ok)throw Error(r.status);return await r.json()}finally{clearTimeout(t)}}
+const DATA_V=1;
+async function loadStatic(s){const d=await fetchT(`data/${encodeURIComponent(s.dex)}.json`,12000);
+ if(!d||!d.cards||!d.cards.length)throw Error("empty");
+ return d.cards.map(c=>({id:c.id,name:c.name,rarity:c.rarity||"Common",imgs:cardSrcs(s,c.lid,c.img?[c.img+"/high.webp",c.img+"/low.webp"]:[])}))}
 async function loadPTCG(s){const d=await fetchT(`https://api.pokemontcg.io/v2/cards?q=set.id:${s.ptcg}&pageSize=250&select=id,name,number,rarity,images`);
  if(!d.data||!d.data.length)throw Error("empty");return d.data.map(c=>({id:s.dex+"-"+c.number,name:c.name,rarity:c.rarity||"Common",imgs:cardSrcs(s,c.number,[c.images.large,c.images.small])}))}
-async function loadDex(s){const rs=await fetchT("https://api.tcgdex.net/v2/en/rarities");const out=[];
- await Promise.all(rs.map(async r=>{let l=[];try{l=await fetchT(`https://api.tcgdex.net/v2/en/cards?set.id=eq:${s.dex}&rarity=eq:${encodeURIComponent(r)}`,15000)}catch(e){}
-  (l||[]).forEach(c=>out.push({id:c.id,name:c.name,rarity:r,imgs:cardSrcs(s,c.localId,c.image?[c.image+"/low.webp"]:[])}))}));
+async function loadDex(s){const d=await fetchT(`https://api.tcgdex.net/v2/en/sets/${s.dex}`,15000);
+ const out=(d.cards||[]).map(c=>({id:c.id,name:c.name,rarity:c.rarity||"Common",imgs:cardSrcs(s,c.localId,c.image?[c.image+"/high.webp",c.image+"/low.webp"]:[])}));
  if(!out.length)throw Error("no cards");return out}
-async function getCards(s){if(cache[s.dex])return cache[s.dex];let cards,src;
- try{cards=await loadPTCG(s);src="pokemontcg.io"}catch(e){cards=await loadDex(s);src="TCGdex"}
+async function getCards(s){if(cache[s.dex])return cache[s.dex];
+ const ck="ppc_v"+DATA_V+"_"+s.dex;try{const c=JSON.parse(localStorage.getItem(ck));if(c&&c.n&&c.pools)return cache[s.dex]=c}catch(e){}
+ let cards,src;
+ try{cards=await loadStatic(s);src="local"}catch(e1){try{cards=await loadPTCG(s);src="pokemontcg.io"}catch(e2){cards=await loadDex(s);src="TCGdex"}}
  const pools={};cards.forEach(c=>{c.tier=tier(c.rarity);(pools[c.tier]=pools[c.tier]||[]).push(c)});
- return cache[s.dex]={pools,src,n:cards.length}}
+ const out={pools,src,n:cards.length};try{localStorage.setItem(ck,JSON.stringify(out))}catch(e){}
+ return cache[s.dex]=out}
 const pick=a=>a[Math.floor(Math.random()*a.length)];
 function from(p,...ts){for(const t of ts)if(p[t]&&p[t].length)return pick(p[t]);return pick(Object.values(p).flat())}
 function roll(table){let x=Math.random();for(const[t,w]of table){if((x-=w)<0)return t}return table[table.length-1][0]}
@@ -433,9 +440,9 @@ const BSETS=[...SETS,{name:"SV Basic Energy",ptcg:"sve",dex:"sve",serie:"sv",era
 $("sets").insertAdjacentHTML("beforeend",`<div class="tile btile" style="--c1:#8d6e63"><div class="logo"><div class="bicon">📚</div></div><h3>My Binders</h3><small>COLLECTION</small></div>`);
 document.querySelector(".btile").onclick=()=>openShelf();$("binders").onclick=()=>openShelf();$("bshelf").onclick=()=>openShelf();
 const LISTS={};
-async function setList(s){if(LISTS[s.dex])return LISTS[s.dex];const ck="ppl_"+s.dex;try{const c=JSON.parse(localStorage.getItem(ck));if(c&&c.length)return LISTS[s.dex]=c}catch(e){}
- const d=await fetchT(`https://api.tcgdex.net/v2/en/sets/${s.dex}`,15000);
- const l=(d.cards||[]).map(c=>({n:String(c.localId).replace(/^0+(?=\w)/,""),lid:c.localId,name:c.name})).sort((a,b)=>(parseInt(a.n)||1e4)-(parseInt(b.n)||1e4)||a.n.localeCompare(b.n));
+async function setList(s){if(LISTS[s.dex])return LISTS[s.dex];const ck="ppl_v"+DATA_V+"_"+s.dex;try{const c=JSON.parse(localStorage.getItem(ck));if(c&&c.length)return LISTS[s.dex]=c}catch(e){}
+ let l;try{const d=await fetchT(`data/${encodeURIComponent(s.dex)}.json`,12000);l=(d.cards||[]).map(c=>({n:c.n,lid:c.lid,name:c.name}))}
+ catch(e){const d=await fetchT(`https://api.tcgdex.net/v2/en/sets/${s.dex}`,15000);l=(d.cards||[]).map(c=>({n:String(c.localId).replace(/^0+(?=\w)/,""),lid:c.localId,name:c.name})).sort((a,b)=>(parseInt(a.n)||1e4)-(parseInt(b.n)||1e4)||a.n.localeCompare(b.n))}
  try{localStorage.setItem(ck,JSON.stringify(l))}catch(e){}return LISTS[s.dex]=l}
 const owned=s=>store.sets[s.dex]||{};
 async function openShelf(){show("vShelf");$("status").textContent="Your binders — tap one to open it.";
@@ -481,23 +488,25 @@ function viewCard(n){const own=owned(B.s)[n],c=B.list.find(x=>x.n===n);if(!own)r
  const el=cardEl(cd,0);el.classList.add("flipped");tilt(el);$("vcard").innerHTML="";$("vcard").appendChild(el);
  $("vinfo").innerHTML=`<b>${esc(own.name)}</b> · #${esc(c?c.lid:n)} · ${esc(own.rarity||"")} · owned ×${own.n}<br><small>tap outside to close</small>`;$("viewer").classList.add("on")}
 $("viewer").addEventListener("click",e=>{if(!e.target.closest(".card"))$("viewer").classList.remove("on")});
-$("sback").onclick=()=>$("back").onclick();$("back").onclick=()=>{window.PACK3D&&PACK3D.leaveStage();$("vWheel").classList.remove("stage");document.body.classList.remove("staged");cancelAnimationFrame(raf);state="idle";show("vPick");$("status").textContent="Pick a set!"};
+$("sback").onclick=()=>$("back").onclick();$("back").onclick=()=>{$("vWheel").classList.remove("stage");document.body.classList.remove("staged");cancelAnimationFrame(raf);state="idle";show("vPick");$("status").textContent="Pick a set!"};
 $("open").onclick=()=>chooseSet(set);
 /* ---------- wheel ---------- */
-const PW=180,NP=70;let raf=0,pos=0,speed=0,state="idle",packArts=[],lastTick=-1;
+const PW=180,NP=24;let raf=0,pos=0,speed=0,state="idle",packArts=[],lastTick=-1;
 async function chooseSet(s){set=s;show("vWheel");$("status").textContent=`Loading ${s.name}…`;state="loading";$("whint").classList.add("off");
  let d;try{d=await getCards(s)}catch(e){$("status").textContent="Couldn't load cards ("+e.message+"). Check your connection and try again.";return}
  const hits=[...(d.pools.sir||[]),...(d.pools.illus||[]),...(d.pools.ultra||[]),...(d.pools.holo||[]),...(d.pools.rare||[])];
  packArts=Array.from({length:4},()=>pick(hits.length?hits:Object.values(d.pools).flat()));
  $("strip").innerHTML=Array.from({length:NP},(_,i)=>packHTML(s,packArts[i%4],(i%4)*25,i)).join("");
- pos=PW*36;speed=0;lastTick=-1;state="idle";$("vWheel").classList.add("stage");document.body.classList.add("staged");window.PACK3D&&PACK3D.setPacks(s,packArts);render();draw();$("whint").classList.remove("off");
+ (PACKART[s.dex]||[]).forEach(u=>{const l=new Image();l.decoding="async";l.src=u});
+ pos=PW*12;speed=0;lastTick=-1;state="idle";$("vWheel").classList.add("stage");document.body.classList.add("staged");render();draw();$("whint").classList.remove("off");
  $("status").textContent=`${s.name}: ${d.n} cards via ${d.src}. Swipe the packs — faster swipe, longer spin!`}
-function wrap(){const L=PW*4*4;if(pos<PW*12){pos+=L}else if(pos>PW*(NP-12)){pos-=L}}
+function wrap(){const L=PW*4*3;if(pos<PW*6){pos+=L}else if(pos>PW*(NP-6)){pos-=L}}
 function draw(){wrap();const ww_=$("wheelwrap"),st=$("strip"),w=ww_.clientWidth||innerWidth,h=ww_.clientHeight||innerHeight;
  const ph=Math.round(Math.min(w*.54*1.75,h*.56)),pw=Math.round(ph/1.75);st.style.setProperty("--pw",pw+"px");st.style.setProperty("--ph",ph+"px");
  const u=pos/PW,ch=st.children,c0=Math.round(u),landedNow=state==="landed";
  for(let i=Math.max(0,c0-6);i<=Math.min(ch.length-1,c0+6);i++){const el=ch[i],d=i-u,ad=Math.abs(d),sg=Math.sign(d);
   if(ad>4.5){el.style.visibility="hidden";continue}el.style.visibility="";
+  const im=el.querySelector("img[data-src]");if(im){im.src=im.dataset.src;im.removeAttribute("data-src")}
   const n=Math.min(ad,1),f=Math.max(0,ad-1),tx=sg*(n*pw*1.06+f*pw*.2),tz=-(n*pw*.35+f*pw*1.5),ry=-sg*n*34;
   el.style.zIndex=String(100-Math.round(ad*10));el.style.opacity=ad>1?String(Math.max(0,(ad<2?1-(ad-1)*.45:.55*(1-(ad-2)/2.2))).toFixed(3)):"";
   el.style.transform=ad<.001?(landedNow?"translateY(-8px)":"none"):`translate3d(${tx.toFixed(1)}px,0,${tz.toFixed(1)}px) rotateY(${ry.toFixed(2)}deg)`}
@@ -569,7 +578,8 @@ function render(){$("count").textContent=store.packs;const ks=Object.keys(store.
  $("coll").innerHTML=ks.sort((a,b)=>store.coll[b].t-store.coll[a].t).map(k=>{const c=store.coll[k];return `<div title="${esc(c.name)}">${img(c.imgs||[c.img],c.name,c.rarity||"")}<span>×${c.n}</span></div>`}).join("")}
 show("vPick");render();new MutationObserver(()=>{$("sstatus").textContent=$("status").textContent;$("scount").textContent=store.packs}).observe($("status"),{childList:true,characterData:true,subtree:true});
 
-function packHTML(s,a,h,i){const c=s.colors,v=packVariant(s,i||0);if(v>=0)return `<div class="pack"><div class="pk real"><img src="${PACKART[s.dex][v]}" alt="${esc(s.name)} booster" draggable="false"><div class="metal"></div><div class="foil"></div></div></div>`;return `<div class="pack"><div class="pk" style="background:linear-gradient(${150+h}deg,${c[0]},${c[1]} 55%,${c[0]})"><div class="plogo">${img(logoSrcs(s),s.name,"")}</div>
+function packSrc(s,i){const v=packVariant(s,i||0);return v>=0?PACKART[s.dex][v]:""}
+function packHTML(s,a,h,i){const c=s.colors,v=packVariant(s,i||0);if(v>=0)return `<div class="pack"><div class="pk real"><img data-src="${PACKART[s.dex][v]}" data-fallback="${PACKART[s.dex][v].replace(/\.webp$/,".jpg")}" alt="${esc(s.name)} booster" draggable="false" decoding="async" onerror="this.onerror=null;this.src=this.dataset.fallback||this.src"><div class="metal"></div><div class="foil"></div></div></div>`;return `<div class="pack"><div class="pk" style="background:linear-gradient(${150+h}deg,${c[0]},${c[1]} 55%,${c[0]})"><div class="plogo">${img(logoSrcs(s),s.name,"")}</div>
  <div class="art" style="background-image:url('${a.imgs[0]}'),url('${a.imgs[2]||a.imgs[1]||""}')"></div><div class="metal"></div><div class="foil"></div><div class="pname">BOOSTER · ${esc(a.name.toUpperCase())}</div></div></div>`}
 function tearPack(a,i){const t=$("tear"),p=packHTML(set,a,0,i),full=c=>p.replace('class="pack"',`class="pack ${c}" style="width:100%;height:100%"`);
  // procedural jagged tear line (pack-% coords), different every time
@@ -583,7 +593,7 @@ function tearPack(a,i){const t=$("tear"),p=packHTML(set,a,0,i),full=c=>p.replace
   <svg class="fibers" viewBox="0 0 100 100" preserveAspectRatio="none"><polyline points=""/></svg>
   <div class="flapw"><div class="flap">${full("fl")}<div class="silver"></div></div><svg class="fibers ff" viewBox="0 0 100 100" preserveAspectRatio="none"><polyline points=""/></svg></div>
   <div class="glowline"></div><div class="zone"></div></div><div class="hint"><span class="hand"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M9 11V4.5a1.5 1.5 0 0 1 3 0V10m0-1.5a1.5 1.5 0 0 1 3 0V11m0-1a1.5 1.5 0 0 1 3 0v4.5c0 3.6-2.4 6.5-6 6.5-2.6 0-4-1.2-5.3-3L4.4 14.6a1.5 1.5 0 0 1 2.3-1.9L9 15" fill="#fff" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Swipe across the top to tear</div>`;
- t.classList.add("on");$("status").textContent="Swipe across the top seal to tear it open!";
+ t.querySelectorAll("img[data-src]").forEach(im=>{im.src=im.dataset.src;im.removeAttribute("data-src")});t.classList.add("on");$("status").textContent="Swipe across the top seal to tear it open!";
  const pk=t.querySelector(".tp"),bot=t.querySelector(".bot"),top=t.querySelector(".top"),gap=t.querySelector(".gap"),flw=t.querySelector(".flapw"),flap=t.querySelector(".flap"),silver=t.querySelector(".silver"),
   fl1=t.querySelector(".fibers polyline"),fl2=t.querySelector(".ff polyline");let st=null,done=false,cur=0,cdir=1,anim=0;
  bot.style.clipPath=poly([[0,102],[100,102],...jag(0,100,true)].reverse().concat([]));bot.style.clipPath=poly([...jag(0,100),[100,102],[0,102]]);
@@ -613,7 +623,7 @@ function tearPack(a,i){const t=$("tear"),p=packHTML(set,a,0,i),full=c=>p.replace
     const age=(now-t0)/1000;op=Math.max(0,1-Math.max(0,age-.55)*1.6);flw.style.transform=`translate(${x.toFixed(1)}px,${y.toFixed(1)}px) rotate(${rz.toFixed(1)}deg) rotateX(${rx.toFixed(1)}deg) rotateY(${(Math.cos(ph)*25).toFixed(1)}deg)`;
     silver.style.opacity=(.35+.4*Math.abs(Math.sin(ph))).toFixed(2);flw.style.opacity=op.toFixed(2);if(op>0&&t.classList.contains("on"))requestAnimationFrame(fly)};requestAnimationFrame(fly);
    fl1.style.opacity=".85"});
-  setTimeout(()=>{t.className="";t.innerHTML="";t.onpointerdown=t.onpointermove=t.onpointerup=null;window.PACK3D&&PACK3D.tearEnd();openPack()},1800)}}
+  setTimeout(()=>{t.className="";t.innerHTML="";t.onpointerdown=t.onpointermove=t.onpointerup=null;openPack()},1800)}}
 function twinkle(host,x,y,n,w=0){const cols=["#ffffff","#bfe4ff","#ffe7a3","#ffc6ea","#c9f2ff"];for(let k=0;k<n;k++){const e=document.createElement("b");e.className="twk";const a=Math.random()*Math.PI*2,d=30+Math.random()*90;
  e.style.cssText=`left:${x+(Math.random()-.5)*w}px;top:${y}px;--dx:${Math.cos(a)*d}px;--dy:${Math.sin(a)*d-40}px;--c:${cols[k%cols.length]};--s:${(.5+Math.random()*.9).toFixed(2)};animation-delay:${(Math.random()*.15).toFixed(2)}s`;host.appendChild(e);setTimeout(()=>e.remove(),1300)}}
 function tilt(el){el.addEventListener("pointermove",e=>{if(!el.classList.contains("flipped"))return;const r=el.getBoundingClientRect(),x=(e.clientX-r.left)/r.width,y=(e.clientY-r.top)/r.height;
@@ -627,11 +637,14 @@ function celebrate(el,c){const t=TIERS[c.tier];if(t<3)return;const r=el.getBound
 /* particle background + bursts on one canvas */
 const cv=$("fx"),cx=cv.getContext("2d");let P=[],S=[];
 function rs(){cv.width=innerWidth;cv.height=innerHeight}rs();addEventListener("resize",rs);
-for(let i=0;i<70;i++)P.push({x:Math.random()*innerWidth,y:Math.random()*innerHeight,r:Math.random()*1.8+.3,v:Math.random()*.3+.05,a:Math.random()});
+for(let i=0;i<28;i++)P.push({x:Math.random()*innerWidth,y:Math.random()*innerHeight,r:Math.random()*1.8+.3,v:Math.random()*.3+.05,a:Math.random()});
 function sparks(x,y,n,cols){for(let i=0;i<n;i++){const a=Math.random()*6.28,v=Math.random()*9+2;S.push({x,y,vx:Math.cos(a)*v,vy:Math.sin(a)*v-3,l:1,c:pick(cols),r:Math.random()*3+1.5})}}
-(function loop(){cx.clearRect(0,0,cv.width,cv.height);
- for(const p of P){p.y-=p.v;p.a+=.02;if(p.y<-5){p.y=cv.height+5;p.x=Math.random()*cv.width}cx.globalAlpha=.25+.25*Math.sin(p.a);cx.fillStyle="#cfe0ff";cx.beginPath();cx.arc(p.x,p.y,p.r,0,6.28);cx.fill()}
- S=S.filter(s=>s.l>0);for(const s of S){s.x+=s.vx;s.y+=s.vy;s.vy+=.22;s.vx*=.98;s.l-=.012;cx.globalAlpha=Math.max(s.l,0);cx.fillStyle=s.c;cx.shadowBlur=12;cx.shadowColor=s.c;cx.beginPath();cx.arc(s.x,s.y,s.r,0,6.28);cx.fill();cx.shadowBlur=0}
- cx.globalAlpha=1;requestAnimationFrame(loop)})();
-</script><script defer src="vendor/app3d.js?v=16"></script>
-<script>if(/[?&]debug/.test(location.search))document.getElementById("badge").style.display="block"</script></body></html>
+(function loop(){const onPick=$("vPick").classList.contains("on")&&!document.hidden;const needSparks=S.length;
+ if(onPick||needSparks){cx.clearRect(0,0,cv.width,cv.height);
+  if(onPick)for(const p of P){p.y-=p.v;p.a+=.02;if(p.y<-5){p.y=cv.height+5;p.x=Math.random()*cv.width}cx.globalAlpha=.25+.25*Math.sin(p.a);cx.fillStyle="#cfe0ff";cx.beginPath();cx.arc(p.x,p.y,p.r,0,6.28);cx.fill()}
+  S=S.filter(s=>s.l>0);for(const s of S){s.x+=s.vx;s.y+=s.vy;s.vy+=.22;s.vx*=.98;s.l-=.012;cx.globalAlpha=Math.max(s.l,0);cx.fillStyle=s.c;cx.shadowBlur=8;cx.shadowColor=s.c;cx.beginPath();cx.arc(s.x,s.y,s.r,0,6.28);cx.fill();cx.shadowBlur=0}
+  cx.globalAlpha=1}else if(!onPick){cx.clearRect(0,0,cv.width,cv.height)}
+ requestAnimationFrame(loop)})();
+</script>
+<script>if(/[?&]debug/.test(location.search))document.getElementById("badge").style.display="block"
+if("serviceWorker" in navigator){window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}))}</script></body></html>
