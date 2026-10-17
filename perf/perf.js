@@ -20,9 +20,10 @@ const stats = a => { a = a.filter(x => x > 0 && x < 1000).sort((x, y) => x - y);
   // 1) cold load
   let t0 = Date.now(); await page.goto(URL0, {waitUntil: 'commit'});
   await page.waitForSelector('.tile'); R.pickerTiles_ms = Date.now() - t0;
+  // interactive: tiles present AND main thread responsive (a 0ms timer fires within 50ms, 3x in a row)
+  await page.evaluate(async () => { let ok = 0; while (ok < 3) { const s = performance.now(); await new Promise(r => setTimeout(r, 0)); ok = performance.now() - s < 50 ? ok + 1 : 0; } }); R.pickerInteractive_ms = Date.now() - t0;
+  R.fontsReady_ms = await page.evaluate(async t => { await document.fonts.ready; return 0; }, 0) + (Date.now() - t0);
   await page.waitForFunction(() => document.readyState === 'complete'); R.loadEvent_ms = Date.now() - t0;
-  // interactive: first moment a click on a tile gets handled quickly (main thread idle 50ms window)
-  R.pickerInteractive_ms = await page.evaluate(async t => { await new Promise(r => { const chk = () => { const s = performance.now(); setTimeout(() => (performance.now() - s < 60 ? r() : chk()), 0); }; chk(); }); return Math.round(performance.timing.navigationStart ? Date.now() - t : 0); }, t0);
   await page.waitForTimeout(2500); R.coldBytes = bytes; R.coldReqs = reqs; R.coldLongTasks = await page.evaluate(() => ({n: __lt.length, total: Math.round(__lt.reduce((a, b) => a + b, 0))}));
   // 2) set load (Pitch Black)
   t0 = Date.now(); await page.locator('.tile[data-i="16"]').click();
