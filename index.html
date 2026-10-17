@@ -391,6 +391,21 @@ section{content-visibility:auto;contain-intrinsic-size:auto 600px}
 #tear.three .tp>.rfl{opacity:0}
 #tear .tp,#tear .tp>.rfl{will-change:transform}
 .card:not(.flipped) .fx i{animation:none!important}
+/* hit glow pulse: crossfade a composited layer instead of animating box-shadow (no per-frame repaint) */
+.big.flipped .front{animation:none}
+.big.flipped .inner:after{content:"";position:absolute;inset:0;border-radius:12px;box-shadow:0 0 26px 5px rgba(79,227,255,.4),0 0 44px 9px rgba(255,79,248,.25);opacity:0;animation:pulseO 1.6s infinite alternate;pointer-events:none;will-change:opacity}
+@keyframes pulseO{to{opacity:1}}
+/* background hue drift: crossfade a pre-filtered copy (filter rasterized once) instead of animating filter */
+#bg{animation:none!important}
+#bg:after{content:"";position:absolute;inset:0;background:inherit;filter:hue-rotate(40deg);opacity:0;animation:pulseO 18s ease-in-out infinite alternate;will-change:opacity}
+#tear .zone{animation:none}
+#tear .zone:after{content:"";position:absolute;inset:-2px;border:2px dashed rgba(60,130,210,.75);border-radius:12px;box-shadow:0 0 16px rgba(120,180,255,.35);opacity:0;animation:pulseO 1.4s infinite alternate;pointer-events:none;will-change:opacity}
+/* last-slot tease glow: opacity crossfade of a composited layer instead of animating box-shadow */
+.lastslot:not(.flipped) .back{animation:none}
+.lastslot:not(.flipped) .inner:before{content:"";position:absolute;inset:0;border-radius:4.5%/3.3%;box-shadow:0 0 30px 6px #fff,0 0 60px #ffd54a;opacity:0;animation:pulseO 1.2s infinite alternate;pointer-events:none;will-change:opacity}
+/* cards under the top one: one flat shadow layer instead of shadows on every 3D face */
+#stack .card:not(:first-child) .face{box-shadow:none}
+#stack .card:not(:first-child):before{content:"";position:absolute;inset:0;border-radius:4.5%/3.3%;box-shadow:0 2px 3px rgba(0,0,0,.35);pointer-events:none}
 </style></head><body><div id="bg"></div><canvas id="fx"></canvas><div id="burst"></div>
 <div id="tear"></div><div id="badge">CSS · loading</div>
 <header><h1>PACK SIMULATOR</h1>
