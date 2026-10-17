@@ -461,8 +461,13 @@ const esc=t=>String(t).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",
 const store=JSON.parse(localStorage.getItem("pps")||'{"packs":0,"coll":{},"hist":[]}');
 function keyOf(id){const k=id.lastIndexOf("-");return [id.slice(0,k),id.slice(k+1).replace(/^0+(?=\w)/,"")]}
 if(!store.sets){store.sets={};for(const [id,c] of Object.entries(store.coll||{})){const [d,n]=keyOf(id);(store.sets[d]=store.sets[d]||{})[n]={name:c.name,rarity:c.rarity||"",imgs:c.imgs||[c.img],n:c.n}}}
-if(!store.migrated){store.migrated=1;try{localStorage.setItem("pps",JSON.stringify(store))}catch(e){}}
-const save=()=>{try{localStorage.setItem("pps",JSON.stringify(store))}catch(e){}};
+/* image URL lists are derived (not persisted) to keep localStorage small: a full collection used to approach the 5MB quota */
+const SETBY=Object.fromEntries(SETS.map(s=>[s.dex,s]));SETBY.sve={dex:"sve",serie:"sv",ptcg:"sve"};
+(function hydrate(){const lidOf={};for(const id of Object.keys(store.coll||{})){const k=id.lastIndexOf("-"),d=id.slice(0,k),lid=id.slice(k+1),c=store.coll[id];(lidOf[d]=lidOf[d]||{})[lid.replace(/^0+(?=\w)/,"")]=lid;if((!c.imgs||!c.imgs.length)&&SETBY[d])c.imgs=cardSrcs(SETBY[d],lid)}
+ for(const [d,o] of Object.entries(store.sets||{}))for(const [n,c] of Object.entries(o))if((!c.imgs||!c.imgs.length)&&SETBY[d])c.imgs=cardSrcs(SETBY[d],c.lid||(lidOf[d]&&lidOf[d][n])||n)})();
+const ser=()=>JSON.stringify(store,(k,v)=>k==="imgs"?undefined:v);
+if(!store.migrated){store.migrated=1;try{localStorage.setItem("pps",ser())}catch(e){}}
+const save=()=>{try{localStorage.setItem("pps",ser())}catch(e){}};
 /* ---------- robust images: try each URL in order, then a text placeholder ---------- */
 function img(srcs,label,sub,cls=""){return `<img class="${cls}" crossorigin="anonymous" referrerpolicy="no-referrer" alt="${esc(label)}" data-srcs="${esc(JSON.stringify(srcs.slice(1)))}" data-label="${esc(label)}" data-sub="${esc(sub||"")}" src="${esc(srcs[0]||"")}" onerror="nextImg(this)">`}
 function nextImg(el){el.removeAttribute("srcset");const rest=JSON.parse(el.dataset.srcs||"[]");
@@ -660,7 +665,7 @@ function openPack(){packGen++;revealing=false;const s=set,d=cache[s.dex];current
   el.style.zIndex=100-i;el.style.setProperty("--off",`translate(${i*1.4}px,${i*2.2}px) rotate(${i?r:0}deg)`);el.style.animationDelay=(current.length-i)*45+"ms";if(i===current.length-1)el.classList.add("lastslot");st.appendChild(el)});
  bindStack();updCounter();
  const best=current[current.length-1];store.hist.unshift(`#${store.packs} ${s.name}: best pull ${best.name} (${best.rarity})`);store.hist=store.hist.slice(0,100);
- current.forEach(c=>{const [d,n]=keyOf(c.id);const ss=store.sets[d]=store.sets[d]||{};ss[n]=ss[n]||{name:c.name,rarity:c.rarity,imgs:c.imgs,n:0};ss[n].imgs=c.imgs;ss[n].n++;if(c.rev)ss[n].rv=(ss[n].rv||0)+1;store.coll[c.id]=store.coll[c.id]||{name:c.name,rarity:c.rarity,imgs:c.imgs,n:0,t:TIERS[c.tier]};store.coll[c.id].imgs=c.imgs;store.coll[c.id].n++});save();scheduleRender()}
+ current.forEach(c=>{const [d,n]=keyOf(c.id);const ss=store.sets[d]=store.sets[d]||{};ss[n]=ss[n]||{name:c.name,rarity:c.rarity,imgs:c.imgs,n:0};ss[n].imgs=c.imgs;ss[n].lid=c.id.slice(c.id.lastIndexOf("-")+1);ss[n].n++;if(c.rev)ss[n].rv=(ss[n].rv||0)+1;store.coll[c.id]=store.coll[c.id]||{name:c.name,rarity:c.rarity,imgs:c.imgs,n:0,t:TIERS[c.tier]};store.coll[c.id].imgs=c.imgs;store.coll[c.id].n++});save();scheduleRender()}
 let NEXT=null;function prepPack(){const s=set,d=s&&cache[s.dex];if(!d)return;if(NEXT&&NEXT.s===s)return;NEXT={s,p:buildPack(s,d.pools)};
  NEXT.p.forEach(c=>{const u=c.imgs&&c.imgs[0];if(!u)return;const im=new Image();im.crossOrigin="anonymous";im.referrerPolicy="no-referrer";im.decoding="async";im.src=u;if(im.decode)im.decode().catch(()=>{})})}
 const topEl=()=>$("stack")&&$("stack").querySelector(`.card[data-i="${topI}"]`);
@@ -677,7 +682,7 @@ function bindStack(){const st=$("stack");let d=null;
  const up=e=>{if(!d)return;if(d.q)cancelAnimationFrame(d.q);const dx=e.clientX-d.x,el=d.el,moved=d.moved;d=null;
   if(moved<10){el.classList.contains("flipped")?sendAway(1):flipTop();return}
   if(el.classList.contains("flipped")&&moved>70)sendAway(dx);else{el.style.transition="";el.style.transform=""}};
- st.onpointerup=up;st.onpointercancel=up}
+ st.onpointerup=up;st.onpointercancel=()=>{if(!d)return;if(d.q)cancelAnimationFrame(d.q);const el=d.el;d=null;el.style.transition="";el.style.transform=""}}
 function showSummary(){const s=$("summary");$("board").classList.add("done");$("stack").style.display="none";$("tray").style.display="none";$("counter").textContent=`${current.length} / ${current.length} — your pulls`;
  $("tray").innerHTML="";s.innerHTML=`<div class="sgrid"></div><div class="sbtn"><button id="again">Open Another</button></div>`;
  current.forEach((c,i)=>{const el=cardEl(c,i);el.classList.add("flipped");el.style.animationDelay=i*70+"ms";tilt(el);s.firstChild.appendChild(el)});
