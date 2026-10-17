@@ -120,7 +120,7 @@ test('SW uses versioned cache, skipWaiting and clients.claim', async ({request})
   expect(t).toMatch(/const CACHE='pps-v\d+'/);
   expect(t).toMatch(/skipWaiting\(\)/);
   expect(t).toMatch(/clients\.claim\(\)/);
-  expect(t).toMatch(/mode==='navigate'/); // network-first HTML → no stale app after deploy
+  expect(t).toMatch(/mode==='navigate'/); // HTML handled explicitly (SWR + update prompt)
 });
 
 test('wide desktop + iPhone SE sizes render wheel', async ({page}) => {

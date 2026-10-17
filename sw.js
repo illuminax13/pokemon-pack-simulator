@@ -1,29 +1,40 @@
-const CACHE='pps-v24';
+const CACHE='pps-v25';
+const IMG='pps-img-v1',IMG_MAX=400;
 const fail=()=>new Response('',{status:504,statusText:'offline'});
-const SHELL=['./','./index.html','./manifest.webmanifest','./assets/card-back.jpg','./assets/icons/favicon-64.png','./assets/icons/apple-touch-icon.png'];
-self.addEventListener('install',e=>{e.waitUntil(caches.open(CACHE).then(c=>c.addAll(SHELL)).then(()=>self.skipWaiting()))});
-self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(ks=>Promise.all(ks.filter(k=>k!==CACHE).map(k=>caches.delete(k)))).then(async()=>{await self.clients.claim();const cs=await self.clients.matchAll({type:'window'});cs.forEach(c=>c.postMessage({type:'SW_UPDATED',cache:CACHE}))}))});
+const SHELL=['./','./index.html','./manifest.webmanifest','./assets/card-back.jpg','./assets/icons/favicon-64.png','./assets/icons/apple-touch-icon.png','./data/pullrates.json'];
+self.addEventListener('install',e=>{e.waitUntil(caches.open(CACHE).then(c=>c.addAll(SHELL.map(u=>new Request(u,{cache:'reload'})))).then(()=>self.skipWaiting()))});
+self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(ks=>Promise.all(ks.filter(k=>k!==CACHE&&k!==IMG).map(k=>caches.delete(k)))).then(async()=>{await self.clients.claim();const cs=await self.clients.matchAll({type:'window'});cs.forEach(c=>c.postMessage({type:'SW_UPDATED',cache:CACHE}))}))});
+let trimming=false;
+async function trim(){if(trimming)return;trimming=true;try{const c=await caches.open(IMG),ks=await c.keys();for(let i=0;i<ks.length-IMG_MAX;i++)await c.delete(ks[i])}finally{trimming=false}}
+// cache-first, fetch on miss; optional background revalidation
+function cacheFirst(req,name,{revalidate=false,put=r=>r.ok,after}={}){
+  return caches.open(name).then(async c=>{
+    let hit=await c.match(req);if(hit&&hit.type==='opaque'&&req.mode==='cors')hit=null;
+    const net=()=>fetch(req).then(r=>{if(r&&put(r))c.put(req,r.clone()).then(()=>after&&after()).catch(()=>{});return r});
+    if(hit){if(revalidate)net().catch(()=>{});return hit}
+    return net().catch(()=>fail());
+  });
+}
 self.addEventListener('fetch',e=>{
-  const u=new URL(e.request.url);
-  if(e.request.method!=='GET')return;
+  const req=e.request;if(req.method!=='GET')return;
+  const u=new URL(req.url);
   if(u.origin===location.origin){
-    // Always network-first for navigations / HTML so deploys aren't stuck on stale shell
-    if(e.request.mode==='navigate'||u.pathname.endsWith('.html')||u.pathname.endsWith('/')||/pokemon-pack-simulator\/?$/.test(u.pathname)){
-      e.respondWith(fetch(e.request).then(r=>{const c=r.clone();caches.open(CACHE).then(x=>x.put(e.request,c));return r}).catch(()=>caches.match(e.request).then(m=>m||caches.match('./index.html')).then(m=>m||fail())));
+    // HTML: stale-while-revalidate (instant warm start). Each deploy bumps CACHE, so the new SW precaches the new
+    // index.html and the page shows an "Update available" reload prompt on controllerchange.
+    if(req.mode==='navigate'||u.pathname.endsWith('.html')||u.pathname.endsWith('/')){
+      e.respondWith((async()=>{const c=await caches.open(CACHE);const cached=await c.match(req,{ignoreSearch:true})||await c.match('./index.html');
+        const net=fetch(req).then(r=>{if(r.ok)c.put(req,r.clone());return r});
+        if(cached){e.waitUntil(net.catch(()=>{}));return cached}
+        return net.catch(()=>fail());})());
       return;
     }
-    e.respondWith(caches.open(CACHE).then(async c=>{
-      const hit=await c.match(e.request);
-      const net=fetch(e.request).then(r=>{if(r.ok)c.put(e.request,r.clone());return r}).catch(()=>hit||fail());
-      return hit||net;
-    }));
+    // data JSON: stale-while-revalidate; static assets (pack art, logos, icons): cache-first
+    if(/\/data\//.test(u.pathname)){e.respondWith(cacheFirst(req,CACHE,{revalidate:true}));return}
+    e.respondWith(cacheFirst(req,CACHE));
     return;
   }
   if(/assets\.tcgdex\.net|images\.pokemontcg\.io/.test(u.hostname)){
-    e.respondWith(caches.open(CACHE).then(async c=>{
-      const hit=await c.match(e.request);
-      const net=fetch(e.request).then(r=>{if(r&&(r.ok||r.type==='opaque'))c.put(e.request,r.clone()).catch(()=>{});return r}).catch(()=>hit||fail());
-      return hit||net;
-    }));
+    // card images: immutable, cache-first in a size-capped cache that survives app updates
+    e.respondWith(cacheFirst(req,IMG,{put:r=>r.ok||r.type==='opaque',after:trim}));
   }
 });
