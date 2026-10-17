@@ -75,3 +75,25 @@ test('swipe spin works', async ({page}) => {
   await page.waitForFunction(() => state==='fling' || state==='snap' || state==='landed', null, {timeout: 5000});
   await page.waitForFunction(() => state==='landed' || state==='idle', null, {timeout: 60000});
 });
+
+test('God pack (?god=1): shimmer on tear, celebration, summary, history badge, stats', async ({page}, info) => {
+  const {errs} = await gotoApp(page, '/?god=1');
+  await chooseSet(page, 6); // Prismatic Evolutions
+  await skipAndLand(page);
+  await tapCenterPack(page);
+  await expect(page.locator('#tear.godtear .godsheen')).toHaveCount(1);
+  await doTear(page, {partial: false});
+  await expect(page.locator('#stack .card')).toHaveCount(10);
+  expect(await page.evaluate(() => current.god && current.god.kind)).toBe('god');
+  const bb = await page.locator('#stack').boundingBox();
+  await page.mouse.click(bb.x + bb.width/2, bb.y + bb.height/2);
+  await expect(page.locator('#godban')).toBeVisible();
+  await expect(page.locator('#godban')).toContainText('GOD PACK');
+  await page.waitForTimeout(3200);
+  await revealAll(page);
+  await expect(page.locator('.godsum')).toContainText('GOD PACK');
+  expect(await page.evaluate(() => [store.god, document.querySelector('#hist .godh .gbadge') && document.querySelector('#hist .godh .gbadge').textContent, document.getElementById('godst').hidden])).toEqual([1, '👑 God Pack', false]);
+  await page.waitForTimeout(1800);
+  if (info.project.name === 'chromium') await page.screenshot({path: 'screenshot-godpack.png'});
+  expect(errs.filter(e => !/Failed to load resource|net::|ERR_/.test(e))).toEqual([]);
+});
