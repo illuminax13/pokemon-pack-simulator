@@ -1,5 +1,5 @@
 {
- "_doc": "Per-pack probabilities. WOTC 11 cards (Base Set has 2 basic energy among commons); SV/ME 10 cards; SWSH 10 cards. No forced energy. SV/ME: 4C, 3U, reverse A (ACE SPEC / Master Ball / Poke Ball foil can replace), reverse B (IR/SIR/HR can replace), rare slot (DR/UR replace R). SWSH: 5C, 3U, 1 reverse, rare slot. No documented English god packs modelled.",
+ "_doc": "Per-pack probabilities. WOTC 11 cards (Base Set has 2 basic energy among commons); SV/ME 10 cards; SWSH 10 cards. No forced energy. SV/ME: 4C, 3U, reverse A (ACE SPEC / Master Ball / Poke Ball foil can replace), reverse B (IR/SIR/HR can replace), rare slot (DR/UR replace R). SWSH: 5C, 3U, 1 reverse, rare slot. No documented English god packs modelled. God packs: only sets with documented ENGLISH god/demigod packs carry a 'godPacks' list (151, Prismatic Evolutions, Black Bolt, White Flare, Ascended Heroes). Each entry replaces the whole pack; rate = probability per pack; all rates are estimates (TPCi publishes none).",
  "base1": {
   "structure": "wotc",
   "energy": 2,
@@ -80,7 +80,20 @@
   },
   "source": "https://www.tcgplayer.com/content/article/Pok%C3%A9mon-TCG-Scarlet-Violet%E2%80%94151-Pull-Rates/b237df74-fbb0-40d0-9e13-d69ee6e804d9/",
   "estimated": false,
-  "note": "English 151 has no Poke Ball/Master Ball reverses."
+  "note": "English 151 has no Poke Ball/Master Ball reverses.",
+  "godPacks": [
+   {
+    "kind": "demi",
+    "label": "Demi-God Pack",
+    "contents": "starter",
+    "rate": 0.0006666666666666666,
+    "oneIn": 1500,
+    "estimated": true,
+    "source": "https://www.thetrainercourt.com/blogs/resources/english-booster-box-guaranteed-hit-rates-god-packs",
+    "source2": "https://woahpoke.com/pokemon-god-packs/",
+    "note": "English 151 has demigod packs only: the last 3 slots are one Kanto starter's full line (basic IR, stage-1 IR, ex SIR); other 7 cards normal. No published odds; community opening logs put them around 1 in 1-2k packs, so 1/1500 chosen."
+   }
+  ]
  },
  "sv08": {
   "structure": "sv",
@@ -128,7 +141,31 @@
   },
   "source": "https://www.tcgplayer.com/content/article/Pok%C3%A9mon-TCG-Prismatic-Evolutions-Pull-Rates/d94889ea-f76a-4a13-b74d-5b0b071220a7/",
   "estimated": false,
-  "note": "No Illustration Rares in set; demigod packs not modelled."
+  "note": "No Illustration Rares in set; demigod packs not modelled.",
+  "godPacks": [
+   {
+    "kind": "god",
+    "label": "God Pack",
+    "contents": "eeveelutions",
+    "rate": 0.0001,
+    "oneIn": 10000,
+    "estimated": true,
+    "source": "https://snkrdunk.com/en/magazine/2024/10/02/pokemon-tcg-international-expansion-set-release-scarlet-violet-8-5-release-date-price-where-to-buy/",
+    "source2": "https://www.thetrainercourt.com/blogs/resources/english-booster-box-guaranteed-hit-rates-god-packs",
+    "note": "Master Ball reverse Eevee + all 9 Eevee/Eeveelution SIRs (mirrors Japanese Terastal Festival god pack). Only a handful documented in English despite enormous print run, so set much rarer than the demigod: ~1/10,000 (estimate)."
+   },
+   {
+    "kind": "demi",
+    "label": "Demi-God Pack",
+    "contents": "3sir",
+    "rate": 0.001,
+    "oneIn": 1000,
+    "estimated": true,
+    "source": "https://dotesports.com/pokemon/news/pokemon-tcg-prismatic-evolutions-seemingly-contains-elusive-demi-god-packs",
+    "source2": "https://www.thetrainercourt.com/blogs/resources/english-booster-box-guaranteed-hit-rates-god-packs",
+    "note": "Normal 7 cards + 3 random distinct SIRs in the last 3 slots. Frequently streamed (many clips), so ~10x more common than the full god pack: ~1/1,000 (estimate)."
+   }
+  ]
  },
  "sv09": {
   "structure": "sv",
@@ -198,7 +235,20 @@
   },
   "source": "https://www.tcgplayer.com/content/article/Pok%C3%A9mon-TCG-Black-Bolt-and-White-Flare-Pull-Rates/bac92199-a2a7-4668-b4a4-2647a111776f/",
   "estimated": false,
-  "note": "Black White Rare unmeasured; 1/1000 estimated."
+  "note": "Black White Rare unmeasured; 1/1000 estimated.",
+  "godPacks": [
+   {
+    "kind": "god",
+    "label": "God Pack",
+    "contents": "9ir1sir",
+    "rate": 0.0005,
+    "oneIn": 2000,
+    "estimated": true,
+    "source": "https://www.pokebeach.com/2025/07/black-bolt-and-white-flare-english-set-guides-full-card-lists-pull-rates-cut-cards-products-and-more",
+    "source2": "https://www.thetrainercourt.com/blogs/resources/english-booster-box-guaranteed-hit-rates-god-packs",
+    "note": "9 Illustration Rares + 1 SIR (PokeBeach: confirmed in English, rate unknown, 'similar to previous sets'). Packs only sold in special products; ~1/2,000 estimate."
+   }
+  ]
  },
  "sv10.5w": {
   "structure": "sv",
@@ -223,7 +273,20 @@
   },
   "source": "https://www.tcgplayer.com/content/article/Pok%C3%A9mon-TCG-Black-Bolt-and-White-Flare-Pull-Rates/bac92199-a2a7-4668-b4a4-2647a111776f/",
   "estimated": false,
-  "note": "Black White Rare unmeasured; 1/1000 estimated."
+  "note": "Black White Rare unmeasured; 1/1000 estimated.",
+  "godPacks": [
+   {
+    "kind": "god",
+    "label": "God Pack",
+    "contents": "9ir1sir",
+    "rate": 0.0005,
+    "oneIn": 2000,
+    "estimated": true,
+    "source": "https://www.pokebeach.com/2025/07/black-bolt-and-white-flare-english-set-guides-full-card-lists-pull-rates-cut-cards-products-and-more",
+    "source2": "https://www.thetrainercourt.com/blogs/resources/english-booster-box-guaranteed-hit-rates-god-packs",
+    "note": "9 Illustration Rares + 1 SIR (PokeBeach: confirmed in English, rate unknown, 'similar to previous sets'). Packs only sold in special products; ~1/2,000 estimate."
+   }
+  ]
  },
  "me01": {
   "structure": "sv",
@@ -290,7 +353,20 @@
   },
   "source": "https://pullrates.com/set/ascended-heroes",
   "estimated": false,
-  "note": "MHR per poke-life.com; Mega Attack Rares (1/300) not in card data."
+  "note": "MHR per poke-life.com; Mega Attack Rares (1/300) not in card data.",
+  "godPacks": [
+   {
+    "kind": "god",
+    "label": "God Pack",
+    "contents": "3ma7sir",
+    "rate": 0.0005,
+    "oneIn": 2000,
+    "estimated": true,
+    "source": "https://www.thetrainercourt.com/blogs/resources/english-booster-box-guaranteed-hit-rates-god-packs",
+    "source2": "https://woahpoke.com/pokemon-god-packs/",
+    "note": "3 Mega Attack Rares + 7 distinct SIRs. Card data has no separate 'Mega Attack Rare' rarity, so the Mega ex Ultra Rares (full-art) stand in for MA. No published odds; ~1/2,000 estimate."
+   }
+  ]
  },
  "me03": {
   "structure": "sv",

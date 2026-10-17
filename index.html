@@ -411,11 +411,26 @@ section{content-visibility:auto;contain-intrinsic-size:auto 600px}
 /* cards under the top one: one flat shadow layer instead of shadows on every 3D face */
 #stack .card:not(:first-child) .face{box-shadow:none}
 #stack .card:not(:first-child):before{content:"";position:absolute;inset:0;border-radius:4.5%/3.3%;box-shadow:0 2px 3px rgba(0,0,0,.35);pointer-events:none}
+
+/* god packs */
+#tear .godsheen{position:absolute;inset:0;border-radius:6px;overflow:hidden;pointer-events:none;z-index:6;mix-blend-mode:overlay;opacity:.6;transition:opacity .4s;box-shadow:0 0 22px 2px rgba(255,205,100,.45),0 0 48px 6px rgba(255,160,220,.18)}
+#tear .godsheen::before{content:"";position:absolute;top:0;bottom:0;left:-100%;right:-100%;background:linear-gradient(105deg,transparent 36%,rgba(255,214,110,.75) 44%,rgba(255,150,215,.6) 50%,rgba(130,215,255,.6) 56%,transparent 64%);animation:gsh 2.6s linear infinite;will-change:transform}
+#tear.godtear.drag .godsheen{opacity:.85}#tear.godtear.rip .godsheen{opacity:0}
+#tear.godtear .glowline{filter:hue-rotate(-25deg) saturate(1.4)}
+@keyframes gsh{from{transform:translateX(-30%)}to{transform:translateX(30%)}}
+#godban{position:fixed;left:50%;top:34%;z-index:9999;pointer-events:none;display:flex;flex-direction:column;align-items:center;gap:2px;transform:translate(-50%,-50%);animation:gban 3s cubic-bezier(.2,1.4,.4,1) forwards;text-align:center}
+#godban b{font:900 clamp(38px,9vw,78px)/1 Outfit,system-ui,sans-serif;letter-spacing:.04em;background:linear-gradient(100deg,#ffe58a,#ffb347 25%,#ff8fd8 50%,#8fe1ff 75%,#ffe58a);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 3px 0 rgba(90,50,0,.55)) drop-shadow(0 0 18px rgba(255,200,90,.55))}
+#godban small{font:700 14px Outfit,system-ui,sans-serif;color:#fff6d6;text-shadow:0 2px 6px rgba(0,0,0,.6);letter-spacing:.12em;text-transform:uppercase}#godban .gcrown{font-size:40px;filter:drop-shadow(0 2px 6px rgba(0,0,0,.4))}
+@keyframes gban{0%{opacity:0;transform:translate(-50%,-50%) scale(.4)}14%{opacity:1;transform:translate(-50%,-50%) scale(1.06)}22%{transform:translate(-50%,-50%) scale(1)}80%{opacity:1}100%{opacity:0;transform:translate(-50%,-62%) scale(1)}}
+.godsum{grid-column:1/-1;text-align:center;font:900 26px/1.2 Outfit,system-ui,sans-serif;letter-spacing:.08em;margin:2px 0 10px;background:linear-gradient(100deg,#ffe58a,#ffb347 30%,#ff8fd8 55%,#8fe1ff 80%);-webkit-background-clip:text;background-clip:text;color:transparent}.godsum span{-webkit-text-fill-color:initial}
+.godh{color:#ffe7a3}.gbadge{display:inline-block;padding:1px 8px;margin-right:4px;border-radius:999px;font-size:11px;font-weight:800;color:#3b2500;background:linear-gradient(100deg,#ffe58a,#ffb347,#ff9fe0,#9fe6ff)}
+#godst b{color:#ffd54a}
+@media (prefers-reduced-motion:reduce){#tear .godsheen::before{animation:none}#godban{animation:none}}
 </style></head><body><div id="bg"></div><canvas id="fx"></canvas><div id="burst"></div>
 <div id="tear"></div><div id="badge">CSS · loading</div>
 <header><h1>PACK SIMULATOR</h1>
 <button id="back" class="ghost" aria-label="Back to sets">← Sets</button><button id="binders" class="ghost" aria-label="Open binders">📚 Binders</button><button id="open" aria-label="Open another pack">Open Another</button><button id="reveal" class="ghost" aria-label="Reveal all cards">Reveal All</button>
-<div class="stats"><span>Packs <b id="count">0</b></span><span>Unique <b id="uniq">0</b></span><a href="#" id="reset" role="button" aria-label="Reset collection">reset</a></div></header>
+<div class="stats"><span>Packs <b id="count">0</b></span><span>Unique <b id="uniq">0</b></span><span id="godst" hidden title="God packs opened">👑 <b id="godc">0</b></span><a href="#" id="reset" role="button" aria-label="Reset collection">reset</a></div></header>
 <div id="status">Choose a set to begin.</div>
 <div id="vPick" class="view on"><div id="sets"></div></div>
 <div id="vShelf" class="view"><div id="shelf"></div></div>
@@ -524,7 +539,27 @@ function swshPack(s,p,pack,C){const R=C.rates,m={};Object.values(p).flat().forEa
  pack.push({...g(roll([["c",.5],["u",.3],["r",.2]]),"c"),rev:true});
  const k=slotRoll([["sec",R.sec],["ur",R.ur],["vmax",R.vmax],["v",R.v],["holo",R.holo]]);pack.push({...g(k||"r","r")});finish(pack)}
 const PR_DEF={wotc:{rates:{holo:1/3}},swsh:{rates:{holo:1/3,v:1/9,vmax:1/18,ur:1/26,sec:1/60}},sv:{rates:{dr:1/6,ur:1/15,ir:1/12,sir:1/86,hr:1/150,ace:1/20}}};
-function buildPack(s,p){const pack=[],C=(PR&&PR[s.dex])||PR_DEF[s.era==="wotc"?"wotc":s.serie==="swsh"?"swsh":"sv"];
+/* ---------- god packs (only sets with documented English god/demigod packs; see data/pullrates.json godPacks) ---------- */
+const GOD_FORCE=new URLSearchParams(location.search).get("god");
+function godKind(C){const L=C&&C.godPacks;if(!L||!L.length)return null;
+ if(GOD_FORCE){const f=GOD_FORCE==="demi"?L.find(g=>g.kind==="demi"):L.find(g=>g.kind==="god");return f||L[0]}
+ const x=Math.random();let acc=0;for(const g of L){acc+=g.rate||0;if(x<acc)return g}return null}
+function pickDistinct(a,n,used){const out=[],pool=a.filter(c=>!used.has(c.id));for(let i=0;i<n&&pool.length;i++){const c=pool.splice(Math.floor(Math.random()*pool.length),1)[0];used.add(c.id);out.push(c)}return out}
+function godPack(s,p,G){const m=rpools(p),used=new Set(),pack=[],gh=c=>({...c,gh:true}),nm=(c,re)=>re.test(c.name),base=()=>{for(let i=0;i<4;i++)pack.push({...from(p,"common")});for(let i=0;i<3;i++)pack.push({...(m.u&&m.u.length?pick(m.u):from(p,"uncommon"))})};
+ const tierSort=a=>a.sort((x,y)=>TIERS[x.tier]-TIERS[y.tier]);
+ if(G.contents==="starter"){base();const lines=[["Bulbasaur","Ivysaur","Venusaur ex"],["Charmander","Charmeleon","Charizard ex"],["Squirtle","Wartortle","Blastoise ex"]].filter(l=>(m.ir||[]).some(c=>c.name===l[0])&&(m.sir||[]).some(c=>c.name===l[2]));
+  const l=pick(lines.length?lines:[[]]);if(l.length){pack.push(gh((m.ir).find(c=>c.name===l[0])),gh(m.ir.find(c=>c.name===l[1])),gh(m.sir.find(c=>c.name===l[2])))}else pack.push(...pickDistinct(m.sir||[],3,used).map(gh))}
+ else if(G.contents==="3sir"){base();pack.push(...pickDistinct(m.sir||[],3,used).map(gh))}
+ else if(G.contents==="eeveelutions"){const ev=Object.values(p).flat().find(c=>c.name==="Eevee"&&c.tier==="common");if(ev)pack.push({...ev,rev:true,pat:"mb",gh:true});
+  const order=["Eevee ex","Vaporeon ex","Jolteon ex","Flareon ex","Espeon ex","Leafeon ex","Glaceon ex","Sylveon ex","Umbreon ex"];order.forEach(n=>{const c=(m.sir||[]).find(x=>x.name===n);if(c&&!used.has(c.id)){used.add(c.id);pack.push(gh(c))}});
+  if(pack.length<10)pack.splice(1,0,...pickDistinct(m.sir||[],10-pack.length,used).map(gh))}
+ else if(G.contents==="9ir1sir"){pack.push(...tierSort(pickDistinct(m.ir||[],9,used)).map(gh),...pickDistinct(m.sir||[],1,used).map(gh))}
+ else if(G.contents==="3ma7sir"){const ma=(m.ur||[]).filter(c=>nm(c,/^Mega .* ex$/));pack.push(...pickDistinct(ma.length>=3?ma:(m.ur||[]),3,used).map(gh),...pickDistinct(m.sir||[],7,used).map(gh))}
+ else{pack.push(...pickDistinct(m.ir||[],7,used).map(gh),...pickDistinct(m.sir||[],3,used).map(gh))}
+ /* best card at the bottom: stable sort hits by tier keeping the chosen chase last */
+ const fill=pack.filter(c=>!c.gh),hits=tierSort(pack.filter(c=>c.gh));/* stable: chase pushed last stays last among equal tiers */
+ const out=[...fill,...hits];out.god={kind:G.kind,label:G.label};return out}
+function buildPack(s,p){const G=s.era!=="wotc"&&godKind(PR&&PR[s.dex]);if(G)return godPack(s,p,G);const pack=[],C=(PR&&PR[s.dex])||PR_DEF[s.era==="wotc"?"wotc":s.serie==="swsh"?"swsh":"sv"];
  if(s.era==="wotc"){const R=C.rates.holo??1/3,ne=C.energy||0;for(let i=0;i<7-ne;i++)pack.push({...from(p,"common")});
   for(let i=0;i<ne;i++)pack.splice(Math.floor(Math.random()*(pack.length+1)),0,{...pick(ENERGY.wotc)});
   for(let i=0;i<3;i++)pack.push({...from(p,"uncommon")});pack.push({...from(p,Math.random()<R?"holo":"rare","rare","holo")})}
@@ -664,13 +699,14 @@ function openPack(){packGen++;revealing=false;const s=set,d=cache[s.dex];current
  const st=$("stack");current.forEach((c,i)=>{const el=cardEl(c,i);el.dataset.i=i;const r=(Math.sin(i*12.9898)*43758.5453%1)*5-2.5;
   el.style.zIndex=100-i;el.style.setProperty("--off",`translate(${i*1.4}px,${i*2.2}px) rotate(${i?r:0}deg)`);el.style.animationDelay=(current.length-i)*45+"ms";if(i===current.length-1)el.classList.add("lastslot");st.appendChild(el)});
  bindStack();updCounter();
- const best=current[current.length-1];store.hist.unshift(`#${store.packs} ${s.name}: best pull ${best.name} (${best.rarity})`);store.hist=store.hist.slice(0,100);
+ const best=current[current.length-1];if(current.god){store.god=(store.god||0)+1;store.godBy=store.godBy||{};store.godBy[s.dex]=(store.godBy[s.dex]||0)+1}
+ store.hist.unshift(`${current.god?(current.god.kind==="demi"?"👑DEMI ":"👑GOD "):""}#${store.packs} ${s.name}: best pull ${best.name} (${best.rarity})`);store.hist=store.hist.slice(0,100);
  current.forEach(c=>{const [d,n]=keyOf(c.id);const ss=store.sets[d]=store.sets[d]||{};ss[n]=ss[n]||{name:c.name,rarity:c.rarity,imgs:c.imgs,n:0};ss[n].imgs=c.imgs;ss[n].lid=c.id.slice(c.id.lastIndexOf("-")+1);ss[n].n++;if(c.rev)ss[n].rv=(ss[n].rv||0)+1;store.coll[c.id]=store.coll[c.id]||{name:c.name,rarity:c.rarity,imgs:c.imgs,n:0,t:TIERS[c.tier]};store.coll[c.id].imgs=c.imgs;store.coll[c.id].n++});save();scheduleRender()}
 let NEXT=null;function prepPack(){const s=set,d=s&&cache[s.dex];if(!d)return;if(NEXT&&NEXT.s===s)return;NEXT={s,p:buildPack(s,d.pools)};
  NEXT.p.forEach(c=>{const u=c.imgs&&c.imgs[0];if(!u)return;const im=new Image();im.crossOrigin="anonymous";im.referrerPolicy="no-referrer";im.decoding="async";im.src=u;if(im.decode)im.decode().catch(()=>{})})}
 const topEl=()=>$("stack")&&$("stack").querySelector(`.card[data-i="${topI}"]`);
 function updCounter(){const c=$("counter");if(c)c.textContent=`${Math.min(topI+(topEl()&&topEl().classList.contains("flipped")?1:0),current.length)} / ${current.length}`}
-function flipTop(){const el=topEl();if(!el||el.classList.contains("flipped"))return;el.classList.add("flipped");flippedN++;tilt(el);if(topI===current.length-1)celebrate(el,current[topI]);updCounter()}
+function flipTop(){const el=topEl();if(!el||el.classList.contains("flipped"))return;el.classList.add("flipped");flippedN++;tilt(el);if(current.god&&current[topI].gh&&!current.godShown){current.godShown=true;godCelebrate(el,current.god)}if(topI===current.length-1)celebrate(el,current[topI]);updCounter()}
 function sendAway(dx=0){const el=topEl();if(!el||busy)return;busy=true;const c=current[topI];const dir=dx<0?-1:1;
  el.style.transition="transform .45s cubic-bezier(.5,0,.75,0),opacity .45s";el.style.transform=`translate(${dir*120}vw,${-10}vh) rotate(${dir*30}deg)`;el.style.opacity="0";
  const m=document.createElement("div");m.className="mini";m.innerHTML=img(c.imgs,c.name,c.rarity);$("tray").appendChild(m);
@@ -684,14 +720,15 @@ function bindStack(){const st=$("stack");let d=null;
   if(el.classList.contains("flipped")&&moved>70)sendAway(dx);else{el.style.transition="";el.style.transform=""}};
  st.onpointerup=up;st.onpointercancel=()=>{if(!d)return;if(d.q)cancelAnimationFrame(d.q);const el=d.el;d=null;el.style.transition="";el.style.transform=""}}
 function showSummary(){const s=$("summary");$("board").classList.add("done");$("stack").style.display="none";$("tray").style.display="none";$("counter").textContent=`${current.length} / ${current.length} — your pulls`;
- $("tray").innerHTML="";s.innerHTML=`<div class="sgrid"></div><div class="sbtn"><button id="again">Open Another</button></div>`;
- current.forEach((c,i)=>{const el=cardEl(c,i);el.classList.add("flipped");el.style.animationDelay=i*70+"ms";tilt(el);s.firstChild.appendChild(el)});
+ $("tray").innerHTML="";s.innerHTML=(current.god?`<div class="godsum"><span>👑</span> ${current.god.kind==="demi"?"DEMI-GOD PACK":"GOD PACK"}</div>`:"")+`<div class="sgrid"></div><div class="sbtn"><button id="again">Open Another</button></div>`;
+ const sg=s.querySelector(".sgrid");current.forEach((c,i)=>{const el=cardEl(c,i);el.classList.add("flipped");el.style.animationDelay=i*70+"ms";tilt(el);sg.appendChild(el)});
  $("again").onclick=()=>chooseSet(set);s.classList.add("on");$("status").textContent=`${set.name}: here's your pack!`}
 $("reveal").onclick=()=>{if(!topEl()||revealing)return;revealing=true;const gen=packGen;const step=()=>{const el=topEl();if(!el||gen!==packGen){revealing=false;return}if(!el.classList.contains("flipped")){flipTop();setTimeout(step,topI===current.length-1?900:280)}else{sendAway(1);setTimeout(step,480)}};step()};
 $("reset").onclick=e=>{e.preventDefault();if(confirm("Clear collection?")){localStorage.removeItem("pps");location.reload()}};
 let rndQ=0;function scheduleRender(){if(rndQ)return;const f=()=>{rndQ=0;render()};rndQ=window.requestIdleCallback?requestIdleCallback(f,{timeout:1200}):setTimeout(f,200)}
 function render(){$("count").textContent=store.packs;const ks=Object.keys(store.coll);$("uniq").textContent=ks.length;
- $("hist").innerHTML=store.hist.map(h=>`<div>${esc(h)}</div>`).join("");
+ $("hist").innerHTML=store.hist.map(h=>{const g=/^👑(GOD|DEMI) /.exec(h);return g?`<div class="godh"><span class="gbadge">👑 ${g[1]==="DEMI"?"Demi-God Pack":"God Pack"}</span> ${esc(h.slice(g[0].length))}</div>`:`<div>${esc(h)}</div>`}).join("");
+ const gs=$("godst");if(gs){gs.hidden=!store.god;$("godc").textContent=store.god||0}
  $("coll").innerHTML=ks.sort((a,b)=>store.coll[b].t-store.coll[a].t).map(k=>{const c=store.coll[k];return `<div title="${esc(c.name)}">${img(c.imgs||[c.img],c.name,c.rarity||"").replace("<img ",'<img loading="lazy" decoding="async" ')}<span>×${c.n}</span></div>`}).join("")}
 show("vPick");$("count").textContent=store.packs;scheduleRender();new MutationObserver(()=>{$("sstatus").textContent=$("status").textContent;$("scount").textContent=store.packs}).observe($("status"),{childList:true,characterData:true,subtree:true});
 
@@ -712,7 +749,7 @@ let tearGen=0;function tearPack(a,i){const myTear=++tearGen;const t=$("tear"),p=
   <div class="glowline"></div><div class="zone"></div></div><div class="hint"><span class="hand"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M9 11V4.5a1.5 1.5 0 0 1 3 0V10m0-1.5a1.5 1.5 0 0 1 3 0V11m0-1a1.5 1.5 0 0 1 3 0v4.5c0 3.6-2.4 6.5-6 6.5-2.6 0-4-1.2-5.3-3L4.4 14.6a1.5 1.5 0 0 1 2.3-1.9L9 15" fill="#fff" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Swipe across the top to tear</div>`;
  t.querySelectorAll("img[data-src]").forEach(im=>{im.src=im.dataset.src;im.removeAttribute("data-src")});t.classList.add("on");$("status").textContent="Swipe across the top seal to tear it open!";
  const pk=t.querySelector(".tp"),bot=t.querySelector(".bot"),top=t.querySelector(".top"),gap=t.querySelector(".gap"),flw=t.querySelector(".flapw"),flap=t.querySelector(".flap"),silver=t.querySelector(".silver"),
-  fl1=t.querySelector(".fibers polyline"),fl2=t.querySelector(".ff polyline");let st=null,done=false,cur=0,cdir=1,anim=0,lastQs=-1;Object.defineProperty(window,"__tearCur",{get:()=>cur,configurable:true});
+  fl1=t.querySelector(".fibers polyline"),fl2=t.querySelector(".ff polyline");if(NEXT&&NEXT.s===set&&NEXT.p.god){t.classList.add("godtear");pk.insertAdjacentHTML("beforeend",'<div class="godsheen" aria-hidden="true"></div>')}let st=null,done=false,cur=0,cdir=1,anim=0,lastQs=-1;Object.defineProperty(window,"__tearCur",{get:()=>cur,configurable:true});
  bot.style.clipPath=poly([[0,102],[100,102],...jag(0,100,true)].reverse().concat([]));bot.style.clipPath=poly([...jag(0,100),[100,102],[0,102]]);
  const setP=(q,dir)=>{cur=q;cdir=dir;const x0=dir>0?0:100-q*100,x1=dir>0?q*100:100,tipX=dir>0?x1:x0,tipY=yAt(tipX);
   top.style.clipPath=dir>0?above(x1,100):above(0,x0);flap.style.clipPath=above(x0,x1);
@@ -748,6 +785,9 @@ function tilt(el){let r=null,q=0,ex=0,ey=0;const apply=()=>{q=0;if(!el.classList
  el.addEventListener("pointerenter",()=>{r=null},{passive:true});
  el.addEventListener("pointermove",e=>{ex=e.clientX;ey=e.clientY;if(!q)q=requestAnimationFrame(apply)},{passive:true});
  el.addEventListener("pointerleave",()=>{if(q){cancelAnimationFrame(q);q=0}r=null;el.classList.remove("tilting");el.style.setProperty("--rx","0deg");el.style.setProperty("--ry","0deg")},{passive:true})}
+function godCelebrate(el,g){const r=el.getBoundingClientRect(),x=r.left+r.width/2,y=r.top+r.height/2;const old=$("godban");old&&old.remove();
+ const b=document.createElement("div");b.id="godban";b.setAttribute("role","status");b.innerHTML=`<span class="gcrown">👑</span><b>${g.kind==="demi"?"DEMI-GOD PACK!":"GOD PACK!"}</b><small>${g.kind==="demi"?"Three chase cards inside":"Every card is a hit"}</small>`;document.body.appendChild(b);setTimeout(()=>b.remove(),3000);
+ sparks(x,y,140,["#ffd54a","#fff3c4","#ff9fe0","#9fe6ff","#c6ffb0"]);$("status").textContent=g.kind==="demi"?"👑 DEMI-GOD PACK! Keep flipping…":"👑 GOD PACK! Every card is a hit…"}
 function celebrate(el,c){const t=TIERS[c.tier];if(t<3)return;const r=el.getBoundingClientRect(),x=r.left+r.width/2,y=r.top+r.height/2;
  const b=$("burst");b.style.setProperty("--bx",x+"px");b.style.setProperty("--by",y+"px");b.classList.remove("go");void b.offsetWidth;b.classList.add("go");
  sparks(x,y,t>=4?160:70,t>=4?["#ff4ff8","#4fe3ff","#fff","#ffd54a"]:["#ffd54a","#fff","#ff9f1c"]);

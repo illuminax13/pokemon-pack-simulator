@@ -1,4 +1,4 @@
-const CACHE='pps-v25';
+const CACHE='pps-v26';
 const IMG='pps-img-v1',IMG_MAX=400;
 const fail=()=>new Response('',{status:504,statusText:'offline'});
 const SHELL=['./','./index.html','./manifest.webmanifest','./assets/card-back.jpg','./assets/icons/favicon-64.png','./assets/icons/apple-touch-icon.png','./data/pullrates.json'];
