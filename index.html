@@ -489,7 +489,9 @@ const save=()=>{try{localStorage.setItem("pps",ser())}catch(e){}};
 /* NOTE: no crossorigin attr on purpose: some TCGdex files are served with a duplicated "Access-Control-Allow-Origin: *, *"
    header, which makes CORS-mode image loads fail (blank card / blurry low-res fallback). We never read pixels, so plain loads are fine. */
 function imgNum(u){const m=/\/([^\/]+)\/(?:high|low)\.(?:webp|png)$/.exec(u||"")||/\/([^\/]+?)(?:_hires)?\.png$/.exec(u||"");return m?m[1].replace(/^0+(?=\d)/,""):""}
-function img(srcs,label,sub,cls=""){srcs=(srcs||[]).filter(Boolean);return `<img class="${cls}" referrerpolicy="no-referrer" alt="${esc(label)}" data-srcs="${esc(JSON.stringify(srcs.slice(1)))}" data-label="${esc(label)}" data-sub="${esc(sub||"")}" data-num="${esc(imgNum(srcs[0]))}" src="${esc(srcs[0]||"")}" onerror="nextImg(this)">`}
+function img(srcs,label,sub,cls=""){srcs=(srcs||[]).filter(Boolean);return `<img class="${cls}" referrerpolicy="no-referrer" alt="${esc(label)}" data-srcs="${esc(JSON.stringify(srcs.slice(1)))}" data-label="${esc(label)}" data-sub="${esc(sub||"")}" data-num="${esc(imgNum(srcs[0]))}" src="${esc(srcs[0]||"")}" onerror="nextImg(this)" onload="imgOk(this)">`}
+/* images.pokemontcg.io answers a missing card with HTTP 404 + a 640x892 card-BACK png, which an <img> happily shows on the card front */
+function imgOk(el){if(el.naturalWidth===640&&el.naturalHeight===892&&/pokemontcg\.io/.test(el.currentSrc||el.src))nextImg(el)}
 function nextImg(el){el.removeAttribute("srcset");const rest=JSON.parse(el.dataset.srcs||"[]");
  if(rest.length){el.dataset.srcs=JSON.stringify(rest.slice(1));el.src=rest[0];return}
  el.onerror=null;const d=document.createElement("div");d.className=el.dataset.ph||"ph";const num=el.dataset.num;

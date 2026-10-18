@@ -35,6 +35,12 @@ self.addEventListener('fetch',e=>{
   }
   if(/assets\.tcgdex\.net|images\.pokemontcg\.io/.test(u.hostname)){
     // card images: immutable, cache-first in a size-capped cache that survives app updates
-    e.respondWith(cacheFirst(req,IMG,{put:r=>r.ok||r.type==='opaque',after:trim}));
+    // <img> requests are no-cors (opaque => status unknown). Try a CORS fetch first so only real 200s get cached;
+    // a few TCGdex files send a duplicated ACAO header (CORS fails) -> plain no-cors fetch, not cached (HTTP cache still applies).
+    e.respondWith(caches.open(IMG).then(async c=>{
+      const hit=await c.match(req.url);if(hit&&hit.type!=='opaque')return hit;
+      try{const r=await fetch(req.url,{mode:'cors',credentials:'omit'});if(r.ok){c.put(req.url,r.clone()).then(trim).catch(()=>{});return r}return fail()}
+      catch(err){return fetch(req).catch(()=>fail())}
+    }));
   }
 });
