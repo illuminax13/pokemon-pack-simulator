@@ -1,5 +1,5 @@
-const CACHE='pps-v26';
-const IMG='pps-img-v1',IMG_MAX=400;
+const CACHE='pps-v27';
+const IMG='pps-img-v1',IMG_MAX=300;
 const fail=()=>new Response('',{status:504,statusText:'offline'});
 const SHELL=['./','./index.html','./manifest.webmanifest','./assets/card-back.jpg','./assets/icons/favicon-64.png','./assets/icons/apple-touch-icon.png','./data/pullrates.json'];
 self.addEventListener('install',e=>{e.waitUntil(caches.open(CACHE).then(c=>c.addAll(SHELL.map(u=>new Request(u,{cache:'reload'})))).then(()=>self.skipWaiting()))});

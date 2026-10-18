@@ -1,13 +1,14 @@
 <!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><title>Pokémon Pack Simulator</title>
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 <meta name="theme-color" content="#06070f"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="Pack Sim">
 <link rel="manifest" href="manifest.webmanifest"><link rel="icon" type="image/png" href="assets/icons/favicon-64.png"><link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="preconnect" href="https://assets.tcgdex.net" crossorigin><link rel="preconnect" href="https://images.pokemontcg.io" crossorigin><link rel="dns-prefetch" href="https://api.tcgdex.net">
+<link rel="preconnect" href="https://assets.tcgdex.net"><link rel="preconnect" href="https://images.pokemontcg.io"><link rel="dns-prefetch" href="https://api.tcgdex.net">
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700;900&family=Orbitron:wght@700;900&display=swap"><link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700;900&family=Orbitron:wght@700;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'"><noscript><link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700;900&family=Orbitron:wght@700;900&display=swap" rel="stylesheet"></noscript>
 <style>
 :root{--gold:#ffd54a;--gold2:#ff9f1c;--glass:rgba(255,255,255,.06);--line:rgba(255,255,255,.12);--txt:#e9ecff}
 *{box-sizing:border-box}
+html,body,*{touch-action:manipulation}
 body{margin:0;font-family:Outfit,system-ui,"Segoe UI",sans-serif;color:var(--txt);min-height:100vh;overflow-x:hidden;background:#05060f}
 #bg{position:fixed;inset:0;z-index:-2;background:radial-gradient(1200px 700px at 15% 10%,#3b1d7a55,transparent 60%),radial-gradient(900px 600px at 85% 20%,#0d6efd44,transparent 60%),radial-gradient(1000px 800px at 50% 110%,#ff2e6340,transparent 60%),#05060f;animation:bgshift 18s ease-in-out infinite alternate}
 @keyframes bgshift{to{filter:hue-rotate(40deg)}}
@@ -105,7 +106,8 @@ h2{margin:0 0 12px;font-family:Orbitron,Outfit,sans-serif;font-size:15px;letter-
 #coll img,#coll .ph{width:100%;aspect-ratio:63/88;border-radius:6px;box-shadow:0 6px 14px #0008;font-size:10px}
 #coll span{position:absolute;top:4px;right:4px;background:linear-gradient(#ff5470,#d6204a);border-radius:9px;padding:0 7px;font-size:11px;font-weight:700}
 #hist{font-size:13px;max-height:180px;overflow:auto;color:#b9bfe6;line-height:1.7}
-.ph{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;padding:10px;text-align:center;background:linear-gradient(160deg,#ffd54a,#3c5aa6);color:#111;font-weight:800}
+.ph{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.35em;height:100%;padding:10px;text-align:center;background:radial-gradient(120% 80% at 50% 30%,#fff6d0,#f4c94a 45%,#3c5aa6);color:#1b1b2a;font-weight:800;border:3px solid #f7d34a;border-radius:inherit;container-type:inline-size}
+.ph .phn{font-size:max(7px,9cqw);opacity:.75}.ph .phl{font-size:max(8px,13cqw);line-height:1.1}.ph .phs{font-size:max(6px,7.5cqw);font-weight:600;opacity:.8}.ph .phx{font-size:max(5px,6cqw);font-weight:500;opacity:.55;text-transform:uppercase;letter-spacing:.06em}
 @media (prefers-reduced-motion:reduce){*{animation-duration:.01s!important}}
 #wheelwrap,#tear{touch-action:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}
 #wheelwrap{cursor:grab}#wheelwrap.drag{cursor:grabbing}#strip img,#tear img{pointer-events:none;-webkit-user-drag:none}
@@ -484,11 +486,14 @@ const ser=()=>JSON.stringify(store,(k,v)=>k==="imgs"?undefined:v);
 if(!store.migrated){store.migrated=1;try{localStorage.setItem("pps",ser())}catch(e){}}
 const save=()=>{try{localStorage.setItem("pps",ser())}catch(e){}};
 /* ---------- robust images: try each URL in order, then a text placeholder ---------- */
-function img(srcs,label,sub,cls=""){return `<img class="${cls}" crossorigin="anonymous" referrerpolicy="no-referrer" alt="${esc(label)}" data-srcs="${esc(JSON.stringify(srcs.slice(1)))}" data-label="${esc(label)}" data-sub="${esc(sub||"")}" src="${esc(srcs[0]||"")}" onerror="nextImg(this)">`}
+/* NOTE: no crossorigin attr on purpose: some TCGdex files are served with a duplicated "Access-Control-Allow-Origin: *, *"
+   header, which makes CORS-mode image loads fail (blank card / blurry low-res fallback). We never read pixels, so plain loads are fine. */
+function imgNum(u){const m=/\/([^\/]+)\/(?:high|low)\.(?:webp|png)$/.exec(u||"")||/\/([^\/]+?)(?:_hires)?\.png$/.exec(u||"");return m?m[1].replace(/^0+(?=\d)/,""):""}
+function img(srcs,label,sub,cls=""){srcs=(srcs||[]).filter(Boolean);return `<img class="${cls}" referrerpolicy="no-referrer" alt="${esc(label)}" data-srcs="${esc(JSON.stringify(srcs.slice(1)))}" data-label="${esc(label)}" data-sub="${esc(sub||"")}" data-num="${esc(imgNum(srcs[0]))}" src="${esc(srcs[0]||"")}" onerror="nextImg(this)">`}
 function nextImg(el){el.removeAttribute("srcset");const rest=JSON.parse(el.dataset.srcs||"[]");
  if(rest.length){el.dataset.srcs=JSON.stringify(rest.slice(1));el.src=rest[0];return}
- el.onerror=null;const d=document.createElement("div");d.className=el.dataset.ph||"ph";
- d.innerHTML=`<div style="font-size:18px">${esc(el.dataset.label)}</div><div style="font-size:12px;margin-top:6px">${esc(el.dataset.sub)}</div>`;el.replaceWith(d)}
+ el.onerror=null;const d=document.createElement("div");d.className=el.dataset.ph||"ph";const num=el.dataset.num;
+ d.innerHTML=d.className==="ph"?`<div class="phn">${num?"#"+esc(num):""}</div><div class="phl">${esc(el.dataset.label)}</div><div class="phs">${esc(el.dataset.sub)}</div><div class="phx">image unavailable</div>`:`<div style="font-size:18px">${esc(el.dataset.label)}</div><div style="font-size:12px;margin-top:6px">${esc(el.dataset.sub)}</div>`;el.replaceWith(d)}
 function srcsetFor(u){u=u||"";const sz=' sizes="(min-width:900px) 130px, 31vw" ';if(/\/high\.webp$/.test(u))return `srcset="${esc(u.replace(/high\.webp$/,"low.webp"))} 245w, ${esc(u)} 600w"`+sz;if(/_hires\.png$/.test(u))return `srcset="${esc(u.replace(/_hires\.png$/,".png"))} 245w, ${esc(u)} 734w"`+sz;return ""}
 function cardSrcs(s,localId,extra=[]){const n=String(localId).replace(/^0+(?=\d)/,"");const base=`https://assets.tcgdex.net/en/${s.serie}/${s.dex}/${localId}`;
  return [`${base}/high.webp`,...extra,`${base}/low.webp`,`${base}/high.png`,`${base}/low.png`,`https://images.pokemontcg.io/${s.ptcg}/${n}.png`,`https://images.pokemontcg.io/${s.ptcg}/${n}_hires.png`].filter((v,i,a)=>v&&a.indexOf(v)===i)}
@@ -703,14 +708,16 @@ function openPack(){packGen++;revealing=false;const s=set,d=cache[s.dex];current
  store.hist.unshift(`${current.god?(current.god.kind==="demi"?"👑DEMI ":"👑GOD "):""}#${store.packs} ${s.name}: best pull ${best.name} (${best.rarity})`);store.hist=store.hist.slice(0,100);
  current.forEach(c=>{const [d,n]=keyOf(c.id);const ss=store.sets[d]=store.sets[d]||{};ss[n]=ss[n]||{name:c.name,rarity:c.rarity,imgs:c.imgs,n:0};ss[n].imgs=c.imgs;ss[n].lid=c.id.slice(c.id.lastIndexOf("-")+1);ss[n].n++;if(c.rev)ss[n].rv=(ss[n].rv||0)+1;store.coll[c.id]=store.coll[c.id]||{name:c.name,rarity:c.rarity,imgs:c.imgs,n:0,t:TIERS[c.tier]};store.coll[c.id].imgs=c.imgs;store.coll[c.id].n++});save();scheduleRender()}
 let NEXT=null;function prepPack(){const s=set,d=s&&cache[s.dex];if(!d)return;if(NEXT&&NEXT.s===s)return;NEXT={s,p:buildPack(s,d.pools)};
- NEXT.p.forEach(c=>{const u=c.imgs&&c.imgs[0];if(!u)return;const im=new Image();im.crossOrigin="anonymous";im.referrerPolicy="no-referrer";im.decoding="async";im.src=u;if(im.decode)im.decode().catch(()=>{})})}
+ NEXT.p.forEach(c=>{const u=c.imgs&&c.imgs[0];if(!u)return;const im=new Image();im.referrerPolicy="no-referrer";im.decoding="async";im.src=u;if(im.decode)im.decode().catch(()=>{})})}
 const topEl=()=>$("stack")&&$("stack").querySelector(`.card[data-i="${topI}"]`);
 function updCounter(){const c=$("counter");if(c)c.textContent=`${Math.min(topI+(topEl()&&topEl().classList.contains("flipped")?1:0),current.length)} / ${current.length}`}
 function flipTop(){const el=topEl();if(!el||el.classList.contains("flipped"))return;el.classList.add("flipped");flippedN++;tilt(el);if(current.god&&current[topI].gh&&!current.godShown){current.godShown=true;godCelebrate(el,current.god)}if(topI===current.length-1)celebrate(el,current[topI]);updCounter()}
-function sendAway(dx=0){const el=topEl();if(!el||busy)return;busy=true;const c=current[topI];const dir=dx<0?-1:1;
+function sendAway(dx=0){const el=topEl();if(!el||busy)return;const c=current[topI];const dir=dx<0?-1:1;
+ /* advance immediately so rapid taps can flip the next card while this one flies off */
+ el.removeAttribute("data-i");el.style.pointerEvents="none";topI++;updCounter();const last=topI>=current.length;if(last)busy=true;
  el.style.transition="transform .45s cubic-bezier(.5,0,.75,0),opacity .45s";el.style.transform=`translate(${dir*120}vw,${-10}vh) rotate(${dir*30}deg)`;el.style.opacity="0";
  const m=document.createElement("div");m.className="mini";m.innerHTML=img(c.imgs,c.name,c.rarity);$("tray").appendChild(m);
- const gen=packGen;setTimeout(()=>{el.remove();if(gen!==packGen||!$("stack"))return;topI++;busy=false;updCounter();if(topI>=current.length)showSummary()},430)}
+ const gen=packGen;setTimeout(()=>{el.remove();if(gen!==packGen||!$("stack"))return;if(last){busy=false;showSummary()}},430)}
 function bindStack(){const st=$("stack");let d=null;
  st.onpointerdown=e=>{const el=topEl();if(!el||busy||!el.contains(e.target))return;d={x:e.clientX,y:e.clientY,el,moved:0};st.setPointerCapture(e.pointerId);e.preventDefault()};
  st.onpointermove=e=>{if(!d)return;const dx=e.clientX-d.x,dy=e.clientY-d.y;d.moved=Math.max(d.moved,Math.hypot(dx,dy));
@@ -811,6 +818,10 @@ function loop(){const onPick=$("vPick").classList.contains("on")&&!document.hidd
 fxKick();document.addEventListener("visibilitychange",fxKick);
 </script>
 <script>if(/[?&]debug/.test(location.search))document.getElementById("badge").style.display="block"
+/* iOS Safari ignores user-scalable=no: block pinch + double-tap zoom explicitly (taps still work via pointer events) */
+["gesturestart","gesturechange","gestureend"].forEach(t=>document.addEventListener(t,e=>e.preventDefault(),{passive:false}));
+document.addEventListener("dblclick",e=>e.preventDefault(),{passive:false});
+{let lastT=0;document.addEventListener("touchend",e=>{const now=e.timeStamp;if(now-lastT<350&&e.changedTouches.length===1&&!(e.target.closest&&e.target.closest("input,textarea,select,button,a,label,[contenteditable]")))e.preventDefault();lastT=now},{passive:false})}
 if("serviceWorker" in navigator){window.addEventListener("load",()=>{navigator.serviceWorker.register("sw.js").catch(()=>{});
  const hadCtl=!!navigator.serviceWorker.controller;let refreshing=false;navigator.serviceWorker.addEventListener("controllerchange",()=>{if(refreshing||!hadCtl)return;refreshing=true;/* soft hint */const b=document.createElement("button");b.textContent="Update available — tap to reload";b.setAttribute("aria-label","Reload to update app");
   Object.assign(b.style,{position:"fixed",left:"50%",bottom:"18px",transform:"translateX(-50%)",zIndex:200,padding:"10px 18px"});b.onclick=()=>location.reload();document.body.appendChild(b);});
