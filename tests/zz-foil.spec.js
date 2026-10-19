@@ -11,18 +11,28 @@ test('foil tiers', async ({page}) => {
       mb:await mk('sv08.5','uncommon',null,{rev:true,pat:'mb'}),pb:await mk('sv08.5','common',null,{rev:true,pat:'pb'}),
       ur:await mk('sv08','ultra'),sir:await mk('sv08','sir',c=>/special/i.test(c.rarity)),gold:await mk('sv08','sir',c=>/hyper/i.test(c.rarity))};
     const out={};for(const [k,el] of Object.entries(els)){const a=el.querySelector('.fx .a'),cs=getComputedStyle(a);
-      out[k]={cls:el.className,blend:cs.mixBlendMode,bbm:cs.backgroundBlendMode,fx:getComputedStyle(el.querySelector('.fx')).opacity,img:cs.backgroundImage,clip:cs.clipPath,legacy:getComputedStyle(el.querySelector('.foil')).display,spark:getComputedStyle(el.querySelector('.sparkle')).display};el.remove()}
+      out[k]={cls:el.className,blend:cs.mixBlendMode,bbm:cs.backgroundBlendMode,mask:cs.webkitMaskImage||cs.maskImage,wmask:(s=>s.webkitMaskImage||s.maskImage)(getComputedStyle(el.querySelector('.fx'))),glare:getComputedStyle(el.querySelector('.glare')).mixBlendMode,fx:getComputedStyle(el.querySelector('.fx')).opacity,img:cs.backgroundImage,clip:cs.clipPath,legacy:getComputedStyle(el.querySelector('.foil')).display,spark:getComputedStyle(el.querySelector('.sparkle')).display};el.remove()}
     return out});
   expect(r.common.cls).not.toMatch(/f-(holo|rev|etch)/); expect(r.common.fx).toBe('0');
-  expect(r.wotc.cls).toContain('f-holo'); expect(r.wotc.cls).toContain('e-wotc'); expect(r.wotc.clip).toContain('inset');
-  expect(r.mod.cls).toContain('f-holo'); expect(r.rev.cls).toContain('f-rev'); expect(r.rev.clip).toContain('polygon');
+  expect(r.wotc.cls).toContain('f-holo'); expect(r.wotc.cls).toContain('e-wotc'); expect(r.wotc.cls).toContain('l-cp'); expect(r.wotc.wmask).toContain('svg');
+  expect(r.mod.cls).toContain('f-holo'); expect(r.rev.cls).toContain('f-rev'); expect(r.rev.cls).toContain('l-sp'); expect(r.rev.wmask).toContain('evenodd'); expect(r.ur.cls).not.toMatch(/ l-/);
   expect(r.mb.cls).toContain('p-mb'); expect(r.pb.cls).toContain('p-pb');
   expect(r.ur.cls).toContain('f-etch'); expect(r.sir.cls).toContain('t-sir'); expect(r.gold.cls).toContain('t-gold');
   for (const k of ['wotc','mod','rev','mb','pb','ur','sir','gold']) {
-    expect(r[k].blend).toBe('screen'); expect(r[k].bbm).toMatch(/multiply/); expect(r[k].fx).toBe('1');
+    // iOS-safe: no blend modes on the card face; foil only adds white light through a band mask
+    expect(r[k].blend).toBe('normal'); expect(r[k].glare).toBe('normal'); expect(r[k].bbm).toMatch(/^normal(, normal)*$/); expect(r[k].mask).toContain('linear-gradient'); expect(r[k].fx).toBe('1');
     expect(r[k].legacy).toBe('none'); expect(r[k].spark).toBe('none');
     // no saturated rainbow stops in the foil layer
-    expect(r[k].img).not.toMatch(/rgb\(255, (0|61|79), /);
+    expect(r[k].img).not.toMatch(/rgb\(255, (0|61|79), /); expect(r[k].img).not.toMatch(/rgb\(\d+, \d+, \d+\)/);
   }
   expect(errs.filter(e=>!/Failed to load resource/.test(e))).toEqual([]);
+});
+test('trainer art window + kind tags', async ({page}) => {
+  await gotoApp(page);
+  const r = await page.evaluate(async () => {
+    const s=SETS.find(x=>x.dex==='me02.5');const d=await getCards(s);const all=Object.values(d.pools).flat();
+    const f=id=>all.find(c=>c.id===id);const prev=set;set=s;
+    const a=cardEl({...f('me02.5-181'),rev:true},0).className, b=cardEl({...f('me02.5-178'),tier:'rare'},0).className;set=prev;
+    return {a,b,k:f('me02.5-181').k}});
+  expect(r.k).toBe('t'); expect(r.a).toContain('l-st'); expect(r.b).toContain('l-sp');
 });
