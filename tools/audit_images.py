@@ -4,7 +4,9 @@ import json,sys,re,os,urllib.request,concurrent.futures as cf,time
 SETS={"base1":("base","base1"),"base2":("base","base2"),"base3":("base","base3"),"swsh7":("swsh","swsh7"),
 "sv03.5":("sv","sv3pt5"),"sv08":("sv","sv8"),"sv08.5":("sv","sv8pt5"),"sv09":("sv","sv9"),"sv10":("sv","sv10"),
 "sv10.5b":("sv","zsv10pt5"),"sv10.5w":("sv","rsv10pt5"),"me01":("me","me1"),"me02":("me","me2"),"me02.5":("me","me2pt5"),
-"me03":("me","me3"),"me04":("me","me4"),"me05":("me","me5"),"sve":("sv","sve")}
+"me03":("me","me3"),"me04":("me","me4"),"me05":("me","me5"),"sve":("sv","sve"),
+"30th":("me","me55"),"base5":("base","base5"),"neo1":("neo","neo1"),"cel25":("swsh","cel25"),"swsh12.5":("swsh","swsh12pt5"),
+"sv03":("sv","sv3"),"sv04.5":("sv","sv4pt5"),"sv06":("sv","sv6")}
 ROOT=os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 def head(u):
     for i in range(3):
@@ -23,6 +25,7 @@ def audit(dex):
     serie,ptcg=SETS[dex];d=json.load(open(f"{ROOT}/data/{dex}.json"));out=[]
     def one(c):
         ch=chain(serie,dex,ptcg,c["lid"]);res={}
+        if c.get("pimg"): ch=[c["pimg"]]*5+[c["pimg"]]
         # primary tcgdex + primary pokemontcg; full chain only if primary fails
         for u in (ch[0],ch[4]): res[u]=head(u)
         if res[ch[0]][0]!=200:
@@ -30,10 +33,10 @@ def audit(dex):
                 if u not in res: res[u]=head(u)
         ok=[u for u,(s,t,l) in res.items() if s==200 and t.startswith("image")]
         return {"id":c["id"],"lid":c["lid"],"name":c["name"],"rarity":c.get("rarity"),"img":c.get("img"),
-                "res":{u:list(v) for u,v in res.items()},"ok":ok,"first_ok":next((u for u in ch if u in ok),None)}
+                "res":{u:list(v) for u,v in res.items()},"ok":ok,"first_ok":next((u for u in ch if u in ok),None),"p0":ch[0],"p4":ch[4]}
     with cf.ThreadPoolExecutor(12) as ex: out=list(ex.map(one,d["cards"]))
     os.makedirs(f"{ROOT}/tools/audit",exist_ok=True);json.dump(out,open(f"{ROOT}/tools/audit/{dex}.json","w"),indent=0)
-    bad=[o for o in out if not o["first_ok"]];prim=[o for o in out if o["res"][chain(serie,dex,ptcg,o['lid'])[0]][0]!=200]
-    small=[o for o in out if (o['res'].get(chain(serie,dex,ptcg,o['lid'])[0]) or [0,0,0])[2] and o['res'][chain(serie,dex,ptcg,o['lid'])[0]][2]<8000]
-    print(dex,len(out),"primaryFail",len(prim),"allFail",len(bad),"tinyPrimary",len(small),"ptcgFail",sum(1 for o in out if o['res'][chain(serie,dex,ptcg,o['lid'])[4]][0]!=200),flush=True)
+    bad=[o for o in out if not o["first_ok"]];prim=[o for o in out if o["res"][o["p0"]][0]!=200]
+    small=[o for o in out if 0<o['res'][o["p0"]][2]<8000]
+    print(dex,len(out),"primaryFail",len(prim),"allFail",len(bad),"tinyPrimary",len(small),"ptcgFail",sum(1 for o in out if o['res'][o["p4"]][0]!=200),"bad",[o["id"] for o in bad][:12],flush=True)
 for s in sys.argv[1:]: audit(s)

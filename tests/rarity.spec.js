@@ -15,7 +15,7 @@ test('rarity distribution over 1000 packs', async ({page}) => {
       if (!(last.tier==='rare' || last.tier==='holo' || last.tier==='ultra' || last.tier==='illus' || last.tier==='sir')) badBottom++;
     }
     // SV set
-    const sv = SETS[3];
+    const sv = SETS[5];
     // load sv pools
     let holo=0;for(let i=0;i<1000;i++){const p=buildPack(s,pools);if(p[p.length-1].tier==='holo')holo++}
     return {badTop, badBottom, badLen, n, holo};
@@ -29,7 +29,7 @@ test('rarity distribution over 1000 packs', async ({page}) => {
   // also SV
   await page.locator('#sback').click();
   await page.waitForSelector('#vPick.on');
-  await chooseSet(page, 3);
+  await chooseSet(page, 5); // Evolving Skies
   const sv = await page.evaluate(() => {
     const s = set, pools = cache[s.dex].pools;
     let badTop=0, badBottom=0, badLen=0;

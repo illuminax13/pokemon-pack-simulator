@@ -36,3 +36,26 @@ test('trainer art window + kind tags', async ({page}) => {
     return {a,b,k:f('me02.5-181').k}});
   expect(r.k).toBe('t'); expect(r.a).toContain('l-st'); expect(r.b).toContain('l-sp');
 });
+
+test('new sets: all-foil sets foil every card, CC/GG/WotC holo tiers', async ({page}) => {
+  await gotoApp(page);
+  const r = await page.evaluate(async () => {
+    const S = d => SETS.find(s => s.dex === d), out = {};
+    const cls = async (dex, f) => { const s = S(dex); const d = await getCards(s); const c = Object.values(d.pools).flat().find(f); if (!c) return null;
+      const prev = set; set = s; const el = cardEl({...c}, 0); set = prev; const k = [...el.querySelectorAll('*')].concat(el).map(e => e.className && e.className.baseVal === undefined ? e.className : '').join(' '); return {r: c.rarity, t: c.tier, k}; };
+    out.c30common = await cls('30th', c => c.rarity === 'Common');
+    out.c30cc = await cls('30th', c => c.rarity === 'Classic Collection');
+    out.c30pk = await cls('30th', c => c.rarity === 'Pikachu Rare');
+    out.celCommon = await cls('cel25', c => !/classic/i.test(c.rarity));
+    out.celCC = await cls('cel25', c => /classic/i.test(c.rarity));
+    out.czGG = await cls('swsh12.5', c => c.rarity === 'Galarian Gallery');
+    out.czC = await cls('swsh12.5', c => c.rarity === 'Common');
+    out.trHolo = await cls('base5', c => /Dark Raichu/.test(c.name));
+    out.neoC = await cls('neo1', c => c.rarity === 'Common');
+    return out; });
+  console.log(JSON.stringify(r));
+  for (const k of ['c30common', 'c30pk', 'celCommon']) expect(r[k].k, k).toMatch(/f-(holo|etch)/);
+  for (const k of ['c30cc', 'celCC', 'czGG']) expect(r[k].k, k).toMatch(/f-etch/);
+  expect(r.trHolo.k).toMatch(/f-holo/);
+  for (const k of ['czC', 'neoC']) expect(r[k].k, k).not.toMatch(/f-(holo|etch)/);
+});

@@ -78,7 +78,7 @@ test('swipe spin works', async ({page}) => {
 
 test('God pack (?god=1): shimmer on tear, celebration, summary, history badge, stats', async ({page}, info) => {
   const {errs} = await gotoApp(page, '/?god=1');
-  await chooseSet(page, 6); // Prismatic Evolutions
+  await chooseSet(page, 13); // Prismatic Evolutions
   await skipAndLand(page);
   await tapCenterPack(page);
   await expect(page.locator('#tear.godtear .godsheen')).toHaveCount(1);

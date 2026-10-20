@@ -3,7 +3,7 @@ const {gotoApp, chooseSet, skipAndLand, tapCenterPack, doTear} = require('./help
 
 // Cards whose TCGdex files are served with a duplicated Access-Control-Allow-Origin header:
 // they rendered blank (or blurry low-res) while card <img>s were CORS-mode.
-const PREV_BROKEN = [[13,'me02.5-116'],[13,'me02.5-061'],[13,'me02.5-150'],[12,'me02-090'],[12,'me02-009']];
+const PREV_BROKEN = [[20,'me02.5-116'],[20,'me02.5-061'],[20,'me02.5-150'],[19,'me02-090'],[19,'me02-009']];
 
 test('previously broken Ascended Heroes / Phantasmal Flames cards load full-res', async ({page}) => {
   await gotoApp(page);
@@ -41,7 +41,7 @@ test('zoom guards: viewport + touch-action, and rapid taps flip every card', asy
   expect(await page.getAttribute('meta[name=viewport]', 'content')).toMatch(/maximum-scale=1/);
   const ta = await page.evaluate(() => [getComputedStyle(document.body).touchAction, getComputedStyle(document.documentElement).touchAction, getComputedStyle(document.getElementById('stack') || document.body).touchAction]);
   expect(ta[0]).toBe('manipulation'); expect(ta[1]).toBe('manipulation');
-  await chooseSet(page, 13); await skipAndLand(page); await tapCenterPack(page); await doTear(page);
+  await chooseSet(page, 20); await skipAndLand(page); await tapCenterPack(page); await doTear(page);
   const n = await page.evaluate(() => current.length);
   const box = await page.locator('#stack').boundingBox();
   // flip + send away each card with quick taps (~120ms apart, i.e. double-tap speed)
