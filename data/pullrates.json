@@ -1,5 +1,5 @@
 {
- "_doc": "Per-pack probabilities. WOTC 11 cards (Base Set has 2 basic energy among commons); SV/ME 10 cards; SWSH 10 cards. No forced energy. SV/ME: 4C, 3U, reverse A (ACE SPEC / Master Ball / Poke Ball foil can replace), reverse B (IR/SIR/HR can replace), rare slot (DR/UR replace R). SWSH: 5C, 3U, 1 reverse, rare slot. No documented English god packs modelled. God packs: only sets with documented ENGLISH god/demigod packs carry a 'godPacks' list (151, Prismatic Evolutions, Black Bolt, White Flare, Ascended Heroes). Each entry replaces the whole pack; rate = probability per pack; all rates are estimates (TPCi publishes none). Special structures: 'cel' (Celebrations, 4 all-foil cards) and 'c30' (30th Celebration, 5 all-foil cards with a guaranteed Pikachu rare). Crown Zenith: Galarian Gallery/Radiant replace the SWSH reverse; Paldean Fates: shiny rares in SV slots.",
+ "_doc": "Per-pack probabilities. WOTC 11 cards (Base Set has 2 basic energy among commons); SV/ME 10 cards; SWSH 10 cards. No forced energy. SV/ME: 4C, 3U, reverse A (ACE SPEC / Master Ball / Poke Ball foil can replace), reverse B (IR/SIR/HR can replace), rare slot (DR/UR replace R). SWSH: 5C, 3U, 1 reverse, rare slot. No documented English god packs modelled. God packs: only sets with documented ENGLISH god/demigod packs carry a 'godPacks' list (151, Prismatic Evolutions, Black Bolt, White Flare, Ascended Heroes). Each entry replaces the whole pack; rate = probability per pack; all rates are estimates (TPCi publishes none). Special structures: 'cel' (Celebrations, 4 all-foil cards) and 'c30' (30th Celebration, 5 all-foil cards with a guaranteed Pikachu rare). Crown Zenith: Galarian Gallery/Radiant replace the SWSH reverse; Paldean Fates: shiny rares in SV slots. Lorcana (lorcana-N): structure 'lor'; rates.sr/l are per rare slot (x2), fl/fsr/fr/fu are foil-slot rarities, en/ep/ic are Enchanted/Epic/Iconic per pack (replace the foil).",
  "base1": {
   "structure": "wotc",
   "energy": 2,
@@ -607,5 +607,409 @@
   "source": "https://www.setpulls.com/blog/30th-celebration-pull-rates",
   "estimated": false,
   "note": "5 foil cards + foil basic energy (energy not shown, per app design). Slots: 2 commons; common or IR or Classic Collection; rare or DR/SIR/Futuristic Rare (SIR and FR never share a pack); one of 30 Pikachu rares every pack. Rates: TCGplayer Authentication Center 3,000+ packs. RGB Mew rate is an estimate from 1 observed in 4,063 packs (Bill's Archive / Wargamer)."
+ },
+ "lorcana-1": {
+  "structure": "lor",
+  "game": "lorcana",
+  "rates": {
+   "sr": 0.25,
+   "l": 0.095,
+   "fl": 0.024,
+   "fsr": 0.05,
+   "fr": 0.145,
+   "fu": 0.285,
+   "en": 0.010417,
+   "ep": 0,
+   "ic": 0
+  },
+  "oneIn": {
+   "superRarePerPack": 2,
+   "legendaryPerPack": 5.5,
+   "legendaryFoil": 42,
+   "enchanted": 96
+  },
+  "slots": "6 common, 3 uncommon, 2 rare-or-better (Rare/Super Rare/Legendary), 1 foil of any rarity; Enchanted replace the foil card",
+  "source": "https://www.cambridgetcg.com/pulls/lorcana",
+  "source2": "https://www.lorcanaplayer.com/lorcana-pull-rates/",
+  "source3": "https://thegamerslodge.com (Narzghal polls: Enchanted ~22% of booster boxes = ~1/96 packs; Legendary in ~18% of packs)",
+  "estimated": false,
+  "note": "Per rare slot: Super Rare 25%, Legendary 9.5% (=> Legendary in ~18% of packs, matches Narzghal polls 18.2-19.5%). Foil slot: Legendary 2.4%, Super Rare 5%, Rare 14.5%, Uncommon 28.5%, else Common. Lorcana has no documented god packs.",
+  "noGodPacks": "None documented for Disney Lorcana (Cambridge TCG pack-anatomy 'rare occurrences' lists none; no community tracker reports any)."
+ },
+ "lorcana-2": {
+  "structure": "lor",
+  "game": "lorcana",
+  "rates": {
+   "sr": 0.25,
+   "l": 0.095,
+   "fl": 0.024,
+   "fsr": 0.05,
+   "fr": 0.145,
+   "fu": 0.285,
+   "en": 0.010417,
+   "ep": 0,
+   "ic": 0
+  },
+  "oneIn": {
+   "superRarePerPack": 2,
+   "legendaryPerPack": 5.5,
+   "legendaryFoil": 42,
+   "enchanted": 96
+  },
+  "slots": "6 common, 3 uncommon, 2 rare-or-better (Rare/Super Rare/Legendary), 1 foil of any rarity; Enchanted replace the foil card",
+  "source": "https://www.cambridgetcg.com/pulls/lorcana",
+  "source2": "https://www.lorcanaplayer.com/lorcana-pull-rates/",
+  "source3": "https://thegamerslodge.com (Narzghal polls: Enchanted ~22% of booster boxes = ~1/96 packs; Legendary in ~18% of packs)",
+  "estimated": false,
+  "note": "Per rare slot: Super Rare 25%, Legendary 9.5% (=> Legendary in ~18% of packs, matches Narzghal polls 18.2-19.5%). Foil slot: Legendary 2.4%, Super Rare 5%, Rare 14.5%, Uncommon 28.5%, else Common. Lorcana has no documented god packs.",
+  "noGodPacks": "None documented for Disney Lorcana (Cambridge TCG pack-anatomy 'rare occurrences' lists none; no community tracker reports any)."
+ },
+ "lorcana-3": {
+  "structure": "lor",
+  "game": "lorcana",
+  "rates": {
+   "sr": 0.25,
+   "l": 0.095,
+   "fl": 0.024,
+   "fsr": 0.05,
+   "fr": 0.145,
+   "fu": 0.285,
+   "en": 0.010417,
+   "ep": 0,
+   "ic": 0
+  },
+  "oneIn": {
+   "superRarePerPack": 2,
+   "legendaryPerPack": 5.5,
+   "legendaryFoil": 42,
+   "enchanted": 96
+  },
+  "slots": "6 common, 3 uncommon, 2 rare-or-better (Rare/Super Rare/Legendary), 1 foil of any rarity; Enchanted replace the foil card",
+  "source": "https://www.cambridgetcg.com/pulls/lorcana",
+  "source2": "https://www.lorcanaplayer.com/lorcana-pull-rates/",
+  "source3": "https://thegamerslodge.com (Narzghal polls: Enchanted ~22% of booster boxes = ~1/96 packs; Legendary in ~18% of packs)",
+  "estimated": false,
+  "note": "Per rare slot: Super Rare 25%, Legendary 9.5% (=> Legendary in ~18% of packs, matches Narzghal polls 18.2-19.5%). Foil slot: Legendary 2.4%, Super Rare 5%, Rare 14.5%, Uncommon 28.5%, else Common. Lorcana has no documented god packs.",
+  "noGodPacks": "None documented for Disney Lorcana (Cambridge TCG pack-anatomy 'rare occurrences' lists none; no community tracker reports any)."
+ },
+ "lorcana-4": {
+  "structure": "lor",
+  "game": "lorcana",
+  "rates": {
+   "sr": 0.25,
+   "l": 0.095,
+   "fl": 0.024,
+   "fsr": 0.05,
+   "fr": 0.145,
+   "fu": 0.285,
+   "en": 0.010417,
+   "ep": 0,
+   "ic": 0
+  },
+  "oneIn": {
+   "superRarePerPack": 2,
+   "legendaryPerPack": 5.5,
+   "legendaryFoil": 42,
+   "enchanted": 96
+  },
+  "slots": "6 common, 3 uncommon, 2 rare-or-better (Rare/Super Rare/Legendary), 1 foil of any rarity; Enchanted replace the foil card",
+  "source": "https://www.cambridgetcg.com/pulls/lorcana",
+  "source2": "https://www.lorcanaplayer.com/lorcana-pull-rates/",
+  "source3": "https://thegamerslodge.com (Narzghal polls: Enchanted ~22% of booster boxes = ~1/96 packs; Legendary in ~18% of packs)",
+  "estimated": false,
+  "note": "Per rare slot: Super Rare 25%, Legendary 9.5% (=> Legendary in ~18% of packs, matches Narzghal polls 18.2-19.5%). Foil slot: Legendary 2.4%, Super Rare 5%, Rare 14.5%, Uncommon 28.5%, else Common. Lorcana has no documented god packs.",
+  "noGodPacks": "None documented for Disney Lorcana (Cambridge TCG pack-anatomy 'rare occurrences' lists none; no community tracker reports any)."
+ },
+ "lorcana-5": {
+  "structure": "lor",
+  "game": "lorcana",
+  "rates": {
+   "sr": 0.25,
+   "l": 0.095,
+   "fl": 0.024,
+   "fsr": 0.05,
+   "fr": 0.145,
+   "fu": 0.285,
+   "en": 0.010417,
+   "ep": 0,
+   "ic": 0
+  },
+  "oneIn": {
+   "superRarePerPack": 2,
+   "legendaryPerPack": 5.5,
+   "legendaryFoil": 42,
+   "enchanted": 96
+  },
+  "slots": "6 common, 3 uncommon, 2 rare-or-better (Rare/Super Rare/Legendary), 1 foil of any rarity; Enchanted replace the foil card",
+  "source": "https://www.cambridgetcg.com/pulls/lorcana",
+  "source2": "https://www.lorcanaplayer.com/lorcana-pull-rates/",
+  "source3": "https://thegamerslodge.com (Narzghal polls: Enchanted ~22% of booster boxes = ~1/96 packs; Legendary in ~18% of packs)",
+  "estimated": false,
+  "note": "Per rare slot: Super Rare 25%, Legendary 9.5% (=> Legendary in ~18% of packs, matches Narzghal polls 18.2-19.5%). Foil slot: Legendary 2.4%, Super Rare 5%, Rare 14.5%, Uncommon 28.5%, else Common. Lorcana has no documented god packs.",
+  "noGodPacks": "None documented for Disney Lorcana (Cambridge TCG pack-anatomy 'rare occurrences' lists none; no community tracker reports any)."
+ },
+ "lorcana-6": {
+  "structure": "lor",
+  "game": "lorcana",
+  "rates": {
+   "sr": 0.25,
+   "l": 0.095,
+   "fl": 0.024,
+   "fsr": 0.05,
+   "fr": 0.145,
+   "fu": 0.285,
+   "en": 0.010417,
+   "ep": 0,
+   "ic": 0
+  },
+  "oneIn": {
+   "superRarePerPack": 2,
+   "legendaryPerPack": 5.5,
+   "legendaryFoil": 42,
+   "enchanted": 96
+  },
+  "slots": "6 common, 3 uncommon, 2 rare-or-better (Rare/Super Rare/Legendary), 1 foil of any rarity; Enchanted replace the foil card",
+  "source": "https://www.cambridgetcg.com/pulls/lorcana",
+  "source2": "https://www.lorcanaplayer.com/lorcana-pull-rates/",
+  "source3": "https://thegamerslodge.com (Narzghal polls: Enchanted ~22% of booster boxes = ~1/96 packs; Legendary in ~18% of packs)",
+  "estimated": false,
+  "note": "Per rare slot: Super Rare 25%, Legendary 9.5% (=> Legendary in ~18% of packs, matches Narzghal polls 18.2-19.5%). Foil slot: Legendary 2.4%, Super Rare 5%, Rare 14.5%, Uncommon 28.5%, else Common. Lorcana has no documented god packs.",
+  "noGodPacks": "None documented for Disney Lorcana (Cambridge TCG pack-anatomy 'rare occurrences' lists none; no community tracker reports any)."
+ },
+ "lorcana-7": {
+  "structure": "lor",
+  "game": "lorcana",
+  "rates": {
+   "sr": 0.25,
+   "l": 0.095,
+   "fl": 0.024,
+   "fsr": 0.05,
+   "fr": 0.145,
+   "fu": 0.285,
+   "en": 0.010417,
+   "ep": 0,
+   "ic": 0
+  },
+  "oneIn": {
+   "superRarePerPack": 2,
+   "legendaryPerPack": 5.5,
+   "legendaryFoil": 42,
+   "enchanted": 96
+  },
+  "slots": "6 common, 3 uncommon, 2 rare-or-better (Rare/Super Rare/Legendary), 1 foil of any rarity; Enchanted replace the foil card",
+  "source": "https://www.cambridgetcg.com/pulls/lorcana",
+  "source2": "https://www.lorcanaplayer.com/lorcana-pull-rates/",
+  "source3": "https://thegamerslodge.com (Narzghal polls: Enchanted ~22% of booster boxes = ~1/96 packs; Legendary in ~18% of packs)",
+  "estimated": false,
+  "note": "Per rare slot: Super Rare 25%, Legendary 9.5% (=> Legendary in ~18% of packs, matches Narzghal polls 18.2-19.5%). Foil slot: Legendary 2.4%, Super Rare 5%, Rare 14.5%, Uncommon 28.5%, else Common. Lorcana has no documented god packs.",
+  "noGodPacks": "None documented for Disney Lorcana (Cambridge TCG pack-anatomy 'rare occurrences' lists none; no community tracker reports any)."
+ },
+ "lorcana-8": {
+  "structure": "lor",
+  "game": "lorcana",
+  "rates": {
+   "sr": 0.25,
+   "l": 0.095,
+   "fl": 0.024,
+   "fsr": 0.05,
+   "fr": 0.145,
+   "fu": 0.285,
+   "en": 0.010417,
+   "ep": 0,
+   "ic": 0
+  },
+  "oneIn": {
+   "superRarePerPack": 2,
+   "legendaryPerPack": 5.5,
+   "legendaryFoil": 42,
+   "enchanted": 96
+  },
+  "slots": "6 common, 3 uncommon, 2 rare-or-better (Rare/Super Rare/Legendary), 1 foil of any rarity; Enchanted replace the foil card",
+  "source": "https://www.cambridgetcg.com/pulls/lorcana",
+  "source2": "https://www.lorcanaplayer.com/lorcana-pull-rates/",
+  "source3": "https://thegamerslodge.com (Narzghal polls: Enchanted ~22% of booster boxes = ~1/96 packs; Legendary in ~18% of packs)",
+  "estimated": false,
+  "note": "Per rare slot: Super Rare 25%, Legendary 9.5% (=> Legendary in ~18% of packs, matches Narzghal polls 18.2-19.5%). Foil slot: Legendary 2.4%, Super Rare 5%, Rare 14.5%, Uncommon 28.5%, else Common. Lorcana has no documented god packs.",
+  "noGodPacks": "None documented for Disney Lorcana (Cambridge TCG pack-anatomy 'rare occurrences' lists none; no community tracker reports any)."
+ },
+ "lorcana-9": {
+  "structure": "lor",
+  "game": "lorcana",
+  "rates": {
+   "sr": 0.25,
+   "l": 0.095,
+   "fl": 0.024,
+   "fsr": 0.05,
+   "fr": 0.145,
+   "fu": 0.285,
+   "en": 0.01,
+   "ep": 0.0625,
+   "ic": 0.000597
+  },
+  "oneIn": {
+   "superRarePerPack": 2,
+   "legendaryPerPack": 5.5,
+   "legendaryFoil": 42,
+   "enchanted": 100,
+   "epic": 16,
+   "iconic": 1676
+  },
+  "slots": "6 common, 3 uncommon, 2 rare-or-better (Rare/Super Rare/Legendary), 1 foil of any rarity; Enchanted, Epic and Iconic replace the foil card",
+  "source": "https://www.cambridgetcg.com/pulls/lorcana",
+  "source2": "https://www.lorcanaplayer.com/lorcana-pull-rates/",
+  "source3": "https://www.reddit.com/r/Lorcana/comments/1njnhso/ (Fabled Pulls Tracker: 48,000+ packs; Enchanted ~1/100, Epic ~1/16, Iconic ~1/1,676 from case data, 95% CI 1/930-1/3,200)",
+  "estimated": false,
+  "note": "Per rare slot: Super Rare 25%, Legendary 9.5% (=> Legendary in ~18% of packs, matches Narzghal polls 18.2-19.5%). Foil slot: Legendary 2.4%, Super Rare 5%, Rare 14.5%, Uncommon 28.5%, else Common. Lorcana has no documented god packs.",
+  "noGodPacks": "None documented for Disney Lorcana (Cambridge TCG pack-anatomy 'rare occurrences' lists none; no community tracker reports any)."
+ },
+ "lorcana-10": {
+  "structure": "lor",
+  "game": "lorcana",
+  "rates": {
+   "sr": 0.25,
+   "l": 0.095,
+   "fl": 0.024,
+   "fsr": 0.05,
+   "fr": 0.145,
+   "fu": 0.285,
+   "en": 0.01,
+   "ep": 0.0625,
+   "ic": 0.000597
+  },
+  "oneIn": {
+   "superRarePerPack": 2,
+   "legendaryPerPack": 5.5,
+   "legendaryFoil": 42,
+   "enchanted": 100,
+   "epic": 16,
+   "iconic": 1676
+  },
+  "slots": "6 common, 3 uncommon, 2 rare-or-better (Rare/Super Rare/Legendary), 1 foil of any rarity; Enchanted, Epic and Iconic replace the foil card",
+  "source": "https://www.cambridgetcg.com/pulls/lorcana",
+  "source2": "https://www.lorcanaplayer.com/lorcana-pull-rates/",
+  "source3": "https://www.reddit.com/r/Lorcana/comments/1njnhso/ (Fabled Pulls Tracker: 48,000+ packs; Enchanted ~1/100, Epic ~1/16, Iconic ~1/1,676 from case data, 95% CI 1/930-1/3,200)",
+  "estimated": true,
+  "note": "Rates measured for Fabled; later sets use the same rarity scheme (Ravensburger 2025-08 'stunning new rarities') and assume Fabled's measured rates until set-specific trackers publish. Lorcana has no documented god packs.",
+  "noGodPacks": "None documented for Disney Lorcana (Cambridge TCG pack-anatomy 'rare occurrences' lists none; no community tracker reports any)."
+ },
+ "lorcana-11": {
+  "structure": "lor",
+  "game": "lorcana",
+  "rates": {
+   "sr": 0.25,
+   "l": 0.095,
+   "fl": 0.024,
+   "fsr": 0.05,
+   "fr": 0.145,
+   "fu": 0.285,
+   "en": 0.01,
+   "ep": 0.0625,
+   "ic": 0.000597
+  },
+  "oneIn": {
+   "superRarePerPack": 2,
+   "legendaryPerPack": 5.5,
+   "legendaryFoil": 42,
+   "enchanted": 100,
+   "epic": 16,
+   "iconic": 1676
+  },
+  "slots": "6 common, 3 uncommon, 2 rare-or-better (Rare/Super Rare/Legendary), 1 foil of any rarity; Enchanted, Epic and Iconic replace the foil card",
+  "source": "https://www.cambridgetcg.com/pulls/lorcana",
+  "source2": "https://www.lorcanaplayer.com/lorcana-pull-rates/",
+  "source3": "https://www.reddit.com/r/Lorcana/comments/1njnhso/ (Fabled Pulls Tracker: 48,000+ packs; Enchanted ~1/100, Epic ~1/16, Iconic ~1/1,676 from case data, 95% CI 1/930-1/3,200)",
+  "estimated": true,
+  "note": "Rates measured for Fabled; later sets use the same rarity scheme (Ravensburger 2025-08 'stunning new rarities') and assume Fabled's measured rates until set-specific trackers publish. Lorcana has no documented god packs.",
+  "noGodPacks": "None documented for Disney Lorcana (Cambridge TCG pack-anatomy 'rare occurrences' lists none; no community tracker reports any)."
+ },
+ "lorcana-12": {
+  "structure": "lor",
+  "game": "lorcana",
+  "rates": {
+   "sr": 0.25,
+   "l": 0.095,
+   "fl": 0.024,
+   "fsr": 0.05,
+   "fr": 0.145,
+   "fu": 0.285,
+   "en": 0.01,
+   "ep": 0.0625,
+   "ic": 0.000597
+  },
+  "oneIn": {
+   "superRarePerPack": 2,
+   "legendaryPerPack": 5.5,
+   "legendaryFoil": 42,
+   "enchanted": 100,
+   "epic": 16,
+   "iconic": 1676
+  },
+  "slots": "6 common, 3 uncommon, 2 rare-or-better (Rare/Super Rare/Legendary), 1 foil of any rarity; Enchanted, Epic and Iconic replace the foil card",
+  "source": "https://www.cambridgetcg.com/pulls/lorcana",
+  "source2": "https://www.lorcanaplayer.com/lorcana-pull-rates/",
+  "source3": "https://www.reddit.com/r/Lorcana/comments/1njnhso/ (Fabled Pulls Tracker: 48,000+ packs; Enchanted ~1/100, Epic ~1/16, Iconic ~1/1,676 from case data, 95% CI 1/930-1/3,200)",
+  "estimated": true,
+  "note": "Rates measured for Fabled; later sets use the same rarity scheme (Ravensburger 2025-08 'stunning new rarities') and assume Fabled's measured rates until set-specific trackers publish. Lorcana has no documented god packs.",
+  "noGodPacks": "None documented for Disney Lorcana (Cambridge TCG pack-anatomy 'rare occurrences' lists none; no community tracker reports any)."
+ },
+ "lorcana-13": {
+  "structure": "lor",
+  "game": "lorcana",
+  "rates": {
+   "sr": 0.25,
+   "l": 0.095,
+   "fl": 0.024,
+   "fsr": 0.05,
+   "fr": 0.145,
+   "fu": 0.285,
+   "en": 0.01,
+   "ep": 0.0625,
+   "ic": 0.000597
+  },
+  "oneIn": {
+   "superRarePerPack": 2,
+   "legendaryPerPack": 5.5,
+   "legendaryFoil": 42,
+   "enchanted": 100,
+   "epic": 16,
+   "iconic": 1676
+  },
+  "slots": "6 common, 3 uncommon, 2 rare-or-better (Rare/Super Rare/Legendary), 1 foil of any rarity; Enchanted, Epic and Iconic replace the foil card",
+  "source": "https://www.cambridgetcg.com/pulls/lorcana",
+  "source2": "https://www.lorcanaplayer.com/lorcana-pull-rates/",
+  "source3": "https://www.reddit.com/r/Lorcana/comments/1njnhso/ (Fabled Pulls Tracker: 48,000+ packs; Enchanted ~1/100, Epic ~1/16, Iconic ~1/1,676 from case data, 95% CI 1/930-1/3,200)",
+  "estimated": true,
+  "note": "Rates measured for Fabled; later sets use the same rarity scheme (Ravensburger 2025-08 'stunning new rarities') and assume Fabled's measured rates until set-specific trackers publish. Lorcana has no documented god packs.",
+  "noGodPacks": "None documented for Disney Lorcana (Cambridge TCG pack-anatomy 'rare occurrences' lists none; no community tracker reports any)."
+ },
+ "lorcana-14": {
+  "structure": "lor",
+  "game": "lorcana",
+  "rates": {
+   "sr": 0.25,
+   "l": 0.095,
+   "fl": 0.024,
+   "fsr": 0.05,
+   "fr": 0.145,
+   "fu": 0.285,
+   "en": 0.01,
+   "ep": 0.0625,
+   "ic": 0.000597
+  },
+  "oneIn": {
+   "superRarePerPack": 2,
+   "legendaryPerPack": 5.5,
+   "legendaryFoil": 42,
+   "enchanted": 100,
+   "epic": 16,
+   "iconic": 1676
+  },
+  "slots": "6 common, 3 uncommon, 2 rare-or-better (Rare/Super Rare/Legendary), 1 foil of any rarity; Enchanted, Epic and Iconic replace the foil card",
+  "source": "https://www.cambridgetcg.com/pulls/lorcana",
+  "source2": "https://www.lorcanaplayer.com/lorcana-pull-rates/",
+  "source3": "https://www.reddit.com/r/Lorcana/comments/1njnhso/ (Fabled Pulls Tracker: 48,000+ packs; Enchanted ~1/100, Epic ~1/16, Iconic ~1/1,676 from case data, 95% CI 1/930-1/3,200)",
+  "estimated": true,
+  "note": "Rates measured for Fabled; later sets use the same rarity scheme (Ravensburger 2025-08 'stunning new rarities') and assume Fabled's measured rates until set-specific trackers publish. Lorcana has no documented god packs.",
+  "noGodPacks": "None documented for Disney Lorcana (Cambridge TCG pack-anatomy 'rare occurrences' lists none; no community tracker reports any)."
  }
 }

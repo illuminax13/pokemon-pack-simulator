@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Audit card image URLs. Usage: audit_images.py <set> [<set>...]  -> writes tools/audit/<set>.json"""
+"""Audit card image URLs. Usage: audit_images.py <set> [<set>...]  (Pokemon dex ids or lorcana-1..lorcana-14)  -> writes tools/audit/<set>.json"""
 import json,sys,re,os,urllib.request,concurrent.futures as cf,time
 SETS={"base1":("base","base1"),"base2":("base","base2"),"base3":("base","base3"),"swsh7":("swsh","swsh7"),
 "sv03.5":("sv","sv3pt5"),"sv08":("sv","sv8"),"sv08.5":("sv","sv8pt5"),"sv09":("sv","sv9"),"sv10":("sv","sv10"),
@@ -21,7 +21,25 @@ def head(u):
 def chain(serie,dex,ptcg,lid):
     n=re.sub(r"^0+(?=\d)","",str(lid));b=f"https://assets.tcgdex.net/en/{serie}/{dex}/{lid}"
     return [b+"/high.webp",b+"/low.webp",b+"/high.png",b+"/low.png",f"https://images.pokemontcg.io/{ptcg}/{n}.png",f"https://images.pokemontcg.io/{ptcg}/{n}_hires.png"]
+def lorchain(code,lid,x):
+    db,lc,tp=(x or "||").split("|");L=lc.replace("?",".avif?") if lc else ""
+    return [u for u in [db=="1" and f"https://cdn.dreamborn.ink/images/en/cards/{code:03d}-{lid}",L and f"https://cards.lorcast.io/card/digital/large/{L}",
+            tp and f"https://tcgplayer-cdn.tcgplayer.com/product/{tp}_in_1000x1000.jpg",L and f"https://cards.lorcast.io/card/digital/normal/{L}"] if u]
+def audit_lor(dex):
+    code=int(dex.split("-")[1]);d=json.load(open(f"{ROOT}/data/{dex}.json"))
+    def one(c):
+        ch=lorchain(code,c["lid"],c.get("x"));res={}
+        for u in ch:
+            res[u]=head(u)
+            if res[u][0]==200 and res[u][1].startswith("image"): break
+        ok=[u for u,(st,t,l) in res.items() if st==200 and t.startswith("image")]
+        return {"id":c["id"],"lid":c["lid"],"name":c["name"],"rarity":c.get("rarity"),"chain":ch,"res":{u:list(v) for u,v in res.items()},"first_ok":ok[0] if ok else None}
+    with cf.ThreadPoolExecutor(16) as ex: out=list(ex.map(one,d["cards"]))
+    os.makedirs(f"{ROOT}/tools/audit",exist_ok=True);json.dump(out,open(f"{ROOT}/tools/audit/{dex}.json","w"),indent=0)
+    prim=[o for o in out if not o["chain"] or o["first_ok"]!=o["chain"][0]];bad=[o for o in out if not o["first_ok"]]
+    print(dex,len(out),"primaryFail",len(prim),"allFail",len(bad),"primaryHost",sorted({o["chain"][0].split("/")[2] for o in out if o["chain"]}),"bad",[o["id"] for o in bad][:12],flush=True)
 def audit(dex):
+    if dex.startswith("lorcana-"): return audit_lor(dex)
     serie,ptcg=SETS[dex];d=json.load(open(f"{ROOT}/data/{dex}.json"));out=[]
     def one(c):
         ch=chain(serie,dex,ptcg,c["lid"]);res={}

@@ -26,7 +26,7 @@ button.ghost{background:var(--glass);color:var(--txt);box-shadow:none;backdrop-f
 .view{display:none}.view.on{display:block;animation:viewin .55s cubic-bezier(.2,.8,.2,1)}
 @keyframes viewin{from{opacity:0;transform:translateY(24px) scale(.98);filter:blur(6px)}}
 /* set picker */
-#sets{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:22px;padding:28px;max-width:1240px;margin:auto}
+#sets,#lsets{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:22px;padding:28px;max-width:1240px;margin:auto}
 .tile{position:relative;padding:26px 20px 20px;text-align:center;cursor:pointer;border-radius:22px;background:linear-gradient(160deg,#ffffff14,#ffffff04);border:1px solid var(--line);backdrop-filter:blur(14px);
  box-shadow:0 20px 40px #0006,inset 0 1px 0 #ffffff22;transition:transform .35s cubic-bezier(.2,.8,.2,1),box-shadow .35s,border-color .35s;overflow:hidden;animation:viewin .6s backwards}
 .tile:before{content:"";position:absolute;inset:-1px;background:radial-gradient(400px 160px at var(--x,50%) -10%,var(--c1),transparent 70%);opacity:.35;transition:.35s}
@@ -217,7 +217,7 @@ button.ghost:hover{background:rgba(255,255,255,.1)}
 section{border-radius:var(--r-lg);background:var(--panel);border-color:var(--line);box-shadow:var(--sh1)}
 h2{font-size:13px;letter-spacing:3px}
 /* set picker */
-#sets{gap:18px;padding:22px calc(22px + var(--sa-r)) 22px calc(22px + var(--sa-l))}
+#sets,#lsets{gap:18px;padding:22px calc(22px + var(--sa-r)) 22px calc(22px + var(--sa-l))}
 .tile{border-radius:var(--r-lg);background:linear-gradient(165deg,rgba(255,255,255,.08),rgba(255,255,255,.02) 55%,rgba(0,0,0,.15));border:1px solid var(--line);box-shadow:var(--sh2),inset 0 1px 0 rgba(255,255,255,.08);padding:22px 18px 18px}
 .tile:before{opacity:.22}.tile:hover{transform:translateY(-5px);box-shadow:var(--sh3),0 0 0 1px rgba(255,213,74,.35)}.tile:hover:before{opacity:.4}.tile:active{transform:scale(.97)}
 .tile h3{font-size:17px;letter-spacing:.3px}.tile small{font-size:11px;letter-spacing:3px}
@@ -274,7 +274,7 @@ h2{font-size:13px;letter-spacing:3px}
 #vWheel.stage .hint{bottom:calc(30px + var(--sa-b))}
 #badge{bottom:calc(10px + var(--sa-b))}
 @media (max-width:640px){header{padding-top:calc(8px + var(--sa-t));gap:8px}h1{font-size:15px;width:100%;margin:0}header button{padding:7px 13px;font-size:13px}.stats{margin-left:auto;font-size:12px}.stats span{padding:4px 8px}
- #status{font-size:13px;padding-top:8px}#sets{grid-template-columns:1fr 1fr;gap:12px;padding:14px}.tile{padding:14px 10px 12px}.tile .logo{height:70px}.tile .logo img{max-height:70px}.tile h3{font-size:14px}
+ #status{font-size:13px;padding-top:8px}#sets,#lsets{grid-template-columns:1fr 1fr;gap:12px;padding:14px}.tile{padding:14px 10px 12px}.tile .logo{height:70px}.tile .logo img{max-height:70px}.tile h3{font-size:14px}
  #shelf{grid-template-columns:1fr 1fr;gap:26px 18px;padding:22px 18px 40px}section{margin:18px 10px}}
 /* crisp binders at high DPR: no filter/3D raster layers */
 .binder,.binder:hover,.binder:active{filter:none;transform-style:flat;will-change:auto}
@@ -350,8 +350,8 @@ h2{font-size:13px;letter-spacing:3px}
 #tear .cardsout{z-index:0}#tear .tp>.bot{z-index:1}#tear .tp>.gap{z-index:2}#tear .tp>.top{z-index:3}
 #tear .cardsout{top:9%}
 .tile{backdrop-filter:none;-webkit-backdrop-filter:none;contain:layout paint}
-#sets .era{grid-column:1/-1;display:flex;align-items:baseline;gap:12px;margin:14px 4px -4px;font-size:15px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:#e8ecff}
-#sets .era:first-child{margin-top:0}#sets .era:after{content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--line),transparent);align-self:center}#sets .era small{font-size:11px;letter-spacing:2px;color:#9aa3d6;font-weight:600}
+#sets .era,#lsets .era,#shelf .era{grid-column:1/-1;display:flex;align-items:baseline;gap:12px;margin:14px 4px -4px;font-size:15px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:#e8ecff}
+#sets .era:first-child,#lsets .era:first-child,#shelf .era:first-child{margin-top:0}#sets .era:after,#lsets .era:after,#shelf .era:after{content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--line),transparent);align-self:center}#sets .era small,#lsets .era small,#shelf .era small{font-size:11px;letter-spacing:2px;color:#9aa3d6;font-weight:600}
 
 /* ===== foil v4: blend-mode-free foils (iOS-safe) =====
    No mix-blend-mode anywhere on the card face (iOS Safari drops blending inside 3D-transformed cards and
@@ -364,12 +364,12 @@ h2{font-size:13px;letter-spacing:3px}
 .l-wt{--wm:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' preserveAspectRatio='none'%3E%3Cfilter id='f' x='-10%25' y='-10%25' width='120%25' height='120%25'%3E%3CfeGaussianBlur stdDeviation='.5 .36'/%3E%3C/filter%3E%3Crect x='8.0' y='14.4' width='83.8' height='37.2' fill='%23fff' filter='url(%23f)'/%3E%3C/svg%3E");--rm:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' preserveAspectRatio='none'%3E%3Cfilter id='f' x='-10%25' y='-10%25' width='120%25' height='120%25'%3E%3CfeGaussianBlur stdDeviation='.5 .36'/%3E%3C/filter%3E%3Cpath fill-rule='evenodd' fill='%23fff' filter='url(%23f)' d='M-10 -10H110V110H-10Z M8.0 14.4H91.8V51.6H8.0Z'/%3E%3C/svg%3E")}
 .l-sp{--wm:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' preserveAspectRatio='none'%3E%3Cfilter id='f' x='-10%25' y='-10%25' width='120%25' height='120%25'%3E%3CfeGaussianBlur stdDeviation='.5 .36'/%3E%3C/filter%3E%3Crect x='8.2' y='10.0' width='84.4' height='37.1' fill='%23fff' filter='url(%23f)'/%3E%3C/svg%3E");--rm:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' preserveAspectRatio='none'%3E%3Cfilter id='f' x='-10%25' y='-10%25' width='120%25' height='120%25'%3E%3CfeGaussianBlur stdDeviation='.5 .36'/%3E%3C/filter%3E%3Cpath fill-rule='evenodd' fill='%23fff' filter='url(%23f)' d='M-10 -10H110V110H-10Z M8.2 10.0H92.6V47.1H8.2Z'/%3E%3C/svg%3E")}
 .l-st{--wm:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' preserveAspectRatio='none'%3E%3Cfilter id='f' x='-10%25' y='-10%25' width='120%25' height='120%25'%3E%3CfeGaussianBlur stdDeviation='.5 .36'/%3E%3C/filter%3E%3Crect x='8.2' y='14.4' width='84.5' height='37.5' fill='%23fff' filter='url(%23f)'/%3E%3C/svg%3E");--rm:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' preserveAspectRatio='none'%3E%3Cfilter id='f' x='-10%25' y='-10%25' width='120%25' height='120%25'%3E%3CfeGaussianBlur stdDeviation='.5 .36'/%3E%3C/filter%3E%3Cpath fill-rule='evenodd' fill='%23fff' filter='url(%23f)' d='M-10 -10H110V110H-10Z M8.2 14.4H92.7V51.9H8.2Z'/%3E%3C/svg%3E")}
-.card.f-holo .foil,.card.f-rev .foil,.card.f-etch .foil,.front .foil{display:none}
+.card.f-holo .foil,.card.f-rev .foil,.card.f-etch .foil,.card.f-cold .foil,.card.f-ench .foil,.front .foil{display:none}
 .front .sparkle,.hit .sparkle,.big .sparkle{display:none}
 .front .fx{position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity .35s}
 .front .fx i{position:absolute;inset:0;display:block;transform:none}
 .front .fx .b{display:none}
-.f-holo .fx,.f-rev .fx,.f-etch .fx{opacity:1}
+.f-holo .fx,.f-rev .fx,.f-etch .fx,.f-cold .fx,.f-ench .fx{opacity:1}
 .f-holo .fx,.pocket .pfx.f-holo{-webkit-mask-image:var(--wm);mask-image:var(--wm)}
 .f-rev .fx,.pocket .pfx.f-rev{-webkit-mask-image:var(--rm);mask-image:var(--rm)}
 .f-holo .fx,.f-rev .fx,.pocket .pfx{-webkit-mask-size:100% 100%;mask-size:100% 100%;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
@@ -393,6 +393,16 @@ h2{font-size:13px;letter-spacing:3px}
 .f-etch{--fo:.65;--ts:6px 6px;--tex:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='6' height='6'%3E%3Crect width='6' height='6' fill='%23fff' fill-opacity='.1'/%3E%3Cpath d='M0 6L6 0M-1 1L1-1M5 7L7 5' stroke='%23fff' stroke-opacity='.45' stroke-width='.6'/%3E%3C/svg%3E")}
 .f-etch.t-illus,.f-etch.t-sir{--fo:.6;--ts:140px 140px;--tex:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' seed='4' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 1.4 -.5'/%3E%3C/filter%3E%3Crect width='140' height='140' fill='%23fff' fill-opacity='.12'/%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E")}
 .f-etch.t-gold{--fo:.7;--ts:4px 4px;--tex:repeating-linear-gradient(0deg,rgba(255,232,170,.42) 0 1px,rgba(255,220,140,.16) 1px 2px,rgba(255,226,160,.26) 2px 4px)}
+/* Disney Lorcana: cold foil (foil slot, Epic) covers the whole card with a fine white grain under the moving light band;
+   Enchanted/Iconic add a subtle full-card textured shimmer. White-alpha only, no blend modes, no filters (iOS-safe). */
+.f-cold{--fo:.6;--ts:8px 8px;--tex:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Crect width='8' height='8' fill='%23fff' fill-opacity='.14'/%3E%3Cpath d='M0 8L8 0M-2 2L2-2M6 10L10 6' stroke='%23fff' stroke-opacity='.22' stroke-width='.7'/%3E%3C/svg%3E")}
+.f-ench{--fo:.5;--ts:160px 160px;--tex:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.55' numOctaves='3' seed='11' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 1.25 -.52'/%3E%3C/filter%3E%3Crect width='160' height='160' fill='%23fff' fill-opacity='.10'/%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E")}
+.card.f-cold.tilting .glare,.card.f-ench.tilting .glare{opacity:.9}
+#sets[hidden],#lsets[hidden]{display:none}
+#gtabs,.shelfh{display:flex;justify-content:center;gap:8px;padding:18px 16px 0;max-width:1240px;margin:auto}
+.shelfh{grid-column:1/-1;padding:0 0 4px}
+#gtabs button,.shelfh button{appearance:none;border:1px solid var(--line);background:rgba(255,255,255,.05);color:#c9cff5;font:inherit;font-weight:700;font-size:14px;letter-spacing:.5px;padding:9px 18px;border-radius:999px;cursor:pointer}
+#gtabs button.on,.shelfh button.on{background:linear-gradient(160deg,rgba(255,255,255,.22),rgba(255,255,255,.08));color:#fff;border-color:rgba(255,255,255,.35)}
 /* glossy surface glare: plain low-alpha white (no blend modes), only while tilting */
 .front .glare{background:radial-gradient(ellipse 65% 50% at var(--mx) var(--my),rgba(255,255,255,.16),rgba(255,255,255,.05) 45%,transparent 72%);mix-blend-mode:normal;opacity:0;transition:opacity .3s}
 .card.tilting .glare{opacity:.7}.card.f-holo.tilting .glare,.card.f-rev.tilting .glare{opacity:.85}.card.f-etch.tilting .glare{opacity:1}
@@ -448,7 +458,7 @@ section{content-visibility:auto;contain-intrinsic-size:auto 600px}
 <button id="back" class="ghost" aria-label="Back to sets">← Sets</button><button id="binders" class="ghost" aria-label="Open binders">📚 Binders</button><button id="open" aria-label="Open another pack">Open Another</button><button id="reveal" class="ghost" aria-label="Reveal all cards">Reveal All</button>
 <div class="stats"><span>Packs <b id="count">0</b></span><span>Unique <b id="uniq">0</b></span><span id="godst" hidden title="God packs opened">👑 <b id="godc">0</b></span><a href="#" id="reset" role="button" aria-label="Reset collection">reset</a></div></header>
 <div id="status">Choose a set to begin.</div>
-<div id="vPick" class="view on"><div id="sets"></div></div>
+<div id="vPick" class="view on"><div id="gtabs" role="tablist"><button role="tab" data-g="pkm" class="on" aria-selected="true">Pokémon</button><button role="tab" data-g="lor" aria-selected="false">Disney Lorcana</button></div><div id="sets"></div><div id="lsets" hidden></div></div>
 <div id="vShelf" class="view"><div id="shelf"></div></div>
 <div id="vBinder" class="view"><div id="bbar"><button id="bshelf" class="ghost" aria-label="Back to binder shelf">← Shelf</button><h3 id="btitle"></h3><div class="bfilt"><button data-f="all" class="ghost on">All</button><button data-f="owned" class="ghost">Owned</button><button data-f="missing" class="ghost">Missing</button></div></div>
 <div id="bwrap"><button id="bprev" class="bnav ghost" aria-label="Previous binder page">‹</button><div id="book"></div><button id="bnext" class="bnav ghost" aria-label="Next binder page">›</button></div><div id="bpage"></div></div>
@@ -485,11 +495,27 @@ const SETS=[
  {name:"Chaos Rising",ptcg:"me4",dex:"me04",serie:"me",era:"me",year:2026,colors:["#2e7d32","#e53935"]},
  {name:"Pitch Black",ptcg:"me5",dex:"me05",serie:"me",era:"me",year:2026,colors:["#1a1a2e","#7c4dff"]},
  {name:"30th Celebration",ptcg:"me55",dex:"30th",serie:"me",era:"me",year:2026,allFoil:true,colors:["#c62828","#ffd54a"]},
+ /* Disney Lorcana (second game): appended so Pokemon indices 0-24 stay stable */
+ {name:"The First Chapter",dex:"lorcana-1",code:1,game:"lor",serie:"lor",era:"lor",year:2023,colors:["#3b2a6b","#c9a24a"]},
+ {name:"Rise of the Floodborn",dex:"lorcana-2",code:2,game:"lor",serie:"lor",era:"lor",year:2023,colors:["#5b1f3a","#d4a35c"]},
+ {name:"Into the Inklands",dex:"lorcana-3",code:3,game:"lor",serie:"lor",era:"lor",year:2024,colors:["#7a4a12","#f2c14e"]},
+ {name:"Ursula's Return",dex:"lorcana-4",code:4,game:"lor",serie:"lor",era:"lor",year:2024,colors:["#1d2f5e","#8e5ad8"]},
+ {name:"Shimmering Skies",dex:"lorcana-5",code:5,game:"lor",serie:"lor",era:"lor",year:2024,colors:["#6a2a7a","#f7a8d8"]},
+ {name:"Azurite Sea",dex:"lorcana-6",code:6,game:"lor",serie:"lor",era:"lor",year:2024,colors:["#0e5d6e","#e8c27a"]},
+ {name:"Archazia's Island",dex:"lorcana-7",code:7,game:"lor",serie:"lor",era:"lor",year:2025,colors:["#0f5a4a","#7fd1b9"]},
+ {name:"Reign of Jafar",dex:"lorcana-8",code:8,game:"lor",serie:"lor",era:"lor",year:2025,colors:["#8a1c1c","#f0a43a"]},
+ {name:"Fabled",dex:"lorcana-9",code:9,game:"lor",serie:"lor",era:"lor",year:2025,colors:["#2b2f6b","#d9c7f2"]},
+ {name:"Whispers in the Well",dex:"lorcana-10",code:10,game:"lor",serie:"lor",era:"lor",year:2025,colors:["#16304a","#7ec8e3"]},
+ {name:"Winterspell",dex:"lorcana-11",code:11,game:"lor",serie:"lor",era:"lor",year:2026,colors:["#3a5f9a","#d8ecff"]},
+ {name:"Wilds Unknown",dex:"lorcana-12",code:12,game:"lor",serie:"lor",era:"lor",year:2026,colors:["#a8501a","#f5c04a"]},
+ {name:"Attack of the Vine!",dex:"lorcana-13",code:13,game:"lor",serie:"lor",era:"lor",year:2026,colors:["#3d1a6e","#9bd63a"]},
+ {name:"Hyperia City",dex:"lorcana-14",code:14,game:"lor",serie:"lor",era:"lor",year:2026,colors:["#6b2a1a","#f6c24a"]},
 ];
-const PACKART={"base1": ["assets/packs/base1/venusaur.webp", "assets/packs/base1/charizard.webp", "assets/packs/base1/blastoise.webp", "assets/packs/base1/venusaur-shadowless.webp", "assets/packs/base1/venusaur-unlimited.webp", "assets/packs/base1/blastoise-unlimited.webp", "assets/packs/base1/charizard-unlimited.webp"], "base2": ["assets/packs/base2/scyther.webp", "assets/packs/base2/flareon.webp", "assets/packs/base2/wigglytuff.webp"], "base3": ["assets/packs/base3/aerodactyl.webp", "assets/packs/base3/lapras.webp", "assets/packs/base3/zapdos.webp"], "sv03.5": ["assets/packs/sv03.5/mew.webp"], "sv08": ["assets/packs/sv08/pikachu.webp", "assets/packs/sv08/latias.webp", "assets/packs/sv08/archaludon.webp", "assets/packs/sv08/exeggutor.webp"], "swsh7": ["assets/packs/swsh7/rayquaza.webp", "assets/packs/swsh7/umbreon.webp", "assets/packs/swsh7/sylveon.webp", "assets/packs/swsh7/duraludon.webp"], "sv08.5": ["assets/packs/sv08.5/eevee-sylveon.webp", "assets/packs/sv08.5/espeon-umbreon.webp", "assets/packs/sv08.5/leafeon-glaceon.webp", "assets/packs/sv08.5/vaporeon-jolteon-flareon.webp"], "sv09": ["assets/packs/sv09/hop-zacian.webp", "assets/packs/sv09/iono-bellibolt.webp", "assets/packs/sv09/lillie-clefairy.webp", "assets/packs/sv09/n-zoroark.webp"], "sv10": ["assets/packs/sv10/team-rocket.webp", "assets/packs/sv10/giovanni-mewtwo.webp", "assets/packs/sv10/cynthia-garchomp.webp", "assets/packs/sv10/ethan-ho-oh.webp"], "sv10.5b": ["assets/packs/sv10.5b/zekrom.webp"], "sv10.5w": ["assets/packs/sv10.5w/reshiram.webp"], "me01": ["assets/packs/me01/mega-gardevoir.webp", "assets/packs/me01/mega-lucario.webp", "assets/packs/me01/mega-venusaur.webp", "assets/packs/me01/mega-kangaskhan.webp"], "me02": ["assets/packs/me02/mega-charizard-x.webp", "assets/packs/me02/mega-gengar.webp", "assets/packs/me02/mega-heracross.webp", "assets/packs/me02/mega-lopunny.webp"], "me02.5": ["assets/packs/me02.5/heroes.webp"], "me03": ["assets/packs/me03/mega-zygarde.webp", "assets/packs/me03/mega-starmie.webp", "assets/packs/me03/mega-clefable.webp", "assets/packs/me03/meowth.webp"], "me04": ["assets/packs/me04/mega-greninja.webp", "assets/packs/me04/mega-floette.webp", "assets/packs/me04/mega-pyroar.webp", "assets/packs/me04/mega-dragalge.webp"], "me05": ["assets/packs/me05/mega-darkrai.webp", "assets/packs/me05/mega-zeraora.webp", "assets/packs/me05/mega-chandelure.webp", "assets/packs/me05/mega-excadrill.webp"], "30th": ["assets/packs/30th/pikachu.webp"], "base5": ["assets/packs/base5/team-rocket.webp", "assets/packs/base5/giovanni.webp", "assets/packs/base5/jessie-james.webp", "assets/packs/base5/gyarados.webp"], "neo1": ["assets/packs/neo1/typhlosion.webp", "assets/packs/neo1/lugia.webp"], "cel25": ["assets/packs/cel25/celebrations.webp"], "swsh12.5": ["assets/packs/swsh12.5/zacian-zamazenta.webp"], "sv03": ["assets/packs/sv03/charizard.webp", "assets/packs/sv03/tyranitar.webp", "assets/packs/sv03/dragonite.webp", "assets/packs/sv03/revavroom.webp"], "sv04.5": ["assets/packs/sv04.5/pikachu.webp", "assets/packs/sv04.5/ceruledge.webp", "assets/packs/sv04.5/tinkaton.webp", "assets/packs/sv04.5/dondozo.webp"], "sv06": ["assets/packs/sv06/ogerpon.webp", "assets/packs/sv06/dragapult.webp", "assets/packs/sv06/ursaluna.webp", "assets/packs/sv06/sinistcha.webp"]};
+const PACKART={"base1": ["assets/packs/base1/venusaur.webp", "assets/packs/base1/charizard.webp", "assets/packs/base1/blastoise.webp", "assets/packs/base1/venusaur-shadowless.webp", "assets/packs/base1/venusaur-unlimited.webp", "assets/packs/base1/blastoise-unlimited.webp", "assets/packs/base1/charizard-unlimited.webp"], "base2": ["assets/packs/base2/scyther.webp", "assets/packs/base2/flareon.webp", "assets/packs/base2/wigglytuff.webp"], "base3": ["assets/packs/base3/aerodactyl.webp", "assets/packs/base3/lapras.webp", "assets/packs/base3/zapdos.webp"], "sv03.5": ["assets/packs/sv03.5/mew.webp"], "sv08": ["assets/packs/sv08/pikachu.webp", "assets/packs/sv08/latias.webp", "assets/packs/sv08/archaludon.webp", "assets/packs/sv08/exeggutor.webp"], "swsh7": ["assets/packs/swsh7/rayquaza.webp", "assets/packs/swsh7/umbreon.webp", "assets/packs/swsh7/sylveon.webp", "assets/packs/swsh7/duraludon.webp"], "sv08.5": ["assets/packs/sv08.5/eevee-sylveon.webp", "assets/packs/sv08.5/espeon-umbreon.webp", "assets/packs/sv08.5/leafeon-glaceon.webp", "assets/packs/sv08.5/vaporeon-jolteon-flareon.webp"], "sv09": ["assets/packs/sv09/hop-zacian.webp", "assets/packs/sv09/iono-bellibolt.webp", "assets/packs/sv09/lillie-clefairy.webp", "assets/packs/sv09/n-zoroark.webp"], "sv10": ["assets/packs/sv10/team-rocket.webp", "assets/packs/sv10/giovanni-mewtwo.webp", "assets/packs/sv10/cynthia-garchomp.webp", "assets/packs/sv10/ethan-ho-oh.webp"], "sv10.5b": ["assets/packs/sv10.5b/zekrom.webp"], "sv10.5w": ["assets/packs/sv10.5w/reshiram.webp"], "me01": ["assets/packs/me01/mega-gardevoir.webp", "assets/packs/me01/mega-lucario.webp", "assets/packs/me01/mega-venusaur.webp", "assets/packs/me01/mega-kangaskhan.webp"], "me02": ["assets/packs/me02/mega-charizard-x.webp", "assets/packs/me02/mega-gengar.webp", "assets/packs/me02/mega-heracross.webp", "assets/packs/me02/mega-lopunny.webp"], "me02.5": ["assets/packs/me02.5/heroes.webp"], "me03": ["assets/packs/me03/mega-zygarde.webp", "assets/packs/me03/mega-starmie.webp", "assets/packs/me03/mega-clefable.webp", "assets/packs/me03/meowth.webp"], "me04": ["assets/packs/me04/mega-greninja.webp", "assets/packs/me04/mega-floette.webp", "assets/packs/me04/mega-pyroar.webp", "assets/packs/me04/mega-dragalge.webp"], "me05": ["assets/packs/me05/mega-darkrai.webp", "assets/packs/me05/mega-zeraora.webp", "assets/packs/me05/mega-chandelure.webp", "assets/packs/me05/mega-excadrill.webp"], "30th": ["assets/packs/30th/pikachu.webp"], "base5": ["assets/packs/base5/team-rocket.webp", "assets/packs/base5/giovanni.webp", "assets/packs/base5/jessie-james.webp", "assets/packs/base5/gyarados.webp"], "neo1": ["assets/packs/neo1/typhlosion.webp", "assets/packs/neo1/lugia.webp"], "cel25": ["assets/packs/cel25/celebrations.webp"], "swsh12.5": ["assets/packs/swsh12.5/zacian-zamazenta.webp"], "sv03": ["assets/packs/sv03/charizard.webp", "assets/packs/sv03/tyranitar.webp", "assets/packs/sv03/dragonite.webp", "assets/packs/sv03/revavroom.webp"], "sv04.5": ["assets/packs/sv04.5/pikachu.webp", "assets/packs/sv04.5/ceruledge.webp", "assets/packs/sv04.5/tinkaton.webp", "assets/packs/sv04.5/dondozo.webp"], "sv06": ["assets/packs/sv06/ogerpon.webp", "assets/packs/sv06/dragapult.webp", "assets/packs/sv06/ursaluna.webp", "assets/packs/sv06/sinistcha.webp"], "lorcana-1": ["assets/packs/lorcana-1/a.webp", "assets/packs/lorcana-1/b.webp", "assets/packs/lorcana-1/c.webp"], "lorcana-2": ["assets/packs/lorcana-2/a.webp", "assets/packs/lorcana-2/b.webp", "assets/packs/lorcana-2/c.webp"], "lorcana-3": ["assets/packs/lorcana-3/a.webp", "assets/packs/lorcana-3/b.webp", "assets/packs/lorcana-3/c.webp"], "lorcana-4": ["assets/packs/lorcana-4/a.webp", "assets/packs/lorcana-4/b.webp", "assets/packs/lorcana-4/c.webp"], "lorcana-5": ["assets/packs/lorcana-5/a.webp", "assets/packs/lorcana-5/b.webp", "assets/packs/lorcana-5/c.webp"], "lorcana-6": ["assets/packs/lorcana-6/a.webp", "assets/packs/lorcana-6/b.webp", "assets/packs/lorcana-6/c.webp"], "lorcana-7": ["assets/packs/lorcana-7/a.webp", "assets/packs/lorcana-7/b.webp", "assets/packs/lorcana-7/c.webp"], "lorcana-8": ["assets/packs/lorcana-8/a.webp"], "lorcana-9": ["assets/packs/lorcana-9/a.webp", "assets/packs/lorcana-9/b.webp", "assets/packs/lorcana-9/c.webp"], "lorcana-10": ["assets/packs/lorcana-10/a.webp", "assets/packs/lorcana-10/b.webp", "assets/packs/lorcana-10/c.webp"], "lorcana-11": ["assets/packs/lorcana-11/a.webp", "assets/packs/lorcana-11/b.webp", "assets/packs/lorcana-11/c.webp"], "lorcana-12": ["assets/packs/lorcana-12/a.webp", "assets/packs/lorcana-12/b.webp", "assets/packs/lorcana-12/c.webp"], "lorcana-13": ["assets/packs/lorcana-13/a.webp"], "lorcana-14": ["assets/packs/lorcana-14/a.webp", "assets/packs/lorcana-14/b.webp", "assets/packs/lorcana-14/c.webp"]};
 const VSEQ={};function packVariant(s,i){const l=PACKART[s.dex];if(!l)return -1;let q=VSEQ[s.dex];if(!q){q=VSEQ[s.dex]=[];for(let k=0;k<16;k++){let v,t=0;do{v=Math.floor(Math.random()*l.length);t++}while(l.length>1&&t<50&&(v===q[k-1]||(k===15&&v===q[0])));q.push(v)}}return q[((i%16)+16)%16]}
 const TIERS={common:0,uncommon:1,rare:2,holo:3,ultra:4,illus:5,sir:6};
-function tier(r){r=(r||"").toLowerCase();
+const LORT={"super rare":"holo",legendary:"ultra",epic:"illus",enchanted:"sir",iconic:"sir"};
+function tier(r){r=(r||"").toLowerCase();if(LORT[r])return LORT[r];
  if(/futuristic|rgb rare|galarian gallery (v|gold)/.test(r))return"sir";
  if(/galarian gallery/.test(r))return"illus";
  if(/classic collection|shiny ultra|radiant|amazing/.test(r))return"ultra";
@@ -506,8 +532,8 @@ function keyOf(id){const k=id.lastIndexOf("-");return [id.slice(0,k),id.slice(k+
 if(!store.sets){store.sets={};for(const [id,c] of Object.entries(store.coll||{})){const [d,n]=keyOf(id);(store.sets[d]=store.sets[d]||{})[n]={name:c.name,rarity:c.rarity||"",imgs:c.imgs||[c.img],n:c.n}}}
 /* image URL lists are derived (not persisted) to keep localStorage small: a full collection used to approach the 5MB quota */
 const SETBY=Object.fromEntries(SETS.map(s=>[s.dex,s]));SETBY.sve={dex:"sve",serie:"sv",ptcg:"sve"};
-(function hydrate(){const lidOf={};for(const id of Object.keys(store.coll||{})){const k=id.lastIndexOf("-"),d=id.slice(0,k),lid=id.slice(k+1),c=store.coll[id];(lidOf[d]=lidOf[d]||{})[lid.replace(/^0+(?=\w)/,"")]=lid;if((!c.imgs||!c.imgs.length)&&SETBY[d])c.imgs=cardSrcs(SETBY[d],lid)}
- for(const [d,o] of Object.entries(store.sets||{}))for(const [n,c] of Object.entries(o))if((!c.imgs||!c.imgs.length)&&SETBY[d])c.imgs=cardSrcs(SETBY[d],c.lid||(lidOf[d]&&lidOf[d][n])||n)})();
+(function hydrate(){const lidOf={};for(const id of Object.keys(store.coll||{})){const k=id.lastIndexOf("-"),d=id.slice(0,k),lid=id.slice(k+1),c=store.coll[id];(lidOf[d]=lidOf[d]||{})[lid.replace(/^0+(?=\w)/,"")]=lid;if((!c.imgs||!c.imgs.length)&&SETBY[d])c.imgs=SETBY[d].game==="lor"?lorSrcs(SETBY[d],lid,c.x):cardSrcs(SETBY[d],lid)}
+ for(const [d,o] of Object.entries(store.sets||{}))for(const [n,c] of Object.entries(o))if((!c.imgs||!c.imgs.length)&&SETBY[d]){const l=c.lid||(lidOf[d]&&lidOf[d][n])||n;c.imgs=SETBY[d].game==="lor"?lorSrcs(SETBY[d],l,c.x):cardSrcs(SETBY[d],l)}})();
 const ser=()=>JSON.stringify(store,(k,v)=>k==="imgs"?undefined:v);
 if(!store.migrated){store.migrated=1;try{localStorage.setItem("pps",ser())}catch(e){}}
 const save=()=>{try{localStorage.setItem("pps",ser())}catch(e){}};
@@ -523,15 +549,19 @@ function nextImg(el){el.removeAttribute("srcset");const rest=JSON.parse(el.datas
  el.onerror=null;const d=document.createElement("div");d.className=el.dataset.ph||"ph";const num=el.dataset.num;
  d.innerHTML=d.className==="ph"?`<div class="phn">${num?"#"+esc(num):""}</div><div class="phl">${esc(el.dataset.label)}</div><div class="phs">${esc(el.dataset.sub)}</div><div class="phx">image unavailable</div>`:`<div style="font-size:18px">${esc(el.dataset.label)}</div><div style="font-size:12px;margin-top:6px">${esc(el.dataset.sub)}</div>`;el.replaceWith(d)}
 function srcsetFor(u){u=u||"";const sz=' sizes="(min-width:900px) 130px, 31vw" ';if(/\/high\.webp$/.test(u))return `srcset="${esc(u.replace(/high\.webp$/,"low.webp"))} 245w, ${esc(u)} 600w"`+sz;if(/_hires\.png$/.test(u))return `srcset="${esc(u.replace(/_hires\.png$/,".png"))} 245w, ${esc(u)} 734w"`+sz;return ""}
-function cardSrcs(s,localId,extra=[]){const n=String(localId).replace(/^0+(?=\d)/,"");const base=`https://assets.tcgdex.net/en/${s.serie}/${s.dex}/${localId}`;
+/* Lorcana image chain from the compact key "db|lorcast|tcgplayer" (tools/build_lorcana.py): Dreamborn webp (sets 1-9) -> Lorcast large AVIF -> TCGplayer jpg -> Lorcast normal AVIF -> placeholder */
+function lorSrcs(s,lid,x){const [db,lc,tp]=(x||(s.code<=9?"1||":"0||")).split("|"),n=String(lid).padStart(3,"0"),L=lc?lc.replace("?",".avif?"):"";
+ return [db==="1"&&`https://cdn.dreamborn.ink/images/en/cards/${String(s.code).padStart(3,"0")}-${n}`,L&&`https://cards.lorcast.io/card/digital/large/${L}`,tp&&`https://tcgplayer-cdn.tcgplayer.com/product/${tp}_in_1000x1000.jpg`,L&&`https://cards.lorcast.io/card/digital/normal/${L}`].filter(Boolean)}
+function cardSrcs(s,localId,extra=[]){if(s.game==="lor")return lorSrcs(s,localId);const n=String(localId).replace(/^0+(?=\d)/,"");const base=`https://assets.tcgdex.net/en/${s.serie}/${s.dex}/${localId}`;
  return [`${base}/high.webp`,...extra,`${base}/low.webp`,`${base}/high.png`,`${base}/low.png`,`https://images.pokemontcg.io/${s.ptcg}/${n}.png`,`https://images.pokemontcg.io/${s.ptcg}/${n}_hires.png`].filter((v,i,a)=>v&&a.indexOf(v)===i)}
 const logoSet=s=>`srcset="assets/logos/${s.dex}-480.webp 480w, assets/logos/${s.dex}.webp 640w" sizes="(max-width:699px) 150px, 240px" `;
-const logoSrcs=s=>[`assets/logos/${s.dex}.webp`,`assets/logos/${s.dex}.png`,`https://assets.tcgdex.net/en/${s.serie}/${s.dex}/logo.png`,`https://images.pokemontcg.io/${s.ptcg}/logo.png`,`https://assets.tcgdex.net/en/${s.serie}/${s.dex}/logo.webp`];
+const logoSrcs=s=>s.game==="lor"?[`assets/logos/${s.dex}.webp`,`assets/logos/${s.dex}.png`]:[`assets/logos/${s.dex}.webp`,`assets/logos/${s.dex}.png`,`https://assets.tcgdex.net/en/${s.serie}/${s.dex}/logo.png`,`https://images.pokemontcg.io/${s.ptcg}/logo.png`,`https://assets.tcgdex.net/en/${s.serie}/${s.dex}/logo.webp`];
 /* ---------- data ---------- */
 async function fetchT(u,ms=8000){const c=new AbortController();const t=setTimeout(()=>c.abort(),ms);try{const r=await fetch(u,{signal:c.signal});if(!r.ok)throw Error(r.status);return await r.json()}finally{clearTimeout(t)}}
 const DATA_V=3;try{Object.keys(localStorage).filter(k=>/^pp[cl]_v\d+_/.test(k)).forEach(k=>localStorage.removeItem(k))}catch(e){}
 async function loadStatic(s){const d=await fetchT(`data/${encodeURIComponent(s.dex)}.json`,12000);
  if(!d||!d.cards||!d.cards.length)throw Error("empty");
+ if(s.game==="lor")return d.cards.map(c=>({id:c.id,name:c.name,rarity:c.rarity||"Common",ink:c.ink,era:"lor",x:c.x,imgs:lorSrcs(s,c.lid,c.x)}));
  return d.cards.map(c=>({id:c.id,name:c.name,k:c.k,rarity:c.rarity||"Common",imgs:c.pimg?pimgSrcs(c.pimg):cardSrcs(s,c.lid,c.img?[c.img+"/high.webp",c.img+"/low.webp"]:[])}))}
 function pimgSrcs(u){return [u,u.replace(/_hires\.png$/,".png").replace(/\/large$/,"/medium")].filter((v,i,a)=>a.indexOf(v)===i)}
 async function loadPTCG(s){const d=await fetchT(`https://api.pokemontcg.io/v2/cards?q=set.id:${s.ptcg}&pageSize=250&select=id,name,number,rarity,images`);
@@ -543,7 +573,7 @@ const LOADING={};function getCards(s){if(cache[s.dex]&&PR)return Promise.resolve
 async function getCards0(s){await loadPR();if(cache[s.dex])return cache[s.dex];
  
  let cards,src;
- try{cards=await loadStatic(s);src="local"}catch(e1){try{cards=await loadPTCG(s);src="pokemontcg.io"}catch(e2){cards=await loadDex(s);src="TCGdex"}}
+ try{cards=await loadStatic(s);src="local"}catch(e1){if(s.game==="lor")throw e1;try{cards=await loadPTCG(s);src="pokemontcg.io"}catch(e2){cards=await loadDex(s);src="TCGdex"}}
  const pools={};cards.forEach(c=>{c.tier=tier(c.rarity);(pools[c.tier]=pools[c.tier]||[]).push(c)});
  const out={pools,src,n:cards.length};
  return cache[s.dex]=out}
@@ -585,7 +615,18 @@ function swshPack(s,p,pack,C){const R=C.rates,m=swshPools(p);
  const x=slotRoll([["ggg",has("ggg")&&R.ggg],["ggv",has("ggv")&&R.ggv],["gg",has("gg")&&R.gg],["rad",has("rad")&&R.rad]]);
  pack.push(x?{...g(x)}:{...g(roll([["c",.5],["u",.3],["r",.2]]),"c"),rev:true});
  const k=slotRoll([["sec",R.sec],["ur",R.ur],["vmax",R.vmax],["v",R.v],["holo",R.holo]]);pack.push({...g(k||"r","r")});finish(pack)}
-const PR_DEF={wotc:{rates:{holo:1/3}},swsh:{rates:{holo:1/3,v:1/9,vmax:1/18,ur:1/26,sec:1/60}},sv:{rates:{dr:1/6,ur:1/15,ir:1/12,sir:1/86,hr:1/150,ace:1/20}}};
+/* Disney Lorcana: 12 cards = 6 commons, 3 uncommons, 2 rare-or-better slots (Rare/Super Rare/Legendary), 1 foil slot of any rarity.
+   Enchanted (and from Fabled on, Epic/Iconic) replace the foil. No god packs exist for Lorcana. Rates + sources: data/pullrates.json */
+const LPOOLS=new WeakMap();
+function lorPools(p){let m=LPOOLS.get(p);if(m)return m;m={};const K={common:"c",uncommon:"u",rare:"r","super rare":"sr",legendary:"l",epic:"ep",enchanted:"en",iconic:"ic"};
+ Object.values(p).flat().forEach(c=>{const k=K[(c.rarity||"").toLowerCase()]||"c";(m[k]=m[k]||[]).push(c)});LPOOLS.set(p,m);return m}
+function lorPack(s,p,pack,C){const R=C.rates||{},m=lorPools(p),has=k=>m[k]&&m[k].length,g=(...ks)=>{for(const k of ks)if(has(k))return pick(m[k]);return from(p,"common")};
+ for(let i=0;i<6;i++)pack.push({...g("c")});for(let i=0;i<3;i++)pack.push({...g("u","c")});
+ for(let i=0;i<2;i++){const k=slotRoll([["l",R.l],["sr",R.sr]]);pack.push({...g(k||"r","r")})}
+ const sp=slotRoll([["ic",has("ic")&&R.ic],["en",has("en")&&R.en],["ep",has("ep")&&R.ep]]);
+ if(sp)pack.push({...g(sp),foil:true});else{const f=slotRoll([["l",R.fl],["sr",R.fsr],["r",R.fr],["u",R.fu]]);pack.push({...g(f||"c","c"),rev:true,foil:true})}
+ finish(pack)}
+const PR_DEF={lor:{structure:"lor",rates:{sr:.25,l:.095,fl:.024,fsr:.05,fr:.145,fu:.285,en:1/96,ep:0,ic:0}},wotc:{rates:{holo:1/3}},swsh:{rates:{holo:1/3,v:1/9,vmax:1/18,ur:1/26,sec:1/60}},sv:{rates:{dr:1/6,ur:1/15,ir:1/12,sir:1/86,hr:1/150,ace:1/20}}};
 /* ---------- god packs (only sets with documented English god/demigod packs; see data/pullrates.json godPacks) ---------- */
 const GOD_FORCE=new URLSearchParams(location.search).get("god");
 function godKind(C){const L=C&&C.godPacks;if(!L||!L.length)return null;
@@ -606,10 +647,11 @@ function godPack(s,p,G){const m=rpools(p),used=new Set(),pack=[],gh=c=>({...c,gh
  /* best card at the bottom: stable sort hits by tier keeping the chosen chase last */
  const fill=pack.filter(c=>!c.gh),hits=tierSort(pack.filter(c=>c.gh));/* stable: chase pushed last stays last among equal tiers */
  const out=[...fill,...hits];out.god={kind:G.kind,label:G.label};return out}
-function buildPack(s,p){const G=s.era!=="wotc"&&godKind(PR&&PR[s.dex]);if(G)return godPack(s,p,G);const pack=[],C=(PR&&PR[s.dex])||PR_DEF[s.era==="wotc"?"wotc":s.serie==="swsh"?"swsh":"sv"];
+function buildPack(s,p){const G=s.era!=="wotc"&&godKind(PR&&PR[s.dex]);if(G)return godPack(s,p,G);const pack=[],C=(PR&&PR[s.dex])||PR_DEF[s.game==="lor"?"lor":s.era==="wotc"?"wotc":s.serie==="swsh"?"swsh":"sv"];
  if(s.era==="wotc"){const R=C.rates.holo??1/3,ne=C.energy||0;for(let i=0;i<7-ne;i++)pack.push({...from(p,"common")});
   for(let i=0;i<ne;i++)pack.splice(Math.floor(Math.random()*(pack.length+1)),0,{...pick(ENERGY.wotc)});
   for(let i=0;i<3;i++)pack.push({...from(p,"uncommon")});pack.push({...from(p,Math.random()<R?"holo":"rare","rare","holo")})}
+ else if(s.game==="lor"||C.structure==="lor")lorPack(s,p,pack,C);
  else if(C.structure==="cel")celPack(s,p,pack,C);
  else if(C.structure==="c30")c30Pack(s,p,pack,C);
  else if(s.serie==="swsh")swshPack(s,p,pack,C);
@@ -624,23 +666,31 @@ const ERAS=[["me","Mega Evolution"],["sv","Scarlet & Violet"],["swsh","Sword & S
 $("sets").innerHTML=ERAS.map(([g,label])=>{const l=SETS.map((s,i)=>[s,i]).filter(([s])=>(s.grp||s.serie)===g).reverse();if(!l.length)return"";
  return `<h2 class="era" data-era="${g}"><span>${label}</span><small>${l.length} set${l.length>1?"s":""}</small></h2>`+l.map(([s,i],k)=>`<div class="tile" data-i="${i}" style="--c1:${s.colors[0]};animation-delay:${Math.min(k,8)*60}ms"><img class="sym" referrerpolicy="no-referrer" src="https://images.pokemontcg.io/${s.ptcg}/symbol.png" onerror="this.remove()">
  <div class="logo">${img(logoSrcs(s),s.name,"").replace("<img ",'<img loading="lazy" decoding="async" data-ph="txtlogo" '+logoSet(s))}</div><h3>${esc(s.name)}</h3><small>${s.year}</small></div>`).join("")}).join("");
-document.querySelectorAll(".tile").forEach(t=>t.onclick=()=>chooseSet(SETS[t.dataset.i]));
+{const l=SETS.map((s,i)=>[s,i]).filter(([s])=>s.game==="lor").reverse();
+ $("lsets").innerHTML=`<h2 class="era" data-era="lor"><span>Disney Lorcana</span><small>${l.length} sets</small></h2>`+l.map(([s,i],k)=>`<div class="tile ltile" data-i="${i}" style="--c1:${s.colors[0]};animation-delay:${Math.min(k,8)*60}ms">
+ <div class="logo">${img(logoSrcs(s),s.name,"").replace("<img ",'<img loading="lazy" decoding="async" data-ph="txtlogo" '+logoSet(s))}</div><h3>${esc(s.name)}</h3><small>${s.year}</small></div>`).join("")}
+document.querySelectorAll(".tile[data-i]").forEach(t=>t.onclick=()=>chooseSet(SETS[t.dataset.i]));
+/* game switch: Pokemon / Disney Lorcana (remembered) */
+let GAME="pkm";function setGame(g){GAME=g==="lor"?"lor":"pkm";$("sets").hidden=GAME!=="pkm";$("lsets").hidden=GAME!=="lor";
+ document.querySelectorAll("#gtabs button").forEach(b=>{const on=b.dataset.g===GAME;b.classList.toggle("on",on);b.setAttribute("aria-selected",on)});try{localStorage.setItem("ppsGame",GAME)}catch(e){}window.fxKick&&fxKick()}
+document.querySelectorAll("#gtabs button").forEach(b=>b.onclick=()=>setGame(b.dataset.g));
+try{if(localStorage.getItem("ppsGame")==="lor")setGame("lor")}catch(e){}
 /* ---------- binders ---------- */
 const BSETS=[...SETS];/* SV Basic Energy binder hidden: no set pulls SV energy (saved data kept) */
-$("sets").insertAdjacentHTML("beforeend",`<div class="tile btile" style="--c1:#8d6e63"><div class="logo"><div class="bicon">📚</div></div><h3>My Binders</h3><small>COLLECTION</small></div>`);
-document.querySelector(".btile").onclick=()=>openShelf();$("binders").onclick=()=>openShelf();$("bshelf").onclick=()=>openShelf();
+{const bt=`<div class="tile btile" style="--c1:#8d6e63"><div class="logo"><div class="bicon">📚</div></div><h3>My Binders</h3><small>COLLECTION</small></div>`;$("sets").insertAdjacentHTML("beforeend",bt);$("lsets").insertAdjacentHTML("beforeend",bt)}
+document.querySelectorAll(".btile").forEach(b=>b.onclick=()=>openShelf());$("binders").onclick=()=>openShelf();$("bshelf").onclick=()=>openShelf();
 const LISTS={};
 async function setList(s){if(LISTS[s.dex])return LISTS[s.dex];
- let l;try{const d=await fetchT(`data/${encodeURIComponent(s.dex)}.json`,12000);l=(d.cards||[]).map(c=>({n:c.n,lid:c.lid,name:c.name,k:c.k}))}
+ let l;try{const d=await fetchT(`data/${encodeURIComponent(s.dex)}.json`,12000);l=(d.cards||[]).map(c=>({n:c.n,lid:c.lid,name:c.name,k:c.k,x:c.x}))}
  catch(e){const d=await fetchT(`https://api.tcgdex.net/v2/en/sets/${s.dex}`,15000);l=(d.cards||[]).map(c=>({n:String(c.localId).replace(/^0+(?=\w)/,""),lid:c.localId,name:c.name})).sort((a,b)=>(parseInt(a.n)||1e4)-(parseInt(b.n)||1e4)||a.n.localeCompare(b.n))}
  return LISTS[s.dex]=l}
 const owned=s=>store.sets[s.dex]||{};
-async function openShelf(){show("vShelf");$("status").textContent="Your binders — tap one to open it.";
- $("shelf").innerHTML=BSETS.map((s,i)=>`<div class="binder" data-i="${i}" style="--a:${s.colors[0]};--b:${s.colors[1]};animation-delay:${i*60}ms"><div class="spine"></div><div class="cover">
+async function openShelf(g){if(g)GAME=g==="lor"?"lor":"pkm";const G=GAME;show("vShelf");$("status").textContent="Your binders — tap one to open it.";
+ $("shelf").innerHTML=`<div class="shelfh" role="tablist"><button data-g="pkm" class="${G==="pkm"?"on":""}">Pokémon</button><button data-g="lor" class="${G==="lor"?"on":""}">Disney Lorcana</button></div>`+BSETS.map((s,i)=>((s.game==="lor")!==(G==="lor"))?"":`<div class="binder" data-i="${i}" style="--a:${s.colors[0]};--b:${s.colors[1]};animation-delay:${i*60}ms"><div class="spine"></div><div class="cover">
   <div class="blogo">${s.energy?'<div class="txtlogo">BASIC ENERGY</div>':img(logoSrcs(s),s.name,"").replace("<img ",'<img decoding="async" data-ph="txtlogo" '+logoSet(s))}</div><div class="bname">${esc(s.name)}</div>
   <div class="bprog"><i style="width:0"></i></div><div class="bcount loading skel" id="bc${i}"></div></div></div>`).join("");
- document.querySelectorAll(".binder").forEach(b=>b.onclick=()=>openBinder(BSETS[b.dataset.i]));
- BSETS.forEach(async(s,i)=>{try{const l=await setList(s);const o=owned(s),have=l.filter(c=>o[c.n]).length;$("bc"+i).classList.remove("loading","skel");$("bc"+i).textContent=`${have} / ${l.length} · ${Math.round(have/l.length*100)}%`;
+ document.querySelectorAll(".binder").forEach(b=>b.onclick=()=>openBinder(BSETS[b.dataset.i]));document.querySelectorAll(".shelfh button").forEach(b=>b.onclick=()=>{setGame(b.dataset.g);openShelf(b.dataset.g)});
+ BSETS.forEach(async(s,i)=>{if((s.game==="lor")!==(G==="lor"))return;try{const l=await setList(s);const o=owned(s),have=l.filter(c=>o[c.n]).length;$("bc"+i).classList.remove("loading","skel");$("bc"+i).textContent=`${have} / ${l.length} · ${Math.round(have/l.length*100)}%`;
   document.querySelector(`.binder[data-i="${i}"] .bprog i`).style.width=(have/l.length*100)+"%"}catch(e){$("bc"+i).classList.remove("loading","skel");$("bc"+i).textContent=`${Object.keys(owned(s)).length} owned`}})}
 let B={s:null,list:[],page:0,filter:"all"};
 const perView=()=>innerWidth>=900?2:1;
@@ -650,8 +700,8 @@ async function openBinder(s){B={s,list:[],page:0,filter:"all"};show("vBinder");$
 function slots(){const o=owned(B.s);return B.list.filter(c=>B.filter==="all"||(B.filter==="owned"?o[c.n]:!o[c.n]))}
 function pageHTML(p){const o=owned(B.s),l=slots().slice(p*9,p*9+9);let h="";
  for(let k=0;k<9;k++){const c=l[k];if(!c){h+='<div class="pocket empty"></div>';continue}const own=o[c.n];
-  const srcs=own?own.imgs:cardSrcs(B.s,c.lid);
-  const pf=own?foilCls({rarity:own.rarity,k:c.k,rev:!!own.rv&&TIERS[tier(own.rarity)]<3},B.s.era,B.s.serie,B.s.allFoil):"";h+=`<div class="pocket ${own?"own":"miss"}${pf.includes("e-mod")?" e-mod":""}" data-n="${esc(c.n)}">${own?img(srcs,c.name,own.rarity).replace("<img ",'<img loading="lazy" decoding="async" '+srcsetFor(srcs[0])):`<div class="slotnum">#${esc(c.lid)}</div><div class="slotname">${esc(c.name)}</div>`}${own&&/f-/.test(pf)?`<div class="pfx${pf}"></div>`:""}${own?`<span class="cnt">×${own.n}</span>`:""}<div class="sleeve"></div></div>`}
+  const srcs=own?(B.s.game==="lor"?lorSrcs(B.s,c.lid,c.x):own.imgs):cardSrcs(B.s,c.lid);
+  const pf=own?foilCls({rarity:own.rarity,k:c.k,rev:!!own.rv&&(B.s.game==="lor"||TIERS[tier(own.rarity)]<3)},B.s.era,B.s.serie,B.s.allFoil):"";h+=`<div class="pocket ${own?"own":"miss"}${pf.includes("e-mod")?" e-mod":""}" data-n="${esc(c.n)}">${own?img(srcs,c.name,own.rarity).replace("<img ",'<img loading="lazy" decoding="async" '+srcsetFor(srcs[0])):`<div class="slotnum">#${esc(c.lid)}</div><div class="slotname">${esc(c.name)}</div>`}${own&&/f-/.test(pf)?`<div class="pfx${pf}"></div>`:""}${own?`<span class="cnt">×${own.n}</span>`:""}<div class="sleeve"></div></div>`}
  return `<div class="page" data-p="${p}"><div class="pgrid">${h}</div><div class="pno">${p+1}</div></div>`}
 const pages=()=>Math.max(1,Math.ceil(slots().length/9));
 function renderBook(){const pv=perView(),N=pages();B.page=Math.max(0,Math.min(B.page,N-1));B.page-=B.page%pv;
@@ -678,7 +728,7 @@ addEventListener("keydown",e=>{
   if($("viewer").classList.contains("on")){$("viewer").classList.remove("on");return}
  }});
 function bindPockets(){}
-function viewCard(n){const own=owned(B.s)[n],c=B.list.find(x=>x.n===n);if(!own)return;const cd={name:own.name,rarity:own.rarity,imgs:own.imgs,tier:tier(own.rarity)};
+function viewCard(n){const own=owned(B.s)[n],c=B.list.find(x=>x.n===n);if(!own)return;const cd={name:own.name,rarity:own.rarity,imgs:B.s.game==="lor"&&c?lorSrcs(B.s,c.lid,c.x):own.imgs,tier:tier(own.rarity),era:B.s.era,rev:B.s.game==="lor"&&!!own.rv};
  const el=cardEl(cd,0);el.classList.add("flipped");tilt(el);$("vcard").innerHTML="";$("vcard").appendChild(el);
  $("vinfo").innerHTML=`<b>${esc(own.name)}</b> · #${esc(c?c.lid:n)} · ${esc(own.rarity||"")} · owned ×${own.n}<br><small>tap outside to close</small>`;$("viewer").classList.add("on")}
 $("viewer").addEventListener("click",e=>{if(!e.target.closest(".card"))$("viewer").classList.remove("on")});
@@ -737,10 +787,11 @@ function snap(){state="snap";const from0=pos,target=Math.round(pos/PW+Math.sign(
   landHere(true)};raf=requestAnimationFrame(step)}
 /* ---------- reveal ---------- */
 function foilCls(c,era,serie,af){const t=c.tier||tier(c.rarity),m=era!=="wotc";
+ if(era==="lor"){const f=t==="sir"?"f-ench":(c.rev||t==="illus")?"f-cold":"";return (f?" "+f+" l-n":"")+" e-lor t-"+t}
  let f=TIERS[t]>=4?"f-etch":c.rev?"f-rev":(t==="holo"||(m&&t==="rare"&&serie!=="swsh"))?"f-holo":"";if(!f&&af)f="f-holo";return (f?" "+f:"")+(m?" e-mod":" e-wotc")+" t-"+t+(f==="f-etch"&&/hyper|gold/i.test(c.rarity||"")?" t-gold":"")+(f==="f-rev"&&c.pat?" p-"+c.pat:"")+(f&&f!=="f-etch"?" l-"+(c.k==="e"?"n":(era==="wotc"?"c":serie==="swsh"?"w":"s")+(c.k==="t"?"t":"p")):"")}
 function fxHTML(c){return c.rev?'<div class="fx"><i class="a"></i><i class="b"></i></div>':'<div class="fx"><i class="a"></i><i class="b"></i></div>'}
 function cardEl(c,i){const el=document.createElement("div");el.className="card"+foilCls(c,(c.era||(set&&set.era)),(set&&set.serie),set&&set.allFoil)+(c.rev?" rev":"")+(TIERS[c.tier]>=3?" hit":"")+(TIERS[c.tier]>=4?" big":"");
- el.innerHTML=`<div class="inner"><div class="slice" style="transform:translateZ(-.8px)"></div><div class="slice" style="transform:translateZ(0)"></div><div class="slice" style="transform:translateZ(.8px)"></div><div class="face back"><img class="cbimg" src="assets/card-back.jpg" alt="" draggable="false" onerror="this.remove()"></div><div class="face front"><div class="fload" aria-hidden="true"><b>${esc(c.name)}</b><small>${esc(c.rarity)}</small></div>${img(c.imgs,c.name,c.rarity)}<div class="foil"></div>${fxHTML(c)}<div class="sparkle"></div><div class="glare"></div></div></div><div class="tag">${esc(c.name)} · ${esc(c.rarity)}${c.rev?(c.pat==="mb"?" (Master Ball Reverse)":c.pat==="pb"?" (Poké Ball Reverse)":" (Reverse)"):""}</div>`;return el}
+ el.innerHTML=`<div class="inner"><div class="slice" style="transform:translateZ(-.8px)"></div><div class="slice" style="transform:translateZ(0)"></div><div class="slice" style="transform:translateZ(.8px)"></div><div class="face back"><img class="cbimg" src="${(c.era||(set&&set.era))==="lor"?"assets/lorcana-back.jpg":"assets/card-back.jpg"}" alt="" draggable="false" onerror="this.remove()"></div><div class="face front"><div class="fload" aria-hidden="true"><b>${esc(c.name)}</b><small>${esc(c.rarity)}</small></div>${img(c.imgs,c.name,c.rarity)}<div class="foil"></div>${fxHTML(c)}<div class="sparkle"></div><div class="glare"></div></div></div><div class="tag">${esc(c.name)} · ${esc(c.rarity)}${c.era==="lor"?(c.rev?" (Foil)":""):c.rev?(c.pat==="mb"?" (Master Ball Reverse)":c.pat==="pb"?" (Poké Ball Reverse)":" (Reverse)"):""}</div>`;return el}
 let topI=0,busy=false,packGen=0,revealing=false;
 function openPack(){packGen++;revealing=false;const s=set,d=cache[s.dex];current=NEXT&&NEXT.s===s?NEXT.p:buildPack(s,d.pools);NEXT=null;flippedN=0;topI=0;busy=false;state="idle";store.packs++;
  show("vPack");$("status").textContent=`${s.name}: tap the top card to flip, tap again to set it aside.`;const b=$("board");b.className="stackmode";
@@ -750,7 +801,7 @@ function openPack(){packGen++;revealing=false;const s=set,d=cache[s.dex];current
  bindStack();updCounter();
  const best=current[current.length-1];if(current.god){store.god=(store.god||0)+1;store.godBy=store.godBy||{};store.godBy[s.dex]=(store.godBy[s.dex]||0)+1}
  store.hist.unshift(`${current.god?(current.god.kind==="demi"?"👑DEMI ":"👑GOD "):""}#${store.packs} ${s.name}: best pull ${best.name} (${best.rarity})`);store.hist=store.hist.slice(0,100);
- current.forEach(c=>{const [d,n]=keyOf(c.id);const ss=store.sets[d]=store.sets[d]||{};ss[n]=ss[n]||{name:c.name,rarity:c.rarity,imgs:c.imgs,n:0};ss[n].imgs=c.imgs;ss[n].lid=c.id.slice(c.id.lastIndexOf("-")+1);ss[n].n++;if(c.rev)ss[n].rv=(ss[n].rv||0)+1;store.coll[c.id]=store.coll[c.id]||{name:c.name,rarity:c.rarity,imgs:c.imgs,n:0,t:TIERS[c.tier]};store.coll[c.id].imgs=c.imgs;store.coll[c.id].n++});save();scheduleRender()}
+ current.forEach(c=>{const [d,n]=keyOf(c.id);const ss=store.sets[d]=store.sets[d]||{};ss[n]=ss[n]||{name:c.name,rarity:c.rarity,imgs:c.imgs,n:0};ss[n].imgs=c.imgs;if(c.x)ss[n].x=c.x;ss[n].lid=c.id.slice(c.id.lastIndexOf("-")+1);ss[n].n++;if(c.rev)ss[n].rv=(ss[n].rv||0)+1;store.coll[c.id]=store.coll[c.id]||{name:c.name,rarity:c.rarity,imgs:c.imgs,n:0,t:TIERS[c.tier]};if(c.x)store.coll[c.id].x=c.x;store.coll[c.id].imgs=c.imgs;store.coll[c.id].n++});save();scheduleRender()}
 let NEXT=null;function prepPack(){const s=set,d=s&&cache[s.dex];if(!d)return;if(NEXT&&NEXT.s===s)return;NEXT={s,p:buildPack(s,d.pools)};
  NEXT.p.forEach(c=>{const u=c.imgs&&c.imgs[0];if(!u)return;const im=new Image();im.referrerPolicy="no-referrer";im.decoding="async";im.src=u;if(im.decode)im.decode().catch(()=>{})})}
 const topEl=()=>$("stack")&&$("stack").querySelector(`.card[data-i="${topI}"]`);
@@ -794,7 +845,7 @@ let tearGen=0;function tearPack(a,i){const myTear=++tearGen;const t=$("tear"),p=
  const poly=pts=>`polygon(${pts.map(([x,y])=>`${x.toFixed(2)}% ${y.toFixed(2)}%`).join(",")})`;
  const above=(x0,x1)=>x1-x0<.01?"polygon(0 0,0 0,0 0)":poly([[x0,-2],[x1,-2],...jag(x0,x1,true)]);
  const fib=(x0,x1)=>jag(x0,x1).map(([x,y])=>`${x.toFixed(2)},${y.toFixed(2)}`).join(" ");
- t.className="";t.innerHTML=`<div class="pack tp" style="position:relative"><div class="rfl" aria-hidden="true">${full("rf")}</div>${full("bot")}<div class="gap"></div>${full("top")}<div class="cardsout">${'<i><img class="cbimg" src="assets/card-back.jpg" alt=""></i>'.repeat(5)}</div>
+ t.className="";t.innerHTML=`<div class="pack tp" style="position:relative"><div class="rfl" aria-hidden="true">${full("rf")}</div>${full("bot")}<div class="gap"></div>${full("top")}<div class="cardsout">${`<i><img class="cbimg" src="${set&&set.game==="lor"?"assets/lorcana-back.jpg":"assets/card-back.jpg"}" alt=""></i>`.repeat(5)}</div>
   <svg class="fibers" viewBox="0 0 100 100" preserveAspectRatio="none"><polyline points=""/></svg>
   <div class="flapw"><div class="flap">${full("fl")}<div class="silver"></div></div><svg class="fibers ff" viewBox="0 0 100 100" preserveAspectRatio="none"><polyline points=""/></svg></div>
   <div class="glowline"></div><div class="zone"></div></div><div class="hint"><span class="hand"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M9 11V4.5a1.5 1.5 0 0 1 3 0V10m0-1.5a1.5 1.5 0 0 1 3 0V11m0-1a1.5 1.5 0 0 1 3 0v4.5c0 3.6-2.4 6.5-6 6.5-2.6 0-4-1.2-5.3-3L4.4 14.6a1.5 1.5 0 0 1 2.3-1.9L9 15" fill="#fff" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Swipe across the top to tear</div>`;

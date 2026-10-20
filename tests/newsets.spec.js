@@ -4,11 +4,11 @@ test('picker grouped by era newest first, all new sets load with real pack art',
   await gotoApp(page);
   const eras = await page.$$eval('#sets .era', e => e.map(x => x.dataset.era));
   expect(eras).toEqual(['me','sv','swsh','base']);
-  const n = await page.$$eval('.tile[data-i]', t => t.length);
+  const n = await page.$$eval('#sets .tile[data-i]', t => t.length);
   expect(n).toBe(25);
   const r = await page.evaluate(async () => {
     const out = {}, cfg = await loadPR(), LEN = s => s.era==='wotc'?11:({cel:4,c30:5}[(cfg[s.dex]||{}).structure]||10);
-    for (const s of SETS) {
+    for (const s of SETS.filter(x => x.game !== 'lor')) {
       const c = await getCards(s); const pools = c.pools; let bad = 0, hits = {};
       for (let i = 0; i < 2000; i++) { const p = buildPack(s, pools);
         if (p.length !== LEN(s) || p.filter(x=>x.energy).length !== (s.dex==='base1'?2:0)) bad++;
