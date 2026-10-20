@@ -463,8 +463,15 @@ const SETS=[
  {name:"Base Set",ptcg:"base1",dex:"base1",serie:"base",era:"wotc",year:1999,colors:["#c62828","#f9a825"]},
  {name:"Jungle",ptcg:"base2",dex:"base2",serie:"base",era:"wotc",year:1999,colors:["#2e7d32","#9ccc65"]},
  {name:"Fossil",ptcg:"base3",dex:"base3",serie:"base",era:"wotc",year:1999,colors:["#5d4037","#bcaaa4"]},
+ {name:"Team Rocket",ptcg:"base5",dex:"base5",serie:"base",era:"wotc",year:2000,colors:["#212121","#d32f2f"]},
+ {name:"Neo Genesis",ptcg:"neo1",dex:"neo1",serie:"neo",grp:"base",era:"wotc",year:2000,colors:["#f9a825","#1565c0"]},
  {name:"Evolving Skies",ptcg:"swsh7",dex:"swsh7",serie:"swsh",era:"sv",year:2021,colors:["#1565c0","#4fc3f7"]},
+ {name:"Celebrations",ptcg:"cel25",dex:"cel25",serie:"swsh",era:"sv",year:2021,allFoil:true,colors:["#0d47a1","#ffd54f"]},
+ {name:"Crown Zenith",ptcg:"swsh12pt5",dex:"swsh12.5",serie:"swsh",era:"sv",year:2023,colors:["#1a237e","#ffca28"]},
+ {name:"Obsidian Flames",ptcg:"sv3",dex:"sv03",serie:"sv",era:"sv",year:2023,colors:["#3e2723","#ff6f00"]},
  {name:"Scarlet & Violet 151",ptcg:"sv3pt5",dex:"sv03.5",serie:"sv",era:"sv",year:2023,colors:["#d32f2f","#1e88e5"]},
+ {name:"Paldean Fates",ptcg:"sv4pt5",dex:"sv04.5",serie:"sv",era:"sv",year:2024,colors:["#ffb300","#212121"]},
+ {name:"Twilight Masquerade",ptcg:"sv6",dex:"sv06",serie:"sv",era:"sv",year:2024,colors:["#1b5e20","#7b1fa2"]},
  {name:"Surging Sparks",ptcg:"sv8",dex:"sv08",serie:"sv",era:"sv",year:2024,colors:["#f9a825","#6a1b9a"]},
  {name:"Prismatic Evolutions",ptcg:"sv8pt5",dex:"sv08.5",serie:"sv",era:"sv",year:2025,colors:["#ec407a","#7e57c2"]},
  {name:"Journey Together",ptcg:"sv9",dex:"sv09",serie:"sv",era:"sv",year:2025,colors:["#1e88e5","#ffb300"]},
@@ -477,11 +484,16 @@ const SETS=[
  {name:"Perfect Order",ptcg:"me3",dex:"me03",serie:"me",era:"me",year:2026,colors:["#0277bd","#f06292"]},
  {name:"Chaos Rising",ptcg:"me4",dex:"me04",serie:"me",era:"me",year:2026,colors:["#2e7d32","#e53935"]},
  {name:"Pitch Black",ptcg:"me5",dex:"me05",serie:"me",era:"me",year:2026,colors:["#1a1a2e","#7c4dff"]},
+ {name:"30th Celebration",ptcg:"me55",dex:"30th",serie:"me",era:"me",year:2026,allFoil:true,colors:["#c62828","#ffd54a"]},
 ];
-const PACKART={"base1": ["assets/packs/base1/venusaur.webp", "assets/packs/base1/charizard.webp", "assets/packs/base1/blastoise.webp", "assets/packs/base1/venusaur-shadowless.webp", "assets/packs/base1/venusaur-unlimited.webp", "assets/packs/base1/blastoise-unlimited.webp", "assets/packs/base1/charizard-unlimited.webp"], "base2": ["assets/packs/base2/scyther.webp", "assets/packs/base2/flareon.webp", "assets/packs/base2/wigglytuff.webp"], "base3": ["assets/packs/base3/aerodactyl.webp", "assets/packs/base3/lapras.webp", "assets/packs/base3/zapdos.webp"], "sv03.5": ["assets/packs/sv03.5/mew.webp"], "sv08": ["assets/packs/sv08/pikachu.webp", "assets/packs/sv08/latias.webp", "assets/packs/sv08/archaludon.webp", "assets/packs/sv08/exeggutor.webp"], "swsh7": ["assets/packs/swsh7/rayquaza.webp", "assets/packs/swsh7/umbreon.webp", "assets/packs/swsh7/sylveon.webp", "assets/packs/swsh7/duraludon.webp"], "sv08.5": ["assets/packs/sv08.5/eevee-sylveon.webp", "assets/packs/sv08.5/espeon-umbreon.webp", "assets/packs/sv08.5/leafeon-glaceon.webp", "assets/packs/sv08.5/vaporeon-jolteon-flareon.webp"], "sv09": ["assets/packs/sv09/hop-zacian.webp", "assets/packs/sv09/iono-bellibolt.webp", "assets/packs/sv09/lillie-clefairy.webp", "assets/packs/sv09/n-zoroark.webp"], "sv10": ["assets/packs/sv10/team-rocket.webp", "assets/packs/sv10/giovanni-mewtwo.webp", "assets/packs/sv10/cynthia-garchomp.webp", "assets/packs/sv10/ethan-ho-oh.webp"], "sv10.5b": ["assets/packs/sv10.5b/zekrom.webp"], "sv10.5w": ["assets/packs/sv10.5w/reshiram.webp"], "me01": ["assets/packs/me01/mega-gardevoir.webp", "assets/packs/me01/mega-lucario.webp", "assets/packs/me01/mega-venusaur.webp", "assets/packs/me01/mega-kangaskhan.webp"], "me02": ["assets/packs/me02/mega-charizard-x.webp", "assets/packs/me02/mega-gengar.webp", "assets/packs/me02/mega-heracross.webp", "assets/packs/me02/mega-lopunny.webp"], "me02.5": ["assets/packs/me02.5/heroes.webp"], "me03": ["assets/packs/me03/mega-zygarde.webp", "assets/packs/me03/mega-starmie.webp", "assets/packs/me03/mega-clefable.webp", "assets/packs/me03/meowth.webp"], "me04": ["assets/packs/me04/mega-greninja.webp", "assets/packs/me04/mega-floette.webp", "assets/packs/me04/mega-pyroar.webp", "assets/packs/me04/mega-dragalge.webp"], "me05": ["assets/packs/me05/mega-darkrai.webp", "assets/packs/me05/mega-zeraora.webp", "assets/packs/me05/mega-chandelure.webp", "assets/packs/me05/mega-excadrill.webp"]};
+const PACKART={"base1": ["assets/packs/base1/venusaur.webp", "assets/packs/base1/charizard.webp", "assets/packs/base1/blastoise.webp", "assets/packs/base1/venusaur-shadowless.webp", "assets/packs/base1/venusaur-unlimited.webp", "assets/packs/base1/blastoise-unlimited.webp", "assets/packs/base1/charizard-unlimited.webp"], "base2": ["assets/packs/base2/scyther.webp", "assets/packs/base2/flareon.webp", "assets/packs/base2/wigglytuff.webp"], "base3": ["assets/packs/base3/aerodactyl.webp", "assets/packs/base3/lapras.webp", "assets/packs/base3/zapdos.webp"], "sv03.5": ["assets/packs/sv03.5/mew.webp"], "sv08": ["assets/packs/sv08/pikachu.webp", "assets/packs/sv08/latias.webp", "assets/packs/sv08/archaludon.webp", "assets/packs/sv08/exeggutor.webp"], "swsh7": ["assets/packs/swsh7/rayquaza.webp", "assets/packs/swsh7/umbreon.webp", "assets/packs/swsh7/sylveon.webp", "assets/packs/swsh7/duraludon.webp"], "sv08.5": ["assets/packs/sv08.5/eevee-sylveon.webp", "assets/packs/sv08.5/espeon-umbreon.webp", "assets/packs/sv08.5/leafeon-glaceon.webp", "assets/packs/sv08.5/vaporeon-jolteon-flareon.webp"], "sv09": ["assets/packs/sv09/hop-zacian.webp", "assets/packs/sv09/iono-bellibolt.webp", "assets/packs/sv09/lillie-clefairy.webp", "assets/packs/sv09/n-zoroark.webp"], "sv10": ["assets/packs/sv10/team-rocket.webp", "assets/packs/sv10/giovanni-mewtwo.webp", "assets/packs/sv10/cynthia-garchomp.webp", "assets/packs/sv10/ethan-ho-oh.webp"], "sv10.5b": ["assets/packs/sv10.5b/zekrom.webp"], "sv10.5w": ["assets/packs/sv10.5w/reshiram.webp"], "me01": ["assets/packs/me01/mega-gardevoir.webp", "assets/packs/me01/mega-lucario.webp", "assets/packs/me01/mega-venusaur.webp", "assets/packs/me01/mega-kangaskhan.webp"], "me02": ["assets/packs/me02/mega-charizard-x.webp", "assets/packs/me02/mega-gengar.webp", "assets/packs/me02/mega-heracross.webp", "assets/packs/me02/mega-lopunny.webp"], "me02.5": ["assets/packs/me02.5/heroes.webp"], "me03": ["assets/packs/me03/mega-zygarde.webp", "assets/packs/me03/mega-starmie.webp", "assets/packs/me03/mega-clefable.webp", "assets/packs/me03/meowth.webp"], "me04": ["assets/packs/me04/mega-greninja.webp", "assets/packs/me04/mega-floette.webp", "assets/packs/me04/mega-pyroar.webp", "assets/packs/me04/mega-dragalge.webp"], "me05": ["assets/packs/me05/mega-darkrai.webp", "assets/packs/me05/mega-zeraora.webp", "assets/packs/me05/mega-chandelure.webp", "assets/packs/me05/mega-excadrill.webp"], "30th": ["assets/packs/30th/pikachu.webp"], "base5": ["assets/packs/base5/team-rocket.webp", "assets/packs/base5/giovanni.webp", "assets/packs/base5/jessie-james.webp", "assets/packs/base5/gyarados.webp"], "neo1": ["assets/packs/neo1/typhlosion.webp", "assets/packs/neo1/lugia.webp"], "cel25": ["assets/packs/cel25/celebrations.webp"], "swsh12.5": ["assets/packs/swsh12.5/zacian-zamazenta.webp"], "sv03": ["assets/packs/sv03/charizard.webp", "assets/packs/sv03/tyranitar.webp", "assets/packs/sv03/dragonite.webp", "assets/packs/sv03/revavroom.webp"], "sv04.5": ["assets/packs/sv04.5/pikachu.webp", "assets/packs/sv04.5/ceruledge.webp", "assets/packs/sv04.5/tinkaton.webp", "assets/packs/sv04.5/dondozo.webp"], "sv06": ["assets/packs/sv06/ogerpon.webp", "assets/packs/sv06/dragapult.webp", "assets/packs/sv06/ursaluna.webp", "assets/packs/sv06/sinistcha.webp"]};
 const VSEQ={};function packVariant(s,i){const l=PACKART[s.dex];if(!l)return -1;let q=VSEQ[s.dex];if(!q){q=VSEQ[s.dex]=[];for(let k=0;k<16;k++){let v,t=0;do{v=Math.floor(Math.random()*l.length);t++}while(l.length>1&&t<50&&(v===q[k-1]||(k===15&&v===q[0])));q.push(v)}}return q[((i%16)+16)%16]}
 const TIERS={common:0,uncommon:1,rare:2,holo:3,ultra:4,illus:5,sir:6};
 function tier(r){r=(r||"").toLowerCase();
+ if(/futuristic|rgb rare|galarian gallery (v|gold)/.test(r))return"sir";
+ if(/galarian gallery/.test(r))return"illus";
+ if(/classic collection|shiny ultra|radiant|amazing/.test(r))return"ultra";
+ if(/shiny rare/.test(r))return"holo";
  if(/special illustration|hyper|secret|gold|rainbow|black white/.test(r))return"sir";
  if(/illustration/.test(r))return"illus";
  if(/double|ultra|ex|gx|vmax|vstar|holo rare v|rare holo v|ace spec/.test(r))return"ultra";
@@ -520,7 +532,8 @@ async function fetchT(u,ms=8000){const c=new AbortController();const t=setTimeou
 const DATA_V=3;try{Object.keys(localStorage).filter(k=>/^pp[cl]_v\d+_/.test(k)).forEach(k=>localStorage.removeItem(k))}catch(e){}
 async function loadStatic(s){const d=await fetchT(`data/${encodeURIComponent(s.dex)}.json`,12000);
  if(!d||!d.cards||!d.cards.length)throw Error("empty");
- return d.cards.map(c=>({id:c.id,name:c.name,k:c.k,rarity:c.rarity||"Common",imgs:cardSrcs(s,c.lid,c.img?[c.img+"/high.webp",c.img+"/low.webp"]:[])}))}
+ return d.cards.map(c=>({id:c.id,name:c.name,k:c.k,rarity:c.rarity||"Common",imgs:c.pimg?pimgSrcs(c.pimg):cardSrcs(s,c.lid,c.img?[c.img+"/high.webp",c.img+"/low.webp"]:[])}))}
+function pimgSrcs(u){return [u,u.replace(/_hires\.png$/,".png").replace(/\/large$/,"/medium")].filter((v,i,a)=>a.indexOf(v)===i)}
 async function loadPTCG(s){const d=await fetchT(`https://api.pokemontcg.io/v2/cards?q=set.id:${s.ptcg}&pageSize=250&select=id,name,number,rarity,images`);
  if(!d.data||!d.data.length)throw Error("empty");return d.data.map(c=>({id:s.dex+"-"+c.number,name:c.name,rarity:c.rarity||"Common",imgs:cardSrcs(s,c.number,[c.images.large,c.images.small])}))}
 async function loadDex(s){const d=await fetchT(`https://api.tcgdex.net/v2/en/sets/${s.dex}`,15000);
@@ -542,7 +555,7 @@ const ENERGY={wotc:[[97,"Fighting"],[98,"Fire"],[99,"Grass"],[100,"Lightning"],[
 /* SV / Mega Evolution era slots: 4C 3U, reverse (ACE SPEC can replace), reverse-or-hit (IR/SIR/HR), rare slot (R/DR/UR). Rates ~ community-tracked pull rates. */
 const RPOOLS=new WeakMap();
 function rpools(p){let m=RPOOLS.get(p);if(m)return m;m={};Object.values(p).flat().forEach(c=>{const r=(c.rarity||"").toLowerCase();
- const k=/ace spec/.test(r)?"ace":/special illustration/.test(r)?"sir":/illustration/.test(r)?"ir":/hyper|black white/.test(r)?"hr":/double/.test(r)?"dr":/ultra/.test(r)?"ur":r==="rare"?"r":/uncommon/.test(r)?"u":/rare/.test(r)?"r":"c";(m[k]=m[k]||[]).push(c)});RPOOLS.set(p,m);return m}
+ const k=/shiny ultra/.test(r)?"sur":/shiny rare/.test(r)?"sr":/futuristic/.test(r)?"fr":/rgb rare/.test(r)?"rgb":/pikachu rare/.test(r)?"pk":/classic collection/.test(r)?"cc":/ace spec/.test(r)?"ace":/special illustration/.test(r)?"sir":/illustration/.test(r)?"ir":/hyper|black white/.test(r)?"hr":/double/.test(r)?"dr":/ultra/.test(r)?"ur":r==="rare"?"r":/uncommon/.test(r)?"u":/rare/.test(r)?"r":"c";(m[k]=m[k]||[]).push(c)});RPOOLS.set(p,m);return m}
 let PR=null;async function loadPR(){if(PR)return PR;try{PR=await fetchT("data/pullrates.json",12000)}catch(e){return {}}return PR}
 function slotRoll(opts){const x=Math.random();let acc=0;for(const[k,w]of opts){if(!w)continue;acc+=w;if(x<acc)return k}return null}
 function finish(pack){const last=pack.pop();pack.sort((a,b)=>TIERS[a.tier]-TIERS[b.tier]);const top=pack[pack.length-1];
@@ -551,13 +564,26 @@ function modernPack(s,p,pack,C){const m=rpools(p),R=C.rates||{},has=k=>m[k]&&m[k
  const rev=pat=>{const c={...g(roll([["c",.5],["u",.3],["r",.2]]),"u","c"),rev:true};if(pat)c.pat=pat;return c};
  for(let i=0;i<4;i++)pack.push({...g("c")});for(let i=0;i<3;i++)pack.push({...g("u","c")});
  const a=slotRoll([["ace",has("ace")&&R.ace],["mb",R.mb],["pb",R.pb]]);pack.push(a==="ace"?{...g("ace")}:rev(a));
- const h=slotRoll([["hr",has("hr")&&R.hr],["sir",has("sir")&&R.sir],["ir",has("ir")&&R.ir]]);pack.push(h?{...g(h)}:rev());
- const r=slotRoll([["ur",has("ur")&&R.ur],["dr",has("dr")&&R.dr]]);pack.push({...(r?g(r):g("r","dr","u"))});finish(pack)}
-function swshPack(s,p,pack,C){const R=C.rates,m={};Object.values(p).flat().forEach(c=>{const r=(c.rarity||"").toLowerCase();
-  const k=/secret/.test(r)?"sec":/vmax/.test(r)?"vmax":/holo rare v|rare holo v/.test(r)?"v":/ultra/.test(r)?"ur":/holo/.test(r)?"holo":r==="rare"?"r":/uncommon/.test(r)?"u":"c";(m[k]=m[k]||[]).push(c)});
- const g=(...ks)=>{for(const k of ks)if(m[k]&&m[k].length)return pick(m[k]);return from(p,"common")};
+ const h=slotRoll([["hr",has("hr")&&R.hr],["sir",has("sir")&&R.sir],["ir",has("ir")&&R.ir],["sr",has("sr")&&R.sr]]);pack.push(h?{...g(h)}:rev());
+ const r=slotRoll([["sur",has("sur")&&R.sur],["ur",has("ur")&&R.ur],["dr",has("dr")&&R.dr]]);pack.push({...(r?g(r):g("r","dr","u"))});finish(pack)}
+/* Celebrations: 4 cards, all holofoil; Classic Collection in place of a rare (pullrates.com, 5,000 packs) */
+function celPack(s,p,pack,C){const R=C.rates,m=swshPools(p),has=k=>m[k]&&m[k].length,g=(...ks)=>{for(const k of ks)if(has(k))return pick(m[k]);return from(p,"rare")};
+ pack.push({...g("r","holo")},{...g("r","holo")});const x=slotRoll([["cc",has("cc")&&R.cc]]);pack.push({...(x?g("cc"):g("r","holo"))});
+ const k=slotRoll([["sec",R.sec],["ur",R.ur],["vmax",R.vmax],["v",R.v]]);pack.push({...g(k||"holo","holo")});finish(pack)}
+/* 30th Celebration: 5 foil cards: 2 commons, common|IR|Classic Collection, rare|DR|SIR|Futuristic|RGB, Pikachu rare (energy omitted) */
+function c30Pack(s,p,pack,C){const R=C.rates,m=rpools(p),has=k=>m[k]&&m[k].length,g=(...ks)=>{for(const k of ks)if(has(k))return pick(m[k]);return from(p,"common")};
+ pack.push({...g("c")},{...g("c")});const a=slotRoll([["cc",has("cc")&&R.cc],["ir",has("ir")&&R.ir]]);pack.push({...g(a||"c")});
+ const b=slotRoll([["rgb",has("rgb")&&R.rgb],["fr",has("fr")&&R.fr],["sir",has("sir")&&R.sir],["dr",has("dr")&&R.dr]]);pack.push({...g(b||"r","r")});
+ pack.push({...g("pk","r")});finish(pack)}
+function swshPools(p){let m=SPOOLS.get(p);if(m)return m;m={};Object.values(p).flat().forEach(c=>{const r=(c.rarity||"").toLowerCase();
+  const k=/galarian gallery gold/.test(r)?"ggg":/galarian gallery v/.test(r)?"ggv":/galarian gallery/.test(r)?"gg":/radiant/.test(r)?"rad":/classic collection/.test(r)?"cc":/secret/.test(r)?"sec":/vmax/.test(r)?"vmax":/holo rare v|rare holo v/.test(r)?"v":/ultra/.test(r)?"ur":/holo/.test(r)?"holo":r==="rare"?"r":/uncommon/.test(r)?"u":"c";(m[k]=m[k]||[]).push(c)});
+ SPOOLS.set(p,m);return m}
+const SPOOLS=new WeakMap();
+function swshPack(s,p,pack,C){const R=C.rates,m=swshPools(p);
+ const g=(...ks)=>{for(const k of ks)if(m[k]&&m[k].length)return pick(m[k]);return from(p,"common")},has=k=>m[k]&&m[k].length;
  for(let i=0;i<5;i++)pack.push({...g("c")});for(let i=0;i<3;i++)pack.push({...g("u")});
- pack.push({...g(roll([["c",.5],["u",.3],["r",.2]]),"c"),rev:true});
+ const x=slotRoll([["ggg",has("ggg")&&R.ggg],["ggv",has("ggv")&&R.ggv],["gg",has("gg")&&R.gg],["rad",has("rad")&&R.rad]]);
+ pack.push(x?{...g(x)}:{...g(roll([["c",.5],["u",.3],["r",.2]]),"c"),rev:true});
  const k=slotRoll([["sec",R.sec],["ur",R.ur],["vmax",R.vmax],["v",R.v],["holo",R.holo]]);pack.push({...g(k||"r","r")});finish(pack)}
 const PR_DEF={wotc:{rates:{holo:1/3}},swsh:{rates:{holo:1/3,v:1/9,vmax:1/18,ur:1/26,sec:1/60}},sv:{rates:{dr:1/6,ur:1/15,ir:1/12,sir:1/86,hr:1/150,ace:1/20}}};
 /* ---------- god packs (only sets with documented English god/demigod packs; see data/pullrates.json godPacks) ---------- */
@@ -584,6 +610,8 @@ function buildPack(s,p){const G=s.era!=="wotc"&&godKind(PR&&PR[s.dex]);if(G)retu
  if(s.era==="wotc"){const R=C.rates.holo??1/3,ne=C.energy||0;for(let i=0;i<7-ne;i++)pack.push({...from(p,"common")});
   for(let i=0;i<ne;i++)pack.splice(Math.floor(Math.random()*(pack.length+1)),0,{...pick(ENERGY.wotc)});
   for(let i=0;i<3;i++)pack.push({...from(p,"uncommon")});pack.push({...from(p,Math.random()<R?"holo":"rare","rare","holo")})}
+ else if(C.structure==="cel")celPack(s,p,pack,C);
+ else if(C.structure==="c30")c30Pack(s,p,pack,C);
  else if(s.serie==="swsh")swshPack(s,p,pack,C);
  else modernPack(s,p,pack,C);
  return pack}
@@ -593,7 +621,7 @@ function show(v){if(v==="vPick")setTimeout(()=>window.fxKick&&fxKick(),0);["vPic
  $("back").style.display=v==="vPick"?"none":"";$("binders").style.display=v==="vShelf"||v==="vBinder"?"none":"";$("open").style.display=v==="vPack"?"":"none";$("reveal").style.display=v==="vPack"?"":"none";
  if(v!=="vWheel"){$("vWheel").classList.remove("stage");document.body.classList.remove("staged")} }
 const ERAS=[["me","Mega Evolution"],["sv","Scarlet & Violet"],["swsh","Sword & Shield"],["base","Classic"]];
-$("sets").innerHTML=ERAS.map(([g,label])=>{const l=SETS.map((s,i)=>[s,i]).filter(([s])=>s.serie===g).reverse();if(!l.length)return"";
+$("sets").innerHTML=ERAS.map(([g,label])=>{const l=SETS.map((s,i)=>[s,i]).filter(([s])=>(s.grp||s.serie)===g).reverse();if(!l.length)return"";
  return `<h2 class="era" data-era="${g}"><span>${label}</span><small>${l.length} set${l.length>1?"s":""}</small></h2>`+l.map(([s,i],k)=>`<div class="tile" data-i="${i}" style="--c1:${s.colors[0]};animation-delay:${Math.min(k,8)*60}ms"><img class="sym" referrerpolicy="no-referrer" src="https://images.pokemontcg.io/${s.ptcg}/symbol.png" onerror="this.remove()">
  <div class="logo">${img(logoSrcs(s),s.name,"").replace("<img ",'<img loading="lazy" decoding="async" data-ph="txtlogo" '+logoSet(s))}</div><h3>${esc(s.name)}</h3><small>${s.year}</small></div>`).join("")}).join("");
 document.querySelectorAll(".tile").forEach(t=>t.onclick=()=>chooseSet(SETS[t.dataset.i]));
@@ -623,7 +651,7 @@ function slots(){const o=owned(B.s);return B.list.filter(c=>B.filter==="all"||(B
 function pageHTML(p){const o=owned(B.s),l=slots().slice(p*9,p*9+9);let h="";
  for(let k=0;k<9;k++){const c=l[k];if(!c){h+='<div class="pocket empty"></div>';continue}const own=o[c.n];
   const srcs=own?own.imgs:cardSrcs(B.s,c.lid);
-  const pf=own?foilCls({rarity:own.rarity,k:c.k,rev:!!own.rv&&TIERS[tier(own.rarity)]<3},B.s.era,B.s.serie):"";h+=`<div class="pocket ${own?"own":"miss"}${pf.includes("e-mod")?" e-mod":""}" data-n="${esc(c.n)}">${own?img(srcs,c.name,own.rarity).replace("<img ",'<img loading="lazy" decoding="async" '+srcsetFor(srcs[0])):`<div class="slotnum">#${esc(c.lid)}</div><div class="slotname">${esc(c.name)}</div>`}${own&&/f-/.test(pf)?`<div class="pfx${pf}"></div>`:""}${own?`<span class="cnt">×${own.n}</span>`:""}<div class="sleeve"></div></div>`}
+  const pf=own?foilCls({rarity:own.rarity,k:c.k,rev:!!own.rv&&TIERS[tier(own.rarity)]<3},B.s.era,B.s.serie,B.s.allFoil):"";h+=`<div class="pocket ${own?"own":"miss"}${pf.includes("e-mod")?" e-mod":""}" data-n="${esc(c.n)}">${own?img(srcs,c.name,own.rarity).replace("<img ",'<img loading="lazy" decoding="async" '+srcsetFor(srcs[0])):`<div class="slotnum">#${esc(c.lid)}</div><div class="slotname">${esc(c.name)}</div>`}${own&&/f-/.test(pf)?`<div class="pfx${pf}"></div>`:""}${own?`<span class="cnt">×${own.n}</span>`:""}<div class="sleeve"></div></div>`}
  return `<div class="page" data-p="${p}"><div class="pgrid">${h}</div><div class="pno">${p+1}</div></div>`}
 const pages=()=>Math.max(1,Math.ceil(slots().length/9));
 function renderBook(){const pv=perView(),N=pages();B.page=Math.max(0,Math.min(B.page,N-1));B.page-=B.page%pv;
@@ -708,10 +736,10 @@ function snap(){state="snap";const from0=pos,target=Math.round(pos/PW+Math.sign(
   if(t<1){raf=requestAnimationFrame(step);return}
   landHere(true)};raf=requestAnimationFrame(step)}
 /* ---------- reveal ---------- */
-function foilCls(c,era,serie){const t=c.tier||tier(c.rarity),m=era!=="wotc";
- const f=TIERS[t]>=4?"f-etch":c.rev?"f-rev":(t==="holo"||(m&&t==="rare"&&serie!=="swsh"))?"f-holo":"";return (f?" "+f:"")+(m?" e-mod":" e-wotc")+" t-"+t+(f==="f-etch"&&/hyper|gold/i.test(c.rarity||"")?" t-gold":"")+(f==="f-rev"&&c.pat?" p-"+c.pat:"")+(f&&f!=="f-etch"?" l-"+(c.k==="e"?"n":(era==="wotc"?"c":serie==="swsh"?"w":"s")+(c.k==="t"?"t":"p")):"")}
+function foilCls(c,era,serie,af){const t=c.tier||tier(c.rarity),m=era!=="wotc";
+ let f=TIERS[t]>=4?"f-etch":c.rev?"f-rev":(t==="holo"||(m&&t==="rare"&&serie!=="swsh"))?"f-holo":"";if(!f&&af)f="f-holo";return (f?" "+f:"")+(m?" e-mod":" e-wotc")+" t-"+t+(f==="f-etch"&&/hyper|gold/i.test(c.rarity||"")?" t-gold":"")+(f==="f-rev"&&c.pat?" p-"+c.pat:"")+(f&&f!=="f-etch"?" l-"+(c.k==="e"?"n":(era==="wotc"?"c":serie==="swsh"?"w":"s")+(c.k==="t"?"t":"p")):"")}
 function fxHTML(c){return c.rev?'<div class="fx"><i class="a"></i><i class="b"></i></div>':'<div class="fx"><i class="a"></i><i class="b"></i></div>'}
-function cardEl(c,i){const el=document.createElement("div");el.className="card"+foilCls(c,(c.era||(set&&set.era)),(set&&set.serie))+(c.rev?" rev":"")+(TIERS[c.tier]>=3?" hit":"")+(TIERS[c.tier]>=4?" big":"");
+function cardEl(c,i){const el=document.createElement("div");el.className="card"+foilCls(c,(c.era||(set&&set.era)),(set&&set.serie),set&&set.allFoil)+(c.rev?" rev":"")+(TIERS[c.tier]>=3?" hit":"")+(TIERS[c.tier]>=4?" big":"");
  el.innerHTML=`<div class="inner"><div class="slice" style="transform:translateZ(-.8px)"></div><div class="slice" style="transform:translateZ(0)"></div><div class="slice" style="transform:translateZ(.8px)"></div><div class="face back"><img class="cbimg" src="assets/card-back.jpg" alt="" draggable="false" onerror="this.remove()"></div><div class="face front"><div class="fload" aria-hidden="true"><b>${esc(c.name)}</b><small>${esc(c.rarity)}</small></div>${img(c.imgs,c.name,c.rarity)}<div class="foil"></div>${fxHTML(c)}<div class="sparkle"></div><div class="glare"></div></div></div><div class="tag">${esc(c.name)} · ${esc(c.rarity)}${c.rev?(c.pat==="mb"?" (Master Ball Reverse)":c.pat==="pb"?" (Poké Ball Reverse)":" (Reverse)"):""}</div>`;return el}
 let topI=0,busy=false,packGen=0,revealing=false;
 function openPack(){packGen++;revealing=false;const s=set,d=cache[s.dex];current=NEXT&&NEXT.s===s?NEXT.p:buildPack(s,d.pools);NEXT=null;flippedN=0;topI=0;busy=false;state="idle";store.packs++;

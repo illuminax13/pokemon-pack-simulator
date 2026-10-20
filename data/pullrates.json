@@ -1,5 +1,5 @@
 {
- "_doc": "Per-pack probabilities. WOTC 11 cards (Base Set has 2 basic energy among commons); SV/ME 10 cards; SWSH 10 cards. No forced energy. SV/ME: 4C, 3U, reverse A (ACE SPEC / Master Ball / Poke Ball foil can replace), reverse B (IR/SIR/HR can replace), rare slot (DR/UR replace R). SWSH: 5C, 3U, 1 reverse, rare slot. No documented English god packs modelled. God packs: only sets with documented ENGLISH god/demigod packs carry a 'godPacks' list (151, Prismatic Evolutions, Black Bolt, White Flare, Ascended Heroes). Each entry replaces the whole pack; rate = probability per pack; all rates are estimates (TPCi publishes none).",
+ "_doc": "Per-pack probabilities. WOTC 11 cards (Base Set has 2 basic energy among commons); SV/ME 10 cards; SWSH 10 cards. No forced energy. SV/ME: 4C, 3U, reverse A (ACE SPEC / Master Ball / Poke Ball foil can replace), reverse B (IR/SIR/HR can replace), rare slot (DR/UR replace R). SWSH: 5C, 3U, 1 reverse, rare slot. No documented English god packs modelled. God packs: only sets with documented ENGLISH god/demigod packs carry a 'godPacks' list (151, Prismatic Evolutions, Black Bolt, White Flare, Ascended Heroes). Each entry replaces the whole pack; rate = probability per pack; all rates are estimates (TPCi publishes none). Special structures: 'cel' (Celebrations, 4 all-foil cards) and 'c30' (30th Celebration, 5 all-foil cards with a guaranteed Pikachu rare). Crown Zenith: Galarian Gallery/Radiant replace the SWSH reverse; Paldean Fates: shiny rares in SV slots.",
  "base1": {
   "structure": "wotc",
   "energy": 2,
@@ -436,5 +436,176 @@
   "source": "https://pullrates.com/set/pitch-black",
   "estimated": true,
   "note": "Early/small sample."
+ },
+ "base5": {
+  "structure": "wotc",
+  "energy": 0,
+  "rates": {
+   "holo": 0.333333
+  },
+  "oneIn": {
+   "holo": 3
+  },
+  "source": "https://bulbapedia.bulbagarden.net/wiki/Team_Rocket_(TCG)",
+  "estimated": false,
+  "note": "11 cards: 7C, 3U, 1 rare (holo 1/3). Dark Raichu (83/82 secret holo) is in the holo pool, so it pulls more often than in real packs."
+ },
+ "neo1": {
+  "structure": "wotc",
+  "energy": 0,
+  "rates": {
+   "holo": 0.333333
+  },
+  "oneIn": {
+   "holo": 3
+  },
+  "source": "https://bulbapedia.bulbagarden.net/wiki/Neo_Genesis_(TCG)",
+  "estimated": false,
+  "note": "11 cards: 7C, 3U, 1 rare (holo 1/3)"
+ },
+ "cel25": {
+  "structure": "cel",
+  "rates": {
+   "cc": 0.4,
+   "v": 0.15,
+   "vmax": 0.075,
+   "ur": 0.04,
+   "sec": 0.006
+  },
+  "oneIn": {
+   "cc": 2,
+   "v": 7,
+   "vmax": 13,
+   "ur": 25,
+   "sec": 167
+  },
+  "source": "https://pullrates.com/set/celebrations",
+  "estimated": false,
+  "note": "4 cards per pack, all holofoil: 2 rares, a rare or Classic Collection card (1 in 2.5), and a holo slot that can be V / VMAX / Ultra Rare / gold Mew secret. Community counts of 5,000 packs."
+ },
+ "swsh12.5": {
+  "structure": "swsh",
+  "rates": {
+   "gg": 0.25,
+   "ggv": 0.125,
+   "ggg": 0.008,
+   "rad": 0.045455,
+   "holo": 0.076923,
+   "v": 0.177632,
+   "vmax": 0.052632,
+   "ur": 0.028571,
+   "sec": 0.007519
+  },
+  "oneIn": {
+   "gg": 4,
+   "ggv": 8,
+   "ggg": 125,
+   "rad": 22,
+   "holo": 13,
+   "v": 6,
+   "vmax": 19,
+   "ur": 35,
+   "sec": 133
+  },
+  "source": "https://pullrates.com/set/crown-zenith",
+  "estimated": false,
+  "note": "Galarian Gallery (1 in 4), GG V/VSTAR/VMAX/full art (1 in 8), GG gold (1 in 125) and Radiant (1 in 22) replace the reverse holo. Rare slot: V 1 in 8 + VSTAR 1 in 19 (combined 'v'), VMAX 1 in 19, UR 1 in 35, secret 1 in 133, holo 1 in 13. TCGplayer Authentication Center (1,500+ packs)."
+ },
+ "sv03": {
+  "structure": "sv",
+  "rates": {
+   "dr": 0.142857,
+   "ur": 0.066667,
+   "ir": 0.076923,
+   "sir": 0.03125,
+   "hr": 0.019231,
+   "ace": 0,
+   "pb": 0,
+   "mb": 0
+  },
+  "oneIn": {
+   "dr": 7,
+   "ur": 15,
+   "ir": 13,
+   "sir": 32,
+   "hr": 52
+  },
+  "source": "https://pullrates.com/set/obsidian-flames",
+  "estimated": false,
+  "note": "TCGplayer Authentication Center (8,000+ packs)."
+ },
+ "sv04.5": {
+  "structure": "sv",
+  "rates": {
+   "sr": 0.25,
+   "sur": 0.076923,
+   "dr": 0.166667,
+   "ir": 0.071429,
+   "ur": 0.066667,
+   "sir": 0.017241,
+   "hr": 0.016129,
+   "ace": 0,
+   "pb": 0,
+   "mb": 0
+  },
+  "oneIn": {
+   "sr": 4,
+   "sur": 13,
+   "dr": 6,
+   "ir": 14,
+   "ur": 15,
+   "sir": 58,
+   "hr": 62
+  },
+  "source": "https://pullrates.com/set/paldean-fates",
+  "estimated": false,
+  "note": "Shiny Rares (1 in 4) replace the second reverse holo alongside IR/SIR/HR; Shiny Ultra Rares (1 in 13) go in the rare slot with DR/UR. TCGplayer Authentication Center (1,500+ packs)."
+ },
+ "sv06": {
+  "structure": "sv",
+  "rates": {
+   "dr": 0.166667,
+   "ur": 0.066667,
+   "ir": 0.076923,
+   "sir": 0.011628,
+   "hr": 0.006849,
+   "ace": 0.05,
+   "pb": 0,
+   "mb": 0
+  },
+  "oneIn": {
+   "dr": 6,
+   "ur": 15,
+   "ir": 13,
+   "sir": 86,
+   "hr": 146,
+   "ace": 20
+  },
+  "source": "https://pullrates.com/set/twilight-masquerade",
+  "estimated": false,
+  "note": "TCGplayer Authentication Center (8,000+ packs)."
+ },
+ "30th": {
+  "structure": "c30",
+  "source2": "https://billsarchive.com/articles/30th-celebration-pull-rates.html",
+  "rates": {
+   "dr": 0.2102,
+   "ir": 0.1972,
+   "cc": 0.1015,
+   "sir": 0.0488,
+   "fr": 0.0083,
+   "rgb": 0.000246
+  },
+  "oneIn": {
+   "dr": 5,
+   "ir": 5,
+   "cc": 10,
+   "sir": 20,
+   "fr": 120,
+   "rgb": 4063
+  },
+  "source": "https://www.setpulls.com/blog/30th-celebration-pull-rates",
+  "estimated": false,
+  "note": "5 foil cards + foil basic energy (energy not shown, per app design). Slots: 2 commons; common or IR or Classic Collection; rare or DR/SIR/Futuristic Rare (SIR and FR never share a pack); one of 30 Pikachu rares every pack. Rates: TCGplayer Authentication Center 3,000+ packs. RGB Mew rate is an estimate from 1 observed in 4,063 packs (Bill's Archive / Wargamer)."
  }
 }
