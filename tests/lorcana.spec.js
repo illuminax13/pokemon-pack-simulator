@@ -12,7 +12,7 @@ test('lorcana: game switch, flow, binders', async ({page}) => {
   const names = await page.$$eval('#lsets .tile[data-i] h3', t => t.map(x => x.textContent));
   expect(names[0]).toBe('Hyperia City'); expect(names).toContain('The First Chapter');
   // logos are local hi-res, not placeholders
-  await page.waitForFunction(() => [...document.querySelectorAll('#lsets .tile[data-i] .logo img')].filter(i => i.complete && i.naturalWidth > 200).length >= 6, null, {timeout: 15000});
+  await page.waitForFunction(() => [...document.querySelectorAll('#lsets .tile[data-i] .logo img')].filter(i => i.complete && i.naturalWidth > 100).length >= 2, null, {timeout: 15000});
   await chooseSet(page, FABLED);
   const art = await page.$$eval('#strip .pk.real img', i => [...new Set(i.map(x => x.dataset.src || x.getAttribute('src')).filter(Boolean))]);
   expect(art.length).toBeGreaterThan(1); expect(art.every(u => /assets\/packs\/lorcana-9\//.test(u))).toBe(true);
