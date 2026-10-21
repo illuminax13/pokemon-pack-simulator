@@ -21,7 +21,7 @@ test('zoom: pack summary, swipe/keys, info, history, binder', async ({page}) => 
   const b = await page.locator('#vcard .card').boundingBox();
   await page.mouse.move(b.x + b.width * .3, b.y + b.height * .3); await page.mouse.move(b.x + b.width * .7, b.y + b.height * .6, {steps: 5});
   expect(await page.$eval('#vcard .card', e => e.classList.contains('tilting'))).toBe(true); expect(await counter(page)).toBe('9 / 10');
-  await swipe(page, vw.width * .15, vw.height * .08, vw.width * .15, vw.height * .6);         // swipe down -> close
+  await swipe(page, vw.width * .5, vw.height * .03, vw.width * .5, vw.height * .6);         // swipe down -> close
   await expect(page.locator('#viewer')).toBeHidden();
   // tap outside closes
   await page.locator('#summary .sgrid .card').nth(0).click(); await expect(page.locator('#viewer.on')).toBeVisible();
