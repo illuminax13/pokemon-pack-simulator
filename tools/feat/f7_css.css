@@ -7,7 +7,7 @@
 @keyframes bxfl{50%{transform:translateY(-7px)}}
 @keyframes bxshf{50%{transform:scale(calc(var(--k,1)*.93));opacity:.8}}
 .bxobj{position:absolute;left:0;top:0}
-.bx3d .f{position:absolute;left:0;top:0;overflow:hidden;box-sizing:border-box;transform-origin:0 0;will-change:transform}
+.bx3d .f{position:absolute;left:0;top:0;overflow:hidden;box-sizing:border-box;transform-origin:0 0}
 .bx3d .o{background:linear-gradient(160deg,var(--c0),var(--c1))}
 .bx3d .o::after{content:"";position:absolute;inset:0;background:radial-gradient(120% 90% at 50% 30%,rgba(0,0,0,.18),rgba(0,0,0,.55));pointer-events:none}
 .bx3d .sd::after,.bx3d .bk::after,.bx3d .lb::after,.bx3d .ls::after{background:linear-gradient(90deg,rgba(0,0,0,.5),rgba(0,0,0,.62))}
@@ -24,10 +24,10 @@
 .bxlbl{position:absolute;left:0;right:0;bottom:5px;z-index:3;text-align:center;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.82);font-weight:700}
 .bxvt{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;z-index:2;font-size:11px;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.75)}
 .bx3d .lf .bxvt{font-size:9px}
-.bx3d .wr{position:absolute;inset:0;will-change:transform;transform-origin:100% 50%;transform-origin:100% 50%;z-index:5;pointer-events:none;background:linear-gradient(112deg,rgba(255,255,255,0) 32%,rgba(255,255,255,.15) 45%,rgba(255,255,255,.04) 52%,rgba(255,255,255,0) 62%),linear-gradient(rgba(255,255,255,.035),rgba(255,255,255,.035));background-size:320% 100%,100% 100%;box-shadow:inset 0 0 0 1px rgba(255,255,255,.13),inset 0 0 18px rgba(255,255,255,.05);transition:opacity .45s}
-.bx3d .strip{will-change:transform;transform-origin:100% 50%;position:absolute;left:0;right:0;top:9px;height:5px;z-index:6;background:repeating-linear-gradient(90deg,rgba(255,255,255,.35) 0 8px,rgba(255,255,255,.08) 8px 12px);transition:opacity .45s}
+.bx3d .wr{position:absolute;inset:0;transform-origin:100% 50%;transform-origin:100% 50%;z-index:5;pointer-events:none;background:linear-gradient(112deg,rgba(255,255,255,0) 32%,rgba(255,255,255,.15) 45%,rgba(255,255,255,.04) 52%,rgba(255,255,255,0) 62%),linear-gradient(rgba(255,255,255,.035),rgba(255,255,255,.035));background-size:320% 100%,100% 100%;box-shadow:inset 0 0 0 1px rgba(255,255,255,.13),inset 0 0 18px rgba(255,255,255,.05);transition:opacity .45s}
+.bx3d .strip{transform-origin:100% 50%;position:absolute;left:0;right:0;top:9px;height:5px;z-index:6;background:repeating-linear-gradient(90deg,rgba(255,255,255,.35) 0 8px,rgba(255,255,255,.08) 8px 12px);transition:opacity .45s}
 .bx3d.torn .wr,.bx3d.torn .strip{opacity:0}
-.bxp{position:absolute;left:0;top:0;transform-origin:0 0;will-change:transform;border-radius:3px;box-shadow:0 -1px 0 rgba(255,255,255,.25) inset;cursor:pointer;-webkit-user-drag:none}
+.bxp{position:absolute;left:0;top:0;transform-origin:0 0;border-radius:3px;box-shadow:0 -1px 0 rgba(255,255,255,.25) inset;cursor:pointer;-webkit-user-drag:none}
 .bxp.lift{transition:opacity .45s .05s;opacity:0}
 .bxfx{position:absolute;inset:0;pointer-events:none;overflow:visible;z-index:4}
 .cp{position:absolute;left:0;top:0;opacity:0;width:24px;height:15px;margin:-7px 0 0 -12px;border-radius:2px 70% 3px 55%;background:linear-gradient(135deg,rgba(255,255,255,.42),rgba(255,255,255,.07) 55%,rgba(255,255,255,.26));will-change:transform,opacity;contain:strict}
@@ -42,3 +42,4 @@
 #boxv .bxprods{display:flex;flex-wrap:nowrap;gap:6px;margin:0 0 4px}#boxv .bxprods button{flex:1 1 0;min-width:0;padding:6px 8px;font-size:12.5px;line-height:1.25;margin:0}#boxv .bxprods button small{font-size:10px}
 #boxv .bxact{justify-content:center}
 .bxhint.nudge{animation:bxnud .5s}@keyframes bxnud{30%{transform:translateX(-6px)}60%{transform:translateX(5px)}}
+.bxobj.live .f,.bxobj.live .bxp,.bx3d:not(.torn) .bxobj.live .wr,.bx3d:not(.torn) .bxobj.live .strip{will-change:transform}

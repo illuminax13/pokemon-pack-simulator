@@ -33,6 +33,10 @@ function boxRestore(s){let m;try{m=(JSON.parse(localStorage.getItem(BXK)||"{}")|
   BOX={s,prod:m.prod,packs,done:m.done.slice(),res:packs.map((p,k)=>m.done[k]?p:undefined),gen:0,showAll:BOX?BOX.showAll:false,t0:0,fast:0,wrap:m.wrap,lid:m.lid};return true}catch(e){return false}}
 /* ---- 3D box ---- */
 const BX3={};
+/* small 240px pack-art thumbnails (assets/packs/<dex>/t/) for box faces + in-box packs; full art is the fallback */
+function bxT(u){return u&&/\.webp$/.test(u)?u.replace(/\/([^/]+\.webp)$/,"/t/$1"):u}
+function bxPkImg(u,cls,extra=""){const t=bxT(u);return `<img${cls?` class="${cls}"`:""} src="${t}"${t!==u?` onerror="this.onerror=null;this.src='${u}'"`:""} alt="" draggable="false" decoding="async"${extra}>`}
+function bxPreload(s){try{const L=logoSrcs(s);[...(PACKART[s.dex]||[]).slice(0,4).map(bxT),...(Array.isArray(L)?L.slice(0,1):[])].forEach(u=>{const i=new Image();i.decoding="async";i.src=u})}catch(e){}}
 function bxShape(B){const n=B.prod.name||"";return /elite/i.test(n)?"etb":/bundle/i.test(n)?"bundle":"box"}
 /* 2.5D box: every face/pack is a flat sibling element placed with a 2D affine matrix() computed from a JS orthographic
    projection (no preserve-3d / perspective / backface-visibility), so iOS Safari and engines that flatten 3D render it identically.
@@ -41,7 +45,7 @@ function box3dBuild(B,host){if(!host)return;const s=B.s,shape=bxShape(B),arts=(P
  const [W,D,H,LH]={box:[300,200,150,44],etb:[220,124,206,68],bundle:[150,66,214,26]}[shape],W2=W+6,D2=D+6;
  const logo=img(logoSrcs(s),s.name,"").replace("<img ",'<img decoding="async" draggable="false" class="bxlogo" ');
  const label=esc(`${B.prod.real?B.prod.name:"Virtual booster box"} · ${B.prod.n} packs`),brand=lor?"Disney Lorcana":"Pokémon TCG";
- const fans=`<div class="bxart">${[0,1,2].map(i=>`<img src="${art(i)}" alt="" draggable="false" decoding="async">`).join("")}</div>`,wr=`<i class="wr"></i>`;
+ const fans=`<div class="bxart">${[0,1,2].map(i=>bxPkImg(art(i))).join("")}</div>`,wr=`<i class="wr"></i>`;
  const hx=-H/2-1,hz=-D2/2+(D2-D)/2-3;   // lid hinge (back-top edge)
  /* face specs: [class, w, h, O, U, V, group, html, lid?]  (object space: x right, y down, z toward viewer; normal = U×V) */
  const FS=[
@@ -79,9 +83,10 @@ function box3dBuild(B,host){if(!host)return;const s=B.s,shape=bxShape(B),arts=(P
   for(const p of X.pk){if(!p.e.isConnected)continue;const L=X.lift[p.k]||0,o=[p.O[0],p.O[1]-L*X.H*1.2,p.O[2]+L*30];p.e.style.transform=M(o,p.U,p.V,p.w,p.h)[0]}
   const sh=Math.round((50+ry*1.4)/3)*3;if(sh!==X.sh&&!B.wrap){X.sh=sh;X.wrs.forEach(w=>{if(w.className==="wr")w.style.backgroundPosition=`${sh}% 0,0 0`})}};
  /* JS tween (no CSS transitions on matrices): eases drag offsets back and the lid to its target */
- X.tween=(to,ms=550)=>{const f0={drx:X.drx,dry:X.dry,ang:X.ang},t0=performance.now(),id=++X.tw;const st=t=>{if(id!==X.tw||!X.host.isConnected)return;const q=Math.min(1,(t-t0)/ms),e=1-Math.pow(1-q,3);
-  for(const n in to)X[n]=f0[n]+(to[n]-f0[n])*e;X.apply();if(q<1)requestAnimationFrame(st)};requestAnimationFrame(st)};
- if(B.lid||B.wrap)bxPacks(X);if(!B.wrap)requestAnimationFrame(()=>bxCurl(X,0,0,0,1));bxStatus(X);X.fit();requestAnimationFrame(X.fit);bxGestures(X)}
+ X.live=on=>{clearTimeout(X.lt);if(on)obj.classList.add("live");else X.lt=setTimeout(()=>obj.classList.remove("live"),400)};
+ X.tween=(to,ms=550)=>{X.live(1);const f0={drx:X.drx,dry:X.dry,ang:X.ang},t0=performance.now(),id=++X.tw;const st=t=>{if(id!==X.tw||!X.host.isConnected)return;const q=Math.min(1,(t-t0)/ms),e=1-Math.pow(1-q,3);
+  for(const n in to)X[n]=f0[n]+(to[n]-f0[n])*e;X.apply();if(q<1)requestAnimationFrame(st);else X.live(0)};requestAnimationFrame(st)};
+ if(B.lid||B.wrap)bxPacks(X);bxStatus(X);X.fit();requestAnimationFrame(X.fit);bxGestures(X)}
 function bxFaces(){}
 function bxStatus(X){const B=X.B,left=boxLeft(),n=B.prod.n,h=X.host.querySelector(".bxhint");
  X.host.querySelector(".bxleftn").textContent=`${left} of ${n} packs left`;
@@ -94,7 +99,7 @@ function bxPacks(X){const B=X.B,{W,D,H}=X,n=B.prod.n;if(X.packs)return;X.packs=1
  B.packs.forEach((p,k)=>{if(B.done[k])return;const c=Math.floor(k/per),i=k%per,x=-W/2+6+cw*(c+.5)+(rnd(k)-.5)*4,z=Math.min(D/2-6,per>1?z0+i*(D-16)/(per-1):0),y=H/2-ph/2-2-rnd(k+9)*5,a=(rnd(k+3)-.5)*3*Math.PI/180;
   const U=[pw*Math.cos(a),pw*Math.sin(a),0],V=[-ph*Math.sin(a),ph*Math.cos(a),0];
   X.pk.push({k,w:pw,h:ph,U,V,O:[x-U[0]/2-V[0]/2,y-U[1]/2-V[1]/2,z],z:300+i});
-  h+=`<img class="bxp" data-k="${k}" data-c="${c}" src="${X.art(k)}" alt="Pack ${k+1}" draggable="false" decoding="async" style="width:${pw.toFixed(1)}px;height:${ph.toFixed(1)}px;z-index:${3}">`});
+  h+=bxPkImg(X.art(k),"bxp",` data-k="${k}" data-c="${c}" style="width:${pw.toFixed(1)}px;height:${ph.toFixed(1)}px;z-index:3"`).replace('alt=""',`alt="Pack ${k+1}"`)});
  X.obj.querySelectorAll(".bxp").forEach(e=>e.remove());X.obj.insertAdjacentHTML("beforeend",h);X.pk.forEach(p=>{p.e=X.obj.querySelector(`.bxp[data-k="${p.k}"]`)});
  /* packs share z-index group 3; DOM order (back row first) does the in-group painting */X.apply()}
 function bxCurl(X,x,y,burst,prep){const fx=X.host.querySelector(".bxfx");if(!fx)return;
@@ -115,7 +120,7 @@ function box3dOpenAll(){const X=BX3,B=BOX;if(!B||!B.lid||B.fly||X.B!==B||X.busy)
  ks.slice(-8).reverse().forEach((k,j)=>setTimeout(()=>{bxLiftOut(X,k);bxSfx("tick")},j*60));
  setTimeout(()=>{X.busy=0;if(BOX===B){const v=$("boxv");if(v)v.scrollTop=0;boxFast()}},Math.min(8,ks.length)*60+380)}
 function bxGestures(X){const sc=X.sc,B=X.B;let d=null;
- sc.onpointerdown=e=>{if(e.button>0)return;d={x:e.clientX,y:e.clientY,t:performance.now(),lx:e.clientX,mode:null,id:e.pointerId,moved:0,r:sc.getBoundingClientRect()};try{sc.setPointerCapture(e.pointerId)}catch(_){}X.tw++};
+ sc.onpointerdown=e=>{if(e.button>0)return;d={x:e.clientX,y:e.clientY,t:performance.now(),lx:e.clientX,mode:null,id:e.pointerId,moved:0,r:sc.getBoundingClientRect()};try{sc.setPointerCapture(e.pointerId)}catch(_){}X.tw++;X.live(1)};
  sc.onpointermove=e=>{if(!d||e.pointerId!==d.id)return;const dx=e.clientX-d.x,dy=e.clientY-d.y,r=d.r;d.moved=Math.max(d.moved,Math.hypot(dx,dy));
   if(!d.mode&&d.moved>8)d.mode=!B.wrap&&Math.abs(dx)>Math.abs(dy)?"tear":B.wrap&&!B.lid&&dy<0&&Math.abs(dy)>Math.abs(dx)?"lid":"rot";
   X.dry=Math.max(-28,Math.min(28,dx*(d.mode==="rot"?.18:.05)));X.drx=Math.max(-14,Math.min(14,-dy*(d.mode==="rot"?.1:.02)));X.apply();
@@ -137,3 +142,4 @@ function bxGestures(X){const sc=X.sc,B=X.B;let d=null;
   if(!B.wrap)bxTorn(X,r.width/2,r.height/2);else if(!B.lid){if(!X.packs)bxPacks(X);bxLidTo(X,1)}else{const q=[...X.host.querySelectorAll(".bxp:not(.lift)")].pop();if(q)bxPull(X,+q.dataset.k)}}}
 {const gt=gyroTick;gyroTick=function(){const r=gt.apply(this,arguments);try{if(BX3.host&&BX3.host.isConnected&&$("boxv").classList.contains("on"))BX3.apply()}catch(e){}return r}}
 addEventListener("resize",()=>{if(BX3.host&&BX3.host.isConnected)BX3.fit()});
+{const cs=chooseSet;chooseSet=function(s){const r=cs.apply(this,arguments);try{const f=()=>bxPreload(s||set);window.requestIdleCallback?requestIdleCallback(f,{timeout:1500}):setTimeout(f,700)}catch(e){}return r}}

@@ -1,0 +1,32 @@
+binders
+box@36-pack
+box@real products
+box@lorcana
+cardimg
+flow@Base Set|Jungle|Fossil
+flow@Evolving Skies|Scarlet|Surging
+flow@Prismatic|Pitch Black|Team Rocket
+flow@Celebrations|Crown Zenith|30th
+flow@swipe spin|God pack
+lorcana
+newsets
+offline-new
+persistence
+pullrates
+rarity
+sound
+sw-a11y@service worker|a11y basics|rapid double|back mid
+sw-a11y@resize|image fallbacks|20 pack
+sw-a11y@offline after|versioned|wide desktop
+tilt
+value@pack summary
+value@missing price
+value@best pull
+zoom
+zz-box3dshot
+zz-boxshot
+zz-foil
+zz-lorshots
+zz-shots
+zz-valueshot
+zz-zoomshot
