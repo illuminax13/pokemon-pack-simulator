@@ -32,7 +32,7 @@ viewCard=function(n){const o=owned(B.s),l=slots().filter(c=>o[c.n]);const i=l.fi
 document.addEventListener("click",e=>{const c=e.target.closest&&e.target.closest("#summary .sgrid .card");if(!c)return;const cards=[...document.querySelectorAll("#summary .sgrid .card")],i=cards.indexOf(c);
  openZoom(current.map(x=>zItem(x,set)),i)});
 /* history + collection: store the best pull per history line (parallel array, capped like hist) */
-{const op=openPack;openPack=function(){const r=op.apply(this,arguments);try{const b=current[current.length-1];store.histC=store.histC||[];store.histC.unshift({id:b.id,name:b.name,rarity:b.rarity,rev:!!b.rev,x:b.x,pat:b.pat});store.histC=store.histC.slice(0,(store.hist||[]).length);save()}catch(e){}return r}}
+{const op=openPack;openPack=function(){const r=op.apply(this,arguments);try{const b=typeof bestOf==="function"?bestOf(current,set):current[current.length-1];store.histC=store.histC||[];store.histC.unshift({id:b.id,name:b.name,rarity:b.rarity,rev:!!b.rev,x:b.x,pat:b.pat});store.histC=store.histC.slice(0,(store.hist||[]).length);save()}catch(e){}return r}}
 {const rd=render;render=function(){const r=rd.apply(this,arguments);const hc=store.histC||[];[...$("hist").children].forEach((d,i)=>{if(hc[i]&&setOfId(hc[i].id))d.dataset.h=i});
   [...$("coll").children].forEach((d,i)=>{d.dataset.k=i});return r}}
 $("hist").addEventListener("click",e=>{const d=e.target.closest("[data-h]");if(!d)return;const hc=store.histC||[];const L=[],idx=[];hc.forEach((h,i)=>{const s=setOfId(h.id);if(!s)return;

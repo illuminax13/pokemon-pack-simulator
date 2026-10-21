@@ -87,3 +87,13 @@ async function openShelf(page) {
 }
 
 module.exports = {SETS, gotoApp, chooseSet, skipAndLand, tapCenterPack, doTear, revealAll, openShelf, expect};
+// 3D box gestures
+async function boxDrag(page, fx0, fy0, fx1, fy1, steps = 14) {
+  const b = await page.locator('#bx3d .bxscene').boundingBox();
+  await page.mouse.move(b.x + b.width * fx0, b.y + b.height * fy0); await page.mouse.down();
+  for (let i = 1; i <= steps; i++) { await page.mouse.move(b.x + b.width * (fx0 + (fx1 - fx0) * i / steps), b.y + b.height * (fy0 + (fy1 - fy0) * i / steps)); await page.waitForTimeout(16); }
+  await page.mouse.up();
+}
+async function tearWrap(page) { await boxDrag(page, .08, .5, .95, .52, 18); await page.locator('#bx3d.torn').waitFor(); }
+async function openLid(page) { await boxDrag(page, .5, .62, .5, .02, 14); await page.locator('#bx3d.open').waitFor(); await page.waitForTimeout(700); }
+module.exports.boxDrag = boxDrag; module.exports.tearWrap = tearWrap; module.exports.openLid = openLid;

@@ -1,5 +1,5 @@
 const {test, expect} = require('@playwright/test');
-const {gotoApp, chooseSet, skipAndLand, tapCenterPack, doTear, revealAll, openShelf} = require('./helpers');
+const {gotoApp, chooseSet, skipAndLand, tapCenterPack, doTear, revealAll, openShelf, tearWrap, openLid} = require('./helpers');
 test.use({serviceWorkers: 'block'});  // page.route can't see requests from SW-controlled pages in WebKit
 const noise = e => !/Failed to load resource|net::|ERR_|CORS|access.control|Cross-Origin/i.test(e);
 // deterministic mock: price derived from card number; card "...-999" style ids or ids in NOPRICE get no pricing
@@ -10,7 +10,7 @@ async function mockPrices(page, opt = {}) {
     calls.dex++;
     const id = decodeURIComponent(r.request().url().split('/cards/')[1]);
     const n = parseInt(id.split('-').pop(), 10) || 1;
-    const pricing = (opt.noPrice || []).includes(id) ? {} : {tcgplayer: {updated: '2026-10-14T22:55:00Z', unit: 'USD', normal: {marketPrice: 0.1}, holofoil: {marketPrice: n / 10}, 'reverse-holofoil': {marketPrice: 0.5}}, cardmarket: {avg: 0.2}};
+    const pricing = (opt.noPrice || []).includes(id) ? {} : {tcgplayer: {updated: '2026-10-14T22:55:00Z', unit: 'USD', normal: {marketPrice: 0.1}, holofoil: {marketPrice: (opt.price && opt.price[id]) || (opt.cap ? Math.min(opt.cap, n / 10) : n / 10)}, 'reverse-holofoil': {marketPrice: 0.5}}, cardmarket: {avg: 0.2}};
     r.fulfill({contentType: 'application/json', body: JSON.stringify({id, pricing})});
   });
   await page.route('https://api.lorcast.com/v0/sets/*/cards', r => {
@@ -31,7 +31,7 @@ test('value: pack summary chips, zoom price, cache, binder + collection value', 
   const chips = await page.$$eval('#summary .sgrid .card .pchip', e => e.map(x => x.textContent));
   expect(chips).toEqual(exp.map(v => '$' + v.toFixed(2)));
   const sum = exp.reduce((a, b) => a + b, 0);
-  await expect(page.locator('#packval b')).toHaveText('$' + sum.toFixed(2));
+  await expect(page.locator('#packval b:not(.pvbest)')).toHaveText('$' + sum.toFixed(2));
   await expect(page.locator('#packval')).toContainText('TCGplayer market');
   expect(calls.ptcg).toBe(1);                         // bulk tried once, falls back to TCGdex per card
   // zoom shows price + source + date
@@ -76,12 +76,54 @@ test('value: missing price + lorcana foil prices in box summary', async ({page})
   expect(r[0]).toBeNull(); expect(r[1]).toContain('no price');
   await page.locator('#gtabs button[data-g="lor"]').click();
   await chooseSet(page, 25);
-  await page.locator('#sbox').click(); await page.locator('#bxall').click(); await page.locator('#bxskip').click();
+  await page.locator('#sbox').click(); await tearWrap(page); await openLid(page); await page.locator('#bxall').click(); await page.locator('#bxskip').click({force: true});
   await expect(page.locator('#bxvaln')).toContainText('240/240 priced'.replace('240/240', await page.evaluate(() => { const n = BOX.res.reduce((a, p) => a + p.length, 0); return n + '/' + n; })), {timeout: 15000});
   const exp = await page.evaluate(() => BOX.res.flat().reduce((a, c) => { const n = parseInt(c.id.split('-').pop(), 10); return a + (c.rev || TIERS[c.tier] >= 5 ? n / 20 : 0.25); }, 0));
   const shown = await page.locator('#bxval').textContent();
   expect(Math.abs(parseFloat(shown.replace(/[$,]/g, '')) - exp)).toBeLessThan(0.011);
   await expect(page.locator('#bxmv')).toContainText('Most valuable');
   await expect(page.locator('#bxhits .pr').first()).toContainText('$');
+  expect(errs.filter(noise)).toEqual([]);
+});
+
+test('value: best pull / hits / most valuable follow market price (two SIRs, cheaper one earlier)', async ({page}) => {
+  await mockPrices(page, {cap: 5, price: {}});
+  const {errs} = await gotoApp(page);
+  await chooseSet(page, 12);
+  const ids = await page.evaluate(() => {
+    const all = Object.values(cache[set.dex].pools).flat().filter(c => c && /special illustration/i.test(c.rarity));
+    const uniq = [...new Map(all.map(c => [c.id, c])).values()];
+    const [a, b] = uniq; newBox(set, boxProducts(set)[0]);
+    // strip other big hits so nothing else competes on rank, then plant cheap SIR in pack 8, chase SIR in pack 14
+    BOX.packs.forEach(p => p.forEach((c, i) => { if (rRank(c) >= 60) p[i] = {...c, rarity: 'Rare', tier: 'rare', rev: false}; }));
+    BOX.packs[7][BOX.packs[7].length - 1] = {...a, rev: false};
+    BOX.packs[13][BOX.packs[13].length - 1] = {...b, rev: false};
+    BOX.wrap = 1; BOX.lid = 1; return [a.id, b.id, a.name, b.name];
+  });
+  // the route is already registered; inject the two prices into the mock via a second route taking precedence
+  await page.route('https://api.tcgdex.net/v2/en/cards/**', r => {
+    const id = decodeURIComponent(r.request().url().split('/cards/')[1]);
+    const v = id === ids[0] ? 32.39 : id === ids[1] ? 136.89 : null;
+    if (v == null) return r.fallback();
+    r.fulfill({contentType: 'application/json', body: JSON.stringify({id, pricing: {tcgplayer: {updated: '2026-10-14T22:55:00Z', unit: 'USD', holofoil: {marketPrice: v}}}})});
+  });
+  await page.locator('#sbox').click();
+  await expect(page.locator('#bxall')).toBeEnabled();
+  await page.locator('#bxall').click(); await page.locator('#bxskip').click({force: true});
+  await expect(page.locator('#boxv .bxsum')).toBeVisible();
+  await expect(page.locator('#bxbestp')).toContainText('$136.89', {timeout: 40000});
+  await expect(page.locator('.bxbest .bbi')).toContainText(ids[3]);
+  await expect(page.locator('.bxbest .bbi')).toContainText('Pack #14');
+  expect(await page.evaluate(() => BOX.hitList[0].k)).toBe(13);
+  expect(await page.evaluate(() => BOX.hitList[1].k)).toBe(7);
+  await expect(page.locator('#bxhits [data-pj="0"]')).toContainText('$136.89');
+  await expect(page.locator('#bxmv')).toContainText(ids[3]);
+  // the zoom from the first hit opens the chase card
+  await page.locator('#bxhits .bxt').first().click();
+  await expect(page.locator('#viewer.on')).toBeVisible();
+  await expect(page.locator('#zprice')).toContainText('$136.89');
+  await page.keyboard.press('Escape');
+  // ranking without prices: rarity order
+  expect(await page.evaluate(() => [rRank({rarity: 'Mega Hyper Rare'}) > rRank({rarity: 'Special Illustration Rare'}), rRank({rarity: 'Special Illustration Rare'}) > rRank({rarity: 'Ultra Rare'}), rRank({rarity: 'Ultra Rare'}) > rRank({rarity: 'Illustration Rare'}), rRank({rarity: 'Illustration Rare'}) > rRank({rarity: 'Double Rare'}), rRank({rarity: 'Enchanted'}) > rRank({rarity: 'Epic'}), rRank({rarity: 'Iconic'}) > rRank({rarity: 'Legendary'})])).toEqual([true, true, true, true, true, true]);
   expect(errs.filter(noise)).toEqual([]);
 });

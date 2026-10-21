@@ -528,7 +528,54 @@ section{content-visibility:auto;contain-intrinsic-size:auto 600px}
 .pxmv button{appearance:none;border:0;padding:0;background:#ffffff0d;border-radius:7px;overflow:hidden;color:inherit;font:inherit;text-align:left;cursor:zoom-in}
 .pxmv img{display:block;width:100%;aspect-ratio:63/88;object-fit:cover}.pxmv span{display:block;padding:3px 5px 5px;font-size:11px;line-height:1.25}.pxmv em{font-style:normal;color:#9fe3a6}
 .pxph{background:#ffffff08;border-radius:8px}
-/*</f5css>*//*<f6css>*/#vWheel.stage #ssetbtn{background:rgba(255,255,255,.75);color:#24324a;border:1px solid rgba(30,50,80,.12);box-shadow:0 2px 8px rgba(30,50,80,.12);padding:7px 11px;line-height:1}/*</f6css>*/</style></head><body><div id="bg"></div><canvas id="fx"></canvas><div id="burst"></div>
+/*</f5css>*//*<f6css>*/#vWheel.stage #ssetbtn{background:rgba(255,255,255,.75);color:#24324a;border:1px solid rgba(30,50,80,.12);box-shadow:0 2px 8px rgba(30,50,80,.12);padding:7px 11px;line-height:1}/*</f6css>*//*<f7css>*//* F7: interactive 3D booster box */
+.bx3d{position:relative;margin:0 auto;max-width:560px;touch-action:none;-webkit-user-select:none;user-select:none}
+.bxscene{position:relative;height:clamp(300px,54vh,500px);perspective:1100px;overflow:visible;cursor:grab}
+.bxscene:active{cursor:grabbing}
+.bxshadow{position:absolute;left:50%;top:84%;width:340px;height:70px;margin:-35px 0 0 -170px;border-radius:50%;background:radial-gradient(closest-side,rgba(0,0,0,.55),rgba(0,0,0,0));transform:scale(var(--k,1));animation:bxshf 5s ease-in-out infinite;pointer-events:none}
+.bxfloat{position:absolute;left:50%;top:50%;transform-style:preserve-3d;-webkit-transform-style:preserve-3d;animation:bxfl 5s ease-in-out infinite}
+@keyframes bxfl{50%{transform:translate3d(0,-7px,0)}}
+@keyframes bxshf{50%{transform:scale(calc(var(--k,1)*.93));opacity:.8}}
+.bxobj{position:absolute;left:0;top:0;transform-style:preserve-3d;-webkit-transform-style:preserve-3d;will-change:transform}
+.bxobj.ease{transition:transform .6s cubic-bezier(.2,.8,.2,1)}
+.bxbd,.bxlid,.bxin{position:absolute;left:0;top:0;width:0;height:0;transform-style:preserve-3d;-webkit-transform-style:preserve-3d}
+.bxlid.ease{transition:transform .55s cubic-bezier(.2,.8,.25,1)}
+.bx3d .f{position:absolute;left:0;top:0;overflow:hidden;backface-visibility:hidden;-webkit-backface-visibility:hidden;box-sizing:border-box}
+.bx3d .o{background:linear-gradient(160deg,var(--c0),var(--c1))}
+.bx3d .o::after{content:"";position:absolute;inset:0;background:radial-gradient(120% 90% at 50% 30%,rgba(0,0,0,.18),rgba(0,0,0,.55));pointer-events:none}
+.bx3d .sd::after,.bx3d .bk::after,.bx3d .lb::after,.bx3d .ls::after{background:linear-gradient(90deg,rgba(0,0,0,.5),rgba(0,0,0,.62))}
+.bx3d .bt{background:#121218}
+.bx3d .in{background:linear-gradient(180deg,#3a332c,#26211c)}.bx3d .ib{background:#1d1915}.bx3d .lu{background:linear-gradient(180deg,#2f2a24,#1c1814)}
+.bxart{position:absolute;left:0;right:0;bottom:-6%;height:78%;z-index:1}
+.bxart img{position:absolute;bottom:0;height:100%;width:auto;border-radius:3px;box-shadow:0 4px 12px rgba(0,0,0,.5)}
+.bxart img:nth-child(1){left:6%;transform:rotate(-9deg);transform-origin:bottom center}
+.bxart img:nth-child(2){left:50%;margin-left:-19%;z-index:2;height:106%}
+.bxart img:nth-child(3){right:6%;transform:rotate(9deg);transform-origin:bottom center}
+.bx3d .bxlogo{position:absolute;left:50%;top:7%;width:58%;height:auto;max-height:30%;object-fit:contain;transform:translateX(-50%);z-index:3}
+.bx3d .lt .bxlogo{top:50%;width:62%;max-height:40%;transform:translate(-50%,-50%)}
+.bx3d .lt .bxart{height:70%;bottom:auto;top:15%;opacity:.55}
+.bxlbl{position:absolute;left:0;right:0;bottom:5px;z-index:3;text-align:center;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.82);font-weight:700}
+.bxvt{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;z-index:2;font-size:11px;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.75)}
+.bx3d .lf .bxvt{font-size:9px}
+.bx3d .wr{position:absolute;inset:0;will-change:transform;transform-origin:100% 50%;z-index:5;pointer-events:none;background:linear-gradient(112deg,rgba(255,255,255,0) 32%,rgba(255,255,255,.15) 45%,rgba(255,255,255,.04) 52%,rgba(255,255,255,0) 62%),linear-gradient(rgba(255,255,255,.035),rgba(255,255,255,.035));background-size:320% 100%,100% 100%;box-shadow:inset 0 0 0 1px rgba(255,255,255,.13),inset 0 0 18px rgba(255,255,255,.05);transition:opacity .45s}
+.bx3d .strip{will-change:transform;transform-origin:100% 50%;position:absolute;left:0;right:0;top:9px;height:5px;z-index:6;background:repeating-linear-gradient(90deg,rgba(255,255,255,.35) 0 8px,rgba(255,255,255,.08) 8px 12px);transition:opacity .45s}
+.bx3d.torn .wr,.bx3d.torn .strip{opacity:0}
+.bxp{position:absolute;left:0;top:0;border-radius:3px;backface-visibility:hidden;-webkit-backface-visibility:hidden;box-shadow:0 -1px 0 rgba(255,255,255,.25) inset;cursor:pointer;-webkit-user-drag:none}
+.bxp.lift{transition:transform .5s cubic-bezier(.2,.8,.2,1),opacity .5s;opacity:0}
+.bxfx{position:absolute;inset:0;pointer-events:none;overflow:visible;z-index:4}
+.cp{position:absolute;left:0;top:0;opacity:0;width:24px;height:15px;margin:-7px 0 0 -12px;border-radius:2px 70% 3px 55%;background:linear-gradient(135deg,rgba(255,255,255,.42),rgba(255,255,255,.07) 55%,rgba(255,255,255,.26));will-change:transform,opacity;contain:strict}
+@keyframes cpfly{to{transform:translate(var(--dx),var(--dy)) rotate(var(--r)) scale(var(--s));opacity:0}}
+.bxhint{text-align:center;color:#c8cdf0;font-size:14px;min-height:20px;margin:2px 0 6px}
+.bxhint b{color:#fff}
+.bxpips{display:flex;flex-wrap:wrap;justify-content:center;gap:3px;max-width:200px;margin:0 auto 8px}
+.bxpips i{width:7px;height:10px;border-radius:2px;background:var(--gold,#ffd54a);opacity:.85}.bxpips i.x{opacity:.15}
+.bxleftn{text-align:center;font-size:13px;color:#9aa3d6;margin-bottom:4px}
+.bxfine{max-width:520px;margin:8px auto 0;text-align:center}.bxfine .bxchk{justify-content:center;font-size:12.5px}.bxfine .bxnote{font-size:11px;margin:4px 0}
+#bxall[disabled]{opacity:.4;cursor:default}
+.bxprods{margin:0 0 4px}.bxprods button{padding:8px 12px;font-size:14px}
+#boxv .bxact{justify-content:center}
+.bxhint.nudge{animation:bxnud .5s}@keyframes bxnud{30%{transform:translateX(-6px)}60%{transform:translateX(5px)}}
+/*</f7css>*/</style></head><body><div id="bg"></div><canvas id="fx"></canvas><div id="burst"></div>
 <div id="tear"></div><div id="badge">CSS · loading</div>
 <header><h1>PACK SIMULATOR</h1>
 <button id="back" class="ghost" aria-label="Back to sets">← Sets</button><button id="binders" class="ghost" aria-label="Open binders">📚 Binders</button><button id="open" aria-label="Open another pack">Open Another</button><button id="reveal" class="ghost" aria-label="Reveal all cards">Reveal All</button>
@@ -1125,7 +1172,7 @@ viewCard=function(n){const o=owned(B.s),l=slots().filter(c=>o[c.n]);const i=l.fi
 document.addEventListener("click",e=>{const c=e.target.closest&&e.target.closest("#summary .sgrid .card");if(!c)return;const cards=[...document.querySelectorAll("#summary .sgrid .card")],i=cards.indexOf(c);
  openZoom(current.map(x=>zItem(x,set)),i)});
 /* history + collection: store the best pull per history line (parallel array, capped like hist) */
-{const op=openPack;openPack=function(){const r=op.apply(this,arguments);try{const b=current[current.length-1];store.histC=store.histC||[];store.histC.unshift({id:b.id,name:b.name,rarity:b.rarity,rev:!!b.rev,x:b.x,pat:b.pat});store.histC=store.histC.slice(0,(store.hist||[]).length);save()}catch(e){}return r}}
+{const op=openPack;openPack=function(){const r=op.apply(this,arguments);try{const b=typeof bestOf==="function"?bestOf(current,set):current[current.length-1];store.histC=store.histC||[];store.histC.unshift({id:b.id,name:b.name,rarity:b.rarity,rev:!!b.rev,x:b.x,pat:b.pat});store.histC=store.histC.slice(0,(store.hist||[]).length);save()}catch(e){}return r}}
 {const rd=render;render=function(){const r=rd.apply(this,arguments);const hc=store.histC||[];[...$("hist").children].forEach((d,i)=>{if(hc[i]&&setOfId(hc[i].id))d.dataset.h=i});
   [...$("coll").children].forEach((d,i)=>{d.dataset.k=i});return r}}
 $("hist").addEventListener("click",e=>{const d=e.target.closest("[data-h]");if(!d)return;const hc=store.histC||[];const L=[],idx=[];hc.forEach((h,i)=>{const s=setOfId(h.id);if(!s)return;
@@ -1140,9 +1187,9 @@ function boxProducts(s){if(s.game==="lor")return [{name:"Booster Box",n:24,real:
  return [...p.map(([name,n])=>({name,n,real:1})),{name:"Virtual box",n:36,real:0}]}
 let BOX=null;const BXT=t=>TIERS[t]||0;
 function newBox(s,prod){const d=cache[s.dex];if(!d)return null;const packs=Array.from({length:prod.n},()=>buildPack(s,d.pools));
- BOX={s,prod,packs,done:packs.map(()=>0),res:[],gen:0,showAll:BOX?BOX.showAll:false,t0:0,fast:0};return BOX}
+ BOX={s,prod,packs,done:packs.map(()=>0),res:[],gen:0,showAll:BOX?BOX.showAll:false,t0:0,fast:0,wrap:0,lid:0};if(typeof boxSave==="function")boxSave();return BOX}
 function boxLeft(){return BOX?BOX.done.filter(x=>!x).length:0}
-function boxRecord(s,p){store.packs++;const best=p[p.length-1];if(p.god){store.god=(store.god||0)+1;store.godBy=store.godBy||{};store.godBy[s.dex]=(store.godBy[s.dex]||0)+1}
+function boxRecord(s,p){store.packs++;const best=typeof bestOf==="function"?bestOf(p,s):p[p.length-1];if(p.god){store.god=(store.god||0)+1;store.godBy=store.godBy||{};store.godBy[s.dex]=(store.godBy[s.dex]||0)+1}
  store.hist.unshift(`${p.god?(p.god.kind==="demi"?"👑DEMI ":"👑GOD "):""}#${store.packs} ${s.name} 📦: best pull ${best.name} (${best.rarity})`);store.hist=store.hist.slice(0,100);
  store.histC=store.histC||[];store.histC.unshift({id:best.id,name:best.name,rarity:best.rarity,rev:!!best.rev,x:best.x,pat:best.pat});store.histC=store.histC.slice(0,store.hist.length);
  p.forEach(c=>{const [d,n]=keyOf(c.id);const ss=store.sets[d]=store.sets[d]||{};ss[n]=ss[n]||{name:c.name,rarity:c.rarity,imgs:c.imgs,n:0};ss[n].imgs=c.imgs;if(c.x)ss[n].x=c.x;ss[n].lid=c.id.slice(c.id.lastIndexOf("-")+1);ss[n].n++;if(c.rev)ss[n].rv=(ss[n].rv||0)+1;
@@ -1156,24 +1203,26 @@ function boxHead(){const v=boxShell(),B=BOX;v.querySelector(".bxttl").innerHTML=
  v.querySelector(".bxprog").innerHTML=`<b>${B.prod.n-boxLeft()}</b> / ${B.prod.n} opened`}
 async function openBox(s){s=s||set;if(!s)return;const v=boxShell();v.classList.add("on");v.querySelector(".bxbody").innerHTML=`<p class="bxnote">Loading ${esc(s.name)}…</p>`;
  try{await getCards(s)}catch(e){v.querySelector(".bxbody").innerHTML=`<p class="bxnote">Couldn't load cards. Check your connection.</p>`;return}
- if(!BOX||BOX.s!==s||!boxLeft()&&!BOX.res.length)newBox(s,boxProducts(s)[0]);if(BOX.res.length&&!boxLeft()&&!BOX.fly)return boxSummary();boxIntro()}
-function boxIntro(){const B=BOX,v=boxShell(),prods=boxProducts(B.s),left=boxLeft(),started=left<B.prod.n;boxHead();
- v.querySelector(".bxbody").innerHTML=(prods.length>1?`<div class="bxprods">${prods.map((p,i)=>`<button data-p="${i}" class="${p.name===B.prod.name?"sel":""}"${started?" disabled":""}>${esc(p.name)} · ${p.n} packs<small>${p.real?"Real product":"Virtual box — not a real product, for fun"}</small></button>`).join("")}</div>`:"")+
- `<div class="bxact"><button id="bxall">⚡ Open All (${left})</button><button id="bxone" class="ghost">Open next pack ▸</button>${started?`<button id="bxsumb" class="ghost">Box summary</button>`:""}</div>
- <label class="bxchk"><input type="checkbox" id="bxshowall"${B.showAll?" checked":""}> Show all cards while opening</label>
- <p class="bxnote">Every pack is generated independently with the set's normal per-pack pull rates${B.s.game==="lor"?" (Lorcana boxes have no box-level guarantees)":" (no box-level guarantees)"}. All cards go to your collection.</p>`;
- v.querySelectorAll(".bxprods button").forEach(b=>b.onclick=()=>{if(B.prod.n-boxLeft())return;newBox(B.s,prods[+b.dataset.p]);boxIntro()});
- $("bxall").onclick=boxFast;$("bxone").onclick=boxOne;$("bxshowall").onchange=e=>{BOX.showAll=e.target.checked};const sb=$("bxsumb");if(sb)sb.onclick=boxSummary}
-function boxOne(){const B=BOX;if(!B)return;const k=B.done.indexOf(0);if(k<0)return boxSummary();$("boxv").classList.remove("on");
- chooseSet(B.s).then(()=>{if(BOX===B&&!B.done[k])NEXT={s:B.s,p:B.packs[k],box:k}})}
+ if((!BOX||BOX.s!==s)&&typeof boxRestore==="function")boxRestore(s);if(!BOX||BOX.s!==s||!boxLeft()&&!BOX.res.length)newBox(s,boxProducts(s)[0]);if(BOX.res.length&&!boxLeft()&&!BOX.fly)return boxSummary();boxIntro()}
+function boxIntro(){const B=BOX,v=boxShell(),prods=boxProducts(B.s),left=boxLeft(),started=left<B.prod.n||B.wrap;boxHead();
+ v.querySelector(".bxbody").innerHTML=(prods.length>1&&!started?`<div class="bxprods">${prods.map((p,i)=>`<button data-p="${i}" class="${p.name===B.prod.name?"sel":""}">${esc(p.name)} · ${p.n} packs<small>${p.real?"Real product":"Virtual box — not a real product"}</small></button>`).join("")}</div>`:"")+
+ `<div id="bx3d" class="bx3d"></div>
+ <div class="bxact"><button id="bxall"${B.lid?"":" disabled"}>⚡ Open All (${left})</button>${left<B.prod.n?`<button id="bxsumb" class="ghost">Box summary</button>`:""}</div>
+ <div class="bxfine"><label class="bxchk"><input type="checkbox" id="bxshowall"${B.showAll?" checked":""}> Show all cards while opening</label>
+ <p class="bxnote">Every pack is generated independently with the set's normal per-pack pull rates${B.s.game==="lor"?" (Lorcana boxes have no box-level guarantees)":" (no box-level guarantees)"}. All cards go to your collection.</p></div>`;
+ v.querySelectorAll(".bxprods button").forEach(b=>b.onclick=()=>{if(B.prod.n-boxLeft()||B.wrap)return;newBox(B.s,prods[+b.dataset.p]);boxIntro()});
+ $("bxall").onclick=()=>typeof box3dOpenAll==="function"?box3dOpenAll():boxFast();$("bxshowall").onchange=e=>{BOX.showAll=e.target.checked};const sb=$("bxsumb");if(sb)sb.onclick=boxSummary;
+ if(typeof box3dBuild==="function")box3dBuild(B,$("bx3d"))}
+function boxOne(kk){const B=BOX;if(!B)return;const k=typeof kk==="number"&&!B.done[kk]?kk:B.done.indexOf(0);if(k<0)return boxSummary();$("boxv").classList.remove("on");
+ chooseSet(B.s).then(()=>{if(BOX!==B||B.done[k]||set!==B.s)return;NEXT={s:B.s,p:B.packs[k],box:k};
+  /* pulled straight from the box: skip the wheel and go to the normal tear */if(state==="idle"||state==="landed"){const i=Math.round(pos/PW),pk=$("strip").children[i];state="opening";$("whint").classList.add("off");pk&&pk.classList.remove("landed");tearPack(packArts[i%4],i)}})}
 {const op=openPack;openPack=function(){const nx=NEXT,B=BOX,k=nx&&nx.s===set&&nx.box!=null&&B&&B.packs[nx.box]===nx.p?nx.box:null;const r=op.apply(this,arguments);
- if(k!=null){B.done[k]=1;B.res[k]=current;current.boxK=k}return r}}
+ if(k!=null){B.done[k]=1;B.res[k]=current;current.boxK=k;if(typeof boxSave==="function")boxSave()}return r}}
 {const ss=showSummary;showSummary=function(){const r=ss.apply(this,arguments);try{const a=$("again"),B=BOX;if(!a)return r;
- if(current.boxK!=null&&B&&B.res[current.boxK]===current){const left=boxLeft();if(left){a.textContent=`Next box pack (${B.prod.n-left+1}/${B.prod.n})`;a.onclick=boxOne}else{a.textContent="Box summary";a.onclick=()=>{boxShell().classList.add("on");boxSummary()}}
-  const b=document.createElement("button");b.className="ghost";b.id="tobox";b.textContent="📦 Box";b.style.marginLeft="10px";b.onclick=()=>{boxShell().classList.add("on");left?boxIntro():boxSummary()};a.after(b)}
+ if(current.boxK!=null&&B&&B.res[current.boxK]===current){const left=boxLeft();a.id="tobox";if(left){a.textContent=`📦 Back to box (${left} left)`;a.onclick=()=>{boxShell().classList.add("on");boxIntro()}}else{a.textContent="📦 Box summary";a.onclick=()=>{boxShell().classList.add("on");boxSummary()}}}
  else{const b=document.createElement("button");b.className="ghost";b.id="tobox";b.textContent=`📦 Open ${boxProducts(set)[0].name}`;b.style.marginLeft="10px";b.onclick=()=>openBox(set);a.after(b)}}catch(e){}return r}}
 function boxFast(){const B=BOX,s=B.s;if(B.fly)return;B.t0=performance.now();const ks=[];B.done.forEach((d,k)=>{if(!d)ks.push(k)});
- ks.forEach(k=>{const p=B.packs[k];boxRecord(s,p);B.done[k]=1;B.res[k]=p});save();scheduleRender();boxHead();
+ ks.forEach(k=>{const p=B.packs[k];boxRecord(s,p);B.done[k]=1;B.res[k]=p});save();if(typeof boxSave==="function")boxSave();scheduleRender();boxHead();
  const hitsOf=p=>p.filter(c=>BXT(c.tier)>=3);ks.forEach(k=>hitsOf(B.packs[k]).forEach(c=>{const u=bxImg(c);if(u){const im=new Image();im.referrerPolicy="no-referrer";im.decoding="async";im.src=u}}));
  const v=$("boxv");v.scrollTop=0;v.querySelector(".bxbody").innerHTML=`<div class="bxfly"><div class="bxact"><button id="bxskip" class="ghost">Skip to summary ▸▸</button></div><div class="bxmeter"><i></i></div><div class="bxpk"></div><div class="bxrow${B.showAll?" all":""}"></div></div>`;
  const pk=v.querySelector(".bxpk"),row=v.querySelector(".bxrow"),mt=v.querySelector(".bxmeter i");let i=0,nh=0;const gen=++B.gen;B.fly=1;
@@ -1184,10 +1233,10 @@ function boxFast(){const B=BOX,s=B.s;if(B.fly)return;B.t0=performance.now();cons
   const top=h.reduce((m,c)=>Math.max(m,BXT(c.tier)),0);try{if(p.god){sfx.fanfare();haptic([30,60,30,60,80])}else if(top>=6&&s.game==="lor"){sfx.fanfare();haptic([30,60,80])}else if(top>=3){sfx.chime(top);if(top>=5)haptic([15,30])}}catch(e){}
   setTimeout(step,p.god?1100:h.length?(B.showAll?420:340):(B.showAll?200:60))};step()}
 function boxSummary(){const B=BOX,v=boxShell(),s=B.s;boxHead();const all=[];B.res.forEach((p,k)=>p&&p.forEach(c=>all.push({c,k})));
- const hits=all.filter(x=>BXT(x.c.tier)>=3).sort((a,b)=>BXT(b.c.tier)-BXT(a.c.tier)||(b.c.rev?0:1)-(a.c.rev?0:1)||a.k-b.k);
- const best=hits[0]||all.slice().sort((a,b)=>BXT(b.c.tier)-BXT(a.c.tier))[0];const counts={};all.forEach(({c})=>{const r=c.rarity+(c.rev&&s.game==="lor"?" (Foil)":"");(counts[r]=counts[r]||{n:0,t:BXT(c.tier)}).n++});
+ const cmp=typeof bestCmp==="function"?bestCmp(s):((a,b)=>BXT(b.tier)-BXT(a.tier));const hits=all.filter(x=>BXT(x.c.tier)>=3).sort((a,b)=>cmp(a.c,b.c)||a.k-b.k);
+ const best=hits[0]||all.slice().sort((a,b)=>cmp(a.c,b.c))[0];const counts={};all.forEach(({c})=>{const r=c.rarity+(c.rev&&s.game==="lor"?" (Foil)":"");(counts[r]=counts[r]||{n:0,t:BXT(c.tier)}).n++});
  const gods=[];B.res.forEach((p,k)=>{if(p&&p.god)gods.push(`👑 ${p.god.kind==="demi"?"DEMI-GOD":"GOD"} PACK — pack #${k+1}`)});const opened=B.res.filter(Boolean).length;
- B.hitList=hits;B.allList=all;
+ B.hitList=hits;B.allList=all;B.best=best;
  v.querySelector(".bxbody").innerHTML=`<div class="bxsum">${gods.map(g=>`<div class="bxgod">${g}</div>`).join("")}
   <div class="bxstats" style="margin-top:12px"><div><b>${opened}</b><span>packs opened</span></div><div><b>${all.length}</b><span>cards</span></div><div><b>${hits.length}</b><span>hits (holo+)</span></div><div><b id="bxval">…</b><span id="bxvaln">box value</span></div></div>
   ${best?`<h3>Best pull</h3><div class="bxbest"><div class="bbc"></div><div class="bbi"><b>${esc(best.c.name)}</b><br>${esc(best.c.rarity)}${best.c.rev?(s.game==="lor"?" · Foil":" · Reverse holo"):""}<br>Pack #${best.k+1}<br><span class="pr" id="bxbestp"></span></div></div>`:""}
@@ -1195,8 +1244,8 @@ function boxSummary(){const B=BOX,v=boxShell(),s=B.s;boxHead();const all=[];B.re
   <h3>Hits (${hits.length})</h3><div class="bxgrid" id="bxhits">${hits.map((x,j)=>bxThumb(x.c,x.k,j,1)).join("")||`<p class="bxnote">No hits this time.</p>`}</div>
   ${B.showAll?`<h3>All cards (${all.length})</h3><div class="bxgrid all" id="bxallg">${all.map((x,j)=>bxThumb(x.c,x.k,"a"+j,1)).join("")}</div>`:`<p class="bxnote"><a href="#" id="bxshowallnow">Show all ${all.length} cards</a></p>`}
   <div class="sbtn2">${boxLeft()?`<button id="bxcont">Keep opening (${boxLeft()} left)</button>`:`<button id="bxagain">Open another ${esc(B.prod.name)}</button>`}<button id="bxdone" class="ghost">Back to ${esc(s.name)}</button></div></div>`;
- if(best){const bb=v.querySelector(".bbc");bb.innerHTML=`<button class="bxt bbimg t${BXT(best.c.tier)}" aria-label="Zoom best pull">${img(best.c.imgs,best.c.name,best.c.rarity).replace("<img ",'<img decoding="async" ')}</button>`;bb.firstChild.onclick=()=>openZoom([zItem(best.c,s)],0)}
- v.querySelector(".bxsum").addEventListener("click",e=>{const t=e.target.closest(".bxt[data-j]");if(!t)return;const j=t.dataset.j;if(j[0]==="a")openZoom(all.map(x=>zItem(x.c,s)),+j.slice(1));else openZoom(hits.map(x=>zItem(x.c,s)),+j)});
+ if(best){const bb=v.querySelector(".bbc");bb.innerHTML=`<button class="bxt bbimg t${BXT(best.c.tier)}" aria-label="Zoom best pull">${img(best.c.imgs,best.c.name,best.c.rarity).replace("<img ",'<img decoding="async" ')}</button>`;bb.firstChild.onclick=()=>openZoom([zItem((B.best||best).c,s)],0)}
+ v.querySelector(".bxsum").addEventListener("click",e=>{const t=e.target.closest(".bxt[data-j]");if(!t)return;const j=t.dataset.j;if(j[0]==="a")openZoom(all.map(x=>zItem(x.c,s)),+j.slice(1));else openZoom(B.hitList.map(x=>zItem(x.c,s)),+j)});
  const sa=$("bxshowallnow");if(sa)sa.onclick=e=>{e.preventDefault();B.showAll=true;boxSummary()};
  const bc=$("bxcont");if(bc)bc.onclick=boxIntro;const ba=$("bxagain");if(ba)ba.onclick=()=>{newBox(s,B.prod);boxIntro()};$("bxdone").onclick=()=>{v.classList.remove("on");if(set!==s||!$("vWheel").classList.contains("on"))chooseSet(s)};
  if(typeof boxPrices==="function")boxPrices(B,all,hits,best);else{$("bxval").textContent="—";$("bxvaln").textContent="box value (prices loading in a later update)"}
@@ -1252,7 +1301,7 @@ let pxCT=0;function pxChanged(){clearTimeout(pxCT);pxCT=setTimeout(pxHeader,300)
 function pxOwnedItems(s){const o=owned(s)||{},out=[];Object.entries(o).forEach(([n,e])=>{if(!e||!e.n)return;const lid=e.lid||n,id=s.dex+"-"+lid,rv=Math.min(e.rv||0,e.n),base={id,name:e.name,rarity:e.rarity,imgs:e.imgs,x:e.x,era:s.era};
  if(e.n-rv>0)out.push({c:{...base,rev:false},q:e.n-rv});if(rv>0)out.push({c:{...base,rev:true},q:rv})});return out}
 function pxValue(sets){let v=0,priced=0,total=0,d="";const top=[];(sets||SETS).forEach(s=>{pxOwnedItems(s).forEach(it=>{total+=it.q;const r=priceOf(it.c,s);if(r){v+=r.v*it.q;priced+=it.q;if(r.d&&r.d>d)d=r.d;top.push({...it,s,r})}})});
- top.sort((a,b)=>b.r.v-a.r.v);return {v,priced,total,d,top}}
+ top.sort((a,b)=>b.r.v-a.r.v||(typeof rRank==="function"?rRank(b.c)-rRank(a.c):0));return {v,priced,total,d,top}}
 function pxHeader(){const el=$("valc");if(!el)return;const x=pxValue();el.textContent=x.priced?usd(x.v):"—";$("hval").title=`Collection value: ${x.priced}/${x.total} cards priced (TCGplayer market estimates${x.d?", "+x.d:""})`;
  if($("vShelf").classList.contains("on"))pxShelfPanel()}
 async function pxFetchOwned(sets,allowCards,prog){const items=[];for(const s of sets){const its=pxOwnedItems(s);if(!its.length)continue;await pxSet(s);if(s.game!=="lor")its.forEach(it=>{if(!pxPick((pxLoad().s[s.dex]||{p:{}}).p[pxNum(it.c)],it.c,s)&&!pxFresh(pxLoad().c[it.c.id]))items.push(it)})}
@@ -1262,14 +1311,14 @@ async function pxFetchOwned(sets,allowCards,prog){const items=[];for(const s of 
 {const ss=showSummary;showSummary=function(){const r=ss.apply(this,arguments);try{const cur=current,s=set,els=[...document.querySelectorAll("#summary .sgrid .card")];
  const pv=document.createElement("div");pv.className="packval";pv.id="packval";$("summary").querySelector(".sgrid").after(pv);
  const upd=()=>{let v=0,np=0,pending=0;cur.forEach((c,i)=>{const p=priceOf(c,s);if(p)v+=p.v;else if(p===null)np++;else pending++;const el=els[i];if(!el)return;let ch=el.querySelector(".pchip");if(!ch){ch=document.createElement("div");ch.className="pchip";el.appendChild(ch)}ch.textContent=pxChip(p);ch.classList.toggle("np",!p)});
-  pv.innerHTML=`Pack value <b>${usd(v)}</b>${pending?" <span class='pxsrc'>(loading prices…)</span>":""}${np?` <span class='pxsrc'>· ${np} without price</span>`:""} <span class="pxsrc">· TCGplayer market estimates</span>`};
+  const bc=typeof bestOf==="function"?bestOf(cur,s):null,bp=bc&&priceOf(bc,s);pv.innerHTML=(bc?`Best pull <b class="pvbest">${esc(bc.name)}</b>${bp?" "+usd(bp.v):""} · `:"")+`Pack value <b>${usd(v)}</b>${pending?" <span class='pxsrc'>(loading prices…)</span>":""}${np?` <span class='pxsrc'>· ${np} without price</span>`:""} <span class="pxsrc">· TCGplayer market estimates</span>`};
  upd();cur.forEach(c=>priceFor(c,s).then(()=>{if(current===cur)upd()}).catch(()=>{}))}catch(e){}return r}}
 function boxPrices(B,all,hits,best){const s=B.s;let left=0;const vEl=$("bxval"),nEl=$("bxvaln");
- const upd=()=>{if(BOX!==B)return;let v=0,pr=0,np=0,d="";let mv=null;all.forEach(x=>{const p=priceOf(x.c,s);if(p){v+=p.v;pr++;if(p.d>d)d=p.d;if(!mv||p.v>mv.p.v)mv={...x,p}}else if(p===null)np++});
+ const upd=()=>{if(BOX!==B)return;let v=0,pr=0,np=0,d="";let mv=null;all.forEach(x=>{const p=priceOf(x.c,s);if(p){v+=p.v;pr++;if(p.d>d)d=p.d;if(!mv||p.v>mv.p.v+.004||Math.abs(p.v-mv.p.v)<=.004&&typeof rRank==="function"&&rRank(x.c)>rRank(mv.c))mv={...x,p}}else if(p===null)np++});
   if(vEl)vEl.textContent=usd(v);if(nEl)nEl.textContent=`box value · ${pr}/${all.length} priced${left?" (loading…)":""}${np?` · ${np} no price`:""}`;
-  hits.forEach((x,j)=>{const e=document.querySelector(`#boxv [data-pj="${j}"]`);if(e)e.textContent=pxChip(priceOf(x.c,s))});
+  if(typeof bxResort==="function")bxResort(B);(B.hitList||hits).forEach((x,j)=>{const e=document.querySelector(`#boxv [data-pj="${j}"]`);if(e)e.textContent=pxChip(priceOf(x.c,s))});
   all.forEach((x,j)=>{const e=document.querySelector(`#boxv [data-pj="a${j}"]`);if(e)e.textContent=pxChip(priceOf(x.c,s))});
-  const bp=$("bxbestp");if(bp&&best)bp.innerHTML=priceLine(best.c,s);
+  const bp=$("bxbestp");if(bp&&(B.best||best))bp.innerHTML=priceLine((B.best||best).c,s);
   let m=$("bxmv");if(!m){const st=document.querySelector("#boxv .bxstats");if(st){m=document.createElement("p");m.className="bxnote";m.id="bxmv";st.after(m)}}
   if(m)m.innerHTML=(mv?`Most valuable: <b>${esc(mv.c.name)}</b> (${esc(mv.c.rarity)}, pack #${mv.k+1}) — ${usd(mv.p.v)} · `:"")+`Prices are TCGplayer market estimates${d?" as of "+d:""} (Cardmarket fallback ≈).`};
  const seen=new Map();[...hits,...all].forEach(x=>{const k=x.c.id+(x.c.rev?"r":"");if(!seen.has(k))seen.set(k,x)});left=seen.size;upd();let t=0;
@@ -1289,4 +1338,122 @@ function pxShelfVals(){document.querySelectorAll("#shelf .binder").forEach(b=>{c
  upd();pxIdle(()=>B.s===s&&pxFetchOwned([s],true).then(()=>{upd();pxHeader();if(e.textContent==="Binder value: loading…")e.textContent="Binder value: no prices"}).catch(()=>{}),1500)}catch(e){}return r}}
 {const rd=render;let t=0;render=function(){const r=rd.apply(this,arguments);clearTimeout(t);t=setTimeout(pxHeader,500);return r}}
 setTimeout(pxHeader,800);
-/*</f5>*/</script><script>/*<f6>*/$("ssetbtn").onclick=e=>$("setbtn").onclick(e);/*</f6>*/</script></body></html>
+/*</f5>*/</script><script>/*<f6>*/$("ssetbtn").onclick=e=>$("setbtn").onclick(e);/*</f6>*/</script><script>/*<f7>*//* ---------- F7: value-aware best pull + interactive 3D booster box ---------- */
+function rRank(c){const r=String(c.rarity||"").toLowerCase();
+ if(/mega hyper/.test(r))return 100;if(/iconic/.test(r))return 97;if(/enchanted/.test(r))return 95;
+ if(/hyper|gold|secret|rainbow|black white/.test(r))return 92;
+ if(/special illustration|futuristic|rgb|gallery v/.test(r))return 85;
+ if(/epic/.test(r))return 78;if(/shiny ultra/.test(r))return 62;
+ if(/ultra|vmax|vstar|\bgx\b|\bex\b|holo v\b|rare v\b|lv\.x|prime|legend/.test(r)&&!/legendary/.test(r))return 72;
+ if(/legendary/.test(r))return 70;if(/illustration/.test(r))return 65;
+ if(/radiant|amazing|ace spec|shiny|star/.test(r))return 58;if(/double/.test(r))return 55;
+ if(/super rare/.test(r))return 40;if(/holo/.test(r))return 35;
+ return (TIERS[c.tier||tier(c.rarity)]||0)*8+(c.rev?1:0)}
+function bestCmp(s){const pv=c=>{try{const r=typeof priceOf==="function"?priceOf(c,s):null;return r&&r.v>0?r.v:null}catch(e){return null}};
+ /* transitive: priced cards by market price (rarity breaks ties); cards without a price yet fall back to rarity rank after them */
+ return (a,b)=>{const pa=pv(a),pb=pv(b);if(pa!=null&&pb!=null){const d=Math.round(pb*100)-Math.round(pa*100);return d||rRank(b)-rRank(a)}if(pa!=null||pb!=null)return pa!=null?-1:1;return rRank(b)-rRank(a)}}
+function bestOf(list,s){return list&&list.length?list.slice().sort(bestCmp(s))[0]:null}
+/* box summary: re-rank hits + best pull when prices arrive */
+function bxResort(B){if(!B||!B.hitList||!$("bxhits"))return;const s=B.s,cmp=bestCmp(s),sig=l=>l.map(x=>x.k+":"+x.c.id+(x.c.rev?"r":"")).join();
+ const nh=B.hitList.slice().sort((a,b)=>cmp(a.c,b.c)||a.k-b.k);
+ if(sig(nh)!==sig(B.hitList)){B.hitList=nh;$("bxhits").innerHTML=nh.map((x,j)=>bxThumb(x.c,x.k,j,1)).join("")}
+ const pool=nh.length?nh:(B.allList||[]),best=pool.length?pool.slice().sort((a,b)=>cmp(a.c,b.c)||a.k-b.k)[0]:null;
+ if(best&&B.best&&best.c!==B.best.c){B.best=best;const bb=document.querySelector("#boxv .bbc"),bi=document.querySelector("#boxv .bbi");
+  if(bb){bb.innerHTML=`<button class="bxt bbimg t${BXT(best.c.tier)}" aria-label="Zoom best pull">${img(best.c.imgs,best.c.name,best.c.rarity).replace("<img ",'<img decoding="async" ')}</button>`;bb.firstChild.onclick=()=>openZoom([zItem(B.best.c,s)],0)}
+  if(bi)bi.innerHTML=`<b>${esc(best.c.name)}</b><br>${esc(best.c.rarity)}${best.c.rev?(s.game==="lor"?" · Foil":" · Reverse holo"):""}<br>Pack #${best.k+1}<br><span class="pr" id="bxbestp"></span>`}}
+/* persistence: resume a half-opened box */
+const BXK="ppsBox";
+function boxSave(){const B=BOX;if(!B)return;try{let m={};try{m=JSON.parse(localStorage.getItem(BXK)||"{}")||{}}catch(e){}
+ if(!B.done.includes(0)&&!B.fly){delete m[B.s.dex]}else{const strip=c=>{const o={...c};delete o.imgs;return o};
+  m[B.s.dex]={t:Date.now(),prod:B.prod,wrap:B.wrap?1:0,lid:B.lid?1:0,done:B.done,packs:B.packs.map(p=>({c:p.map(strip),g:p.god||null}))}}
+ Object.keys(m).sort((a,b)=>m[b].t-m[a].t).slice(3).forEach(k=>delete m[k]);localStorage.setItem(BXK,JSON.stringify(m))}catch(e){}}
+function boxRestore(s){let m;try{m=(JSON.parse(localStorage.getItem(BXK)||"{}")||{})[s.dex]}catch(e){}const d=cache[s.dex];if(!m||!m.packs||!d||!m.done.includes(0))return false;
+ try{const by={};Object.values(d.pools||{}).forEach(l=>Array.isArray(l)&&l.forEach(c=>{if(c&&c.id)by[c.id]=c}));
+  const hyd=c=>({...c,imgs:(by[c.id]&&by[c.id].imgs)||[]});const packs=m.packs.map(p=>{const a=p.c.map(hyd);if(p.g)a.god=p.g;return a});
+  BOX={s,prod:m.prod,packs,done:m.done.slice(),res:packs.map((p,k)=>m.done[k]?p:undefined),gen:0,showAll:BOX?BOX.showAll:false,t0:0,fast:0,wrap:m.wrap,lid:m.lid};return true}catch(e){return false}}
+/* ---- 3D box ---- */
+const BX3={};
+function bxShape(B){const n=B.prod.name||"";return /elite/i.test(n)?"etb":/bundle/i.test(n)?"bundle":"box"}
+function box3dBuild(B,host){if(!host)return;const s=B.s,shape=bxShape(B),arts=(PACKART[s.dex]||[]),art=i=>arts.length?arts[i%arts.length]:"",lor=s.game==="lor";
+ const [W,D,H,LH]={box:[300,200,150,44],etb:[220,124,206,68],bundle:[150,66,214,26]}[shape],W2=W+6,D2=D+6;
+ const logo=img(logoSrcs(s),s.name,"").replace("<img ",'<img decoding="async" draggable="false" class="bxlogo" ');
+ const label=esc(`${B.prod.real?B.prod.name:"Virtual booster box"} · ${B.prod.n} packs`),brand=lor?"Disney Lorcana":"Pokémon TCG";
+ const fans=`<div class="bxart">${[0,1,2].map(i=>`<img src="${art(i)}" alt="" draggable="false" decoding="async">`).join("")}</div>`;
+ const F=(c,w,h,tf,inner="",n="")=>`<div class="f ${c}"${n?` data-n="${n}"`:""} style="width:${w}px;height:${h}px;transform:translate(-50%,-50%) ${tf}">${inner}</div>`,wr=`<i class="wr"></i>`;
+ const off=`translate3d(0,${LH/2}px,${D2/2}px)`;
+ host.className="bx3d "+shape+(B.wrap?" torn":"")+(B.lid?" open":"");host.style.cssText=`--c0:${s.colors[0]};--c1:${s.colors[1]||s.colors[0]}`;
+ host.innerHTML=`<div class="bxscene" aria-label="Sealed ${label}. Swipe across to tear the wrap, then swipe up to open the lid."><div class="bxshadow"></div><div class="bxfloat"><div class="bxobj">
+ <div class="bxbd"><div class="bxin"></div>${F("o fr",W,H,`translateZ(${D/2}px)`,`${fans}<div class="bxlbl">${label}</div>${wr}<i class="strip"></i>`,"0,0,1")}${F("o bk",W,H,`rotateY(180deg) translateZ(${D/2}px)`,`<div class="bxvt">${brand}</div>${wr}`,"0,0,-1")}
+ ${F("o sd",D,H,`rotateY(-90deg) translateZ(${W/2}px)`,`<div class="bxvt">${esc(s.name)}</div>${wr}`,"-1,0,0")}${F("o sd",D,H,`rotateY(90deg) translateZ(${W/2}px)`,`<div class="bxvt">${brand}</div>${wr}`,"1,0,0")}
+ ${F("bt",W,D,`rotateX(-90deg) translateZ(${H/2}px)`,"","0,1,0")}</div>
+ <div class="bxlid">${F("o lt",W2,D2,`${off} rotateX(90deg) translateZ(${LH/2}px)`,`${shape==="box"?fans:""}${logo}${wr}`,"0,-1,0")}${F("lu",W2,D2,`${off} rotateX(-90deg) translateZ(${LH/2-1}px)`,"","0,1,0")}
+ ${F("o lf",W2,LH,`${off} translateZ(${D2/2}px)`,`<div class="bxvt">${shape==="box"?esc(s.name):brand}</div>${wr}<i class="strip"></i>`,"0,0,1")}${F("o lb",W2,LH,`${off} rotateY(180deg) translateZ(${D2/2}px)`,"","0,0,-1")}
+ ${F("o ls",D2,LH,`${off} rotateY(-90deg) translateZ(${W2/2}px)`,wr,"-1,0,0")}${F("o ls",D2,LH,`${off} rotateY(90deg) translateZ(${W2/2}px)`,wr,"1,0,0")}</div>
+ </div></div><div class="bxfx"></div></div><div class="bxleftn"></div><div class="bxpips" aria-hidden="true"></div><p class="bxhint"></p>`;
+ const sc=host.querySelector(".bxscene"),obj=host.querySelector(".bxobj"),lid=host.querySelector(".bxlid");
+ const X=Object.assign(BX3,{wrs:[...host.querySelectorAll(".wr,.strip")],sh:null,B,host,sc,obj,lid,W,D,H,LH,D2,shape,art,rx:0,ry:0,drx:0,dry:0,tp:0,ang:B.lid?112:0,packs:0});
+ X.fit=()=>{const w=sc.clientWidth||340,h=sc.clientHeight||340;X.k=Math.min(1.25,(w-24)/(Math.max(W,D)*1.2),h/((H+LH)*1.75+(shape==="box"?D*.5:D*.2)));host.style.setProperty("--k",X.k.toFixed(3));X.apply()};
+ X.base=()=>B.lid?[-52,-8]:[-20,-24];
+ X.apply=()=>{const [bx,by]=X.base(),g=(typeof GY!=="undefined"&&GY.st==="on")?[GY.y*9,GY.x*14]:[0,0],rx=Math.max(-62,Math.min(8,bx+X.drx+g[0])),ry=by+X.dry+g[1];X.cam=[rx,ry];X.vis();
+  const k=X.k*(B.lid?.88:1);obj.style.transform=`translate3d(0,${(H*.18+(B.lid?H*.42:0))*X.k}px,0) scale3d(${k},${k},${k}) rotateX(${rx.toFixed(2)}deg) rotateY(${ry.toFixed(2)}deg)`;const sh=Math.round((50+ry*1.4)/3)*3;if(sh!==X.sh&&!B.wrap){X.sh=sh;X.wrs.forEach(w=>{if(w.tagName==="I"&&w.className==="wr")w.style.backgroundPosition=`${sh}% 0,0 0`})}};
+ X.lidT=a=>{lid.style.transform=`translate3d(0,${-H/2-1}px,${-D2/2}px) rotateX(${a.toFixed(1)}deg)`;X.vis()};
+ X.vis=()=>{const [ax,ay]=X.cam||[0,0],r=Math.PI/180,cx=Math.cos(ax*r),sx=Math.sin(ax*r),cy=Math.cos(ay*r),sy=Math.sin(ay*r),cl=Math.cos(X.ang*r),sl=Math.sin(X.ang*r);
+  /* world z of each face normal, Rx(cam)·Ry(cam)·[Rx(lid)]·n: cull back faces ourselves so it also paints right where WebKit flattens */
+  for(const f of X.faces){let [x,y,z]=f.n;if(f.l){const y2=cl*y-sl*z,z2=sl*y+cl*z;y=y2;z=z2}const z1=-sy*x+cy*z,wz=sx*y+cx*z1,v=wz>.015;if(v!==f.v){f.v=v;f.e.style.visibility=v?"":"hidden"}}
+  const behind=X.ang>90,bd=X.host.querySelector(".bxbd");if(behind!==X.behind){X.behind=behind;if(behind)bd.before(lid);else bd.after(lid)}};
+ bxFaces(X);X.behind=null;X.cam=X.base();X.lidT(X.ang);if(B.lid||B.wrap)bxPacks(X);if(!B.wrap)requestAnimationFrame(()=>bxCurl(X,0,0,0,1));bxStatus(X);X.fit();requestAnimationFrame(X.fit);bxGestures(X)}
+function bxFaces(X){X.faces=[...X.host.querySelectorAll(".f[data-n]")].map(e=>({e,n:e.dataset.n.split(",").map(Number),l:!!e.closest(".bxlid"),v:null}))}
+function bxStatus(X){const B=X.B,left=boxLeft(),n=B.prod.n,h=X.host.querySelector(".bxhint");
+ X.host.querySelector(".bxleftn").textContent=`${left} of ${n} packs left`;
+ X.host.querySelector(".bxpips").innerHTML=B.done.map(d=>`<i${d?' class="x"':""}></i>`).join("");
+ h.innerHTML=!B.wrap?"👆 <b>Swipe across</b> the box to tear the wrap":!B.lid?"☝️ <b>Swipe up</b> to open the lid":left?"Tap a pack to pull it out — or Open All":"Box empty!";
+ const a=$("bxall");if(a){a.disabled=!B.lid||!left;a.textContent=`⚡ Open All (${left})`}}
+function bxPacks(X){const B=X.B,{W,D,H}=X,n=B.prod.n,inn=X.host.querySelector(".bxin");if(X.packs)return;X.packs=1;
+ const cols=n>=30?3:n>=16?2:1,per=Math.ceil(n/cols),cw=(W-12)/cols;let ph=Math.min(H-8,(cw-6)/.571),pw=ph*.571;if(pw>cw-4){pw=cw-4;ph=pw/.571}
+ const step=Math.min(14,(D-14)/Math.max(1,per)),z0=-(D/2-8),rnd=k=>{const x=Math.sin(k*91.7+B.s.dex.length*7.3)*43758.5;return x-Math.floor(x)};let h="";
+ B.packs.forEach((p,k)=>{if(B.done[k])return;const c=Math.floor(k/per),i=k%per,x=-W/2+6+cw*(c+.5)+(rnd(k)-.5)*4,z=per>1?z0+i*(D-16)/(per-1):0,y=H/2-ph/2-2-rnd(k+9)*5,r=(rnd(k+3)-.5)*3;
+  X["p"+k]=`translate3d(${(x-pw/2).toFixed(1)}px,${(y-ph/2).toFixed(1)}px,${Math.min(D/2-6,z).toFixed(1)}px) rotateZ(${r.toFixed(1)}deg)`;
+  h+=`<img class="bxp" data-k="${k}" data-c="${c}" src="${X.art(k)}" alt="Pack ${k+1}" draggable="false" decoding="async" style="width:${pw.toFixed(0)}px;height:${ph.toFixed(0)}px;transform:${X["p"+k]}">`});
+ const walls=`<div class="f in" data-n="0,0,1" style="width:${W}px;height:${H}px;transform:translate(-50%,-50%) translateZ(${-(D/2-1)}px)"></div><div class="f in" data-n="1,0,0" style="width:${D}px;height:${H}px;transform:translate(-50%,-50%) rotateY(90deg) translateZ(${-(W/2-1)}px)"></div><div class="f in" data-n="-1,0,0" style="width:${D}px;height:${H}px;transform:translate(-50%,-50%) rotateY(-90deg) translateZ(${-(W/2-1)}px)"></div><div class="f in ib" data-n="0,-1,0" style="width:${W}px;height:${D}px;transform:translate(-50%,-50%) rotateX(90deg) translateZ(${-(H/2-1)}px)"></div>`;
+ inn.innerHTML=walls+h;bxFaces(X);X.vis()}
+function bxCurl(X,x,y,burst,prep){const fx=X.host.querySelector(".bxfx");if(!fx)return;
+ if(!X.cps){X.cps=[];X.cpi=0;for(let j=0;j<20;j++){const e=document.createElement("i");e.className="cp";fx.appendChild(e);X.cps.push(e)}}
+ if(prep)return;/* pooled plastic shards animated with WAAPI (transform/opacity only, no DOM churn mid-swipe) */
+ const m=burst?10:1;for(let j=0;j<m;j++){const e=X.cps[X.cpi++%X.cps.length],a=Math.random()*Math.PI*2,d=burst?60+Math.random()*120:30+Math.random()*50,
+  dx=Math.cos(a)*d,dy=Math.sin(a)*d*.6-30-Math.random()*40,r=Math.random()*540-270,sc=.6+Math.random()*.8;
+  try{e.getAnimations().forEach(q=>q.cancel());e.animate([{transform:`translate(${x}px,${y}px) rotate(0deg) scale(1)`,opacity:1},{transform:`translate(${(x+dx).toFixed(0)}px,${(y+dy).toFixed(0)}px) rotate(${r.toFixed(0)}deg) scale(${sc.toFixed(2)})`,opacity:0}],{duration:900+Math.random()*200,easing:"cubic-bezier(.2,.7,.3,1)",fill:"forwards"})}catch(_){}}}
+function bxSfx(n,a){try{if(typeof sfx!=="undefined"&&sfx[n])sfx[n](a)}catch(e){}}
+function bxHap(p){try{if(typeof haptic==="function")haptic(p)}catch(e){}}
+function bxTorn(X,px,py){const B=X.B;if(B.wrap)return;B.wrap=1;X.host.classList.add("torn");bxCurl(X,px,py,1);bxSfx("rip");bxHap([12,30,18]);boxSave();bxStatus(X);
+ const pr=document.querySelector("#boxv .bxprods");if(pr)pr.remove();setTimeout(()=>{X.wrs.forEach(e=>e.remove());X.wrs=[];if(X.B===BOX&&!X.packs&&X.host.isConnected)bxPacks(X)},520)}
+function bxLidTo(X,open){const B=X.B;X.lid.classList.add("ease");X.ang=open?112:0;X.lidT(X.ang);setTimeout(()=>X.lid.classList.remove("ease"),600);
+ if(open&&!B.lid){B.lid=1;X.host.classList.add("open");bxSfx("snap");bxHap(15);boxSave();X.obj.classList.add("ease");X.apply();setTimeout(()=>X.obj.classList.remove("ease"),650);bxStatus(X)}}
+function bxPull(X,k){const B=X.B,e=X.host.querySelector(`.bxp[data-k="${k}"]`);if(!e||B.done[k]||X.busy)return;X.busy=1;bxSfx("tick");bxHap(10);
+ e.classList.add("lift");e.style.transform=X["p"+k]+` translate3d(0,${-X.H*1.15}px,30px)`;setTimeout(()=>{X.busy=0;boxOne(k)},430)}
+function box3dOpenAll(){const X=BX3,B=BOX;if(!B||!B.lid||B.fly||X.B!==B||X.busy)return;X.busy=1;const ks=[];B.done.forEach((d,k)=>{if(!d)ks.push(k)});
+ ks.slice(-8).reverse().forEach((k,j)=>setTimeout(()=>{const e=X.host.querySelector(`.bxp[data-k="${k}"]`);if(e){e.classList.add("lift");e.style.transform=X["p"+k]+` translate3d(0,${-X.H*1.3}px,60px)`;bxSfx("tick")}},j*60));
+ setTimeout(()=>{X.busy=0;if(BOX===B){const v=$("boxv");if(v)v.scrollTop=0;boxFast()}},Math.min(8,ks.length)*60+380)}
+function bxGestures(X){const sc=X.sc,B=X.B;let d=null;
+ sc.onpointerdown=e=>{if(e.button>0)return;d={x:e.clientX,y:e.clientY,t:performance.now(),lx:e.clientX,mode:null,id:e.pointerId,moved:0,r:sc.getBoundingClientRect()};try{sc.setPointerCapture(e.pointerId)}catch(_){}X.obj.classList.remove("ease");X.lid.classList.remove("ease")};
+ sc.onpointermove=e=>{if(!d||e.pointerId!==d.id)return;const dx=e.clientX-d.x,dy=e.clientY-d.y,r=d.r;d.moved=Math.max(d.moved,Math.hypot(dx,dy));
+  if(!d.mode&&d.moved>8)d.mode=!B.wrap&&Math.abs(dx)>Math.abs(dy)?"tear":B.wrap&&!B.lid&&dy<0&&Math.abs(dy)>Math.abs(dx)?"lid":"rot";
+  X.dry=Math.max(-28,Math.min(28,dx*(d.mode==="rot"?.18:.05)));X.drx=Math.max(-14,Math.min(14,-dy*(d.mode==="rot"?.1:.02)));X.apply();
+  if(d.mode==="tear"){const run=Math.abs(e.clientX-d.lx);if(run>44){d.lx=e.clientX;bxCurl(X,e.clientX-r.left,e.clientY-r.top);bxSfx("crinkle",.03+run/900);if(Math.random()<.4)bxHap(6)}
+   const tp=Math.max(X.tp,Math.min(1,Math.abs(dx)/(r.width*.55)));if(tp-X.tp>.015||tp>=1){X.tp=tp;const ci=`scaleX(${(1-tp).toFixed(3)})`;X.wrs.forEach(w=>w.style.transform=ci)}if(X.tp>=1)bxTorn(X,e.clientX-r.left,e.clientY-r.top)}
+  if(d.mode==="lid"){if(!X.packs)bxPacks(X);X.ang=Math.max(0,Math.min(112,-dy/(r.height*.45)*112));X.lidT(X.ang);if(X.ang>20&&!d.cr){d.cr=1;bxSfx("crinkle",.05)}}};
+ const up=e=>{if(!d||e.pointerId!==d.id)return;const m=d.mode,tap=d.moved<9&&performance.now()-d.t<500;d=null;
+  if(m==="lid")bxLidTo(X,X.ang>40);
+  if(tap&&B.lid){const t=document.elementFromPoint(e.clientX,e.clientY);let p=t&&t.closest&&t.closest(".bxp");
+   /* forgiving tap: anywhere on the open box pulls the front pack of the nearest row */
+   if(!p&&t&&t.closest&&t.closest(".bxobj")){let bd=1e9;const qs=[...X.host.querySelectorAll(".bxp:not(.lift)")];qs.forEach(q=>{const r=q.getBoundingClientRect(),dd=Math.abs(r.left+r.width/2-e.clientX);if(dd<bd){bd=dd;p=q}});
+    if(p){const c=p.dataset.c;p=qs.filter(q=>q.dataset.c===c).pop()}}
+   if(p)bxPull(X,+p.dataset.k)}
+  else if(tap&&!B.wrap){const h=X.host.querySelector(".bxhint");h.classList.remove("nudge");void h.offsetWidth;h.classList.add("nudge")}
+  X.drx=X.dry=0;X.obj.classList.add("ease");X.apply();setTimeout(()=>X.obj.classList.remove("ease"),650)};
+ sc.onpointerup=up;sc.onpointercancel=up;
+ /* keyboard / switch access: Enter or Space steps through tear -> lid -> pull front pack */
+ sc.tabIndex=0;sc.setAttribute("role","button");sc.onkeydown=e=>{if(e.key!=="Enter"&&e.key!==" ")return;e.preventDefault();const r=sc.getBoundingClientRect();
+  if(!B.wrap)bxTorn(X,r.width/2,r.height/2);else if(!B.lid){if(!X.packs)bxPacks(X);bxLidTo(X,1)}else{const q=[...X.host.querySelectorAll(".bxp:not(.lift)")].pop();if(q)bxPull(X,+q.dataset.k)}}}
+{const gt=gyroTick;gyroTick=function(){const r=gt.apply(this,arguments);try{if(BX3.host&&BX3.host.isConnected&&$("boxv").classList.contains("on"))BX3.apply()}catch(e){}return r}}
+addEventListener("resize",()=>{if(BX3.host&&BX3.host.isConnected)BX3.fit()});
+/*</f7>*/</script></body></html>

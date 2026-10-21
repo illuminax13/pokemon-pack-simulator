@@ -48,7 +48,7 @@ let pxCT=0;function pxChanged(){clearTimeout(pxCT);pxCT=setTimeout(pxHeader,300)
 function pxOwnedItems(s){const o=owned(s)||{},out=[];Object.entries(o).forEach(([n,e])=>{if(!e||!e.n)return;const lid=e.lid||n,id=s.dex+"-"+lid,rv=Math.min(e.rv||0,e.n),base={id,name:e.name,rarity:e.rarity,imgs:e.imgs,x:e.x,era:s.era};
  if(e.n-rv>0)out.push({c:{...base,rev:false},q:e.n-rv});if(rv>0)out.push({c:{...base,rev:true},q:rv})});return out}
 function pxValue(sets){let v=0,priced=0,total=0,d="";const top=[];(sets||SETS).forEach(s=>{pxOwnedItems(s).forEach(it=>{total+=it.q;const r=priceOf(it.c,s);if(r){v+=r.v*it.q;priced+=it.q;if(r.d&&r.d>d)d=r.d;top.push({...it,s,r})}})});
- top.sort((a,b)=>b.r.v-a.r.v);return {v,priced,total,d,top}}
+ top.sort((a,b)=>b.r.v-a.r.v||(typeof rRank==="function"?rRank(b.c)-rRank(a.c):0));return {v,priced,total,d,top}}
 function pxHeader(){const el=$("valc");if(!el)return;const x=pxValue();el.textContent=x.priced?usd(x.v):"—";$("hval").title=`Collection value: ${x.priced}/${x.total} cards priced (TCGplayer market estimates${x.d?", "+x.d:""})`;
  if($("vShelf").classList.contains("on"))pxShelfPanel()}
 async function pxFetchOwned(sets,allowCards,prog){const items=[];for(const s of sets){const its=pxOwnedItems(s);if(!its.length)continue;await pxSet(s);if(s.game!=="lor")its.forEach(it=>{if(!pxPick((pxLoad().s[s.dex]||{p:{}}).p[pxNum(it.c)],it.c,s)&&!pxFresh(pxLoad().c[it.c.id]))items.push(it)})}
@@ -58,14 +58,14 @@ async function pxFetchOwned(sets,allowCards,prog){const items=[];for(const s of 
 {const ss=showSummary;showSummary=function(){const r=ss.apply(this,arguments);try{const cur=current,s=set,els=[...document.querySelectorAll("#summary .sgrid .card")];
  const pv=document.createElement("div");pv.className="packval";pv.id="packval";$("summary").querySelector(".sgrid").after(pv);
  const upd=()=>{let v=0,np=0,pending=0;cur.forEach((c,i)=>{const p=priceOf(c,s);if(p)v+=p.v;else if(p===null)np++;else pending++;const el=els[i];if(!el)return;let ch=el.querySelector(".pchip");if(!ch){ch=document.createElement("div");ch.className="pchip";el.appendChild(ch)}ch.textContent=pxChip(p);ch.classList.toggle("np",!p)});
-  pv.innerHTML=`Pack value <b>${usd(v)}</b>${pending?" <span class='pxsrc'>(loading prices…)</span>":""}${np?` <span class='pxsrc'>· ${np} without price</span>`:""} <span class="pxsrc">· TCGplayer market estimates</span>`};
+  const bc=typeof bestOf==="function"?bestOf(cur,s):null,bp=bc&&priceOf(bc,s);pv.innerHTML=(bc?`Best pull <b class="pvbest">${esc(bc.name)}</b>${bp?" "+usd(bp.v):""} · `:"")+`Pack value <b>${usd(v)}</b>${pending?" <span class='pxsrc'>(loading prices…)</span>":""}${np?` <span class='pxsrc'>· ${np} without price</span>`:""} <span class="pxsrc">· TCGplayer market estimates</span>`};
  upd();cur.forEach(c=>priceFor(c,s).then(()=>{if(current===cur)upd()}).catch(()=>{}))}catch(e){}return r}}
 function boxPrices(B,all,hits,best){const s=B.s;let left=0;const vEl=$("bxval"),nEl=$("bxvaln");
- const upd=()=>{if(BOX!==B)return;let v=0,pr=0,np=0,d="";let mv=null;all.forEach(x=>{const p=priceOf(x.c,s);if(p){v+=p.v;pr++;if(p.d>d)d=p.d;if(!mv||p.v>mv.p.v)mv={...x,p}}else if(p===null)np++});
+ const upd=()=>{if(BOX!==B)return;let v=0,pr=0,np=0,d="";let mv=null;all.forEach(x=>{const p=priceOf(x.c,s);if(p){v+=p.v;pr++;if(p.d>d)d=p.d;if(!mv||p.v>mv.p.v+.004||Math.abs(p.v-mv.p.v)<=.004&&typeof rRank==="function"&&rRank(x.c)>rRank(mv.c))mv={...x,p}}else if(p===null)np++});
   if(vEl)vEl.textContent=usd(v);if(nEl)nEl.textContent=`box value · ${pr}/${all.length} priced${left?" (loading…)":""}${np?` · ${np} no price`:""}`;
-  hits.forEach((x,j)=>{const e=document.querySelector(`#boxv [data-pj="${j}"]`);if(e)e.textContent=pxChip(priceOf(x.c,s))});
+  if(typeof bxResort==="function")bxResort(B);(B.hitList||hits).forEach((x,j)=>{const e=document.querySelector(`#boxv [data-pj="${j}"]`);if(e)e.textContent=pxChip(priceOf(x.c,s))});
   all.forEach((x,j)=>{const e=document.querySelector(`#boxv [data-pj="a${j}"]`);if(e)e.textContent=pxChip(priceOf(x.c,s))});
-  const bp=$("bxbestp");if(bp&&best)bp.innerHTML=priceLine(best.c,s);
+  const bp=$("bxbestp");if(bp&&(B.best||best))bp.innerHTML=priceLine((B.best||best).c,s);
   let m=$("bxmv");if(!m){const st=document.querySelector("#boxv .bxstats");if(st){m=document.createElement("p");m.className="bxnote";m.id="bxmv";st.after(m)}}
   if(m)m.innerHTML=(mv?`Most valuable: <b>${esc(mv.c.name)}</b> (${esc(mv.c.rarity)}, pack #${mv.k+1}) — ${usd(mv.p.v)} · `:"")+`Prices are TCGplayer market estimates${d?" as of "+d:""} (Cardmarket fallback ≈).`};
  const seen=new Map();[...hits,...all].forEach(x=>{const k=x.c.id+(x.c.rev?"r":"");if(!seen.has(k))seen.set(k,x)});left=seen.size;upd();let t=0;

@@ -1,5 +1,5 @@
 const {test, expect} = require('@playwright/test');
-const {gotoApp, chooseSet, openShelf} = require('./helpers');
+const {gotoApp, chooseSet, openShelf, tearWrap, openLid} = require('./helpers');
 // New features offline: cached prices, box opening, zoom and settings keep working without network.
 test('offline: box + zoom + cached prices + settings', async ({page, context}) => {
   test.skip(test.info().project.name !== 'chromium', 'needs SW + request routing (Chromium only)');
@@ -9,7 +9,7 @@ test('offline: box + zoom + cached prices + settings', async ({page, context}) =
   await page.evaluate(async () => { await navigator.serviceWorker.ready; });
   await page.reload(); await page.waitForSelector('.tile');
   await chooseSet(page, 12); await page.waitForTimeout(1200);
-  await page.locator('#sbox').click(); await page.locator('#bxall').click(); await page.locator('#bxskip').click();
+  await page.locator('#sbox').click(); await tearWrap(page); await openLid(page); await page.locator('#bxall').click(); await page.locator('#bxskip').click({force: true});
   await expect(page.locator('#bxvaln')).toContainText('360/360 priced', {timeout: 30000});
   const val = await page.locator('#bxval').textContent();
   await page.waitForTimeout(800);
@@ -18,7 +18,7 @@ test('offline: box + zoom + cached prices + settings', async ({page, context}) =
   await expect(page.locator('#valc')).toHaveText(val);            // collection value from cache
   await chooseSet(page, 12);
   await page.locator('#sbox').click(); await expect(page.locator('#bxall')).toBeVisible();
-  await page.locator('#bxall').click(); await page.locator('#bxskip').click();
+  await tearWrap(page); await openLid(page); await page.locator('#bxall').click(); await page.locator('#bxskip').click({force: true});
   await expect(page.locator('#boxv .bxsum')).toBeVisible();
   await expect(page.locator('#bxvaln')).not.toContainText('loading', {timeout: 20000});  // cached or "no price", never stuck
   await page.locator('#bxhits .bxt').first().click(); await expect(page.locator('#viewer.on')).toBeVisible();
