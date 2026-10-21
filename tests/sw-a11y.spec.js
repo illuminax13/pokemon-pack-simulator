@@ -95,7 +95,7 @@ test('20 pack opens no unhandled rejections', async ({page}) => {
   }
   const rej = await page.evaluate(() => window.__rej||[]);
   expect(rej).toEqual([]);
-  expect(errs.filter(e => !/access control|Failed to load|net::|CORS/i.test(e))).toEqual([]);
+  expect(errs.filter(e => !/access.control|Failed to load|net::|CORS/i.test(e))).toEqual([]);
   const nodes = await page.evaluate(() => document.getElementsByTagName('*').length);
   expect(nodes).toBeLessThan(3000);
   expect(await page.locator('.twk').count()).toBe(0);

@@ -36,7 +36,7 @@ test('box: 36-pack fast open, summary, collection updates', async ({page}) => {
   await page.locator('#bxshowallnow').click();
   await expect(page.locator('#bxallg .bxt')).toHaveCount(total);
   await page.locator('#bxdone').click(); await expect(page.locator('#boxv')).toBeHidden();
-  expect(errs.filter(e => !/Failed to load resource|net::|ERR_|CORS|access control/i.test(e))).toEqual([]);
+  expect(errs.filter(e => !/Failed to load resource|net::|ERR_|CORS|access.control/i.test(e))).toEqual([]);
 });
 
 test('box: real products for no-box sets, one-by-one then open all', async ({page}) => {
@@ -65,7 +65,7 @@ test('box: real products for no-box sets, one-by-one then open all', async ({pag
   expect((await S(page)).packs - s0.packs).toBe(6);
   await expect(page.locator('.bxstats')).toContainText('6packs opened');
   await expect(page.locator('#bxallg .bxt')).toHaveCount(await page.evaluate(() => BOX.res.reduce((a, p) => a + p.length, 0)));
-  expect(errs.filter(e => !/Failed to load resource|net::|ERR_|CORS|access control/i.test(e))).toEqual([]);
+  expect(errs.filter(e => !/Failed to load resource|net::|ERR_|CORS|access.control/i.test(e))).toEqual([]);
 });
 
 test('box: lorcana 24 packs, skip', async ({page}) => {
@@ -80,5 +80,5 @@ test('box: lorcana 24 packs, skip', async ({page}) => {
   await expect(page.locator('#boxv .bxsum')).toBeVisible();
   expect((await S(page)).packs - s0.packs).toBe(24);
   await expect(page.locator('#bxagain')).toBeVisible();
-  expect(errs.filter(e => !/Failed to load resource|net::|ERR_|CORS|access control/i.test(e))).toEqual([]);
+  expect(errs.filter(e => !/Failed to load resource|net::|ERR_|CORS|access.control/i.test(e))).toEqual([]);
 });

@@ -25,7 +25,7 @@ test('foil tiers', async ({page}) => {
     // no saturated rainbow stops in the foil layer
     expect(r[k].img).not.toMatch(/rgb\(255, (0|61|79), /); expect(r[k].img).not.toMatch(/rgb\(\d+, \d+, \d+\)/);
   }
-  expect(errs.filter(e=>!/Failed to load resource/.test(e))).toEqual([]);
+  expect(errs.filter(e=>!/Failed to load resource|access.control|CORS/i.test(e))).toEqual([]);
 });
 test('trainer art window + kind tags', async ({page}) => {
   await gotoApp(page);

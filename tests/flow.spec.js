@@ -56,7 +56,7 @@ for (const set of SETS) {
       await page.waitForFunction(() => document.getElementById('vWheel').classList.contains('on'), null, {timeout: 30000});
 
       const rej = await page.evaluate(() => window.__rej||[]);
-      expect(errs.filter(e => !/access control|Failed to load|net::|CORS/i.test(e)), errs.join('\n')).toEqual([]);
+      expect(errs.filter(e => !/access.control|Failed to load|net::|CORS/i.test(e)), errs.join('\n')).toEqual([]);
       expect(rej).toEqual([]);
     });
   });

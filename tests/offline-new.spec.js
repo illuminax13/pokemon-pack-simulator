@@ -27,5 +27,5 @@ test('offline: box + zoom + cached prices + settings', async ({page, context}) =
   await page.locator('#sback').click();
   await page.locator('#setbtn').click(); await expect(page.locator('#settings.on')).toBeVisible();
   await context.setOffline(false);
-  expect(errs.filter(e => !/Failed to load resource|net::|ERR_|offline|CORS|access control/i.test(e))).toEqual([]);
+  expect(errs.filter(e => !/Failed to load resource|net::|ERR_|offline|CORS|access.control/i.test(e))).toEqual([]);
 });

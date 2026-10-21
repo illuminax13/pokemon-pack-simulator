@@ -36,7 +36,7 @@ test('reset clears collection', async ({page}) => {
   });
   await gotoApp(page);
   page.once('dialog', d => d.accept());
-  await page.locator('#reset').click();
+  await Promise.all([page.waitForEvent('load'), page.locator('#reset').click()]);
   await page.waitForSelector('.tile');
   const st = await page.evaluate(() => JSON.parse(localStorage.getItem('pps')||'{}'));
   expect(st.packs||0).toBe(0);

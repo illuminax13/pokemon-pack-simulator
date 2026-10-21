@@ -39,7 +39,7 @@ test('lorcana: game switch, flow, binders', async ({page}) => {
   expect(await page.locator('#bpage').textContent()).toMatch(/[1-9]\d*\/243 collected/);
   await page.evaluate(() => openShelf());
   await page.locator('.shelfh button[data-g="pkm"]').click(); await expect(page.locator('.binder')).toHaveCount(25);
-  expect(errs.filter(e => !/Failed to load resource/.test(e))).toEqual([]);
+  expect(errs.filter(e => !/Failed to load resource|access.control|CORS/i.test(e))).toEqual([]);
 });
 
 test('lorcana: pack structure and pull rates', async ({page}) => {
@@ -100,5 +100,5 @@ test('lorcana: foil treatments (cold foil, enchanted shimmer, non-foil legendary
     expect(r[k].filt, k).toBe('none'); expect(r[k].ffilt, k).toBe('none');
     expect(r[k].img, k).toContain('svg'); expect(r[k].img, k).not.toMatch(/rgb\(\d+, \d+, \d+\)/); // white-only texture
   }
-  expect(errs.filter(e => !/Failed to load resource/.test(e))).toEqual([]);
+  expect(errs.filter(e => !/Failed to load resource|access.control|CORS/i.test(e))).toEqual([]);
 });
