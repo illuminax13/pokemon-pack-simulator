@@ -1608,7 +1608,7 @@ function achPump(){if(ACH.showing||!ACH.q.length)return;clearTimeout(ACH.pt);
  if(!achGate()){ACH.gok=0;ACH.pt=setTimeout(achPump,450);return}if(!ACH.gok){ACH.gok=1;ACH.pt=setTimeout(achPump,650);return}
  const it=ACH.q.shift(),el=$("achtoast");ACH.showing=1;ACH.cur=it;
  if(it.a){const a=it.a;el.innerHTML=`<div class="ati">${a.icon}</div><div class="atb"><small>Achievement unlocked</small><b>${esc(a.name)}</b><span>${esc(a.desc)}</span></div>`}
- else{const L=it.multi;el.innerHTML=`<div class="ati">🏆</div><div class="atb"><small>${it.bf?"Credited from your collection":it.box?"Unlocked in this box":"Achievements unlocked"}</small><b>${L.length} achievement${L.length>1?"s":""} unlocked</b><span class="atic">${L.slice(0,8).map(a=>`<i title="${esc(a.name)}">${a.icon}</i>`).join("")}${L.length>8?`<em>+${L.length-8}</em>`:""}</span></div>`}
+ else{const L=it.multi;el.innerHTML=`<div class="ati">🏆</div><div class="atb"><small>${it.bf?"Credited from your collection":it.box?"Unlocked in this box":"Achievements unlocked"}</small><b>${L.length} achievement${L.length>1?"s":""} unlocked</b><span class="atic">${L.slice(0,6).map(a=>`<i aria-hidden="true">${a.icon}</i>`).join("")} ${esc(L.slice(0,2).map(a=>a.name).join(", "))}${L.length>2?` +${L.length-2}`:""}</span></div>`}
  const h=document.querySelector("header"),hb=h?Math.max(0,h.getBoundingClientRect().bottom):0;el.style.top=Math.round(Math.max(8,hb+8))+"px";
  el.style.transform="";el.classList.add("on");ACH.d.toasts=(ACH.d.toasts||0)+1;
  if(!it.bf){try{sfx.ach&&sfx.ach()}catch(e){}try{haptic(12)}catch(e){}}
@@ -1639,7 +1639,7 @@ function achRender(){const v=$("vAch"),S=achAgg(),U=ACH.d.u,T=ACHS.length,n=Obje
   <p class="achnote">Swipe left/right to switch tabs. Base binder = every card up to Ultra / Double Rare; secret-numbered Illustration, Special Illustration, Hyper, Gold and Lorcana Epic / Enchanted cards don't count.</p></div>
   <div class="achlist">${secs||`<p class="achnote">Nothing here yet — go rip some packs!</p>`}</div>`;
  v.querySelectorAll(".achtabs button").forEach(b=>b.onclick=()=>{ACH.tab=b.dataset.t;achRender()})}
-function openAch(){if(!ACH.d)return;ACH.d.nw=0;achSave();show("vAch");achRender();achBadge();window.scrollTo(0,0);
+function openAch(){if(!ACH.d)return;try{if(Array.isArray(S))S.length=0}catch(e){}ACH.d.nw=0;achSave();show("vAch");achRender();achBadge();window.scrollTo(0,0);
  $("status").textContent=`Achievements — ${Object.keys(ACH.d.u).length} of ${ACHS.length} unlocked.`}
 {const sh=show;show=function(v){const r=sh.apply(this,arguments);const a=$("vAch");if(a)a.classList.toggle("on",v==="vAch");const b=$("achbtn");if(b)b.style.display=v==="vAch"?"none":"";return r}}
 (function achSwipe(){const v=$("vAch");let d=null;const T=["all","pkm","lor","done"];
