@@ -511,6 +511,7 @@ section{content-visibility:auto;contain-intrinsic-size:auto 600px}
 .bxt .pr{color:#9fe3a6}
 .bxsum .sbtn2{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:24px 0 8px}
 @media (max-width:640px){.bxt{width:84px}.bxrow.all .bxt{width:56px}.bxact button{flex:1 1 140px}}
+#vWheel.stage #sbox{background:rgba(255,255,255,.75);color:#24324a;border:1px solid rgba(30,50,80,.12);box-shadow:0 2px 8px rgba(30,50,80,.12)}
 /*</f4css>*//*<f5css>*/.card .pchip{position:absolute;left:-6px;right:-6px;bottom:-23px;text-align:center;font-size:12px;line-height:16px;color:#9fe3a6;pointer-events:none;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .card .pchip.np{color:#7f88b8}
 #summary .sgrid{row-gap:30px}
@@ -525,7 +526,7 @@ section{content-visibility:auto;contain-intrinsic-size:auto 600px}
 .pxmv{display:flex;gap:8px;margin-top:8px;overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:4px}.pxmv button{flex:0 0 84px}
 .pxmv button{appearance:none;border:0;padding:0;background:#ffffff0d;border-radius:7px;overflow:hidden;color:inherit;font:inherit;text-align:left;cursor:zoom-in}
 .pxmv img{display:block;width:100%;aspect-ratio:63/88;object-fit:cover}.pxmv span{display:block;padding:3px 5px 5px;font-size:11px;line-height:1.25}.pxmv em{font-style:normal;color:#9fe3a6}
-/*</f5css>*/</style></head><body><div id="bg"></div><canvas id="fx"></canvas><div id="burst"></div>
+/*</f5css>*//*<f6css>*/#vWheel.stage #ssetbtn{background:rgba(255,255,255,.75);color:#24324a;border:1px solid rgba(30,50,80,.12);box-shadow:0 2px 8px rgba(30,50,80,.12);padding:7px 11px;line-height:1}/*</f6css>*/</style></head><body><div id="bg"></div><canvas id="fx"></canvas><div id="burst"></div>
 <div id="tear"></div><div id="badge">CSS · loading</div>
 <header><h1>PACK SIMULATOR</h1>
 <button id="back" class="ghost" aria-label="Back to sets">← Sets</button><button id="binders" class="ghost" aria-label="Open binders">📚 Binders</button><button id="open" aria-label="Open another pack">Open Another</button><button id="reveal" class="ghost" aria-label="Reveal all cards">Reveal All</button>
@@ -540,7 +541,7 @@ section{content-visibility:auto;contain-intrinsic-size:auto 600px}
 <div id="vBinder" class="view"><div id="bbar"><button id="bshelf" class="ghost" aria-label="Back to binder shelf">← Shelf</button><h3 id="btitle"></h3><div class="bfilt"><button data-f="all" class="ghost on">All</button><button data-f="owned" class="ghost">Owned</button><button data-f="missing" class="ghost">Missing</button></div></div>
 <div id="bwrap"><button id="bprev" class="bnav ghost" aria-label="Previous binder page">‹</button><div id="book"></div><button id="bnext" class="bnav ghost" aria-label="Next binder page">›</button></div><div id="bpage"></div></div>
 <div id="viewer"><div id="vcard"></div><div id="vinfo"></div></div>
-<div id="vWheel" class="view"><div id="stageui"><button id="sback" class="ghost" aria-label="Back to sets">← Sets</button><div id="sstatus"></div><button id="sbox" class="ghost" aria-label="Open a booster box">📦 Box</button><div class="sstats">Packs <b id="scount">0</b></div></div><div id="wheelwrap"><div id="pointer"></div><div id="strip"></div><button id="skip" aria-label="Spin"><svg viewBox="0 0 24 24"><path d="M6 4l11 8-11 8z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M19 4v16" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></button><div class="hint" id="whint"><span class="hand"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M9 11V4.5a1.5 1.5 0 0 1 3 0V10m0-1.5a1.5 1.5 0 0 1 3 0V11m0-1a1.5 1.5 0 0 1 3 0v4.5c0 3.6-2.4 6.5-6 6.5-2.6 0-4-1.2-5.3-3L4.4 14.6a1.5 1.5 0 0 1 2.3-1.9L9 15" fill="#fff" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span id="whtxt">Swipe to spin</span></div></div>
+<div id="vWheel" class="view"><div id="stageui"><button id="sback" class="ghost" aria-label="Back to sets">← Sets</button><div id="sstatus"></div><button id="sbox" class="ghost" aria-label="Open a booster box">📦 Box</button><button id="ssetbtn" class="ghost" aria-label="Settings">⚙︎</button><div class="sstats">Packs <b id="scount">0</b></div></div><div id="wheelwrap"><div id="pointer"></div><div id="strip"></div><button id="skip" aria-label="Spin"><svg viewBox="0 0 24 24"><path d="M6 4l11 8-11 8z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M19 4v16" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></button><div class="hint" id="whint"><span class="hand"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M9 11V4.5a1.5 1.5 0 0 1 3 0V10m0-1.5a1.5 1.5 0 0 1 3 0V11m0-1a1.5 1.5 0 0 1 3 0v4.5c0 3.6-2.4 6.5-6 6.5-2.6 0-4-1.2-5.3-3L4.4 14.6a1.5 1.5 0 0 1 2.3-1.9L9 15" fill="#fff" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span id="whtxt">Swipe to spin</span></div></div>
 </div>
 <div id="vPack" class="view"><div id="board"></div></div>
 <section><h2>Recent pulls</h2><div id="hist"></div></section>
@@ -1200,7 +1201,7 @@ function boxSummary(){const B=BOX,v=boxShell(),s=B.s;boxHead();const all=[];B.re
  if(best){try{const t=BXT(best.c.tier);if(B.fast&&t>=3)setTimeout(()=>sfx.chime(t),200)}catch(e){}}B.fast=0}
 document.addEventListener("keydown",e=>{if(e.key==="Escape"&&$("boxv")&&$("boxv").classList.contains("on")&&!$("viewer").classList.contains("on"))$("bxback").click()});
 /*</f4>*/</script><script>/*<f4b>*/$("sbox").onclick=()=>openBox(set);/*</f4b>*/</script><script>/*<f5>*//* ---------- F5: market prices ---------- */
-const PX={k:"ppsPrice",db:null,inflight:{},act:0,q:[],ptcgDown:0,EUR:1.08,TTL:864e5,MAXC:4000,LIM:6,req:0};
+const PX={k:"ppsPrice",db:null,inflight:{},act:0,q:[],ptcgDown:(()=>{try{return Date.now()-(+localStorage.getItem("ppsPtcgDown")||0)<36e5?1:0}catch(e){return 0}})(),EUR:1.08,TTL:864e5,MAXC:4000,LIM:6,req:0};
 function pxLoad(){if(PX.db)return PX.db;try{PX.db=JSON.parse(localStorage.getItem(PX.k)||"null")}catch(e){}if(!PX.db||PX.db.v!==1)PX.db={v:1,s:{},c:{}};return PX.db}
 let pxSaveT=0;function pxSave(){clearTimeout(pxSaveT);pxSaveT=setTimeout(()=>{const db=pxLoad(),ks=Object.keys(db.c);
  if(ks.length>PX.MAXC)ks.sort((a,b)=>db.c[a].t-db.c[b].t).slice(0,ks.length-PX.MAXC).forEach(k=>delete db.c[k]);
@@ -1221,14 +1222,14 @@ function pxSet(s){const db=pxLoad();if(pxFresh(db.s[s.dex]))return Promise.resol
      const nn=f("normal","unlimited","1stEdition"),hh=f("holofoil","unlimitedHolofoil","1stEditionHolofoil"),rr=f("reverseHolofoil");if(nn!=null)o.n=nn;if(hh!=null)o.h=hh;if(rr!=null)o.r=rr;
      const cm=x.cardmarket&&x.cardmarket.prices;if(cm&&cm.averageSellPrice)o.cm=cm.averageSellPrice;const u=x.tcgplayer&&x.tcgplayer.updatedAt;if(u&&u>d)d=u;p[String(x.number).replace(/^0+(?=\w)/,"").toUpperCase()]=o});page++}
    if(!Object.keys(p).length)return db.s[s.dex]||null;db.s[s.dex]={t:Date.now(),d:d.replace(/\//g,"-").slice(0,10),src:"TCGplayer via pokemontcg.io",p}}
-  pxSave();pxChanged();return db.s[s.dex]}catch(e){if(s.game!=="lor")PX.ptcgDown=1;return db.s[s.dex]||null}finally{delete PX.inflight[key]}})()}
+  pxSave();pxChanged();return db.s[s.dex]}catch(e){if(s.game!=="lor"){PX.ptcgDown=1;try{localStorage.setItem("ppsPtcgDown",Date.now())}catch(_){}}return db.s[s.dex]||null}finally{delete PX.inflight[key]}})()}
 function pxCard(c){const db=pxLoad(),e=db.c[c.id];if(pxFresh(e))return Promise.resolve(e);const key="c:"+c.id;if(PX.inflight[key])return PX.inflight[key];
  return PX.inflight[key]=pxLimit(()=>pxJSON(`https://api.tcgdex.net/v2/en/cards/${encodeURIComponent(c.id)}`)).then(j=>{const P=j.pricing||{},tp=P.tcgplayer||{},o={t:Date.now(),src:"TCGplayer via TCGdex"};
    const m=k=>tp[k]&&typeof tp[k]==="object"?(tp[k].marketPrice!=null?tp[k].marketPrice:tp[k].midPrice):undefined,f=(...ks)=>{for(const k of ks){const v=m(k);if(v!=null)return v}};
    const nn=f("normal","unlimited","1st-edition","1stEdition"),hh=f("holofoil","unlimited-holofoil","1st-edition-holofoil","unlimitedHolofoil","1stEditionHolofoil"),rr=f("reverse-holofoil","reverseHolofoil");
    if(nn!=null)o.n=nn;if(hh!=null)o.h=hh;if(rr!=null)o.r=rr;const cm=P.cardmarket;if(cm&&cm.avg)o.cm=cm.avg;if(cm&&cm["avg-holo"])o.cmr=cm["avg-holo"];
    o.d=String(tp.updated||(cm&&cm.updated)||"").slice(0,10);db.c[c.id]=o;pxSave();pxChanged();return o})
-  .catch(()=>{const o={t:Date.now()-PX.TTL+36e5,err:1};db.c[c.id]=o;return o}).finally(()=>{delete PX.inflight[key]})}
+  .catch(()=>{const o=e&&!e.err?{...e,t:Date.now()-PX.TTL+36e5}:{t:Date.now()-PX.TTL+36e5,err:1};db.c[c.id]=o;return o}).finally(()=>{delete PX.inflight[key]})}
 function pxChain(c,s){const t=TIERS[c.tier||tier(c.rarity)]||0;if(s.game==="lor")return c.rev||t>=5?["h","n"]:["n","h"];if(c.rev)return ["r","n","h"];if(s.era==="wotc")return t>=3?["h","n"]:["n","h"];return t>=2?["h","n","r"]:["n","h","r"]}
 function pxPick(e,c,s){if(!e||e.err)return null;for(const k of pxChain(c,s))if(e[k]!=null&&e[k]>0)return {v:+e[k],k,src:"TCGplayer"};const cm=c.rev&&e.cmr?e.cmr:e.cm;if(cm)return {v:cm*PX.EUR,k:"cm",src:"Cardmarket",eur:cm};return null}
 /* undefined = not fetched yet, null = no price */
@@ -1284,4 +1285,4 @@ function pxShelfVals(){document.querySelectorAll("#shelf .binder").forEach(b=>{c
  upd();pxFetchOwned([s],true).then(()=>{upd();pxHeader();if(e.textContent==="Binder value: loading…")e.textContent="Binder value: no prices"}).catch(()=>{})}catch(e){}return r}}
 {const rd=render;let t=0;render=function(){const r=rd.apply(this,arguments);clearTimeout(t);t=setTimeout(pxHeader,500);return r}}
 setTimeout(pxHeader,800);
-/*</f5>*/</script></body></html>
+/*</f5>*/</script><script>/*<f6>*/$("ssetbtn").onclick=e=>$("setbtn").onclick(e);/*</f6>*/</script></body></html>

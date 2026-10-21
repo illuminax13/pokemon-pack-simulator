@@ -1,5 +1,5 @@
 /* ---------- F5: market prices ---------- */
-const PX={k:"ppsPrice",db:null,inflight:{},act:0,q:[],ptcgDown:0,EUR:1.08,TTL:864e5,MAXC:4000,LIM:6,req:0};
+const PX={k:"ppsPrice",db:null,inflight:{},act:0,q:[],ptcgDown:(()=>{try{return Date.now()-(+localStorage.getItem("ppsPtcgDown")||0)<36e5?1:0}catch(e){return 0}})(),EUR:1.08,TTL:864e5,MAXC:4000,LIM:6,req:0};
 function pxLoad(){if(PX.db)return PX.db;try{PX.db=JSON.parse(localStorage.getItem(PX.k)||"null")}catch(e){}if(!PX.db||PX.db.v!==1)PX.db={v:1,s:{},c:{}};return PX.db}
 let pxSaveT=0;function pxSave(){clearTimeout(pxSaveT);pxSaveT=setTimeout(()=>{const db=pxLoad(),ks=Object.keys(db.c);
  if(ks.length>PX.MAXC)ks.sort((a,b)=>db.c[a].t-db.c[b].t).slice(0,ks.length-PX.MAXC).forEach(k=>delete db.c[k]);
@@ -20,14 +20,14 @@ function pxSet(s){const db=pxLoad();if(pxFresh(db.s[s.dex]))return Promise.resol
      const nn=f("normal","unlimited","1stEdition"),hh=f("holofoil","unlimitedHolofoil","1stEditionHolofoil"),rr=f("reverseHolofoil");if(nn!=null)o.n=nn;if(hh!=null)o.h=hh;if(rr!=null)o.r=rr;
      const cm=x.cardmarket&&x.cardmarket.prices;if(cm&&cm.averageSellPrice)o.cm=cm.averageSellPrice;const u=x.tcgplayer&&x.tcgplayer.updatedAt;if(u&&u>d)d=u;p[String(x.number).replace(/^0+(?=\w)/,"").toUpperCase()]=o});page++}
    if(!Object.keys(p).length)return db.s[s.dex]||null;db.s[s.dex]={t:Date.now(),d:d.replace(/\//g,"-").slice(0,10),src:"TCGplayer via pokemontcg.io",p}}
-  pxSave();pxChanged();return db.s[s.dex]}catch(e){if(s.game!=="lor")PX.ptcgDown=1;return db.s[s.dex]||null}finally{delete PX.inflight[key]}})()}
+  pxSave();pxChanged();return db.s[s.dex]}catch(e){if(s.game!=="lor"){PX.ptcgDown=1;try{localStorage.setItem("ppsPtcgDown",Date.now())}catch(_){}}return db.s[s.dex]||null}finally{delete PX.inflight[key]}})()}
 function pxCard(c){const db=pxLoad(),e=db.c[c.id];if(pxFresh(e))return Promise.resolve(e);const key="c:"+c.id;if(PX.inflight[key])return PX.inflight[key];
  return PX.inflight[key]=pxLimit(()=>pxJSON(`https://api.tcgdex.net/v2/en/cards/${encodeURIComponent(c.id)}`)).then(j=>{const P=j.pricing||{},tp=P.tcgplayer||{},o={t:Date.now(),src:"TCGplayer via TCGdex"};
    const m=k=>tp[k]&&typeof tp[k]==="object"?(tp[k].marketPrice!=null?tp[k].marketPrice:tp[k].midPrice):undefined,f=(...ks)=>{for(const k of ks){const v=m(k);if(v!=null)return v}};
    const nn=f("normal","unlimited","1st-edition","1stEdition"),hh=f("holofoil","unlimited-holofoil","1st-edition-holofoil","unlimitedHolofoil","1stEditionHolofoil"),rr=f("reverse-holofoil","reverseHolofoil");
    if(nn!=null)o.n=nn;if(hh!=null)o.h=hh;if(rr!=null)o.r=rr;const cm=P.cardmarket;if(cm&&cm.avg)o.cm=cm.avg;if(cm&&cm["avg-holo"])o.cmr=cm["avg-holo"];
    o.d=String(tp.updated||(cm&&cm.updated)||"").slice(0,10);db.c[c.id]=o;pxSave();pxChanged();return o})
-  .catch(()=>{const o={t:Date.now()-PX.TTL+36e5,err:1};db.c[c.id]=o;return o}).finally(()=>{delete PX.inflight[key]})}
+  .catch(()=>{const o=e&&!e.err?{...e,t:Date.now()-PX.TTL+36e5}:{t:Date.now()-PX.TTL+36e5,err:1};db.c[c.id]=o;return o}).finally(()=>{delete PX.inflight[key]})}
 function pxChain(c,s){const t=TIERS[c.tier||tier(c.rarity)]||0;if(s.game==="lor")return c.rev||t>=5?["h","n"]:["n","h"];if(c.rev)return ["r","n","h"];if(s.era==="wotc")return t>=3?["h","n"]:["n","h"];return t>=2?["h","n","r"]:["n","h","r"]}
 function pxPick(e,c,s){if(!e||e.err)return null;for(const k of pxChain(c,s))if(e[k]!=null&&e[k]>0)return {v:+e[k],k,src:"TCGplayer"};const cm=c.rev&&e.cmr?e.cmr:e.cm;if(cm)return {v:cm*PX.EUR,k:"cm",src:"Cardmarket",eur:cm};return null}
 /* undefined = not fetched yet, null = no price */

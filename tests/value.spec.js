@@ -1,7 +1,7 @@
 const {test, expect} = require('@playwright/test');
 const {gotoApp, chooseSet, skipAndLand, tapCenterPack, doTear, revealAll, openShelf} = require('./helpers');
 test.use({serviceWorkers: 'block'});  // page.route can't see requests from SW-controlled pages in WebKit
-const noise = e => !/Failed to load resource|net::|ERR_/.test(e);
+const noise = e => !/Failed to load resource|net::|ERR_|CORS|access control/i.test(e);
 // deterministic mock: price derived from card number; card "...-999" style ids or ids in NOPRICE get no pricing
 async function mockPrices(page, opt = {}) {
   const calls = {dex: 0, ptcg: 0, lor: 0};
