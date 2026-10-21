@@ -9,12 +9,12 @@ function zoomInfo(it){const c=it.c,s=it.s,lid=c.id?c.id.slice(c.id.lastIndexOf("
  return `<b>${esc(c.name)}</b><br>${esc(s?s.name:"")}${lid?" · #"+esc(lid):""} · ${esc(c.rarity||"")}${v}${it.n?` · owned ×${it.n}`:""}<br><span class="zp" id="zprice">${pr}</span><div class="zn">${Z.i+1} / ${Z.list.length} · swipe for next · swipe down or tap outside to close</div>`}
 function zoomRender(dir){const it=Z.list[Z.i];if(!it)return;const c={...it.c,tier:it.c.tier||tier(it.c.rarity)};if(!c.era&&it.s)c.era=it.s.era;
  if(it.s&&it.s.game==="lor"&&(!c.imgs||!c.imgs.length)){c.imgs=lorSrcs(it.s,(c.id||"").split("-").pop(),c.x)}
- const prev=set;set=it.s||set;const el=cardEl(c,0);set=prev;el.classList.add("flipped");if(dir)el.classList.add(dir>0?"zin-r":"zin-l");tilt(el);
+ const prev=set;set=it.s||set;const el=cardEl(c,0);set=prev;el.classList.add("flipped");if(dir){el.classList.add(dir>0?"zin-r":"zin-l");el.addEventListener("animationend",()=>el.classList.remove("zin-r","zin-l"),{once:true})}tilt(el);
  const im=el.querySelector(".front img");if(im){im.loading="eager";im.decoding="async";im.removeAttribute("srcset")}
  $("vcard").innerHTML="";$("vcard").appendChild(el);$("vinfo").innerHTML=zoomInfo(it);
  $("zprev").disabled=Z.i<=0;$("znext").disabled=Z.i>=Z.list.length-1;
  if(typeof priceFor==="function")priceFor(c,it.s).then(()=>{const p=$("zprice");if(p&&Z.list[Z.i]===it)p.innerHTML=priceLine(c,it.s)}).catch(()=>{});
- /* preload neighbours' hi-res images */[Z.list[Z.i+1],Z.list[Z.i-1]].forEach(n=>{const u=n&&n.c.imgs&&n.c.imgs[0];if(u){const p=new Image();p.referrerPolicy="no-referrer";p.src=u}})}
+ /* preload + pre-decode neighbours' hi-res images off the swipe path */Z.pre=Z.pre||new Map();[Z.list[Z.i+1],Z.list[Z.i-1],Z.list[Z.i+2]].forEach(n=>{const u=n&&n.c.imgs&&n.c.imgs[0];if(u&&!Z.pre.has(u)){const p=new Image();p.referrerPolicy="no-referrer";p.decoding="async";p.src=u;if(p.decode)p.decode().catch(()=>{});Z.pre.set(u,p);if(Z.pre.size>8)Z.pre.delete(Z.pre.keys().next().value)}})}
 function zoomGo(d){const n=Z.i+d;if(n<0||n>=Z.list.length)return;Z.i=n;zoomRender(d);if(typeof gyroNeutral==="function")gyroNeutral()}
 {const v=$("viewer");v.insertAdjacentHTML("beforeend",'<button class="znav zprev" id="zprev" aria-label="Previous card">‹</button><button class="znav znext" id="znext" aria-label="Next card">›</button><button class="zclose" id="zclose" aria-label="Close">✕</button>');
  $("zprev").onclick=e=>{e.stopPropagation();zoomGo(-1)};$("znext").onclick=e=>{e.stopPropagation();zoomGo(1)};$("zclose").onclick=e=>{e.stopPropagation();closeZoom()};

@@ -463,7 +463,7 @@ section{content-visibility:auto;contain-intrinsic-size:auto 600px}
 #viewer{background:rgba(4,5,10,.95);-webkit-backdrop-filter:none;backdrop-filter:none;touch-action:none;-webkit-user-select:none;user-select:none}
 #vcard .card{width:min(84vw,calc((100dvh - 230px) * 63 / 88),460px)}
 #vcard .card.zin-l{animation:zin-l .28s cubic-bezier(.2,.8,.2,1)}#vcard .card.zin-r{animation:zin-r .28s cubic-bezier(.2,.8,.2,1)}
-@keyframes zin-l{from{transform:translateX(-60px);opacity:0}}@keyframes zin-r{from{transform:translateX(60px);opacity:0}}
+@keyframes zin-l{from{transform:translate3d(-60px,0,0)}}@keyframes zin-r{from{transform:translate3d(60px,0,0)}}
 #vinfo{text-align:center;color:#dfe3ff;font-size:14px;line-height:1.5;max-width:min(92vw,520px);padding:0 12px}#vinfo b{font-size:17px;color:#fff}#vinfo .zp{color:#ffd54a;font-weight:700}#vinfo .zn{color:#9aa3d6;font-size:12px}
 .znav,.zclose{position:absolute;z-index:3;appearance:none;border:1px solid var(--line);background:rgba(255,255,255,.08);color:#fff;border-radius:999px;cursor:pointer;font:inherit}
 .znav{top:50%;width:46px;height:46px;margin-top:-23px;font-size:26px;line-height:1}.zprev{left:calc(12px + var(--sa-l,0px))}.znext{right:calc(12px + var(--sa-r,0px))}
@@ -471,6 +471,7 @@ section{content-visibility:auto;contain-intrinsic-size:auto 600px}
 .znav[disabled]{opacity:.25;cursor:default}
 @media (max-width:640px){.znav{top:auto;bottom:calc(14px + var(--sa-b,0px));margin:0}}
 #hist>div[data-h],#coll>div[data-k],#summary .card,#bsum .card{cursor:zoom-in}
+#vcard{will-change:transform}#vcard .card.zin-l .foil,#vcard .card.zin-r .foil,#vcard .card.zin-l .glare,#vcard .card.zin-r .glare,#vcard .card.zdrag .foil,#vcard .card.zdrag .glare{visibility:hidden}
 /*</F3CSS>*//*<f4css>*/#sbox{white-space:nowrap}
 #boxv{position:fixed;inset:0;z-index:55;display:none;overflow:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;background:radial-gradient(120% 80% at 50% 0%,#1b1f3a,#07080f 70%);color:#e9ecff;padding:calc(12px + var(--sa-t,0px)) calc(14px + var(--sa-r,0px)) calc(24px + var(--sa-b,0px)) calc(14px + var(--sa-l,0px))}
 #boxv.on{display:block}
@@ -520,12 +521,13 @@ section{content-visibility:auto;contain-intrinsic-size:auto 600px}
 #hval{white-space:nowrap}#hval b{color:#9fe3a6}
 .bval{font-size:12px;color:#9fe3a6;margin-top:3px;min-height:15px}
 #bvalb{margin-left:auto;margin-right:10px;font-size:14px;color:#9fe3a6;white-space:nowrap}
-.pxpanel{max-width:1000px;margin:10px auto 6px;width:calc(100% - 28px);box-sizing:border-box;padding:12px 14px;border-radius:14px;background:#ffffff0b;border:1px solid #ffffff16}
+.pxpanel{grid-column:1/-1;max-width:1000px;margin:0 auto;width:100%;box-sizing:border-box;contain:layout;padding:12px 14px;border-radius:14px;background:#ffffff0b;border:1px solid #ffffff16}
 .pxpanel .pxtot{display:flex;flex-wrap:wrap;gap:10px;align-items:center}.pxpanel .pxtot b{font-size:22px;color:#9fe3a6}
 .pxpanel .pxtot button{margin-left:auto;font-size:14px;padding:8px 14px}
-.pxmv{display:flex;gap:8px;margin-top:8px;overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:4px}.pxmv button{flex:0 0 84px}
+.pxmv{display:flex;gap:8px;margin-top:8px;height:172px;overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:4px}.pxmv button{flex:0 0 84px}
 .pxmv button{appearance:none;border:0;padding:0;background:#ffffff0d;border-radius:7px;overflow:hidden;color:inherit;font:inherit;text-align:left;cursor:zoom-in}
 .pxmv img{display:block;width:100%;aspect-ratio:63/88;object-fit:cover}.pxmv span{display:block;padding:3px 5px 5px;font-size:11px;line-height:1.25}.pxmv em{font-style:normal;color:#9fe3a6}
+.pxph{background:#ffffff08;border-radius:8px}
 /*</f5css>*//*<f6css>*/#vWheel.stage #ssetbtn{background:rgba(255,255,255,.75);color:#24324a;border:1px solid rgba(30,50,80,.12);box-shadow:0 2px 8px rgba(30,50,80,.12);padding:7px 11px;line-height:1}/*</f6css>*/</style></head><body><div id="bg"></div><canvas id="fx"></canvas><div id="burst"></div>
 <div id="tear"></div><div id="badge">CSS · loading</div>
 <header><h1>PACK SIMULATOR</h1>
@@ -1100,12 +1102,12 @@ function zoomInfo(it){const c=it.c,s=it.s,lid=c.id?c.id.slice(c.id.lastIndexOf("
  return `<b>${esc(c.name)}</b><br>${esc(s?s.name:"")}${lid?" · #"+esc(lid):""} · ${esc(c.rarity||"")}${v}${it.n?` · owned ×${it.n}`:""}<br><span class="zp" id="zprice">${pr}</span><div class="zn">${Z.i+1} / ${Z.list.length} · swipe for next · swipe down or tap outside to close</div>`}
 function zoomRender(dir){const it=Z.list[Z.i];if(!it)return;const c={...it.c,tier:it.c.tier||tier(it.c.rarity)};if(!c.era&&it.s)c.era=it.s.era;
  if(it.s&&it.s.game==="lor"&&(!c.imgs||!c.imgs.length)){c.imgs=lorSrcs(it.s,(c.id||"").split("-").pop(),c.x)}
- const prev=set;set=it.s||set;const el=cardEl(c,0);set=prev;el.classList.add("flipped");if(dir)el.classList.add(dir>0?"zin-r":"zin-l");tilt(el);
+ const prev=set;set=it.s||set;const el=cardEl(c,0);set=prev;el.classList.add("flipped");if(dir){el.classList.add(dir>0?"zin-r":"zin-l");el.addEventListener("animationend",()=>el.classList.remove("zin-r","zin-l"),{once:true})}tilt(el);
  const im=el.querySelector(".front img");if(im){im.loading="eager";im.decoding="async";im.removeAttribute("srcset")}
  $("vcard").innerHTML="";$("vcard").appendChild(el);$("vinfo").innerHTML=zoomInfo(it);
  $("zprev").disabled=Z.i<=0;$("znext").disabled=Z.i>=Z.list.length-1;
  if(typeof priceFor==="function")priceFor(c,it.s).then(()=>{const p=$("zprice");if(p&&Z.list[Z.i]===it)p.innerHTML=priceLine(c,it.s)}).catch(()=>{});
- /* preload neighbours' hi-res images */[Z.list[Z.i+1],Z.list[Z.i-1]].forEach(n=>{const u=n&&n.c.imgs&&n.c.imgs[0];if(u){const p=new Image();p.referrerPolicy="no-referrer";p.src=u}})}
+ /* preload + pre-decode neighbours' hi-res images off the swipe path */Z.pre=Z.pre||new Map();[Z.list[Z.i+1],Z.list[Z.i-1],Z.list[Z.i+2]].forEach(n=>{const u=n&&n.c.imgs&&n.c.imgs[0];if(u&&!Z.pre.has(u)){const p=new Image();p.referrerPolicy="no-referrer";p.decoding="async";p.src=u;if(p.decode)p.decode().catch(()=>{});Z.pre.set(u,p);if(Z.pre.size>8)Z.pre.delete(Z.pre.keys().next().value)}})}
 function zoomGo(d){const n=Z.i+d;if(n<0||n>=Z.list.length)return;Z.i=n;zoomRender(d);if(typeof gyroNeutral==="function")gyroNeutral()}
 {const v=$("viewer");v.insertAdjacentHTML("beforeend",'<button class="znav zprev" id="zprev" aria-label="Previous card">‹</button><button class="znav znext" id="znext" aria-label="Next card">›</button><button class="zclose" id="zclose" aria-label="Close">✕</button>');
  $("zprev").onclick=e=>{e.stopPropagation();zoomGo(-1)};$("znext").onclick=e=>{e.stopPropagation();zoomGo(1)};$("zclose").onclick=e=>{e.stopPropagation();closeZoom()};
@@ -1273,10 +1275,10 @@ function boxPrices(B,all,hits,best){const s=B.s;let left=0;const vEl=$("bxval"),
  const seen=new Map();[...hits,...all].forEach(x=>{const k=x.c.id+(x.c.rev?"r":"");if(!seen.has(k))seen.set(k,x)});left=seen.size;upd();let t=0;
  seen.forEach(x=>priceFor(x.c,s).catch(()=>{}).then(()=>{left--;if(!t)t=setTimeout(()=>{t=0;upd()},150);if(!left)upd()}))}
 function pxShelfPanel(){const sh=$("shelf");if(!sh)return;const G=GAME,sets=SETS.filter(s=>(s.game==="lor")===(G==="lor")),x=pxValue(sets);let p=$("pxpanel");
- if(!p){p=document.createElement("div");p.id="pxpanel";p.className="pxpanel";sh.parentNode.insertBefore(p,sh)}
- p.innerHTML=`<div class="pxtot"><span>${G==="lor"?"Lorcana":"Pokémon"} collection value</span><b id="pxtotal">${x.priced?usd(x.v):"—"}</b><span class="pxsrc">${x.priced}/${x.total} cards priced</span><button id="pxupd" class="ghost">Update prices</button></div>
+ if(!p||!sh.contains(p)){p=document.createElement("div");p.id="pxpanel";p.className="pxpanel";const h=sh.querySelector(".shelfh");h?h.after(p):sh.prepend(p);p._h=""}
+ const html=`<div class="pxtot"><span>${G==="lor"?"Lorcana":"Pokémon"} collection value</span><b id="pxtotal">${x.priced?usd(x.v):"—"}</b><span class="pxsrc">${x.priced}/${x.total} cards priced</span><button id="pxupd" class="ghost">Update prices</button></div>
  <div class="pxsrc">Prices are TCGplayer market estimates${x.d?` (as of ${x.d})`:""}${G==="lor"?" via Lorcast":" via pokemontcg.io / TCGdex; Cardmarket € fallback marked ≈"}. Cached 24h.</div>
- ${x.top.length?`<div style="margin-top:10px;font-weight:600">Most valuable cards</div><div class="pxmv">${x.top.slice(0,12).map((t,j)=>`<button data-mv="${j}">${img(t.c.rev||t.s.game!=="lor"?t.s.game==="lor"?lorSrcs(t.s,t.c.id.split("-").pop(),t.c.x):t.c.imgs:lorSrcs(t.s,t.c.id.split("-").pop(),t.c.x),t.c.name,t.c.rarity).replace("<img ",'<img loading="lazy" decoding="async" ')}<span>${esc(t.c.name)}${t.c.rev?(t.s.game==="lor"?" (Foil)":" (Rev)"):""}<br><em>${usd(t.r.v)}</em>${t.q>1?" ×"+t.q:""}</span></button>`).join("")}</div>`:""}`;
+ ${x.top.length?`<div style="margin-top:10px;font-weight:600">Most valuable cards</div><div class="pxmv">${x.top.slice(0,12).map((t,j)=>`<button data-mv="${j}">${img(t.c.rev||t.s.game!=="lor"?t.s.game==="lor"?lorSrcs(t.s,t.c.id.split("-").pop(),t.c.x):t.c.imgs:lorSrcs(t.s,t.c.id.split("-").pop(),t.c.x),t.c.name,t.c.rarity).replace("<img ",'<img loading="lazy" decoding="async" ')}<span>${esc(t.c.name)}${t.c.rev?(t.s.game==="lor"?" (Foil)":" (Rev)"):""}<br><em>${usd(t.r.v)}</em>${t.q>1?" ×"+t.q:""}</span></button>`).join("")}</div>`:x.total?`<div style="margin-top:10px;font-weight:600">Most valuable cards</div><div class="pxmv pxph"></div>`:""}`;if(p._h===html){pxShelfVals();return}p._h=html;p.innerHTML=html;
  p.querySelectorAll("[data-mv]").forEach(b=>b.onclick=()=>openZoom(x.top.slice(0,12).map(t=>zItem({...t.c,imgs:t.s.game==="lor"?lorSrcs(t.s,t.c.id.split("-").pop(),t.c.x):t.c.imgs},t.s,{n:t.q})),+b.dataset.mv));
  $("pxupd").onclick=()=>{const b=$("pxupd");b.disabled=true;b.textContent="Updating…";pxFetchOwned(sets,true,(d,n)=>{b.textContent=`Updating ${d}/${n}…`}).then(()=>{pxShelfVals();pxHeader();pxShelfPanel()})};
  pxShelfVals()}
