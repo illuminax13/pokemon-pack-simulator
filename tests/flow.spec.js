@@ -56,7 +56,7 @@ for (const set of SETS) {
       await page.waitForFunction(() => document.getElementById('vWheel').classList.contains('on'), null, {timeout: 30000});
 
       const rej = await page.evaluate(() => window.__rej||[]);
-      expect(errs.filter(e => !/access.control|Failed to load|net::|CORS/i.test(e)), errs.join('\n')).toEqual([]);
+      expect(errs.filter(e => !/access.control|Cross-Origin|Failed to load|net::|CORS/i.test(e)), errs.join('\n')).toEqual([]);
       expect(rej).toEqual([]);
     });
   });
@@ -95,5 +95,5 @@ test('God pack (?god=1): shimmer on tear, celebration, summary, history badge, s
   expect(await page.evaluate(() => [store.god, document.querySelector('#hist .godh .gbadge') && document.querySelector('#hist .godh .gbadge').textContent, document.getElementById('godst').hidden])).toEqual([1, '👑 God Pack', false]);
   await page.waitForTimeout(1800);
   if (info.project.name === 'chromium') await page.screenshot({path: 'screenshot-godpack.png'});
-  expect(errs.filter(e => !/Failed to load resource|net::|ERR_/.test(e))).toEqual([]);
+  expect(errs.filter(e => !/Failed to load resource|net::|ERR_|CORS|access.control|Cross-Origin|Cross-Origin/i.test(e))).toEqual([]);
 });

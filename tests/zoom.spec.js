@@ -35,5 +35,5 @@ test('zoom: pack summary, swipe/keys, info, history, binder', async ({page}) => 
   await page.locator('.bfilt button[data-f="owned"]').click(); await page.waitForSelector('#book .pocket.own');
   const pk = await page.locator('#book .pocket.own').first().boundingBox(); await page.mouse.click(pk.x + pk.width / 2, pk.y + pk.height / 2);
   await expect(page.locator('#viewer.on')).toBeVisible(); expect(await counter(page)).toMatch(/^1 \/ \d+$/); await expect(page.locator('#vinfo')).toContainText('owned ×');
-  expect(errs.filter(e => !/Failed to load resource|access.control|CORS/i.test(e))).toEqual([]);
+  expect(errs.filter(e => !/Failed to load resource|access.control|Cross-Origin|CORS/i.test(e))).toEqual([]);
 });

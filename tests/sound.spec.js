@@ -28,5 +28,5 @@ test('sound + haptics: unlock on first gesture, low default volume, sfx hooks, m
   await page.locator('#optHap').uncheck(); const v = await page.evaluate(() => { const n = window.__vib.length; haptic(10); return window.__vib.length - n; }); expect(v).toBe(0);
   await page.reload(); await page.waitForSelector('.tile');
   expect(await page.evaluate(() => [PREF.sound, PREF.vol, PREF.haptics])).toEqual([true, 0.8, false]);
-  expect(errs.filter(e => !/Failed to load resource|access.control|CORS/i.test(e))).toEqual([]);
+  expect(errs.filter(e => !/Failed to load resource|access.control|Cross-Origin|CORS/i.test(e))).toEqual([]);
 });

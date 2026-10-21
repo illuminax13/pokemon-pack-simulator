@@ -34,7 +34,7 @@ function gyroTargets(){const z=$("zoom");if(z&&z.classList.contains("on"))return
  if($("viewer").classList.contains("on"))return [...document.querySelectorAll("#vcard .card.flipped")];
  if(!$("vPack").classList.contains("on"))return [];const out=[];const t=typeof topEl==="function"&&topEl();if(t&&t.classList.contains("flipped"))out.push(t);
  document.querySelectorAll("#summary.on .card.flipped").forEach((c,i)=>{if(i<24)out.push(c)});return out}
-function gyroTick(){GY.q=0;const k=.16;GY.x+=(GY.tx-GY.x)*k;GY.y+=(GY.ty-GY.y)*k;
+function gyroTick(t){GY.q=0;const now=t||performance.now(),dt=Math.min(250,Math.max(8,now-(GY.lt&&now-GY.lt<400?GY.lt:now-16.7)));GY.lt=now;const k=1-Math.exp(-dt/96);GY.x+=(GY.tx-GY.x)*k;GY.y+=(GY.ty-GY.y)*k;
  const x=.5+GY.x*.5,y=.5+GY.y*.5,els=gyroTargets(),cur=new Set(els);
  GY.els.forEach(el=>{if(!cur.has(el))gyroReset(el)});GY.els=cur;
  for(const el of els){if(el._ptr)continue;el.classList.add("tilting");const st=el.style;st.setProperty("--ry",((x-.5)*-28).toFixed(2)+"deg");st.setProperty("--rx",((y-.5)*22).toFixed(2)+"deg");st.setProperty("--mx",(100-x*100).toFixed(1)+"%");st.setProperty("--my",(y*100).toFixed(1)+"%")}

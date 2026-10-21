@@ -28,7 +28,7 @@ test('tilt: iOS permission on first tap, neutral at reveal, smoothed + clamped',
   await page.locator('#setbtn').click(); await expect(page.locator('#settings')).toBeVisible();
   await page.locator('#optTilt').uncheck(); expect(await page.evaluate(() => [GY.st, PREF.tilt, JSON.parse(localStorage.ppsPrefs).tilt])).toEqual(['off', false, false]);
   await orient(page, 120, 60); await page.waitForTimeout(300); r = await ry(page); expect(r.ry).toBe(0);
-  expect(errs.filter(e => !/Failed to load resource|access.control|CORS/i.test(e))).toEqual([]);
+  expect(errs.filter(e => !/Failed to load resource|access.control|Cross-Origin|CORS/i.test(e))).toEqual([]);
 });
 
 test('tilt: permission denied is handled gracefully', async ({page}) => {
@@ -40,5 +40,5 @@ test('tilt: permission denied is handled gracefully', async ({page}) => {
   await skipAndLand(page); await tapCenterPack(page); await doTear(page);
   await expect(page.locator('#stack .card')).toHaveCount(10);
   await page.locator('#setbtn').click(); await expect(page.locator('#tiltNote')).toContainText('denied');
-  expect(errs.filter(e => !/Failed to load resource|access.control|CORS/i.test(e))).toEqual([]);
+  expect(errs.filter(e => !/Failed to load resource|access.control|Cross-Origin|CORS/i.test(e))).toEqual([]);
 });

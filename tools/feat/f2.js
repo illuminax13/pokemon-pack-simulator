@@ -5,9 +5,9 @@ function sndInit(){if(SND.ctx)return SND.ctx;const AC=window.AudioContext||windo
  try{const c=new AC();SND.ctx=c;SND.master=c.createGain();SND.master.connect(c.destination);sndVol();
   const b=c.createBuffer(1,c.sampleRate*1.5,c.sampleRate),d=b.getChannelData(0);for(let i=0;i<d.length;i++)d[i]=Math.random()*2-1;SND.noise=b;
   /* unlock (iOS): play a silent buffer inside the gesture */const s=c.createBufferSource();s.buffer=c.createBuffer(1,1,22050);s.connect(c.destination);s.start(0);
-  document.addEventListener("visibilitychange",()=>{if(document.hidden)c.suspend&&c.suspend();else if(PREF.sound)c.resume&&c.resume()})}catch(e){SND.ctx=null}return SND.ctx}
+  document.addEventListener("visibilitychange",()=>{try{const r=document.hidden?c.suspend&&c.suspend():PREF.sound?c.resume&&c.resume():0;r&&r.catch&&r.catch(()=>{})}catch(e){}})}catch(e){SND.ctx=null}return SND.ctx}
 function sndVol(){if(SND.master)SND.master.gain.value=PREF.sound?Math.max(0,Math.min(1,PREF.vol))*.5:0}
-function ok(kind,gap){if(!PREF.sound||!SND.ctx||SND.ctx.state==="closed")return false;const now=performance.now();if(SND.last[kind]&&now-SND.last[kind]<gap)return false;SND.last[kind]=now;if(SND.ctx.state==="suspended")SND.ctx.resume();SND.n++;SND.played.push(kind);if(SND.played.length>50)SND.played.shift();return true}
+function ok(kind,gap){if(!PREF.sound||!SND.ctx||SND.ctx.state==="closed")return false;const now=performance.now();if(SND.last[kind]&&now-SND.last[kind]<gap)return false;SND.last[kind]=now;if(SND.ctx.state==="suspended"){try{const r=SND.ctx.resume();r&&r.catch&&r.catch(()=>{})}catch(e){}}SND.n++;SND.played.push(kind);if(SND.played.length>50)SND.played.shift();return true}
 function env(g,t,a,peak,dec){g.gain.setValueAtTime(0.0001,t);g.gain.exponentialRampToValueAtTime(peak,t+a);g.gain.exponentialRampToValueAtTime(0.0001,t+a+dec)}
 function noiseHit(t,dur,freq,q,peak,type="bandpass",rate=1){const c=SND.ctx,s=c.createBufferSource(),f=c.createBiquadFilter(),g=c.createGain();s.buffer=SND.noise;s.playbackRate.value=rate;f.type=type;f.frequency.value=freq;f.Q.value=q;
  s.connect(f);f.connect(g);g.connect(SND.master);env(g,t,.002,peak,dur);s.start(t,Math.random()*1.2,dur+.05)}
