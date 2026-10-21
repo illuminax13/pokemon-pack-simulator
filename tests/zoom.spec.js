@@ -28,7 +28,7 @@ test('zoom: pack summary, swipe/keys, info, history, binder', async ({page}) => 
   await page.locator('#viewer').click({position: {x: 8, y: 8}}); await expect(page.locator('#viewer')).toBeHidden();
   // pull history -> best card
   await page.evaluate(() => render()); const h = page.locator('#hist > div[data-h]').first(); await h.scrollIntoViewIfNeeded(); await h.click();
-  await expect(page.locator('#viewer.on')).toBeVisible(); await expect(page.locator('#vinfo b')).toHaveText(names[9]);
+  await expect(page.locator('#viewer.on')).toBeVisible(); await expect(page.locator('#vinfo b')).toHaveText(await page.evaluate(() => store.histC[0].name));
   await page.locator('#zclose').click(); await expect(page.locator('#viewer')).toBeHidden();
   // binder pocket
   await openShelf(page); await page.locator('.binder', {hasText: 'Surging Sparks'}).click();

@@ -90,7 +90,8 @@ test('box: real products for no-box sets, one-by-one then open all', async ({pag
   expect((await S(page)).packs - s0.packs).toBe(6);
   await expect(page.locator('.bxstats')).toContainText('6packs opened');
   await expect(page.locator('#bxallg .bxt')).toHaveCount(await page.evaluate(() => BOX.res.reduce((a, p) => a + p.length, 0)));
-  expect(errs.filter(e => !/Failed to load resource|net::|ERR_|CORS|access.control|Cross-Origin/i.test(e))).toEqual([]);
+  // 'Navigated away' is Firefox logging pending media/decode work cancelled by this test's page.reload()
+  expect(errs.filter(e => !/Failed to load resource|net::|ERR_|CORS|access.control|Cross-Origin|Navigated away/i.test(e))).toEqual([]);
 });
 
 test('box: lorcana 24 packs, skip', async ({page}) => {
