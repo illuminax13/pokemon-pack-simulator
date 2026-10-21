@@ -1,10 +1,12 @@
 /* ---------- F5: market prices ---------- */
-const PX={k:"ppsPrice",db:null,inflight:{},act:0,q:[],ptcgDown:(()=>{try{return Date.now()-(+localStorage.getItem("ppsPtcgDown")||0)<36e5?1:0}catch(e){return 0}})(),EUR:1.08,TTL:864e5,MAXC:4000,LIM:6,req:0};
+const PX={k:"ppsPrice",db:null,inflight:{},act:0,q:[],ptcgDown:(()=>{try{return Date.now()-(+localStorage.getItem("ppsPtcgDown")||0)<36e5?1:0}catch(e){return 0}})(),EUR:1.08,TTL:864e5,MAXC:4000,LIM:4,req:0};
 function pxLoad(){if(PX.db)return PX.db;try{PX.db=JSON.parse(localStorage.getItem(PX.k)||"null")}catch(e){}if(!PX.db||PX.db.v!==1)PX.db={v:1,s:{},c:{}};return PX.db}
 let pxSaveT=0;function pxSave(){clearTimeout(pxSaveT);pxSaveT=setTimeout(()=>{const db=pxLoad(),ks=Object.keys(db.c);
  if(ks.length>PX.MAXC)ks.sort((a,b)=>db.c[a].t-db.c[b].t).slice(0,ks.length-PX.MAXC).forEach(k=>delete db.c[k]);
  const out={v:1,s:db.s,c:Object.fromEntries(Object.entries(db.c).filter(([k,o])=>!o.err))};
  try{localStorage.setItem(PX.k,JSON.stringify(out))}catch(e){try{out.c={};localStorage.setItem(PX.k,JSON.stringify(out))}catch(_){}}},400)}
+/* defer network price work so it never competes with set/binder loading on slow phones */
+function pxIdle(f,ms){setTimeout(()=>{(window.requestIdleCallback||(g=>setTimeout(g,0)))(()=>f(),{timeout:2000})},ms)}
 const pxFresh=o=>o&&Date.now()-o.t<PX.TTL;
 const pxNum=c=>String(keyOf(c.id)[1]).toUpperCase();
 function pxLimit(f){return new Promise((res,rej)=>{const run=()=>{PX.act++;f().then(res,rej).finally(()=>{PX.act--;const n=PX.q.shift();if(n)n()})};PX.act<PX.LIM?run():PX.q.push(run)})}
@@ -77,9 +79,9 @@ function pxShelfPanel(){const sh=$("shelf");if(!sh)return;const G=GAME,sets=SETS
  $("pxupd").onclick=()=>{const b=$("pxupd");b.disabled=true;b.textContent="Updating…";pxFetchOwned(sets,true,(d,n)=>{b.textContent=`Updating ${d}/${n}…`}).then(()=>{pxShelfVals();pxHeader();pxShelfPanel()})};
  pxShelfVals()}
 function pxShelfVals(){document.querySelectorAll("#shelf .binder").forEach(b=>{const s=BSETS[b.dataset.i];if(!s)return;const x=pxValue([s]);let e=b.querySelector(".bval");if(!e){e=document.createElement("div");e.className="bval";const c=b.querySelector(".bcount");c&&c.after(e)}e.textContent=x.priced?usd(x.v)+(x.priced<x.total?` · ${x.priced}/${x.total} priced`:""):x.total?"no prices yet":""})}
-{const os=openShelf;openShelf=function(){const r=os.apply(this,arguments);try{pxShelfPanel();const sets=SETS.filter(s=>(s.game==="lor")===(GAME==="lor"));pxFetchOwned(sets,false).then(()=>{pxShelfVals();pxHeader()}).catch(()=>{})}catch(e){}return r}}
+{const os=openShelf;openShelf=function(){const r=os.apply(this,arguments);try{pxShelfPanel();const sets=SETS.filter(s=>(s.game==="lor")===(GAME==="lor"));pxIdle(()=>{if(!$("vShelf").classList.contains("on"))return;pxFetchOwned(sets,false).then(()=>{pxShelfVals();pxHeader()}).catch(()=>{})},2500)}catch(e){}return r}}
 {const ob=openBinder;openBinder=async function(s){const r=await ob.apply(this,arguments);try{let e=$("bvalb");if(!e){e=document.createElement("span");e.id="bvalb";$("btitle").after(e)}
  const upd=()=>{if(B.s!==s)return;const x=pxValue([s]);e.textContent=x.total?(x.priced?`Binder value ${usd(x.v)}`+(x.priced<x.total?` (${x.priced}/${x.total} priced)`:""):"Binder value: loading…"):"";e.title="TCGplayer market estimates"+(x.d?" as of "+x.d:"")};
- upd();pxFetchOwned([s],true).then(()=>{upd();pxHeader();if(e.textContent==="Binder value: loading…")e.textContent="Binder value: no prices"}).catch(()=>{})}catch(e){}return r}}
+ upd();pxIdle(()=>B.s===s&&pxFetchOwned([s],true).then(()=>{upd();pxHeader();if(e.textContent==="Binder value: loading…")e.textContent="Binder value: no prices"}).catch(()=>{}),1500)}catch(e){}return r}}
 {const rd=render;let t=0;render=function(){const r=rd.apply(this,arguments);clearTimeout(t);t=setTimeout(pxHeader,500);return r}}
 setTimeout(pxHeader,800);

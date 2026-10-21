@@ -1,5 +1,5 @@
 /* ==== F3: card zoom (#viewer) ==== */
-#viewer{background:rgba(4,5,10,.93);touch-action:none;-webkit-user-select:none;user-select:none}
+#viewer{background:rgba(4,5,10,.95);-webkit-backdrop-filter:none;backdrop-filter:none;touch-action:none;-webkit-user-select:none;user-select:none}
 #vcard .card{width:min(84vw,calc((100dvh - 230px) * 63 / 88),460px)}
 #vcard .card.zin-l{animation:zin-l .28s cubic-bezier(.2,.8,.2,1)}#vcard .card.zin-r{animation:zin-r .28s cubic-bezier(.2,.8,.2,1)}
 @keyframes zin-l{from{transform:translateX(-60px);opacity:0}}@keyframes zin-r{from{transform:translateX(60px);opacity:0}}
