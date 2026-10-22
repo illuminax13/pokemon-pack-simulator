@@ -30,9 +30,9 @@ const ACHS=[
  ["lor","lfoil","🫧","Foil Fever","Pull your first Lorcana foil.","lor",0,S=>S.F.lfoil],
  ["lor","lleg","🗝️","Legend of the Inkwell","Pull your first Lorcana Legendary (or better).","lor",0,S=>S.F.lleg],
  ["lor","lench","🔮","Enchanted","Pull a Lorcana Enchanted (or Iconic) card.","lor",0,S=>S.F.lench],
- ["coll","b25","📗","Binder Builder","Fill 25% of any set's base binder.","all",25,S=>S.bin],
- ["coll","b50","📘","Halfway There","Fill 50% of any set's base binder.","all",50,S=>S.bin],
- ["coll","b100","📕","Set Complete","Fill 100% of any set's base binder.","all",100,S=>S.bin],
+ ["coll","b25","📗","Binder Builder","Fill 25% of any set's binder.","all",25,S=>S.bin],
+ ["coll","b50","📘","Halfway There","Fill 50% of any set's binder.","all",50,S=>S.bin],
+ ["coll","b100","📕","Set Complete","Collect every card in a set's binder.","all",100,S=>S.bin],
  ["coll","s10","🗺️","Globetrotter","Own cards from 10 different sets.","all",10,S=>S.sets],
  ["coll","sall","🌍","Completionist","Own cards from every set ("+SETS.length+").","all",SETS.length,S=>S.sets],
  ["coll","v100","🪙","Nest Egg","Collection worth $100.","all",100,S=>S.cv],
@@ -55,19 +55,20 @@ function achSave(){try{localStorage.setItem(ACHK,JSON.stringify(ACH.d))}catch(e)
 function achFlags(F,c,s){const t=c.t;
  if(achLor(s)){if(c.rev)F.lfoil=1;if(t>=4)F.lleg=1;if(t>=6&&/enchanted|iconic/i.test(c.rarity))F.lench=1;if(/^stitch\b/i.test(c.name))F.stitch=1}
  else{if(t>=3)F.holo=1;if(c.rev)F.rev=1;if(t>=4)F.ultra=1;if(t>=5)F.ir=1;if(t>=6)F.sir=1;if(c.pat==="mb")F.mb=1;if(/pikachu/i.test(c.name))F.pika=1;if(/charizard/i.test(c.name))F.zard=1}}
-/* per-set stats from the saved collection; base binder = every card up to Ultra/Double Rare
-   (secret-numbered Illustration / SIR / Hyper / Gold and Lorcana Epic / Enchanted / Iconic don't count) */
+/* per-set stats from the saved collection (binder % itself is computed from the full set list in achAgg) */
 function achSetStat(s,full){const o=store.sets&&store.sets[s.dex];let any=0,base=0;
  if(o)for(const n in o){const e=o[n];if(!e||!e.n)continue;any=1;const t=achTier(e.rarity);if(t<=4)base++;if(full)achFlags(ACH.F,{name:e.name,rarity:e.rarity,t,rev:(e.rv||0)>0},s)}
  ACH.per[s.dex]={any,base}}
 function achAgg(){ACH.dirty.forEach(d=>{const s=SETBY[d];if(s&&SETS.includes(s))achSetStat(s)});ACH.dirty.clear();
  let sets=0,pk=0,lr=0,bin=0,binS="",need=0;const eras=new Set();
  for(const s of SETS){const p=ACH.per[s.dex];if(!p||!p.any)continue;sets++;if(achLor(s))lr=1;else{pk=1;eras.add(s.grp||s.serie)}
-  const bt=ACH.d.bt[s.dex];if(bt){const x=Math.min(100,Math.floor(p.base/bt*1000)/10);if(x>bin){bin=x;binS=s.name}}else if(bt!==0)need=1}
- if(need)achFetchBT();const v=ACH.val||{};
+  const L=LISTS[s.dex];if(L&&L.length){const o=store.sets[s.dex]||{};let h=0;for(const c of L)if(o[c.n]&&o[c.n].n)h++;const x=Math.min(100,Math.floor(h/L.length*1000)/10);if(x>bin){bin=x;binS=s.name}}else need=1}
+ if(need)achFetchBT();else achFixBin(bin);const v=ACH.val||{};
  return {packs:store.packs||0,boxes:ACH.d.st.boxes||0,sets,pk,lr,eras:eras.size,bin,binS,cv:v.v||0,top:v.top||0,F:ACH.F}}
-async function achFetchBT(){if(ACH.bt)return;ACH.bt=1;try{for(const s of SETS){if(ACH.d.bt[s.dex]!=null)continue;const p=ACH.per[s.dex];if(!p||!p.any)continue;
-  try{const d=await fetchT(`data/${encodeURIComponent(s.dex)}.json`,12000);ACH.d.bt[s.dex]=(d.cards||[]).filter(c=>achTier(c.rarity)<=4).length}catch(e){}}}finally{ACH.bt=0}achSave();achLater()}
+async function achFetchBT(){if(ACH.bt)return;ACH.bt=1;let got=0;try{for(const s of SETS){if(LISTS[s.dex])continue;const p=ACH.per[s.dex];if(!p||!p.any)continue;
+  try{await setList(s);got=1}catch(e){}}}finally{ACH.bt=0}if(got)achLater()}
+/* binder %s now match the binder screen (every card in the set); revoke any binder badge unlocked under the old base-only count */
+function achFixBin(bin){if(ACH.d.binv===2)return;let ch=0;for(const [id,n] of [["b25",25],["b50",50],["b100",100]])if(ACH.d.u[id]&&bin<n){delete ACH.d.u[id];delete ACH.d.bf[id];ch=1}ACH.d.binv=2;achSave();if(ch&&typeof achRender==="function"&&$("vAch")&&$("vAch").classList.contains("on"))achRender()}
 function achDone(a,S){const v=a.f(S);return a.n?(+v||0)>=a.n:!!v}
 function achEval(){if(!ACH.d)return;const S=achAgg(),out=[];for(const a of ACHS)if(!ACH.d.u[a.id]&&achDone(a,S))out.push(a);
  if(out.length){const now=Date.now();out.forEach(a=>{ACH.d.u[a.id]=now;if(ACH.silent)ACH.d.bf[a.id]=1;else ACH.d.nw=(ACH.d.nw||0)+1});achSave();
@@ -119,7 +120,7 @@ function achRender(){const v=$("vAch"),S=achAgg(),U=ACH.d.u,T=ACHS.length,n=Obje
  const tabs=[["all","All"],["pkm","Pokémon"],["lor","Lorcana"],["done","Unlocked"]];
  v.innerHTML=`<div class="achtop"><div class="achsum"><b>${n}</b> / ${T} unlocked</div><div class="achbar" role="progressbar" aria-label="Achievements unlocked" aria-valuenow="${n}" aria-valuemin="0" aria-valuemax="${T}"><i style="width:${(n/T*100).toFixed(1)}%"></i></div>
   <div class="achtabs" role="tablist">${tabs.map(([k,l])=>`<button role="tab" class="ghost${k===tab?" on":""}" aria-selected="${k===tab}" data-t="${k}">${l}</button>`).join("")}</div>
-  <p class="achnote">Swipe left/right to switch tabs. Base binder = every card up to Ultra / Double Rare; secret-numbered Illustration, Special Illustration, Hyper, Gold and Lorcana Epic / Enchanted cards don't count.</p></div>
+  <p class="achnote">Swipe left/right to switch tabs. Binder % counts every card in the set, the same as the binder screen (secret rares included).</p></div>
   <div class="achlist">${secs||`<p class="achnote">Nothing here yet — go rip some packs!</p>`}</div>`;
  v.querySelectorAll(".achtabs button").forEach(b=>b.onclick=()=>{ACH.tab=b.dataset.t;achRender()})}
 function openAch(){if(!ACH.d)return;try{if(Array.isArray(S))S.length=0}catch(e){}ACH.d.nw=0;achSave();show("vAch");achRender();achBadge();window.scrollTo(0,0);

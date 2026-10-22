@@ -104,3 +104,27 @@ test('achievements: Open All batches unlocks into the box summary', async ({page
   await expect(page.locator('#achtoast small')).toContainText('Unlocked in this box');
   expect(errs.filter(quiet)).toEqual([]);
 });
+
+test('achievements: binder % uses every card; missing secret rares does not unlock Set Complete, old b100 revoked', async ({page}) => {
+  const all = require('../data/sv08.json').cards;
+  const secret = c => /illustration|hyper|secret|gold/i.test(c.rarity);
+  const base = all.filter(c => !secret(c)), have = Object.fromEntries(base.map(c => [c.n, {name: c.name, rarity: c.rarity, n: 1}]));
+  expect(base.length).toBeLessThan(all.length);
+  await page.addInitScript(([have]) => { if (sessionStorage.__seeded) return; sessionStorage.__seeded = 1;
+    localStorage.setItem('pps', JSON.stringify({packs: 30, coll: {}, hist: [], migrated: 1, sets: {sv08: have}}));
+    // unlocked under the old base-only rule
+    localStorage.setItem('ppsAch', JSON.stringify({v: 1, u: {p1: 1, b25: 2, b50: 3, b100: 4}, bf: {b100: 1}, st: {boxes: 0, dry: 0}, bt: {sv08: 191}, nw: 0})); }, [have]);
+  const {errs} = await gotoApp(page);
+  await expect.poll(() => page.evaluate(() => ACH.d.binv)).toBe(2);
+  const pct = Math.floor(base.length / all.length * 1000) / 10;
+  expect(await page.evaluate(() => [!!ACH.d.u.b25, !!ACH.d.u.b50, !!ACH.d.u.b100, !!ACH.d.bf.b100, achAgg().bin])).toEqual([true, true, false, false, pct]);
+  await page.locator('#achbtn').click();
+  await expect(page.locator('#vAch .ach.off[data-id="b100"] .achpn')).toContainText(`${pct}% · Surging Sparks`);
+  // the binder screen agrees
+  await page.locator('#binders').click(); await expect(page.locator('#vShelf.on')).toBeVisible();
+  await expect(page.locator('.binder', {hasText: 'Surging Sparks'}).locator('.bcount')).toContainText(`${base.length} / ${all.length}`);
+  // collect the secret rares too -> Set Complete unlocks
+  await page.evaluate(sec => { sec.forEach(c => { store.sets.sv08[c.n] = {name: c.name, rarity: c.rarity, n: 1}; }); ACH.dirty.add('sv08'); achEval(); }, all.filter(secret).map(c => ({n: c.n, name: c.name, rarity: c.rarity})));
+  expect(await page.evaluate(() => [!!ACH.d.u.b100, achAgg().bin])).toEqual([true, 100]);
+  expect(errs.filter(quiet)).toEqual([]);
+});
