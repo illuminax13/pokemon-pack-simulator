@@ -20,6 +20,8 @@ const out=process.argv[2]||'screenshot-foil-real.png',bn=process.argv[3]||'chrom
    ['Special illustration',await pick('sv08','sir',c=>/special/i.test(c.rarity))],
    ['Hyper / gold',await pick('sv08','sir',c=>/hyper|gold/i.test(c.rarity))],
    ['Classic holo (Fossil)',await pick('base3','holo')],
+   ['Mega Hyper Rare',await pick('me02.5','sir',c=>/mega hyper/i.test(c.rarity)&&/Dragonite/.test(c.name))],
+   ['Hyper rare (Prismatic)',await pick('sv08.5','sir',c=>/Pikachu ex/.test(c.name)&&/hyper/i.test(c.rarity))],
   ];
   const w=document.createElement('div');w.id='foiltest';w.style.cssText='position:fixed;inset:0;z-index:9999;background:#1d2030;display:grid;grid-template-columns:1fr 1fr;gap:6px 30px;padding:14px;align-content:start;font:600 13px system-ui;color:#cfd5f5';
   document.body.appendChild(w);

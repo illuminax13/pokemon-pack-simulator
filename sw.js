@@ -1,4 +1,4 @@
-const CACHE='pps-v46';
+const CACHE='pps-v47';
 const IMG='pps-img-v1',IMG_MAX=300;
 const fail=()=>new Response('',{status:504,statusText:'offline'});
 const SHELL=['./','./index.html','./manifest.webmanifest','./assets/card-back.jpg','./assets/lorcana-back.jpg','./assets/icons/favicon-64.png','./assets/icons/apple-touch-icon.png','./data/pullrates.json'];
@@ -33,7 +33,7 @@ self.addEventListener('fetch',e=>{
     e.respondWith(cacheFirst(req,CACHE));
     return;
   }
-  if(/assets\.tcgdex\.net|images\.pokemontcg\.io|cdn\.dreamborn\.ink|cards\.lorcast\.io|tcgplayer-cdn\.tcgplayer\.com/.test(u.hostname)){
+  if(/assets\.tcgdex\.net|images\.scrydex\.com|images\.pokemontcg\.io|cdn\.dreamborn\.ink|cards\.lorcast\.io|tcgplayer-cdn\.tcgplayer\.com/.test(u.hostname)){
     // card images: immutable, cache-first in a size-capped cache that survives app updates
     // <img> requests are no-cors (opaque => status unknown). Try a CORS fetch first so only real 200s get cached;
     // a few TCGdex files send a duplicated ACAO header (CORS fails) -> plain no-cors fetch, not cached (HTTP cache still applies).

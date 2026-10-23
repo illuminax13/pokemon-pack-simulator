@@ -34,6 +34,7 @@ achievements@Open All
 achievements@binder
 zz-boxshot
 zz-foil
+gold
 zz-lorshots
 zz-shots
 zz-valueshot

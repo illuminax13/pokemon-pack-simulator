@@ -29,17 +29,20 @@ function pxCard(c){const db=pxLoad(),e=db.c[c.id];if(pxFresh(e))return Promise.r
    const nn=f("normal","unlimited","1st-edition","1stEdition"),hh=f("holofoil","unlimited-holofoil","1st-edition-holofoil","unlimitedHolofoil","1stEditionHolofoil"),rr=f("reverse-holofoil","reverseHolofoil");
    if(nn!=null)o.n=nn;if(hh!=null)o.h=hh;if(rr!=null)o.r=rr;const cm=P.cardmarket;if(cm&&cm.avg)o.cm=cm.avg;if(cm&&cm["avg-holo"])o.cmr=cm["avg-holo"];
    o.d=String(tp.updated||(cm&&cm.updated)||"").slice(0,10);db.c[c.id]=o;pxSave();pxChanged();return o})
-  .catch(()=>{const o=e&&!e.err?{...e,t:Date.now()-PX.TTL+36e5}:{t:Date.now()-PX.TTL+36e5,err:1};db.c[c.id]=o;return o}).finally(()=>{delete PX.inflight[key]})}
+  .catch(()=>{/* network/timeout: keep an older good entry for 1h, but retry a failed lookup after 90s instead of showing "no price" for an hour */const o=e&&!e.err?{...e,t:Date.now()-PX.TTL+36e5}:{t:Date.now()-PX.TTL+9e4,err:1};db.c[c.id]=o;return o}).finally(()=>{delete PX.inflight[key]})}
 function pxChain(c,s){const t=TIERS[c.tier||tier(c.rarity)]||0;if(s.game==="lor")return c.rev||t>=5?["h","n"]:["n","h"];if(c.rev)return ["r","n","h"];if(s.era==="wotc")return t>=3?["h","n"]:["n","h"];return t>=2?["h","n","r"]:["n","h","r"]}
 function pxPick(e,c,s){if(!e||e.err)return null;for(const k of pxChain(c,s))if(e[k]!=null&&e[k]>0)return {v:+e[k],k,src:"TCGplayer"};const cm=c.rev&&e.cmr?e.cmr:e.cm;if(cm)return {v:cm*PX.EUR,k:"cm",src:"Cardmarket",eur:cm};return null}
 /* undefined = not fetched yet, null = no price */
 function priceOf(c,s){s=s||setOfId(c.id);if(!s||!c.id)return null;const db=pxLoad(),S=db.s[s.dex],n=pxNum(c);let e=S&&S.p[n],r=pxPick(e,c,s);if(r)return {...r,d:S.d,via:S.src,e};
  if(s.game==="lor")return S?null:undefined;const ce=db.c[c.id];if(ce){r=pxPick(ce,c,s);return r?{...r,d:ce.d,via:ce.src,e:ce}:null}return undefined}
 async function priceFor(c,s){s=s||setOfId(c.id);if(!s||!c.id)return null;if(s.game==="lor"){await pxSet(s);return priceOf(c,s)}
- const S=await pxSet(s);if(S&&pxPick(S.p[pxNum(c)],c,s))return priceOf(c,s);await pxCard(c);return priceOf(c,s)}
+ const S=await pxSet(s);if(S&&pxPick(S.p[pxNum(c)],c,s))return priceOf(c,s);await pxCard(c);let r=priceOf(c,s);
+ /* one quick retry when the card lookup failed (slow mobile network / TCGdex timeout) */
+ if(r===null&&(pxLoad().c[c.id]||{}).err){await new Promise(z=>setTimeout(z,3000));delete pxLoad().c[c.id];await pxCard(c);r=priceOf(c,s)}return r}
 const usd=v=>v>=1000?"$"+Math.round(v).toLocaleString("en-US"):"$"+v.toFixed(2);
-function priceLine(c,s){s=s||setOfId(c.id);const r=priceOf(c,s);if(r===undefined)return `<small>price…</small>`;if(!r)return `<small>no price</small>`;
- const lor=s.game==="lor",nm={n:lor?"normal":"normal",h:lor?"foil":"holo",r:"reverse holo"};let alt="";const e=r.e||{};
+function priceLine(c,s){s=s||setOfId(c.id);const r=priceOf(c,s);if(r===undefined)return `<small>price…</small>`;if(!r){const ce=pxLoad().c[c.id];return ce&&ce.err?`<small>price unavailable · retrying shortly</small>`:`<small>no price</small>`}
+ /* TCGplayer variant names (hyper/gold, ex, IR/SIR only exist as "Holofoil") */
+ const lor=s.game==="lor",nm={n:"normal",h:lor?"foil":"holofoil",r:"reverse holofoil"};let alt="";const e=r.e||{};
  if(r.k!=="cm"){const ok=lor?(r.k==="h"?"n":"h"):(r.k==="r"?(e.h!=null?"h":"n"):"r");if(e[ok]!=null&&e[ok]>0)alt=` · ${nm[ok]} ${usd(+e[ok])}`}
  return `${r.k==="cm"?"≈":""}${usd(r.v)}${r.k!=="cm"?` <small>${nm[r.k]}</small>`:""}${alt} <small>· ${r.k==="cm"?`Cardmarket €${r.eur.toFixed(2)}`:"TCGplayer market"}${r.d?" · "+r.d:""}</small>`}
 const pxChip=r=>r===undefined?"…":r?(r.k==="cm"?"≈":"")+usd(r.v):"no price";
