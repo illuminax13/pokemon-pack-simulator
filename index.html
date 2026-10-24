@@ -694,8 +694,17 @@ function tier(r){r=(r||"").toLowerCase();if(LORT[r])return LORT[r];
 const cache={};const $=id=>document.getElementById(id);
 const esc=t=>String(t).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const store=JSON.parse(localStorage.getItem("pps")||'{"packs":0,"coll":{},"hist":[]}');
-function keyOf(id){const k=id.lastIndexOf("-");return [id.slice(0,k),id.slice(k+1).replace(/^0+(?=\w)/,"")]}
+/* subset cards carry their own id prefix but live in the parent set's binder under the list number: 30th-cc01->30th/CC01, 30th-rgb-R->30th/RGB-R, cel25cc-CC001->cel25/CC001, swsh12.5gg-GG01->swsh12.5/GG01 (hoisted: used while the store loads) */
+function subKey(d,n){n=String(n);if(d==="30th-rgb")return ["30th","RGB-"+n.toUpperCase()];if(d==="30th"&&/^cc\d+$/i.test(n))return ["30th","CC"+n.slice(2).padStart(2,"0")];if(d==="cel25cc")return ["cel25",n.toUpperCase()];if(d==="swsh12.5gg")return ["swsh12.5",n.toUpperCase()];return [d,n]}
+function keyOf(id){id=String(id);const k=id.lastIndexOf("-");return subKey(id.slice(0,k),id.slice(k+1).replace(/^0+(?=\w)/,""))}
+/* inverse: the card id (TCGdex / data list id) for a binder entry */
+function idOf(d,n,lid){n=String(n);if(d==="30th"&&/^RGB-/.test(n))return "30th-rgb-"+n.slice(4);if(d==="30th"&&/^CC\d+$/.test(n))return "30th-cc"+n.slice(2);if(d==="cel25"&&/^CC\d+$/.test(n))return "cel25cc-"+n;if(d==="swsh12.5"&&/^GG\d+$/.test(n))return "swsh12.5gg-"+n;return d+"-"+(lid||n)}
 if(!store.sets){store.sets={};for(const [id,c] of Object.entries(store.coll||{})){const [d,n]=keyOf(id);(store.sets[d]=store.sets[d]||{})[n]={name:c.name,rarity:c.rarity||"",imgs:c.imgs||[c.img],n:c.n}}}
+/* move subset pulls saved under the old keys (30th/cc01, 30th-rgb/R, cel25cc/CC001, swsh12.5gg/GG01) to the binder key, merging counts; the moved entries are kept in ppsBak10 */
+(function fixSubsetKeys(){const S=store.sets,mv=[];for(const [d,o] of Object.entries(S))for(const n of Object.keys(o||{})){const [d2,n2]=subKey(d,n);if(d2!==d||n2!==n)mv.push([d,n,d2,n2])}if(!mv.length)return;
+ try{const b=JSON.parse(localStorage.getItem("ppsBak10")||"[]");mv.forEach(([d,n])=>b.push([d,n,S[d][n]]));localStorage.setItem("ppsBak10",JSON.stringify(b,(k,v)=>k==="imgs"?undefined:v))}catch(e){}
+ for(const [d,n,d2,n2] of mv){const e=S[d][n];delete S[d][n];if(!e||typeof e!=="object")continue;if(!e.id)e.id=d+"-"+(e.lid||n);const o2=S[d2]=S[d2]||{},t=o2[n2];if(!t){o2[n2]=e;continue}t.n=(t.n||0)+(e.n||0);if(e.rv)t.rv=(t.rv||0)+e.rv;for(const k of Object.keys(e))if(t[k]==null)t[k]=e[k]}
+ for(const d of Object.keys(S))if(S[d]&&!Object.keys(S[d]).length)delete S[d];try{localStorage.setItem("pps",JSON.stringify(store,(k,v)=>k==="imgs"?undefined:v))}catch(e){}})();
 /* image URL lists are derived (not persisted) to keep localStorage small: a full collection used to approach the 5MB quota */
 const SETBY=Object.fromEntries(SETS.map(s=>[s.dex,s]));SETBY.sve={dex:"sve",serie:"sv",ptcg:"sve"};
 (function hydrate(){const lidOf={};for(const id of Object.keys(store.coll||{})){const k=id.lastIndexOf("-"),d=id.slice(0,k),lid=id.slice(k+1),c=store.coll[id];(lidOf[d]=lidOf[d]||{})[lid.replace(/^0+(?=\w)/,"")]=lid;if((!c.imgs||!c.imgs.length)&&SETBY[d])c.imgs=SETBY[d].game==="lor"?lorSrcs(SETBY[d],lid,c.x):cardSrcs(SETBY[d],lid)}
@@ -851,7 +860,7 @@ const BSETS=[...SETS];/* SV Basic Energy binder hidden: no set pulls SV energy (
 document.querySelectorAll(".btile").forEach(b=>b.onclick=()=>openShelf());$("binders").onclick=()=>openShelf();$("bshelf").onclick=()=>openShelf();
 const LISTS={};
 async function setList(s){if(LISTS[s.dex])return LISTS[s.dex];
- let l;try{const d=await fetchT(`data/${encodeURIComponent(s.dex)}.json`,12000);l=(d.cards||[]).map(c=>({n:c.n,lid:c.lid,name:c.name,k:c.k,x:c.x}))}
+ let l;try{const d=await fetchT(`data/${encodeURIComponent(s.dex)}.json`,12000);l=(d.cards||[]).map(c=>({n:c.n,lid:c.lid,name:c.name,k:c.k,x:c.x,pimg:c.pimg}))}
  catch(e){const d=await fetchT(`https://api.tcgdex.net/v2/en/sets/${s.dex}`,15000);l=(d.cards||[]).map(c=>({n:String(c.localId).replace(/^0+(?=\w)/,""),lid:c.localId,name:c.name})).sort((a,b)=>(parseInt(a.n)||1e4)-(parseInt(b.n)||1e4)||a.n.localeCompare(b.n))}
  return LISTS[s.dex]=l}
 const owned=s=>store.sets[s.dex]||{};
@@ -870,7 +879,7 @@ async function openBinder(s){B={s,list:[],page:0,filter:"all"};show("vBinder");$
 function slots(){const o=owned(B.s);return B.list.filter(c=>B.filter==="all"||(B.filter==="owned"?o[c.n]:!o[c.n]))}
 function pageHTML(p){const o=owned(B.s),l=slots().slice(p*9,p*9+9);let h="";
  for(let k=0;k<9;k++){const c=l[k];if(!c){h+='<div class="pocket empty"></div>';continue}const own=o[c.n];
-  const srcs=own?(B.s.game==="lor"?lorSrcs(B.s,c.lid,c.x):own.imgs):cardSrcs(B.s,c.lid);
+  const srcs=c.pimg?pimgSrcs(c.pimg):own?(B.s.game==="lor"?lorSrcs(B.s,c.lid,c.x):own.imgs):cardSrcs(B.s,c.lid);
   const pf=own?foilCls({rarity:own.rarity,k:c.k,rev:!!own.rv&&(B.s.game==="lor"||TIERS[tier(own.rarity)]<3)},B.s.era,B.s.serie,B.s.allFoil):"";h+=`<div class="pocket ${own?"own":"miss"}${pf.includes("e-mod")?" e-mod":""}" data-n="${esc(c.n)}">${own?img(srcs,c.name,own.rarity).replace("<img ",'<img loading="lazy" decoding="async" '+srcsetFor(srcs[0])):`<div class="slotnum">#${esc(c.lid)}</div><div class="slotname">${esc(c.name)}</div>`}${own&&/f-/.test(pf)?`<div class="pfx${pf}"></div>`:""}${own?`<span class="cnt">×${own.n}</span>`:""}<div class="sleeve"></div></div>`}
  return `<div class="page" data-p="${p}"><div class="pgrid">${h}</div><div class="pno">${p+1}</div></div>`}
 const pages=()=>Math.max(1,Math.ceil(slots().length/9));
@@ -971,7 +980,7 @@ function openPack(){packGen++;revealing=false;const s=set,d=cache[s.dex];current
  bindStack();updCounter();
  const best=current[current.length-1];if(current.god){store.god=(store.god||0)+1;store.godBy=store.godBy||{};store.godBy[s.dex]=(store.godBy[s.dex]||0)+1}
  store.hist.unshift(`${current.god?(current.god.kind==="demi"?"👑DEMI ":"👑GOD "):""}#${store.packs} ${s.name}: best pull ${best.name} (${best.rarity})`);store.hist=store.hist.slice(0,100);
- current.forEach(c=>{const [d,n]=keyOf(c.id);const ss=store.sets[d]=store.sets[d]||{};ss[n]=ss[n]||{name:c.name,rarity:c.rarity,imgs:c.imgs,n:0};ss[n].imgs=c.imgs;if(c.x)ss[n].x=c.x;ss[n].lid=c.id.slice(c.id.lastIndexOf("-")+1);ss[n].n++;if(c.rev)ss[n].rv=(ss[n].rv||0)+1;store.coll[c.id]=store.coll[c.id]||{name:c.name,rarity:c.rarity,imgs:c.imgs,n:0,t:TIERS[c.tier]};if(c.x)store.coll[c.id].x=c.x;store.coll[c.id].imgs=c.imgs;store.coll[c.id].n++});save();scheduleRender()}
+ current.forEach(c=>{const [d,n]=keyOf(c.id);const ss=store.sets[d]=store.sets[d]||{};ss[n]=ss[n]||{name:c.name,rarity:c.rarity,imgs:c.imgs,n:0};ss[n].imgs=c.imgs;if(c.x)ss[n].x=c.x;ss[n].lid=c.id.slice(c.id.lastIndexOf("-")+1);if(c.id!==d+"-"+ss[n].lid)ss[n].id=c.id;ss[n].n++;if(c.rev)ss[n].rv=(ss[n].rv||0)+1;store.coll[c.id]=store.coll[c.id]||{name:c.name,rarity:c.rarity,imgs:c.imgs,n:0,t:TIERS[c.tier]};if(c.x)store.coll[c.id].x=c.x;store.coll[c.id].imgs=c.imgs;store.coll[c.id].n++});save();scheduleRender()}
 let NEXT=null;function prepPack(){const s=set,d=s&&cache[s.dex];if(!d)return;if(NEXT&&NEXT.s===s)return;NEXT={s,p:buildPack(s,d.pools)};
  NEXT.p.forEach(c=>{const u=c.imgs&&c.imgs[0];if(!u)return;const im=new Image();im.referrerPolicy="no-referrer";im.decoding="async";im.src=u;if(im.decode)im.decode().catch(()=>{})})}
 const topEl=()=>$("stack")&&$("stack").querySelector(`.card[data-i="${topI}"]`);
@@ -1210,7 +1219,7 @@ function zoomGo(d){const n=Z.i+d;if(n<0||n>=Z.list.length)return;Z.i=n;zoomRende
  document.addEventListener("keydown",e=>{if(!v.classList.contains("on"))return;if(e.key==="ArrowRight")zoomGo(1);else if(e.key==="ArrowLeft")zoomGo(-1)})}
 /* binders: open zoom over the owned cards in the current binder view */
 viewCard=function(n){const o=owned(B.s),l=slots().filter(c=>o[c.n]);const i=l.findIndex(c=>c.n===n);if(i<0)return;
- openZoom(l.map(c=>{const own=o[c.n];return zItem({id:B.s.dex+"-"+c.lid,name:own.name,rarity:own.rarity,x:c.x||own.x,imgs:B.s.game==="lor"?lorSrcs(B.s,c.lid,c.x||own.x):own.imgs,era:B.s.era,rev:B.s.game==="lor"&&!!own.rv},B.s,{n:own.n,lid:c.lid})}),i)};
+ openZoom(l.map(c=>{const own=o[c.n];return zItem({id:own.id||idOf(B.s.dex,c.n,c.lid),name:own.name,rarity:own.rarity,x:c.x||own.x,imgs:B.s.game==="lor"?lorSrcs(B.s,c.lid,c.x||own.x):c.pimg?pimgSrcs(c.pimg):own.imgs,era:B.s.era,rev:B.s.game==="lor"&&!!own.rv},B.s,{n:own.n,lid:c.lid})}),i)};
 /* pack summary: tap any card */
 document.addEventListener("click",e=>{const c=e.target.closest&&e.target.closest("#summary .sgrid .card");if(!c)return;const cards=[...document.querySelectorAll("#summary .sgrid .card")],i=cards.indexOf(c);
  openZoom(current.map(x=>zItem(x,set)),i)});
@@ -1235,7 +1244,7 @@ function boxLeft(){return BOX?BOX.done.filter(x=>!x).length:0}
 function boxRecord(s,p){store.packs++;const best=typeof bestOf==="function"?bestOf(p,s):p[p.length-1];if(p.god){store.god=(store.god||0)+1;store.godBy=store.godBy||{};store.godBy[s.dex]=(store.godBy[s.dex]||0)+1}
  store.hist.unshift(`${p.god?(p.god.kind==="demi"?"👑DEMI ":"👑GOD "):""}#${store.packs} ${s.name} 📦: best pull ${best.name} (${best.rarity})`);store.hist=store.hist.slice(0,100);
  store.histC=store.histC||[];store.histC.unshift({id:best.id,name:best.name,rarity:best.rarity,rev:!!best.rev,x:best.x,pat:best.pat});store.histC=store.histC.slice(0,store.hist.length);
- p.forEach(c=>{const [d,n]=keyOf(c.id);const ss=store.sets[d]=store.sets[d]||{};ss[n]=ss[n]||{name:c.name,rarity:c.rarity,imgs:c.imgs,n:0};ss[n].imgs=c.imgs;if(c.x)ss[n].x=c.x;ss[n].lid=c.id.slice(c.id.lastIndexOf("-")+1);ss[n].n++;if(c.rev)ss[n].rv=(ss[n].rv||0)+1;
+ p.forEach(c=>{const [d,n]=keyOf(c.id);const ss=store.sets[d]=store.sets[d]||{};ss[n]=ss[n]||{name:c.name,rarity:c.rarity,imgs:c.imgs,n:0};ss[n].imgs=c.imgs;if(c.x)ss[n].x=c.x;ss[n].lid=c.id.slice(c.id.lastIndexOf("-")+1);if(c.id!==d+"-"+ss[n].lid)ss[n].id=c.id;ss[n].n++;if(c.rev)ss[n].rv=(ss[n].rv||0)+1;
   store.coll[c.id]=store.coll[c.id]||{name:c.name,rarity:c.rarity,imgs:c.imgs,n:0,t:TIERS[c.tier]};if(c.x)store.coll[c.id].x=c.x;store.coll[c.id].imgs=c.imgs;store.coll[c.id].n++})}
 const bxImg=c=>(c.imgs&&c.imgs[0])||"";
 function bxThumb(c,k,j,cap){return `<${cap?"button":"div"} class="bxt t${BXT(c.tier)}"${j!=null?` data-j="${j}"`:""}>${img(c.imgs,c.name,c.rarity).replace("<img ",`<img decoding="async" loading="${cap?"lazy":"eager"}" `)}${cap?`<span class="cap">${esc(c.name)}<em>${esc(c.rarity)}${c.rev&&(c.era||BOX.s.era)!=="lor"?" · Reverse":c.rev?" · Foil":""}${k!=null?` · pack ${k+1}`:""}</em><span class="pr" data-pj="${j}"></span></span>`:""}</${cap?"button":"div"}>`}
@@ -1344,7 +1353,7 @@ function priceLine(c,s){s=s||setOfId(c.id);const r=priceOf(c,s);if(r===undefined
 const pxChip=r=>r===undefined?"…":r?(r.k==="cm"?"≈":"")+usd(r.v):"no price";
 let pxCT=0;function pxChanged(){clearTimeout(pxCT);pxCT=setTimeout(pxHeader,300)}
 /* ---- owned-collection valuation (cache only, sync) ---- */
-function pxOwnedItems(s){const o=owned(s)||{},out=[];Object.entries(o).forEach(([n,e])=>{if(!e||!e.n)return;const lid=e.lid||n,id=s.dex+"-"+lid,rv=Math.min(e.rv||0,e.n),base={id,name:e.name,rarity:e.rarity,imgs:e.imgs,x:e.x,era:s.era};
+function pxOwnedItems(s){const o=owned(s)||{},out=[];Object.entries(o).forEach(([n,e])=>{if(!e||!e.n)return;const lid=e.lid||n,id=e.id||idOf(s.dex,n,lid),rv=Math.min(e.rv||0,e.n),base={id,name:e.name,rarity:e.rarity,imgs:e.imgs,x:e.x,era:s.era};
  if(e.n-rv>0)out.push({c:{...base,rev:false},q:e.n-rv});if(rv>0)out.push({c:{...base,rev:true},q:rv})});return out}
 function pxValue(sets){let v=0,priced=0,total=0,d="";const top=[];(sets||SETS).forEach(s=>{pxOwnedItems(s).forEach(it=>{total+=it.q;const r=priceOf(it.c,s);if(r){v+=r.v*it.q;priced+=it.q;if(r.d&&r.d>d)d=r.d;top.push({...it,s,r})}})});
  top.sort((a,b)=>b.r.v-a.r.v||(typeof rRank==="function"?rRank(b.c)-rRank(a.c):0));return {v,priced,total,d,top}}
@@ -1381,7 +1390,7 @@ function pxShelfVals(){document.querySelectorAll("#shelf .binder").forEach(b=>{c
 {const os=openShelf;openShelf=function(){const r=os.apply(this,arguments);try{pxShelfPanel();const sets=SETS.filter(s=>(s.game==="lor")===(GAME==="lor"));pxIdle(()=>{if(!$("vShelf").classList.contains("on"))return;pxFetchOwned(sets,false).then(()=>{pxShelfVals();pxHeader()}).catch(()=>{})},2500)}catch(e){}return r}}
 {const ob=openBinder;openBinder=async function(s){const r=await ob.apply(this,arguments);try{let e=$("bvalb");if(!e){e=document.createElement("span");e.id="bvalb";$("btitle").after(e)}
  const upd=()=>{if(B.s!==s)return;const x=pxValue([s]);e.textContent=x.total?(x.priced?`Binder value ${usd(x.v)}`+(x.priced<x.total?` (${x.priced}/${x.total} priced)`:""):"Binder value: loading…"):"";e.title="TCGplayer market estimates"+(x.d?" as of "+x.d:"")};
- upd();pxIdle(()=>B.s===s&&pxFetchOwned([s],true).then(()=>{upd();pxHeader();if(e.textContent==="Binder value: loading…")e.textContent="Binder value: no prices"}).catch(()=>{}),1500)}catch(e){}return r}}
+ upd();pxIdle(()=>B.s===s&&pxFetchOwned([s],true).then(()=>{upd();pxHeader();if(e.textContent==="Binder value: loading…")e.textContent="Binder value: prices not available yet"}).catch(()=>{}),1500)}catch(e){}return r}}
 {const rd=render;let t=0;render=function(){const r=rd.apply(this,arguments);clearTimeout(t);t=setTimeout(pxHeader,500);return r}}
 setTimeout(pxHeader,800);
 /*</f5>*/</script><script>/*<f6>*/$("ssetbtn").onclick=e=>$("setbtn").onclick(e);/*</f6>*/</script><script>/*<f7>*//* ---------- F7: value-aware best pull + interactive 3D booster box ---------- */
@@ -1682,4 +1691,15 @@ document.addEventListener("visibilitychange",()=>{if(!document.hidden)achPump()}
  const run=()=>{for(const s of SETS)achSetStat(s,true);(store.hist||[]).forEach(h=>{if(/^👑DEMI /.test(h))ACH.F.demi=1;else if(/^👑GOD /.test(h))ACH.F.god=1});achEval()};
  window.requestIdleCallback?requestIdleCallback(run,{timeout:1200}):setTimeout(run,250)})();
 window.ACH=ACH;
-/*</f8>*/</script></body></html>
+/*</f8>*/</script><script>/*<f10>*//* f10: subset cards (30th Classic Collection + RGB Mew, Celebrations Classic Collection, Crown Zenith Galarian Gallery) */
+/* 1) price snapshot fallback for cards the live sources don't price (data/px-snap.json, built by tools/build_prices.py) */
+const PXS={p:null,l:null};
+function pxSnapLoad(){return PXS.l||(PXS.l=fetchT("data/px-snap.json",12000).then(j=>{PXS.p=j||{};pxChanged();return PXS.p}).catch(()=>{PXS.l=null;return null}))}
+{const po=priceOf;priceOf=function(c,s){const r=po.apply(this,arguments);if(r)return r;s=s||setOfId(c.id);const S=s&&PXS.p&&PXS.p[s.dex],e=S&&S.p[pxNum(c)];const q=e&&pxPick(e,c,s);return q?{...q,d:S.d,via:S.src,e}:r}}
+{const pf=pxFetchOwned;pxFetchOwned=async function(){await pxSnapLoad();return pf.apply(this,arguments)}}
+pxSnapLoad();
+/* 2) owned subset cards: their scans come from the set list (pimg), not the TCGdex path rebuilt at startup */
+(function subsetImgs(){for(const d of ["30th","cel25","swsh12.5"]){const o=store.sets[d],s=SETBY[d];if(!o||!s||!Object.keys(o).some(n=>/^(CC|GG|RGB-)/.test(n)))continue;
+ setList(s).then(l=>{let ch=0;for(const c of l){if(!c.pimg||!o[c.n])continue;const im=pimgSrcs(c.pimg),e=o[c.n];if(e.imgs&&e.imgs[0]===im[0])continue;e.imgs=im;ch=1;const k=e.id||idOf(d,c.n,e.lid);if(store.coll&&store.coll[k])store.coll[k].imgs=im}
+  if(ch&&$("vBinder")&&$("vBinder").classList.contains("on")&&typeof B!=="undefined"&&B.s===s&&typeof renderBook==="function")renderBook()}).catch(()=>{})}})();
+/*</f10>*/</script></body></html>
