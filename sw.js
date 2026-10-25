@@ -1,4 +1,4 @@
-const CACHE='pps-v49';
+const CACHE='pps-v50';
 const IMG='pps-img-v1',IMG_MAX=300;
 const fail=()=>new Response('',{status:504,statusText:'offline'});
 const SHELL=['./','./index.html','./manifest.webmanifest','./assets/card-back.jpg','./assets/lorcana-back.jpg','./assets/icons/favicon-64.png','./assets/icons/apple-touch-icon.png','./data/pullrates.json'];
@@ -29,6 +29,12 @@ self.addEventListener('fetch',e=>{
       return;
     }
     // data JSON: stale-while-revalidate; static assets (pack art, logos, icons): cache-first
+    // price snapshot (refreshed weekly by a GitHub Action): network-first so new prices show without a SW bump; cached copy offline / slow network
+    if(/\/data\/px-snap\.json$/.test(u.pathname)){e.respondWith(caches.open(CACHE).then(async c=>{
+      const net=fetch(req,{cache:'no-cache'}).then(r=>{if(r.ok)c.put(req,r.clone());return r});
+      const hit=await c.match(req,{ignoreSearch:true});if(!hit)return net.catch(()=>fail());
+      const slow=new Promise(r=>setTimeout(()=>r(hit),3500));e.waitUntil(net.catch(()=>{}));
+      return Promise.race([net.then(r=>r.ok?r:hit).catch(()=>hit),slow])}));return}
     if(/\/data\//.test(u.pathname)){e.respondWith(cacheFirst(req,CACHE,{revalidate:true}));return}
     e.respondWith(cacheFirst(req,CACHE));
     return;
