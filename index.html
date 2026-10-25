@@ -635,7 +635,49 @@ section{content-visibility:auto;contain-intrinsic-size:auto 600px}
 #a2hs .a2t{flex:1;display:grid;gap:2px}#a2hs .a2t b:first-child{color:#e9ecff;font-size:13px}
 #a2hs svg{width:15px;height:15px;vertical-align:-3px;color:#9fc3ff}
 #a2hs button{font-size:11px;padding:8px 10px;margin:0;letter-spacing:.5px;white-space:nowrap}
-/*</f11css>*/</style></head><body><div id="bg"></div><canvas id="fx"></canvas><div id="burst"></div>
+/*</f11css>*//*<f13css>*/
+#vBinder.chasing #bwrap,#vBinder.chasing #bpage{display:none}
+#bchase{max-width:640px;margin:0 auto;padding:0 12px calc(24px + var(--sa-b,0px))}
+.bfilt{flex-wrap:wrap}
+.chhead{display:flex;justify-content:space-between;color:#aeb5dc;font-size:12.5px;padding:6px 4px 8px;letter-spacing:.2px}
+.chlist{display:flex;flex-direction:column;gap:6px}
+.chrow{all:unset;box-sizing:border-box;display:flex;align-items:center;gap:10px;width:100%;padding:7px 10px 7px 6px;border-radius:12px;background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.07);cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation;contain:content}
+.chrow:active{background:rgba(255,255,255,.09)}
+.chrow:focus-visible{outline:2px solid rgba(233,207,135,.6)}
+.chrk{width:18px;text-align:center;color:#8d93b8;font-size:12px;font-variant-numeric:tabular-nums;flex:none}
+.chimg{width:44px;height:61px;flex:none;border-radius:4px;overflow:hidden;background:rgba(255,255,255,.06)}
+.chimg img{width:100%;height:100%;object-fit:cover;display:block}
+.chrow.miss .chimg img{opacity:.5}
+.chmid{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.chmid b{font-weight:600;font-size:14px;color:#e8ebff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.chmid small{font-size:11.5px;color:#9aa1c7;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.chmid .chodds{color:#b9c0e6}
+.chwait{font-style:normal;opacity:.6}
+.chend{flex:none;display:flex;flex-direction:column;align-items:flex-end;gap:4px}
+.chpx{font-size:14px;font-weight:600;color:#e3cc8c;font-variant-numeric:tabular-nums}
+.chown{font-size:11px;padding:2px 7px;border-radius:999px;background:rgba(255,255,255,.06);color:#9aa1c7;white-space:nowrap}
+.chrow.own .chown{background:rgba(120,190,140,.14);color:#a9d8b4}
+.chfoot{color:#8a90b4;font-size:11.5px;line-height:1.45;margin:12px 4px 0}
+.chload{display:flex;flex-direction:column;gap:6px}.chsk{height:75px;border-radius:12px;background:rgba(255,255,255,.045)}
+#chsheet{position:fixed;inset:0;z-index:58;pointer-events:none}
+#chsheet .chback{position:absolute;inset:0;background:rgba(5,6,16,.5);opacity:0;transition:opacity .2s}
+#chsheet .chpanel{position:absolute;left:0;right:0;bottom:0;max-width:640px;margin:0 auto;max-height:82vh;max-height:82dvh;display:flex;flex-direction:column;background:rgba(14,16,34,.97);border:1px solid var(--line);border-bottom:0;border-radius:18px 18px 0 0;box-shadow:0 -8px 30px rgba(0,0,0,.4);transform:translateY(105%);transition:transform .26s cubic-bezier(.2,.8,.2,1);will-change:transform}
+#chsheet.on{pointer-events:auto}#chsheet.on .chback{opacity:1}#chsheet.on .chpanel{transform:none}
+.chgrab{display:flex;justify-content:center;padding:8px 0 2px;touch-action:none}.chgrab i{width:38px;height:4px;border-radius:2px;background:rgba(255,255,255,.18)}
+.chtop{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:2px 14px 8px;touch-action:none}
+.chtop b{font-size:15px;color:#e8ebff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#chx{padding:5px 10px;font-size:13px;line-height:1}
+#chbody{overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;padding:0 10px calc(14px + var(--sa-b,0px))}
+#schase{white-space:nowrap}
+#vWheel.stage #schase{background:rgba(255,255,255,.75);color:#24324a;border:1px solid rgba(30,50,80,.12);box-shadow:0 2px 8px rgba(30,50,80,.12)}
+@media (max-width:420px){#stageui{gap:8px}#schase,#sbox{padding-left:11px;padding-right:11px}#schase .chlbl{display:none}#schase{padding-left:12px;padding-right:12px}}
+@media (prefers-reduced-motion:reduce){#chsheet .chpanel,#chsheet .chback{transition:none}}
+/* iOS keeps :hover after a tap, and button.ghost:hover used to beat the gold "on" filter (dark text on dark) */
+.bfilt button.ghost.on,.bfilt button.ghost.on:hover{background:linear-gradient(180deg,#ffe78a,#ffc22e);color:#1b1300}
+/* set-page header: room for ★ Chase on a 390pt iPhone */
+#sback{white-space:nowrap}
+#vWheel.stage #sstatus{flex:1 1 0;min-width:0;overflow:hidden;max-height:40px}
+/*</f13css>*/</style></head><body><div id="bg"></div><canvas id="fx"></canvas><div id="burst"></div>
 <div id="tear"></div><div id="badge">CSS · loading</div>
 <header><h1>PACK SIMULATOR</h1>
 <button id="back" class="ghost" aria-label="Back to sets">← Sets</button><button id="binders" class="ghost" aria-label="Open binders">📚 Binders</button><button id="open" aria-label="Open another pack">Open Another</button><button id="reveal" class="ghost" aria-label="Reveal all cards">Reveal All</button>
@@ -1796,10 +1838,75 @@ function nudgeIOS(){return /iP(hone|od|ad)/.test(navigator.userAgent)||(navigato
 function nudgeStandalone(){return navigator.standalone===true||["standalone","fullscreen","minimal-ui"].some(m=>matchMedia(`(display-mode: ${m})`).matches)}
 function nudgeCheck(){const e=$("a2hs");if(!nudgeIOS()||nudgeStandalone()||(store.packs||0)<20){if(e)e.remove();return}
  let until=0;try{until=+localStorage.getItem(BK.nudge)||0}catch(_){}if(Date.now()<until){if(e)e.remove();return}
- const busy=document.querySelector("#vPack.on,#tear.on,#viewer.on,#summary.on,#bkdlg.on,#settings.on");if(busy||e)return;
+ const busy=document.querySelector("#vPack.on,#tear.on,#viewer.on,#summary.on,#bkdlg.on,#settings.on,#chsheet.on");if(busy||e)return;
  document.body.insertAdjacentHTML("beforeend",`<div id="a2hs" role="note"><div class="a2t"><b>Keep your collection safe</b><span>Safari can clear websites you haven't opened for a week. Add Rippermon to your Home Screen and it's never cleared: tap <svg viewBox="0 0 24 24" aria-label="Share"><path d="M12 3v12M7.5 7.5 12 3l4.5 4.5M5 11v9h14v-9" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg> Share → <b>Add to Home Screen</b>.</span></div><button class="ghost" id="a2x" aria-label="Not now">Not now</button></div>`);
  requestAnimationFrame(()=>$("a2hs")&&$("a2hs").classList.add("on"));
  $("a2x").onclick=()=>{try{localStorage.setItem(BK.nudge,String(Date.now()+7*864e5))}catch(_){}const b=$("a2hs");b.classList.remove("on");setTimeout(()=>b.remove(),300)}}
 setTimeout(nudgeCheck,2500);document.addEventListener("visibilitychange",()=>{if(!document.hidden)setTimeout(nudgeCheck,1500)});
 {const c=$("count");if(c&&window.MutationObserver)new MutationObserver(()=>setTimeout(nudgeCheck,4000)).observe(c,{childList:true,characterData:true,subtree:true})}
-/*</f11>*/</script></body></html>
+/*</f11>*/</script><script>/*<f13>*/
+/* Chase lists: per set, the top cards by market price (fallback rarity) with owned state and per-card pull odds.
+   Binder: "★ Chase" filter tab. Set page: "★ Chase" button -> bottom sheet. Tap a row -> zoom. */
+const CHO={};const CHMAX=15;
+function chKey(r){r=String(r||"").toLowerCase();return /shiny ultra/.test(r)?"sur":/shiny rare/.test(r)?"sr":/futuristic/.test(r)?"fr":/rgb/.test(r)?"rgb":/classic collection/.test(r)?"cc":/ace spec/.test(r)?"ace":/special illustration/.test(r)?"sir":/illustration/.test(r)?"ir":/hyper|black white|gold/.test(r)?"hr":/enchanted/.test(r)?"en":/iconic/.test(r)?"ic":/epic/.test(r)?"ep":/legendary/.test(r)?"l":/super rare/.test(r)?"sr":/secret/.test(r)?"sec":/ultra/.test(r)?"ur":/double/.test(r)?"dr":null}
+function chCards(d){const seen=new Set(),out=[];Object.values(d.pools).flat().forEach(c=>{if(!c||!c.id||c.energy||seen.has(c.id))return;seen.add(c.id);out.push(c)});return out}
+/* Monte Carlo the app's own pack builder (time-sliced, no jank) -> per-card probability per pack, grouped by rarity
+   (cards of one rarity are drawn uniformly). Very rare groups with few simulated hits use the published rate from pullrates.json. */
+function chOdds(s,d){if(CHO[s.dex])return CHO[s.dex];const cards=chCards(d),size={},ksize={};cards.forEach(c=>{const r=c.rarity||"";size[r]=(size[r]||0)+1;const k=chKey(r);if(k)ksize[k]=(ksize[k]||0)+1});
+ const hits={},T=40000,BUD=650;let N=0,spent=0;
+ return CHO[s.dex]=new Promise(res=>{const step=()=>{const t0=performance.now();
+  while(N<T&&performance.now()-t0<8){const p=buildPack(s,d.pools);N++;const seen=new Set();for(const c of p){if(!c||c.energy||seen.has(c.id))continue;seen.add(c.id);const r=c.rarity||"";hits[r]=(hits[r]||0)+1}}
+  spent+=performance.now()-t0;if(N<T&&spent<BUD)return setTimeout(step,0);
+  const rates=(PR&&PR[s.dex]&&PR[s.dex].rates)||{},o={N,by:{}};
+  for(const r of Object.keys(size)){const h=hits[r]||0,k=chKey(r),pub=k&&rates[k]>0&&ksize[k]?rates[k]/ksize[k]:0;
+   o.by[r]=h>=25||!pub?{p:h/N/size[r],h,src:"sim"}:{p:pub,h,src:"rate"}}
+  res(o)};setTimeout(step,0)})}
+function chFmtOdds(p,N){if(!p)return `rarer than 1 in ${Math.round(N).toLocaleString("en-US")} packs`;const x=1/p;
+ if(x<1.05)return "in almost every pack";if(x<10)return `≈1 in ${x.toFixed(1).replace(/\.0$/,"")} packs`;
+ const e=Math.pow(10,Math.floor(Math.log10(x))-1);return `≈1 in ${(Math.round(x/e)*e).toLocaleString("en-US")} packs`}
+function chThumb(c,s){const lid=c.id.slice(c.id.lastIndexOf("-")+1);const src=s.game==="lor"?lorSrcs(s,lid,c.x):(c.imgs&&c.imgs.length?c.imgs:cardSrcs(s,lid));
+ return src.map(u=>String(u).replace(/\/high\.(webp|png|jpg)$/,"/low.$1").replace(/_hires\.png$/,".png"))}
+function chPrice(c,s){try{const r=priceOf({...c,rev:false},s);return r&&r.v>0?r.v:r===null?null:undefined}catch(e){return null}}
+function chRank(s,cards){const rk=c=>typeof rRank==="function"?rRank(c):(TIERS[c.tier]||0);
+ return cards.map(c=>({c,v:chPrice(c,s),rk:rk(c)})).sort((a,b)=>(b.v||0)-(a.v||0)||b.rk-a.rk||String(a.c.id).localeCompare(String(b.c.id),void 0,{numeric:true}))}
+async function chaseRows(s){const d=await getCards(s);if(typeof pxSnapLoad==="function")await Promise.race([pxSnapLoad(),new Promise(r=>setTimeout(r,4000))]);
+ try{await Promise.race([pxSet(s),new Promise(r=>setTimeout(r,4000))])}catch(e){}
+ return {d,rows:chRank(s,chCards(d)).slice(0,CHMAX)}}
+function chRowHTML(x,i,s,odds){const c=x.c,[,n]=keyOf(c.id),o=owned(s)[n],lid=c.id.slice(c.id.lastIndexOf("-")+1),g=odds&&odds.by[c.rarity||""];
+ return `<button class="chrow ${o?"own":"miss"}" data-i="${i}" aria-label="${esc(c.name)}"><span class="chrk">${i+1}</span><span class="chimg">${img(chThumb(c,s),c.name,c.rarity).replace("<img ",'<img loading="lazy" decoding="async" ')}</span>
+ <span class="chmid"><b>${esc(c.name)}</b><small>#${esc(lid)} · ${esc(c.rarity||"")}</small><small class="chodds"${g?` data-p="${g.p}" data-src="${g.src}"`:""}>${odds?(g?chFmtOdds(g.p,odds.N):""):'<i class="chwait">odds…</i>'}</small></span>
+ <span class="chend"><b class="chpx">${x.v?usd(x.v):x.v===undefined?"…":"—"}</b><span class="chown">${o?"Owned ×"+(o.n||1):"Missing"}</span></span></button>`}
+function chRender(el,s,st){const o=owned(s),have=st.rows.filter(x=>o[keyOf(x.c.id)[1]]).length;
+ el.innerHTML=`<div class="chhead"><span>Top ${st.rows.length} by market price</span><span>${have}/${st.rows.length} owned</span></div><div class="chlist">${st.rows.map((x,i)=>chRowHTML(x,i,s,st.odds)).join("")}</div><p class="chfoot">Odds are per pack for that exact card, from this simulator's pull rates${st.odds?` (${st.odds.N.toLocaleString("en-US")} simulated packs)`:""}. Prices: TCGplayer market.</p>`;
+ el.querySelectorAll(".chrow").forEach(b=>b.onclick=()=>{const i=+b.dataset.i;openZoom(st.rows.map(x=>{const r=owned(s)[keyOf(x.c.id)[1]];return zItem({...x.c,rev:false,imgs:s.game==="lor"?x.c.imgs:(x.c.imgs&&x.c.imgs.length?x.c.imgs:cardSrcs(s,x.c.id.split("-").pop()))},s,{n:r?r.n:0})}),i)});
+ window.__chase={dex:s.dex,rows:st.rows.map(x=>({id:x.c.id,name:x.c.name,rarity:x.c.rarity,v:x.v,own:(o[keyOf(x.c.id)[1]]||{}).n||0})),odds:st.odds}}
+async function chaseInto(el,s,live){el.innerHTML='<div class="chload">'+'<div class="chsk"></div>'.repeat(6)+'</div>';
+ let st;try{st=await chaseRows(s)}catch(e){el.innerHTML='<p class="chfoot">Couldn\'t load this set. Check your connection.</p>';return}
+ if(!live())return;chRender(el,s,st);
+ chOdds(s,st.d).then(od=>{st.odds=od;if(live())chRender(el,s,st)});
+ /* live prices for top candidates without one (TCGdex per card), then re-rank once */
+ const all=chRank(s,chCards(st.d)),cut=st.rows.length?st.rows[st.rows.length-1]:null,need=all.filter(x=>x.v===undefined&&(!cut||x.rk>=cut.rk)).slice(0,20);
+ if(!need.length||typeof priceFor!=="function")return;let q=need.slice();
+ await Promise.all([0,1,2,3].map(async()=>{while(q.length&&live()){const x=q.shift();try{await Promise.race([priceFor({...x.c,rev:false},s),new Promise(r=>setTimeout(r,6000))])}catch(e){}}}));
+ if(!live())return;const nr=chRank(s,chCards(st.d)).slice(0,CHMAX);if(nr.map(x=>x.c.id+x.v).join()!==st.rows.map(x=>x.c.id+x.v).join()){st.rows=nr;chRender(el,s,st)}}
+/* binder tab */
+(function(){const f=document.querySelector(".bfilt");if(!f)return;const b=document.createElement("button");b.dataset.f="chase";b.className="ghost";b.textContent="★ Chase";f.appendChild(b);
+ b.onclick=()=>{B.filter="chase";document.querySelectorAll(".bfilt button").forEach(x=>x.classList.toggle("on",x===b));renderBook()};
+ let p=document.createElement("div");p.id="bchase";$("vBinder").appendChild(p);
+ const rb=renderBook;let tok=0;renderBook=function(){const ch=B&&B.filter==="chase";$("vBinder").classList.toggle("chasing",!!ch);
+  if(!ch){p.innerHTML="";return rb.apply(this,arguments)}const my=++tok,s=B.s;chaseInto(p,s,()=>my===tok&&B.s===s&&B.filter==="chase"&&$("vBinder").classList.contains("on"))};
+ const sl=slots;slots=function(){if(B&&B.filter==="chase"){const f=B.filter;B.filter="all";try{return sl.apply(this,arguments)}finally{B.filter=f}}return sl.apply(this,arguments)}})();
+/* set page sheet */
+(function(){const sb=$("sbox");if(!sb)return;const b=document.createElement("button");b.id="schase";b.className="ghost";b.setAttribute("aria-label","Chase cards in this set");b.title="Chase cards";b.innerHTML='★<span class="chlbl"> Chase</span>';sb.parentNode.insertBefore(b,sb);
+ const w=document.createElement("div");w.id="chsheet";w.innerHTML='<div class="chback"></div><div class="chpanel" role="dialog" aria-label="Chase cards"><div class="chgrab"><i></i></div><div class="chtop"><b id="chtitle">Chase cards</b><button id="chx" class="ghost" aria-label="Close">✕</button></div><div id="chbody"></div></div>';document.body.appendChild(w);
+ let tok=0;const close=()=>{tok++;w.classList.remove("on")};window.chaseClose=close;
+ window.chaseOpen=s=>{s=s||set;if(!s)return;const my=++tok;$("chtitle").textContent="★ Chase · "+s.name;w.classList.add("on");const pn=w.querySelector(".chpanel");pn.style.transform="";$("chbody").scrollTop=0;chaseInto($("chbody"),s,()=>my===tok&&w.classList.contains("on"))};
+ b.onclick=()=>chaseOpen(set);w.querySelector(".chback").onclick=close;$("chx").onclick=close;
+ addEventListener("keydown",e=>{if(e.key==="Escape"&&w.classList.contains("on")&&!$("viewer").classList.contains("on"))close()});
+ /* swipe down to dismiss (from the grab bar / header, or the list when scrolled to top) */
+ const pn=w.querySelector(".chpanel");let y0=null,dy=0;
+ pn.addEventListener("touchstart",e=>{const top=e.target.closest(".chgrab,.chtop")||$("chbody").scrollTop<=0;y0=top?e.touches[0].clientY:null;dy=0},{passive:true});
+ pn.addEventListener("touchmove",e=>{if(y0===null)return;dy=Math.max(0,e.touches[0].clientY-y0);if(dy>4){pn.style.transition="none";pn.style.transform=`translateY(${dy}px)`;if(e.cancelable)e.preventDefault()}},{passive:false});
+ pn.addEventListener("touchend",()=>{if(y0===null)return;pn.style.transition="";if(dy>90)close();else pn.style.transform="";y0=null},{passive:true});
+ const sh=show;show=function(v){if(w.classList.contains("on"))close();return sh.apply(this,arguments)}})();
+/*</f13>*/</script></body></html>

@@ -70,7 +70,7 @@ function nudgeIOS(){return /iP(hone|od|ad)/.test(navigator.userAgent)||(navigato
 function nudgeStandalone(){return navigator.standalone===true||["standalone","fullscreen","minimal-ui"].some(m=>matchMedia(`(display-mode: ${m})`).matches)}
 function nudgeCheck(){const e=$("a2hs");if(!nudgeIOS()||nudgeStandalone()||(store.packs||0)<20){if(e)e.remove();return}
  let until=0;try{until=+localStorage.getItem(BK.nudge)||0}catch(_){}if(Date.now()<until){if(e)e.remove();return}
- const busy=document.querySelector("#vPack.on,#tear.on,#viewer.on,#summary.on,#bkdlg.on,#settings.on");if(busy||e)return;
+ const busy=document.querySelector("#vPack.on,#tear.on,#viewer.on,#summary.on,#bkdlg.on,#settings.on,#chsheet.on");if(busy||e)return;
  document.body.insertAdjacentHTML("beforeend",`<div id="a2hs" role="note"><div class="a2t"><b>Keep your collection safe</b><span>Safari can clear websites you haven't opened for a week. Add Rippermon to your Home Screen and it's never cleared: tap <svg viewBox="0 0 24 24" aria-label="Share"><path d="M12 3v12M7.5 7.5 12 3l4.5 4.5M5 11v9h14v-9" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg> Share → <b>Add to Home Screen</b>.</span></div><button class="ghost" id="a2x" aria-label="Not now">Not now</button></div>`);
  requestAnimationFrame(()=>$("a2hs")&&$("a2hs").classList.add("on"));
  $("a2x").onclick=()=>{try{localStorage.setItem(BK.nudge,String(Date.now()+7*864e5))}catch(_){}const b=$("a2hs");b.classList.remove("on");setTimeout(()=>b.remove(),300)}}
