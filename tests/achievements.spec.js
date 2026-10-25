@@ -55,8 +55,12 @@ test('achievements: backfill from an existing collection is silent with one summ
   const u = await page.evaluate(() => ACH.d.u);
   for (const id of ['p1', 'p10', 'p50', 'p100', 'rev', 'ultra', 'ir', 'sir', 'god', 'pika', 'both', 'lfoil']) expect(u[id], id).toBeTruthy();
   for (const id of ['p500', 'box1', 'demi', 'lench']) expect(u[id], id).toBeFalsy();
-  expect(await page.evaluate(() => Object.keys(ACH.d.bf).length)).toBe(Object.keys(u).length);
-  await expect.poll(() => page.evaluate(() => window.__toasts.slice()), {timeout: 15000}).toEqual([`${Object.keys(u).length} achievements unlocked`]);
+  // value achievements can be credited a moment later (once data/px-snap.json prices the collection) - still the same single summary
+  await expect.poll(() => page.evaluate(() => window.__toasts.length), {timeout: 15000}).toBe(1);
+  const nAll = await page.evaluate(() => Object.keys(ACH.d.u).length);
+  expect(nAll).toBeGreaterThanOrEqual(Object.keys(u).length);
+  expect(await page.evaluate(() => Object.keys(ACH.d.bf).length)).toBe(nAll);
+  expect(await page.evaluate(() => window.__toasts.slice())).toEqual([`${nAll} achievements unlocked`]);
   await expect(page.locator('#achtoast small')).toContainText('Credited from your collection');
   await page.waitForTimeout(4500);
   expect(await page.evaluate(() => [window.__toasts.length, ACH.q.length])).toEqual([1, 0]);
