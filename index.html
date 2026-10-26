@@ -708,8 +708,8 @@ section{content-visibility:auto;contain-intrinsic-size:auto 600px}
 #top10{--t10gold:#e6cf8e;--t10silver:#c9cfdc;--t10bronze:#cf9a6a}
 .t10c{all:unset;box-sizing:border-box;position:relative;display:block;cursor:zoom-in;-webkit-tap-highlight-color:transparent;border-radius:10px}
 .t10c:focus-visible{outline:2px solid var(--t10gold);outline-offset:3px}
-.t10img{display:block;position:relative;aspect-ratio:63/88;border-radius:7px;overflow:hidden;background:#0d1230;box-shadow:0 6px 16px rgba(0,0,0,.45),0 0 0 1px rgba(255,255,255,.06)}
-.t10img img,.t10img .ph{display:block;width:100%;height:100%;object-fit:cover;border-radius:inherit}
+.t10img{display:block;position:relative;width:100%;aspect-ratio:63/88;border-radius:7px;overflow:hidden;background:#0d1230;box-shadow:0 6px 16px rgba(0,0,0,.45),0 0 0 1px rgba(255,255,255,.06)}
+.t10img img,.t10img .ph{display:block;position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:inherit}
 .t10img .ph{font-size:10px;padding:6px}
 .t10hero{display:grid;grid-template-columns:minmax(120px,44%) 1fr;gap:16px;align-items:center;max-width:560px}
 .t10c.hero .t10img{box-shadow:0 10px 28px rgba(0,0,0,.55),0 0 0 1px rgba(230,207,142,.35),0 0 24px rgba(230,207,142,.12)}
@@ -728,7 +728,7 @@ section{content-visibility:auto;contain-intrinsic-size:auto 600px}
 .t10rk.rk2{color:#15181f;background:linear-gradient(160deg,#eef1f6,#a9b0bf);border-color:#eef1f6}
 .t10rk.rk3{color:#1d1209;background:linear-gradient(160deg,#e8b88a,#a8703f);border-color:#e8b88a}
 .t10row{display:flex;gap:12px;overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x proximity;padding:12px 8px 6px;margin:14px -8px 0;scrollbar-width:thin;-webkit-overflow-scrolling:touch}
-.t10row>div{flex:0 0 min(27vw,118px);scroll-snap-align:start}
+.t10row>div{flex:0 0 min(27vw,118px);width:min(27vw,118px);min-width:0;scroll-snap-align:start}
 .t10meta{display:flex;flex-direction:column;gap:1px;margin-top:7px;text-align:left;min-width:0}
 .t10meta .t10v{font-size:13px;color:#ecdcae;font-variant-numeric:tabular-nums}
 .t10meta .t10v.none{font-size:11px;color:#8d93b8;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -2136,11 +2136,14 @@ function nhBoxToast(list){if(!list.length||PREF.newHits===false)return;const ch=
  t.querySelector("b").textContent=head;t.querySelector("small").textContent=(list.length===1?lead.c.name+" · ":"")+bits.join(" · ");t.dataset.box="1";
  list.forEach(x=>NH.log.push({name:x.c.name,rarity:x.c.rarity,chase:!!x.c.nh.chase,top:x.c.nh.top||undefined,box:1,at:Date.now()}));
  setTimeout(()=>{try{if(typeof sfx.newhit==="function")sfx.newhit();haptic(10)}catch(e){}},420)}
+function nhBoxRibs(B){const v=$("boxv");if(!B||!v||PREF.newHits===false)return;const rib=(el,c)=>{if(el&&c&&c.nh)nhBadge(el,c.nh.chase,1)};
+ v.querySelectorAll(".bxsum .bxt[data-j]").forEach(t=>{const j=t.dataset.j,x=j[0]==="a"?(B.allList||[])[+j.slice(1)]:(B.hitList||[])[+j];if(x)rib(t,x.c)});
+ if(B.best)rib(v.querySelector(".bbc .bxt"),B.best.c)}
+/* prices arriving re-sort the HITS grid / best pull (bxResort re-renders them): put the ribbons back */
+{const br=bxResort;bxResort=function(B){const r=br.apply(this,arguments);try{nhBoxRibs(B)}catch(e){}return r}}
 {const bs=boxSummary;boxSummary=function(){const r=bs.apply(this,arguments);try{const B=BOX,v=$("boxv");if(!B||!v||PREF.newHits===false)return r;
  const list=nhBoxList(B);if(!list.length){B.nhNew=0;return r}
- const rib=(el,c)=>{if(el&&c&&c.nh)nhBadge(el,c.nh.chase,1)};
- v.querySelectorAll(".bxsum .bxt[data-j]").forEach(t=>{const j=t.dataset.j,x=j[0]==="a"?(B.allList||[])[+j.slice(1)]:(B.hitList||[])[+j];if(x)rib(t,x.c)});
- if(B.best)rib(v.querySelector(".bbc .bxt"),B.best.c);
+ nhBoxRibs(B);
  const nc=list.filter(x=>x.c.nh.chase).length,tops=list.filter(x=>x.c.nh.top).map(x=>x.c.nh.top).sort((a,b)=>a-b);
  const d=document.createElement("div");d.className="nhsum bxnh"+(nc?" chase":"");
  d.innerHTML=(nc?`<b>★ ${nc>1?nc+" chase cards":"Chase card"} pulled!</b>`:"")+(tops.length?`<b class="t10s">New Top 10 hit${tops.length>1?"s":""}! #${tops.join(", #")}</b>`:"")+`<span>✦ ${list.length} new hit${list.length>1?"s":""} for your binder</span>`;

@@ -33,11 +33,14 @@ function nhBoxToast(list){if(!list.length||PREF.newHits===false)return;const ch=
  t.querySelector("b").textContent=head;t.querySelector("small").textContent=(list.length===1?lead.c.name+" · ":"")+bits.join(" · ");t.dataset.box="1";
  list.forEach(x=>NH.log.push({name:x.c.name,rarity:x.c.rarity,chase:!!x.c.nh.chase,top:x.c.nh.top||undefined,box:1,at:Date.now()}));
  setTimeout(()=>{try{if(typeof sfx.newhit==="function")sfx.newhit();haptic(10)}catch(e){}},420)}
+function nhBoxRibs(B){const v=$("boxv");if(!B||!v||PREF.newHits===false)return;const rib=(el,c)=>{if(el&&c&&c.nh)nhBadge(el,c.nh.chase,1)};
+ v.querySelectorAll(".bxsum .bxt[data-j]").forEach(t=>{const j=t.dataset.j,x=j[0]==="a"?(B.allList||[])[+j.slice(1)]:(B.hitList||[])[+j];if(x)rib(t,x.c)});
+ if(B.best)rib(v.querySelector(".bbc .bxt"),B.best.c)}
+/* prices arriving re-sort the HITS grid / best pull (bxResort re-renders them): put the ribbons back */
+{const br=bxResort;bxResort=function(B){const r=br.apply(this,arguments);try{nhBoxRibs(B)}catch(e){}return r}}
 {const bs=boxSummary;boxSummary=function(){const r=bs.apply(this,arguments);try{const B=BOX,v=$("boxv");if(!B||!v||PREF.newHits===false)return r;
  const list=nhBoxList(B);if(!list.length){B.nhNew=0;return r}
- const rib=(el,c)=>{if(el&&c&&c.nh)nhBadge(el,c.nh.chase,1)};
- v.querySelectorAll(".bxsum .bxt[data-j]").forEach(t=>{const j=t.dataset.j,x=j[0]==="a"?(B.allList||[])[+j.slice(1)]:(B.hitList||[])[+j];if(x)rib(t,x.c)});
- if(B.best)rib(v.querySelector(".bbc .bxt"),B.best.c);
+ nhBoxRibs(B);
  const nc=list.filter(x=>x.c.nh.chase).length,tops=list.filter(x=>x.c.nh.top).map(x=>x.c.nh.top).sort((a,b)=>a-b);
  const d=document.createElement("div");d.className="nhsum bxnh"+(nc?" chase":"");
  d.innerHTML=(nc?`<b>★ ${nc>1?nc+" chase cards":"Chase card"} pulled!</b>`:"")+(tops.length?`<b class="t10s">New Top 10 hit${tops.length>1?"s":""}! #${tops.join(", #")}</b>`:"")+`<span>✦ ${list.length} new hit${list.length>1?"s":""} for your binder</span>`;

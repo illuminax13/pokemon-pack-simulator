@@ -170,6 +170,9 @@ test('booster box Open All: new chase SIR gets NEW ribbons + "Chase card pulled!
   await page.evaluate(() => boxSummary()); await page.waitForTimeout(600);
   expect(await stopToasts(page)).toEqual([]);
   await expect(page.locator('#bxhits .nhrib')).toHaveCount(2);
+  // prices arriving re-sort the HITS grid (bxResort re-renders it): the ribbons must survive
+  await page.evaluate(() => { BOX.hitList.reverse(); bxResort(BOX); });
+  await expect(page.locator('#bxhits .nhrib')).toHaveCount(2);
   expect(errs.filter(quiet)).toEqual([]);
 });
 

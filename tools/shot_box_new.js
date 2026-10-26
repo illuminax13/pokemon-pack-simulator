@@ -14,5 +14,10 @@ await page.evaluate(async()=>{await openBox(set);const all=Object.values(cache[s
 await page.evaluate(()=>{boxFast();document.getElementById('bxskip').click()});
 await page.waitForSelector('#boxv .bxsum .bxnh',{timeout:30000});await page.waitForTimeout(3500);
 await page.evaluate(()=>{document.querySelectorAll('#achtoast,#nhtoast').forEach(e=>e.classList.remove('on'));const e=document.querySelector('#boxv .bxsum .bxnh');e.scrollIntoView({block:'start'});document.scrollingElement.scrollBy(0,-120);(e.closest('.bxsum')||e.parentElement).scrollTop=Math.max(0,e.offsetTop-120)});
+await page.addStyleTag({content:'#achtoast,#nhtoast{display:none!important}'});
+const vw=page.viewportSize().width;await page.setViewportSize({width:vw,height:1700});await page.waitForTimeout(800);
+await page.evaluate(()=>{const e=document.querySelector('#boxv .bxsum .bxnh');e.scrollIntoView({block:'start'});let p=e.parentElement;while(p){if(p.scrollHeight>p.clientHeight+4&&getComputedStyle(p).overflowY!='visible')p.scrollTop-=14;p=p.parentElement}});
+await page.waitForFunction(()=>[...document.querySelectorAll('#boxv .bxsum img')].slice(0,12).every(i=>i.complete),null,{timeout:20000}).catch(()=>{});
 await page.waitForTimeout(2500);console.log(await page.$eval('#boxv .bxsum .bxnh',e=>e.textContent),await page.locator('#boxv .nhrib').count());
-await page.screenshot({path:'screenshot-box-new.png'});await b.close()})();
+const top=await page.$eval('#boxv .bxsum .bxnh',e=>e.getBoundingClientRect().top-12),bot=await page.evaluate(()=>{const g=document.querySelector('#bxhits');const r=g.getBoundingClientRect();return Math.min(r.bottom+10,1700)});
+await page.screenshot({path:'screenshot-box-new.png',clip:{x:0,y:Math.max(0,top),width:vw,height:bot-Math.max(0,top)}});await b.close()})();

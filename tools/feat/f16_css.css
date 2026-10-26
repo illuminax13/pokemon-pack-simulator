@@ -7,8 +7,8 @@
 #top10{--t10gold:#e6cf8e;--t10silver:#c9cfdc;--t10bronze:#cf9a6a}
 .t10c{all:unset;box-sizing:border-box;position:relative;display:block;cursor:zoom-in;-webkit-tap-highlight-color:transparent;border-radius:10px}
 .t10c:focus-visible{outline:2px solid var(--t10gold);outline-offset:3px}
-.t10img{display:block;position:relative;aspect-ratio:63/88;border-radius:7px;overflow:hidden;background:#0d1230;box-shadow:0 6px 16px rgba(0,0,0,.45),0 0 0 1px rgba(255,255,255,.06)}
-.t10img img,.t10img .ph{display:block;width:100%;height:100%;object-fit:cover;border-radius:inherit}
+.t10img{display:block;position:relative;width:100%;aspect-ratio:63/88;border-radius:7px;overflow:hidden;background:#0d1230;box-shadow:0 6px 16px rgba(0,0,0,.45),0 0 0 1px rgba(255,255,255,.06)}
+.t10img img,.t10img .ph{display:block;position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:inherit}
 .t10img .ph{font-size:10px;padding:6px}
 .t10hero{display:grid;grid-template-columns:minmax(120px,44%) 1fr;gap:16px;align-items:center;max-width:560px}
 .t10c.hero .t10img{box-shadow:0 10px 28px rgba(0,0,0,.55),0 0 0 1px rgba(230,207,142,.35),0 0 24px rgba(230,207,142,.12)}
@@ -27,7 +27,7 @@
 .t10rk.rk2{color:#15181f;background:linear-gradient(160deg,#eef1f6,#a9b0bf);border-color:#eef1f6}
 .t10rk.rk3{color:#1d1209;background:linear-gradient(160deg,#e8b88a,#a8703f);border-color:#e8b88a}
 .t10row{display:flex;gap:12px;overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x proximity;padding:12px 8px 6px;margin:14px -8px 0;scrollbar-width:thin;-webkit-overflow-scrolling:touch}
-.t10row>div{flex:0 0 min(27vw,118px);scroll-snap-align:start}
+.t10row>div{flex:0 0 min(27vw,118px);width:min(27vw,118px);min-width:0;scroll-snap-align:start}
 .t10meta{display:flex;flex-direction:column;gap:1px;margin-top:7px;text-align:left;min-width:0}
 .t10meta .t10v{font-size:13px;color:#ecdcae;font-variant-numeric:tabular-nums}
 .t10meta .t10v.none{font-size:11px;color:#8d93b8;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
