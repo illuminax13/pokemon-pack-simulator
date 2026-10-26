@@ -114,3 +114,97 @@ test('settings toggle turns alerts off (and persists)', async ({page}) => {
   await expect(page.locator('#summary .nhrib, #summary .nhsum')).toHaveCount(0);
   expect(await page.evaluate(k => store.sets[k[0]][k[1]].n, hit.key)).toBe(1);   // still saved, just not announced
 });
+
+// ---- every open path uses the same detection (pre-open ownership snapshot) ----
+// booster box with fixed contents: packs 3 and 20 carry the #1 chase card (new -> only the first copy is NEW),
+// pack 7 a Double rare that is already owned (dupe -> nothing), pack 11 a new non-chase Double rare.
+async function fixedBox(page) {
+  await chooseSet(page, 12); await skipAndLand(page);
+  return page.evaluate(async () => {
+    await openBox(set); const all = Object.values(cache[set.dex].pools).flat(), ch = nhChase(set);
+    const com = all.filter(c => c.tier === 'common').slice(0, 9), chase = chRank(set, chCards(cache[set.dex]))[0].c;
+    const drs = all.filter(c => /double rare/i.test(c.rarity) && !ch.has(keyOf(c.id).join('|')));
+    const own = drs[0], fresh = drs.find(c => c.id !== own.id), rare = all.find(c => c.tier === 'rare' && !c.rev);
+    const [d, n] = keyOf(own.id); (store.sets[d] = store.sets[d] || {})[n] = {name: own.name, rarity: own.rarity, n: 1, lid: n}; store.coll[own.id] = {name: own.name, rarity: own.rarity, n: 1, t: 4}; save();
+    newBox(set, {name: 'Virtual box', n: 36, real: 0});
+    BOX.packs = BOX.packs.map((p, k) => [...com.map(c => ({...c})), {...(k === 3 || k === 20 ? chase : k === 7 ? own : k === 11 ? fresh : rare)}]);
+    BOX.done = BOX.packs.map(() => 0); BOX.wrap = 1; BOX.lid = 1; boxSave(); boxIntro();
+    return {chase: {id: chase.id, name: chase.name}, own: {id: own.id, name: own.name}, fresh: {id: fresh.id, name: fresh.name}};
+  });
+}
+async function watchToasts(page) {
+  await page.evaluate(() => { window.__nhSeen = []; window.__nhPoll = setInterval(() => { const t = document.getElementById('nhtoast'); if (t && t.classList.contains('on')) { const x = t.textContent; if (window.__nhSeen[window.__nhSeen.length - 1] !== x) window.__nhSeen.push(x); } }, 40); });
+}
+const stopToasts = page => page.evaluate(() => { clearInterval(window.__nhPoll); return window.__nhSeen; });
+
+test('booster box Open All: new chase SIR gets NEW ribbons + "Chase card pulled!" callout and ONE toast; dupes do not', async ({page}) => {
+  const {errs} = await setup(page);
+  const b = await fixedBox(page);
+  await watchToasts(page);
+  await page.evaluate(() => { window.__hap0 = HAP.n; boxFast(); });
+  await page.locator('#bxskip').click();
+  await expect(page.locator('#boxv .bxsum')).toBeVisible();
+  await page.waitForTimeout(900);
+  const toasts = await stopToasts(page);
+  // one toast for the whole box
+  expect(toasts.length).toBe(1);
+  expect(toasts[0]).toContain('Chase card pulled!');
+  expect(toasts[0]).toContain('2 new hits for your binder');
+  await expect(page.locator('#boxv .bxsum .nhsum.bxnh')).toContainText('Chase card pulled!');
+  await expect(page.locator('#boxv .bxsum .nhsum.bxnh')).toContainText('✦ 2 new hits for your binder');
+  const marks = await page.evaluate(() => BOX.hitList.map((x, j) => ({id: x.c.id, k: x.k, rib: !!document.querySelector(`#bxhits .bxt[data-j="${j}"] .nhrib`), chase: !!document.querySelector(`#bxhits .bxt[data-j="${j}"] .nhrib.chase`)})));
+  const ch = marks.filter(m => m.id === b.chase.id);
+  expect(ch.length).toBe(2);                                         // pulled twice in the box
+  expect(ch.filter(m => m.rib).map(m => m.k)).toEqual([3]);          // only the first copy is NEW
+  expect(ch.find(m => m.k === 3).chase).toBe(true);
+  expect(marks.filter(m => m.id === b.own.id && m.rib)).toEqual([]);  // already owned -> no ribbon
+  expect(marks.filter(m => m.id === b.fresh.id && m.rib).length).toBe(1);
+  // best pull is the chase card -> ribbon there too
+  if (await page.evaluate(id => BOX.best.c.id === id && BOX.best.k === 3, b.chase.id)) await expect(page.locator('#boxv .bbc .nhrib')).toHaveCount(1);
+  const log = await page.evaluate(() => window.__newHits.filter(l => l.box));
+  expect(log.map(l => l.name).sort()).toEqual([b.chase.name, b.fresh.name].sort());
+  expect(await page.evaluate(() => HAP.n >= window.__hap0)).toBe(true);
+  // re-opening the box summary later shows the ribbons again but does not re-toast
+  await expect(page.locator('#nhtoast')).not.toHaveClass(/\bon\b/, {timeout: 6000});
+  await watchToasts(page);
+  await page.evaluate(() => boxSummary()); await page.waitForTimeout(600);
+  expect(await stopToasts(page)).toEqual([]);
+  await expect(page.locator('#bxhits .nhrib')).toHaveCount(2);
+  expect(errs.filter(quiet)).toEqual([]);
+});
+
+test('booster box where every hit is already owned: no ribbons, no callout, no toast', async ({page}) => {
+  await setup(page);
+  const b = await fixedBox(page);
+  await page.evaluate(() => { for (const p of BOX.packs) { const own = p[p.length - 1]; const [d, n] = keyOf(own.id); (store.sets[d] = store.sets[d] || {})[n] = {name: own.name, rarity: own.rarity, n: 1, lid: n}; } save(); });
+  await watchToasts(page);
+  await page.evaluate(() => boxFast()); await page.locator('#bxskip').click();
+  await expect(page.locator('#boxv .bxsum')).toBeVisible(); await page.waitForTimeout(800);
+  expect(await stopToasts(page)).toEqual([]);
+  await expect(page.locator('#boxv .nhrib')).toHaveCount(0);
+  await expect(page.locator('#boxv .nhsum')).toHaveCount(0);
+});
+
+test('a single pack opened from the box uses the same detection; its NEW card keeps the ribbon in the box summary', async ({page}) => {
+  await setup(page);
+  const b = await fixedBox(page);
+  await page.evaluate(() => boxOne(3));
+  await page.waitForSelector('#tear.on', {timeout: 30000}); await doTear(page);
+  const {toasts, log} = await revealWatching(page);
+  expect(toasts.some(t => t.includes('Chase card pulled!'))).toBe(true);
+  expect(log.filter(l => l.name === b.chase.name).length).toBe(1);
+  // rest of the box: the second chase copy (pack 20) is a dupe now
+  await page.evaluate(() => { boxShell().classList.add('on'); boxFast(); document.getElementById('bxskip').click(); });
+  await expect(page.locator('#boxv .bxsum')).toBeVisible();
+  const ribs = await page.evaluate(id => BOX.hitList.map((x, j) => [x.c.id, x.k, !!document.querySelector(`#bxhits .bxt[data-j="${j}"] .nhrib`)]).filter(x => x[0] === id), b.chase.id);
+  expect(ribs.filter(r => r[2]).map(r => r[1])).toEqual([3]);
+  await expect(page.locator('#boxv .nhsum.bxnh')).toContainText('2 new hits');
+});
+
+test('Reveal All / skip path and the 20-pack fast flow share the snapshot (NH.pre cleared after each open)', async ({page}) => {
+  await setup(page);
+  const hit = await openFixed(page, 'chase');
+  const {log} = await revealWatching(page);
+  expect(log.filter(l => l.name === hit.name).length).toBe(1);
+  expect(await page.evaluate(() => [NH.pre, current[current.length - 1].nh && current[current.length - 1].nh.chase])).toEqual([null, true]);
+});
