@@ -6,6 +6,7 @@ test.use({serviceWorkers: 'block'});
 test('gold / hyper rares: real scans, white sheen, no yellow halo, holofoil price + retry', async ({page}) => {
   let n295 = 0;
   await page.route('https://api.pokemontcg.io/**', r => r.fulfill({status: 500, body: 'down'}));
+  await page.route('**/px-snap.json*', r => r.fulfill({status: 404, body: 'nf'}));   // no snapshot: exercise the live lookup + retry
   await page.route('https://api.tcgdex.net/v2/en/cards/**', r => {
     const id = decodeURIComponent(r.request().url().split('/cards/')[1]);
     if (id === 'me02.5-295' && ++n295 === 1) return r.abort();   // first lookup fails (slow mobile network)
