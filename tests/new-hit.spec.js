@@ -118,8 +118,8 @@ test('settings toggle turns alerts off (and persists)', async ({page}) => {
 // ---- every open path uses the same detection (pre-open ownership snapshot) ----
 // booster box with fixed contents: packs 3 and 20 carry the #1 chase card (new -> only the first copy is NEW),
 // pack 7 a Double rare that is already owned (dupe -> nothing), pack 11 a new non-chase Double rare.
-async function fixedBox(page) {
-  await chooseSet(page, 12); await skipAndLand(page);
+async function fixedBox(page, land = false) {
+  await chooseSet(page, 12); if (land) await skipAndLand(page);
   return page.evaluate(async () => {
     await openBox(set); const all = Object.values(cache[set.dex].pools).flat(), ch = nhChase(set);
     const com = all.filter(c => c.tier === 'common').slice(0, 9), chase = chRank(set, chCards(cache[set.dex]))[0].c;
@@ -142,7 +142,7 @@ test('booster box Open All: new chase SIR gets NEW ribbons + "Chase card pulled!
   const b = await fixedBox(page);
   await watchToasts(page);
   await page.evaluate(() => { window.__hap0 = HAP.n; boxFast(); });
-  await page.locator('#bxskip').click();
+  await page.evaluate(() => document.getElementById('bxskip').click());
   await expect(page.locator('#boxv .bxsum')).toBeVisible();
   await page.waitForTimeout(900);
   const toasts = await stopToasts(page);
@@ -178,7 +178,7 @@ test('booster box where every hit is already owned: no ribbons, no callout, no t
   const b = await fixedBox(page);
   await page.evaluate(() => { for (const p of BOX.packs) { const own = p[p.length - 1]; const [d, n] = keyOf(own.id); (store.sets[d] = store.sets[d] || {})[n] = {name: own.name, rarity: own.rarity, n: 1, lid: n}; } save(); });
   await watchToasts(page);
-  await page.evaluate(() => boxFast()); await page.locator('#bxskip').click();
+  await page.evaluate(() => boxFast()); await page.evaluate(() => document.getElementById('bxskip').click());
   await expect(page.locator('#boxv .bxsum')).toBeVisible(); await page.waitForTimeout(800);
   expect(await stopToasts(page)).toEqual([]);
   await expect(page.locator('#boxv .nhrib')).toHaveCount(0);
@@ -187,7 +187,7 @@ test('booster box where every hit is already owned: no ribbons, no callout, no t
 
 test('a single pack opened from the box uses the same detection; its NEW card keeps the ribbon in the box summary', async ({page}) => {
   await setup(page);
-  const b = await fixedBox(page);
+  const b = await fixedBox(page, true);
   await page.evaluate(() => boxOne(3));
   await page.waitForSelector('#tear.on', {timeout: 30000}); await doTear(page);
   const {toasts, log} = await revealWatching(page);
