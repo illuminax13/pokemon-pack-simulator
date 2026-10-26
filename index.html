@@ -1,6 +1,11 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><title>Pokémon Pack Simulator</title>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><script>/*<f15g>*//* Rip City transfer guard: while a #transfer= hash is being merged, the fresh page must not write its empty state over it */
+(function(){if(!/^#transfer=/.test(location.hash))return;var X=window.__xfer={w:0},S=Storage.prototype,o=S.setItem,r=S.removeItem;
+ X.restore=function(){S.setItem=o;S.removeItem=r};
+ S.setItem=function(k){if(X.w||this!==localStorage||!/^pps/.test(k))return o.apply(this,arguments)};
+ S.removeItem=function(k){if(X.w||this!==localStorage||!/^pps/.test(k))return r.apply(this,arguments)}})();
+/*</f15g>*/</script><title>Rip City</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
-<meta name="theme-color" content="#06070f"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="Pack Sim">
+<meta name="theme-color" content="#06070f"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="Rip City">
 <link rel="manifest" href="manifest.webmanifest"><link rel="icon" type="image/png" href="assets/icons/favicon-64.png"><link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preconnect" href="https://assets.tcgdex.net"><link rel="preconnect" href="https://images.pokemontcg.io"><link rel="dns-prefetch" href="https://api.tcgdex.net">
@@ -696,7 +701,7 @@ section{content-visibility:auto;contain-intrinsic-size:auto 600px}
 @media (prefers-reduced-motion:reduce){.nhrib{animation:none}#nhtoast,#nhtoast.on{transition:none}}
 /*</f14css>*/</style></head><body><div id="bg"></div><canvas id="fx"></canvas><div id="burst"></div>
 <div id="tear"></div><div id="badge">CSS · loading</div>
-<header><h1>PACK SIMULATOR</h1>
+<header><h1>RIP CITY</h1>
 <button id="back" class="ghost" aria-label="Back to sets">← Sets</button><button id="binders" class="ghost" aria-label="Open binders">📚 Binders</button><button id="open" aria-label="Open another pack">Open Another</button><button id="reveal" class="ghost" aria-label="Reveal all cards">Reveal All</button>
 <button id="achbtn" class="ghost" aria-label="Achievements">🏆</button><button id="setbtn" class="ghost" aria-label="Settings" aria-haspopup="dialog" aria-expanded="false">⚙︎</button><div class="stats"><span>Packs <b id="count">0</b></span><span>Unique <b id="uniq">0</b></span><span id="hval">Value <b id="valc">—</b></span><span id="godst" hidden title="God packs opened">👑 <b id="godc">0</b></span><a href="#" id="reset" role="button" aria-label="Reset collection">reset</a></div></header>
 <div id="settings" role="dialog" aria-label="Settings"><h4>Settings</h4>
@@ -1789,19 +1794,19 @@ function bkKeys(){const ks=[];try{for(let i=0;i<localStorage.length;i++){const k
 function bkCounts(data){let p={};try{p=JSON.parse(data.pps||"{}")||{}}catch(e){}const S=p.sets||{};let u=0,sets=0;for(const d in S){const n=Object.values(S[d]||{}).filter(e=>e&&e.n>0).length;if(n){sets++;u+=n}}
  let a=0;try{a=Object.keys((JSON.parse(data.ppsAch||"{}")||{}).u||{}).length}catch(e){}return {packs:+p.packs||0,unique:u,sets,ach:a,hist:(p.hist||[]).length}}
 function bkSnapshot(){const data={};for(const k of bkKeys())data[k]=localStorage.getItem(k);return data}
-function bkFile(){const data=bkSnapshot(),now=new Date(),o={app:"rippermon",kind:"backup",v:BK.v,exported:now.toISOString(),counts:bkCounts(data),data};
- const name=`rippermon-backup-${now.toISOString().slice(0,10)}.json`;return {name,blob:new Blob([JSON.stringify(o)],{type:"application/json"}),o}}
+function bkFile(){const data=bkSnapshot(),now=new Date(),o={app:"ripcity",kind:"backup",v:BK.v,exported:now.toISOString(),counts:bkCounts(data),data};
+ const name=`ripcity-backup-${now.toISOString().slice(0,10)}.json`;return {name,blob:new Blob([JSON.stringify(o)],{type:"application/json"}),o}}
 function bkToast(t,act){let e=$("bktoast");if(!e){e=document.createElement("div");e.id="bktoast";e.setAttribute("role","status");document.body.appendChild(e)}
  e.innerHTML=`<span>${esc(t)}</span>`+(act?`<button class="ghost" id="bktAct">${esc(act[0])}</button>`:"");if(act)$("bktAct").onclick=()=>{e.classList.remove("on");act[1]()};
  e.classList.add("on");clearTimeout(bkToast.t);bkToast.t=setTimeout(()=>e.classList.remove("on"),act?9000:3200)}
 async function bkExport(){const {name,blob,o}=bkFile();const done=()=>{try{localStorage.setItem(BK.at,String(Date.now()))}catch(e){}bkNote();bkToast(`Backup saved · ${o.counts.packs.toLocaleString()} packs`)};
- try{const f=new File([blob],name,{type:"application/json"});if(navigator.canShare&&navigator.share&&navigator.canShare({files:[f]})&&/iP(hone|ad|od)|Android/.test(navigator.userAgent)){await navigator.share({files:[f],title:"Rippermon backup"});done();return}}
+ try{const f=new File([blob],name,{type:"application/json"});if(navigator.canShare&&navigator.share&&navigator.canShare({files:[f]})&&/iP(hone|ad|od)|Android/.test(navigator.userAgent)){await navigator.share({files:[f],title:"Rip City backup"});done();return}}
  catch(e){if(e&&e.name==="AbortError")return;/* share failed: fall back to a download */}
  const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},4000);done()}
-function bkParse(txt){let j;try{j=JSON.parse(txt)}catch(e){throw Error("This file isn't a Rippermon backup (not JSON).")}
- if(j&&j.app==="rippermon"&&j.data&&typeof j.data==="object"){if((j.v||1)>BK.v)throw Error("This backup is from a newer version of the app. Reload to update first.");const data={};for(const [k,v] of Object.entries(j.data))if(/^pps/.test(k)&&!BK.skip.test(k)&&typeof v==="string")data[k]=v;j={...j,data}}
- else if(j&&j.sets&&typeof j.sets==="object"&&"packs" in j)j={app:"rippermon",v:1,exported:"",data:{pps:JSON.stringify(j)}};/* a raw collection (localStorage "pps") */
- else throw Error("This file isn't a Rippermon backup.");
+function bkParse(txt){let j;try{j=JSON.parse(txt)}catch(e){throw Error("This file isn't a Rip City backup (not JSON).")}
+ if(j&&(j.app==="ripcity"||j.app==="rippermon")&&j.data&&typeof j.data==="object"){if((j.v||1)>BK.v)throw Error("This backup is from a newer version of the app. Reload to update first.");const data={};for(const [k,v] of Object.entries(j.data))if(/^pps/.test(k)&&!BK.skip.test(k)&&typeof v==="string")data[k]=v;j={...j,data}}
+ else if(j&&j.sets&&typeof j.sets==="object"&&"packs" in j)j={app:"ripcity",v:1,exported:"",data:{pps:JSON.stringify(j)}};/* a raw collection (localStorage "pps") */
+ else throw Error("This file isn't a Rip City backup.");
  let p;try{p=JSON.parse(j.data.pps||"null")}catch(e){}if(!p||typeof p!=="object"||!p.sets||typeof p.sets!=="object")throw Error("The backup has no collection in it.");
  j.counts=bkCounts(j.data);return j}
 /* merge: never double counts — per card the higher count wins, unlocked achievements are combined */
@@ -1856,7 +1861,7 @@ function nudgeStandalone(){return navigator.standalone===true||["standalone","fu
 function nudgeCheck(){const e=$("a2hs");if(!nudgeIOS()||nudgeStandalone()||(store.packs||0)<20){if(e)e.remove();return}
  let until=0;try{until=+localStorage.getItem(BK.nudge)||0}catch(_){}if(Date.now()<until){if(e)e.remove();return}
  const busy=document.querySelector("#vPack.on,#tear.on,#viewer.on,#summary.on,#bkdlg.on,#settings.on,#chsheet.on");if(busy||e)return;
- document.body.insertAdjacentHTML("beforeend",`<div id="a2hs" role="note"><div class="a2t"><b>Keep your collection safe</b><span>Safari can clear websites you haven't opened for a week. Add Rippermon to your Home Screen and it's never cleared: tap <svg viewBox="0 0 24 24" aria-label="Share"><path d="M12 3v12M7.5 7.5 12 3l4.5 4.5M5 11v9h14v-9" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg> Share → <b>Add to Home Screen</b>.</span></div><button class="ghost" id="a2x" aria-label="Not now">Not now</button></div>`);
+ document.body.insertAdjacentHTML("beforeend",`<div id="a2hs" role="note"><div class="a2t"><b>Keep your collection safe</b><span>Safari can clear websites you haven't opened for a week. Add Rip City to your Home Screen and it's never cleared: tap <svg viewBox="0 0 24 24" aria-label="Share"><path d="M12 3v12M7.5 7.5 12 3l4.5 4.5M5 11v9h14v-9" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg> Share → <b>Add to Home Screen</b>.</span></div><button class="ghost" id="a2x" aria-label="Not now">Not now</button></div>`);
  requestAnimationFrame(()=>$("a2hs")&&$("a2hs").classList.add("on"));
  $("a2x").onclick=()=>{try{localStorage.setItem(BK.nudge,String(Date.now()+7*864e5))}catch(_){}const b=$("a2hs");b.classList.remove("on");setTimeout(()=>b.remove(),300)}}
 setTimeout(nudgeCheck,2500);document.addEventListener("visibilitychange",()=>{if(!document.hidden)setTimeout(nudgeCheck,1500)});
@@ -1960,4 +1965,24 @@ sfx.newhit=function(){if(!ok("newhit",300))return;const t=SND.ctx.currentTime+.0
 (function(){const n=$("hapNote");if(!n||$("optNew"))return;const l=document.createElement("label");l.innerHTML='New-hit alerts <input type="checkbox" id="optNew">';n.after(l);
  const x=document.createElement("div");x.className="note";x.textContent="Flags hits you didn't own yet when you pull them.";l.after(x);
  $("optNew").checked=PREF.newHits!==false;$("optNew").onchange=e=>{PREF.newHits=e.target.checked;savePref()}})();
-/*</f14>*/</script></body></html>
+/*</f14>*/</script><script>/*<f15>*//* Rip City: collection transfer from the old rippermon.netlify.app origin.
+   #transfer=<base64url(deflate-raw(JSON))> (plain base64 JSON also accepted) holding the pps* keys (same set as Backup Export).
+   Merged with bkMerge (never wipes what is already here), written, hash stripped, then one reload so every module reads it. */
+async function xfDecode(raw){let s=raw;try{s=decodeURIComponent(raw)}catch(e){}s=s.replace(/-/g,"+").replace(/_/g,"/").replace(/[^A-Za-z0-9+/=]/g,"");while(s.length%4)s+="=";
+ const bin=atob(s),u=new Uint8Array(bin.length);for(let i=0;i<bin.length;i++)u[i]=bin.charCodeAt(i);
+ let txt=null;if(window.DecompressionStream){try{txt=await new Response(new Blob([u]).stream().pipeThrough(new DecompressionStream("deflate-raw"))).text()}catch(e){txt=null}}
+ if(txt==null)txt=new TextDecoder().decode(u);
+ const j=JSON.parse(txt),d=j&&j.data&&typeof j.data==="object"?j.data:j,out={};
+ for(const [k,v] of Object.entries(d||{}))if(/^pps/.test(k)&&!BK.skip.test(k)&&typeof v==="string")out[k]=v;
+ if(!Object.keys(out).length)return null;if(out.pps){const p=JSON.parse(out.pps);if(!p||typeof p!=="object")return null}return out}
+(async function xfRun(){
+ let moved=null;try{moved=sessionStorage.getItem("ppsMoved");if(moved)sessionStorage.removeItem("ppsMoved")}catch(e){}
+ if(moved)setTimeout(()=>bkToast("Collection moved over from Rippermon ✓"),500);
+ const m=/^#transfer=(.*)$/s.exec(location.hash);if(!m)return;const X=window.__xfer||{};
+ const strip=()=>{try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}},done=t=>{strip();X.restore&&X.restore();if(t)bkToast(t)};
+ let inc=null;try{inc=await xfDecode(m[1])}catch(e){inc=null}
+ if(!inc)return done("Couldn't read the moved collection. Use Settings → Import with a backup file.");
+ const next=bkMerge(bkSnapshot(),inc);X.w=1;const ok=bkWrite(next);X.w=0;
+ if(!ok)return done("Not enough storage to move the collection. Nothing was changed.");
+ try{sessionStorage.setItem("ppsMoved","1")}catch(e){}strip();window.__xferDone=1;location.reload()})();
+/*</f15>*/</script></body></html>

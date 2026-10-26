@@ -1,0 +1,43 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><title>Rip City — moving your collection</title>
+<meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#06070f"><meta name="robots" content="noindex">
+<style>
+html,body{margin:0;height:100%;background:#06070f;color:#dfe3ff;font:15px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}
+main{min-height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px;box-sizing:border-box;gap:14px}
+h1{margin:0;font-size:24px;letter-spacing:3px;color:#e6cf8e;font-weight:800}
+p{margin:0;max-width:340px;color:#aab0d6}
+.go{display:inline-block;margin-top:6px;padding:12px 22px;border-radius:999px;background:#e6cf8e;color:#14162a;font-weight:700;text-decoration:none}
+.dl{color:#aab0d6;font-size:13px}
+.spin{width:22px;height:22px;border-radius:50%;border:2px solid rgba(230,207,142,.25);border-top-color:#e6cf8e;animation:s .9s linear infinite}
+@keyframes s{to{transform:rotate(360deg)}}@media (prefers-reduced-motion:reduce){.spin{animation:none}}
+</style></head><body><main>
+<div class="spin" aria-hidden="true"></div>
+<h1>RIP CITY</h1>
+<p id="msg">Rip City is the new name — moving your collection…</p>
+<a class="go" id="go" href="https://ripcity.netlify.app/">Continue to Rip City</a>
+<a class="dl" id="dl" href="#" hidden>Download backup</a>
+</main>
+<script>
+(function(){
+var TARGET="https://ripcity.netlify.app/";
+var SKIP=/^(ppsPrice|ppsPtcgDown|ppsGyroPerm|ppsNudge|ppsUndo|ppsBackupAt)$/;
+var data={},n=0;
+try{for(var i=0;i<localStorage.length;i++){var k=localStorage.key(i);if(/^pps/.test(k)&&!SKIP.test(k)){data[k]=localStorage.getItem(k);n++}}}catch(e){}
+var go=document.getElementById("go"),dl=document.getElementById("dl");
+function cleanup(){/* drop the old app's service worker + caches so the old icon can't keep serving the old app */
+ var a=[];try{if(navigator.serviceWorker&&navigator.serviceWorker.getRegistrations)a.push(navigator.serviceWorker.getRegistrations().then(function(r){return Promise.all(r.map(function(x){return x.unregister()}))}))}catch(e){}
+ try{if(window.caches)a.push(caches.keys().then(function(ks){return Promise.all(ks.map(function(k){return caches.delete(k)}))}))}catch(e){}
+ return Promise.race([Promise.all(a).catch(function(){}),new Promise(function(r){setTimeout(r,700)})])}
+function b64url(u){var s="",C=0x8000;for(var i=0;i<u.length;i+=C)s+=String.fromCharCode.apply(null,u.subarray(i,i+C));return btoa(s).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,"")}
+function pack(json){var bytes=new TextEncoder().encode(json);
+ if(window.CompressionStream){try{return new Response(new Blob([bytes]).stream().pipeThrough(new CompressionStream("deflate-raw"))).arrayBuffer().then(function(b){return b64url(new Uint8Array(b))}).catch(function(){return plain(bytes)})}catch(e){}}
+ return Promise.resolve(plain(bytes))}
+function plain(bytes){var s="",C=0x8000;for(var i=0;i<bytes.length;i+=C)s+=String.fromCharCode.apply(null,bytes.subarray(i,i+C));return btoa(s)}
+if(!n){document.getElementById("msg").textContent="Rip City is the new name — taking you there…";cleanup().then(function(){location.replace(TARGET)});return}
+/* safety net: the same backup file the app exports (imports in Rip City via Settings → Import) */
+try{var o={app:"rippermon",kind:"backup",v:1,exported:new Date().toISOString(),data:data};
+ dl.href=URL.createObjectURL(new Blob([JSON.stringify(o)],{type:"application/json"}));dl.download="rippermon-backup-"+o.exported.slice(0,10)+".json";dl.hidden=false}catch(e){}
+pack(JSON.stringify({app:"rippermon",kind:"transfer",v:1,data:data})).then(function(h){
+ var url=TARGET+"#transfer="+h;go.href=url;window.__migrateUrl=url;
+ return cleanup().then(function(){setTimeout(function(){location.replace(url)},600)})});
+})();
+</script></body></html>

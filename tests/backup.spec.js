@@ -39,9 +39,9 @@ test('export makes one versioned file of the app data (no caches)', async ({page
   await openSettings(page);
   await expect(page.locator('#bkNote')).toContainText('No backup yet');
   const [dl] = await Promise.all([page.waitForEvent('download'), page.locator('#bkExp').click()]);
-  expect(dl.suggestedFilename()).toMatch(/^rippermon-backup-\d{4}-\d\d-\d\d\.json$/);
+  expect(dl.suggestedFilename()).toMatch(/^ripcity-backup-\d{4}-\d\d-\d\d\.json$/);
   const j = JSON.parse(require('fs').readFileSync(await dl.path(), 'utf8'));
-  expect(j).toMatchObject({app: 'rippermon', kind: 'backup', v: 1, counts: {packs: 30, unique: 2, sets: 1}});
+  expect(j).toMatchObject({app: 'ripcity', kind: 'backup', v: 1, counts: {packs: 30, unique: 2, sets: 1}});
   expect(j.counts.ach).toBeGreaterThanOrEqual(1);
   expect(Object.keys(j.data)).toEqual(expect.arrayContaining(['pps', 'ppsAch', 'ppsPrefs']));
   expect(j.data.ppsPrice).toBeUndefined();
@@ -76,7 +76,7 @@ test('import replace restores the backup exactly; bad files are rejected', async
   await gotoApp(page);
   await openSettings(page);
   await page.locator('#bkFile').setInputFiles({name: 'x.json', mimeType: 'application/json', buffer: Buffer.from('{"hello":1}')});
-  await expect(page.locator('#bktoast.on')).toContainText("isn't a Rippermon backup");
+  await expect(page.locator('#bktoast.on')).toContainText("isn't a Rip City backup");
   await expect(page.locator('#bkdlg.on')).toHaveCount(0);
   await page.keyboard.press('Escape');
   await page.mouse.click(5, 400);

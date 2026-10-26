@@ -1,6 +1,6 @@
 """Inject feature CSS/HTML/JS blocks into index.html idempotently (markers)."""
 import sys,re
-p='/workspace/pokemon-packs/index.html';s=open(p).read()
+import os;p=os.environ.get('PP','/workspace/pokemon-packs')+'/index.html';s=open(p).read()
 def block(tag,kind,content):
     global s
     a,b=(f'/*<{tag}>*/',f'/*</{tag}>*/')
