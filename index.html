@@ -1001,9 +1001,9 @@ function lorSrcs(s,lid,x){const [db,lc,tp]=(x||(s.code<=9?"1||":"0||")).split("|
 function srcFix(d){return ({"me01":["187","188"],"me02":["130"],"me02.5":["294","295"],"me03":["124"],"me04":["122"],"me05":["120"]})[d]||[]}
 function ptcgSub(s,n){const u=n.toUpperCase();if(/^TG\d+$/.test(u)&&/^swsh(9|10|11|12)$/.test(s.dex))return [s.ptcg+"tg",u];if(/^SV\d+$/.test(u)&&s.dex==="sm115")return ["sma",u];if(/^SV\d+$/.test(u)&&s.dex==="swsh4.5")return ["swsh45sv",u];
  if(/^H\d+$/.test(u))return [s.ptcg,"H"+parseInt(u.slice(1))];if(/^\d+a$/.test(n)&&/^ecard/.test(s.dex))return [s.ptcg,n.slice(0,-1)];return null}
-const NOTD=new Set(["sm3.5","sm7.5"]);
+function notdHas(d){return d==="sm3.5"||d==="sm7.5"} /* hoisted: cardSrcs runs while hydrating the saved collection, before later consts exist */
 function cardSrcs(s,localId,extra=[]){if(s.game==="lor")return lorSrcs(s,localId);const n=String(localId).replace(/^0+(?=\d)/,"");const base=`https://assets.tcgdex.net/en/${s.serie}/${s.dex}/${localId}`;
- const sb=s.ptcg&&ptcgSub(s,n);if(sb||NOTD.has(s.dex)){const[a,b]=sb||[s.ptcg,n];return [...extra,`https://images.pokemontcg.io/${a}/${b}_hires.png`,`https://images.pokemontcg.io/${a}/${b}.png`,`${base}/high.webp`].filter((v,i,x)=>v&&x.indexOf(v)===i)}
+ const sb=s.ptcg&&ptcgSub(s,n);if(sb||notdHas(s.dex)){const[a,b]=sb||[s.ptcg,n];return [...extra,`https://images.pokemontcg.io/${a}/${b}_hires.png`,`https://images.pokemontcg.io/${a}/${b}.png`,`${base}/high.webp`].filter((v,i,x)=>v&&x.indexOf(v)===i)}
  const fx=s.ptcg&&srcFix(s.dex).includes(n)?[`https://images.scrydex.com/pokemon/${s.ptcg}-${n}/large`,`https://images.scrydex.com/pokemon/${s.ptcg}-${n}/medium`]:[];
  return [...fx,`${base}/high.webp`,...extra,`${base}/low.webp`,`${base}/high.png`,`${base}/low.png`,`https://images.pokemontcg.io/${s.ptcg}/${n}.png`,`https://images.pokemontcg.io/${s.ptcg}/${n}_hires.png`].filter((v,i,a)=>v&&a.indexOf(v)===i)}
 const logoSet=s=>`srcset="assets/logos/${s.dex}-480.webp 480w, assets/logos/${s.dex}.webp 640w" sizes="(max-width:699px) 150px, 240px" `;
@@ -1903,6 +1903,40 @@ const ACHS=[
  ["coll","v5000","🏆","Vault Keeper","Collection worth $5,000.","all",5000,S=>S.cv],
  ["coll","both","🤝","Two Worlds","Open packs in both Pokémon and Disney Lorcana.","all",0,S=>S.pk&&S.lr],
  ["coll","eras","⏳","Time Traveler","Open Pokémon packs from every era ("+ACH_ERAS.length+").","pkm",ACH_ERAS.length,S=>S.eras],
+ ["era","era5","🧭","Era Hopper","Own Pokémon cards from 5 different eras.","pkm",5,S=>S.eras],
+ ["era","wotc","📼","Old School","Open a pack from the Wizards of the Coast era (Base to Skyridge).","pkm",0,S=>S.F.wotc],
+ ["era","decade","🗓️","Through the Decades","Own cards from sets released in every decade (1990s–2020s).","pkm",4,S=>S.dec],
+ ["era","s25","🧳","Well Traveled","Own cards from 25 different sets.","all",25,S=>S.sets],
+ ["era","s50","🌐","Atlas","Own cards from 50 different sets.","all",50,S=>S.sets],
+ ["era","s100","🛰️","Cartographer","Own cards from 100 different sets.","all",100,S=>S.sets],
+ ["era","u500","🗂️","Card Catalog","Own 500 different cards.","all",500,S=>S.uniq],
+ ["era","u1000","🗄️","Archivist","Own 1,000 different cards.","all",1000,S=>S.uniq],
+ ["era","u2500","🏛️","Museum Curator","Own 2,500 different cards.","all",2500,S=>S.uniq],
+ ["era","done3","🥉","Triple Crown","Complete 3 set binders.","all",3,S=>S.done],
+ ["era","wotcfull","🏺","Vintage Vault","Complete a Wizards-era binder (Base to Skyridge).","pkm",0,S=>S.wotcDone],
+ ["era","eramaster","🎖️","Era Master","Complete a binder in every Pokémon era ("+ACH_ERAS.length+").","pkm",ACH_ERAS.length,S=>S.doneEras],
+ ["pull","star","🌟","Gold Star","Pull a Gold Star (EX & POP era).","pkm",0,S=>S.F.star],
+ ["pull","shn","🔆","Shining Moment","Pull a Shining Pokémon.","pkm",0,S=>S.F.shn],
+ ["pull","cry","💠","Crystal Clear","Pull a Crystal Pokémon (Aquapolis or Skyridge).","pkm",0,S=>S.F.cry],
+ ["pull","exl","🅴","Old-School ex","Pull a Pokémon-ex from the EX era.","pkm",0,S=>S.F.exl],
+ ["pull","lvx","🆇","Level Up","Pull a LV.X card.","pkm",0,S=>S.F.lvx],
+ ["pull","prime","🥇","Prime Time","Pull a Pokémon Prime.","pkm",0,S=>S.F.prime],
+ ["pull","leg","🧩","Legend Half","Pull a LEGEND card.","pkm",0,S=>S.F.leg],
+ ["pull","bigex","Ⓔ","Mega Power","Pull a Pokémon-EX (Black & White or XY).","pkm",0,S=>S.F.bigex],
+ ["pull","brk","💢","BREAK Through","Pull a BREAK card.","pkm",0,S=>S.F.brk],
+ ["pull","gx","🌀","GX Rated","Pull a Pokémon-GX.","pkm",0,S=>S.F.gx],
+ ["pull","prism","🔷","Prism Star","Pull a Prism Star card.","pkm",0,S=>S.F.prism],
+ ["pull","vmax","🔺","Max Power","Pull a VMAX.","pkm",0,S=>S.F.vmax],
+ ["pull","vstar","✴️","Star Power","Pull a VSTAR.","pkm",0,S=>S.F.vstar],
+ ["pull","amz","🎆","Amazing!","Pull an Amazing Rare.","pkm",0,S=>S.F.amz],
+ ["pull","rad","☢️","Radiant","Pull a Radiant Rare.","pkm",0,S=>S.F.rad],
+ ["pull","tg","🎨","Gallery Visit","Pull a Trainer Gallery or Galarian Gallery card.","pkm",0,S=>S.F.tg],
+ ["pull","rc","🗃️","Radiant Collection","Pull a Radiant Collection card (Legendary Treasures or Generations).","pkm",0,S=>S.F.rc],
+ ["pull","svr","💫","Shiny Hunter","Pull a Shiny Pokémon (Shiny Vault or Shiny Rare).","pkm",0,S=>S.F.svr],
+ ["pull","alt","🖌️","Alt Art","Pull a Sword & Shield alternate art.","pkm",0,S=>S.F.alt],
+ ["pull","rbw","🦄","Over the Rainbow","Pull a Rainbow Rare.","pkm",0,S=>S.F.rbw],
+ ["pull","gold","🏅","Gold Rush","Pull a gold Secret Rare (Hyper Rares count).","pkm",0,S=>S.F.gold],
+ ["fun","zard1","🕯️","Original Flame","Pull Charizard from Base Set, Base Set 2 or Legendary Collection.","pkm",0,S=>S.F.zard1,1],
  ["fun","pika","⚡","Pika Pika!","Pull a Pikachu.","pkm",0,S=>S.F.pika,1],
  ["fun","zard","🐉","Burn It Up","Pull a Charizard.","pkm",0,S=>S.F.zard,1],
  ["fun","mb","🔵","Master Ball","Pull a Master Ball reverse holo.","pkm",0,S=>S.F.mb,1],
@@ -1911,22 +1945,29 @@ const ACHS=[
  ["fun","owl","🦉","Night Owl","Open a pack between midnight and 4 AM.","all",0,S=>S.F.owl,1],
 ].map(([cat,id,icon,name,desc,g,n,f,h])=>({cat,id,icon,name,desc,g,n,f,h:!!h}));
 const ACHBY=Object.fromEntries(ACHS.map(a=>[a.id,a]));
-const ACH_CATS=[["open","Opening"],["pull","Pulls"],["lor","Lorcana"],["coll","Collection"],["fun","Secret & fun"]];
+const ACH_CATS=[["open","Opening"],["pull","Pulls"],["lor","Lorcana"],["coll","Collection"],["era","Eras & sets"],["fun","Secret & fun"]];
+const ACH_WOTC=new Set(["base","neo","ecard"]),achEra=s=>s.grp||s.serie;
 const ACH_MONEY=new Set(["c50","c100","c250","v100","v500","v1000","v5000"]);
 function achSave(){try{localStorage.setItem(ACHK,JSON.stringify(ACH.d))}catch(e){}}
 function achFlags(F,c,s){const t=c.t;
  if(achLor(s)){if(c.rev)F.lfoil=1;if(t>=4)F.lleg=1;if(t>=6&&/enchanted|iconic/i.test(c.rarity))F.lench=1;if(/^stitch\b/i.test(c.name))F.stitch=1}
- else{if(t>=3)F.holo=1;if(c.rev)F.rev=1;if(t>=4)F.ultra=1;if(t>=5)F.ir=1;if(t>=6)F.sir=1;if(c.pat==="mb")F.mb=1;if(/pikachu/i.test(c.name))F.pika=1;if(/charizard/i.test(c.name))F.zard=1}}
+ else{if(t>=3)F.holo=1;if(c.rev)F.rev=1;if(t>=4)F.ultra=1;if(t>=5)F.ir=1;if(t>=6)F.sir=1;if(c.pat==="mb")F.mb=1;if(/pikachu/i.test(c.name))F.pika=1;if(/charizard/i.test(c.name)){F.zard=1;if(/^(base1|base4|lc)$/.test(s.dex))F.zard1=1}
+  const r=c.rarity||"",l=r.toLowerCase();if(!r||t<3&&!c.rev&&!/shiny/.test(l))return;
+  if(/gold star/.test(l))F.star=1;if(/shining/.test(l))F.shn=1;if(/crystal/.test(l))F.cry=1;if(/lv\.x/.test(l))F.lvx=1;if(/prime/.test(l))F.prime=1;if(/^legend$/.test(l))F.leg=1;
+  if(/ ex$/.test(r)&&achEra(s)==="ex")F.exl=1;if(/ EX$/.test(r))F.bigex=1;if(/break/.test(l))F.brk=1;if(/ gx$/.test(l))F.gx=1;if(/prism/.test(l))F.prism=1;
+  if(/vmax/.test(l))F.vmax=1;if(/vstar/.test(l))F.vstar=1;if(/amazing/.test(l))F.amz=1;if(/^radiant rare/.test(l))F.rad=1;if(/trainer gallery|galarian gallery/.test(l))F.tg=1;
+  if(/^rc /.test(l))F.rc=1;if(/shiny/.test(l))F.svr=1;if(/alternate/.test(l))F.alt=1;if(/rainbow/.test(l))F.rbw=1;if(/secret gold|hyper rare|gallery gold/.test(l))F.gold=1}}
 /* per-set stats from the saved collection (binder % itself is computed from the full set list in achAgg) */
-function achSetStat(s,full){const o=store.sets&&store.sets[s.dex];let any=0,base=0;
- if(o)for(const n in o){const e=o[n];if(!e||!e.n)continue;any=1;const t=achTier(e.rarity);if(t<=4)base++;if(full)achFlags(ACH.F,{name:e.name,rarity:e.rarity,t,rev:(e.rv||0)>0},s)}
- ACH.per[s.dex]={any,base}}
+function achSetStat(s,full){const o=store.sets&&store.sets[s.dex];let any=0,base=0,uq=0;
+ if(o)for(const n in o){const e=o[n];if(!e||!e.n)continue;any=1;uq++;const t=achTier(e.rarity);if(t<=4)base++;if(full)achFlags(ACH.F,{name:e.name,rarity:e.rarity,t,rev:(e.rv||0)>0},s)}
+ if(full&&any&&!achLor(s)&&ACH_WOTC.has(achEra(s)))ACH.F.wotc=1;ACH.per[s.dex]={any,base,uq}}
 function achAgg(){ACH.dirty.forEach(d=>{const s=SETBY[d];if(s&&SETS.includes(s))achSetStat(s)});ACH.dirty.clear();
- let sets=0,pk=0,lr=0,bin=0,binS="",need=0;const eras=new Set();
- for(const s of SETS){const p=ACH.per[s.dex];if(!p||!p.any)continue;sets++;if(achLor(s))lr=1;else{pk=1;eras.add(s.grp||s.serie)}
-  const L=LISTS[s.dex];if(L&&L.length){const o=store.sets[s.dex]||{};let h=0;for(const c of L)if(o[c.n]&&o[c.n].n)h++;const x=Math.min(100,Math.floor(h/L.length*1000)/10);if(x>bin){bin=x;binS=s.name}}else need=1}
+ let sets=0,pk=0,lr=0,bin=0,binS="",need=0,uniq=0,done=0,wotcDone=0;const eras=new Set(),dEras=new Set(),dec=new Set();
+ for(const s of SETS){const p=ACH.per[s.dex];if(!p||!p.any)continue;sets++;uniq+=p.uq||0;if(achLor(s))lr=1;else{pk=1;eras.add(achEra(s));const y=+String(s.rel||s.year).slice(0,4);if(y)dec.add(Math.floor(y/10))}
+  const L=LISTS[s.dex];if(L&&L.length){const o=store.sets[s.dex]||{};let h=0;for(const c of L)if(o[c.n]&&o[c.n].n)h++;const x=Math.min(100,Math.floor(h/L.length*1000)/10);if(x>bin){bin=x;binS=s.name}
+   if(h>=L.length){done++;if(!achLor(s)){dEras.add(achEra(s));if(ACH_WOTC.has(achEra(s)))wotcDone=1}}}else need=1}
  if(need)achFetchBT();else achFixBin(bin);const v=ACH.val||{};
- return {packs:store.packs||0,boxes:ACH.d.st.boxes||0,sets,pk,lr,eras:eras.size,bin,binS,cv:v.v||0,top:v.top||0,F:ACH.F}}
+ return {packs:store.packs||0,boxes:ACH.d.st.boxes||0,sets,pk,lr,eras:eras.size,bin,binS,uniq,done,wotcDone,doneEras:dEras.size,dec:dec.size,cv:v.v||0,top:v.top||0,F:ACH.F}}
 async function achFetchBT(){if(ACH.bt)return;ACH.bt=1;let got=0;try{for(const s of SETS){if(LISTS[s.dex])continue;const p=ACH.per[s.dex];if(!p||!p.any)continue;
   try{await setList(s);got=1}catch(e){}}}finally{ACH.bt=0}if(got)achLater()}
 /* binder %s now match the binder screen (every card in the set); revoke any binder badge unlocked under the old base-only count */
@@ -1942,6 +1983,7 @@ function achLater(){if(ACH.idle)return;const f=()=>{ACH.idle=0;achEval()};ACH.id
 function achOnPack(s,p){if(!ACH.d||!s||!p)return;const F=ACH.F,st=ACH.d.st;let hi=0,big=0;
  for(const c of p){const t=c.tier!=null&&TIERS[c.tier]!=null?TIERS[c.tier]:achTier(c.rarity);if(t>hi)hi=t;if(t>=4)big++;achFlags(F,{name:c.name,rarity:c.rarity,t,rev:!!c.rev,pat:c.pat},s)}
  if(p.god)F[p.god.kind==="demi"?"demi":"god"]=1;if(big>=2)F.double=1;
+ if(!achLor(s)&&ACH_WOTC.has(achEra(s)))F.wotc=1;
  if(achLor(s)||s.era!=="wotc"){st.dry=hi<=3?(st.dry||0)+1:0;if(st.dry>=10)F.dry=1}
  if(new Date().getHours()<4)F.owl=1;ACH.dirty.add(s.dex);p.forEach(c=>{const d=keyOf(c.id)[0];if(d!==s.dex)ACH.dirty.add(d)})}
 function achBoxCheck(){const B=BOX;if(!B||B.achDone||boxLeft())return;B.achDone=1;ACH.d.st.boxes=(ACH.d.st.boxes||0)+1;achSave()}
@@ -2009,7 +2051,7 @@ document.addEventListener("visibilitychange",()=>{if(!document.hidden)achPump()}
 /* ---------- load + one-time backfill (silent; one summary toast) ---------- */
 (function achInit(){let d=null;try{d=JSON.parse(localStorage.getItem(ACHK)||"null")}catch(e){}
  const first=!d||!d.u;ACH.d=Object.assign({v:1,u:{},bf:{},st:{boxes:0,dry:0},bt:{},nw:0},d||{});ACH.d.st=ACH.d.st||{};ACH.d.bt=ACH.d.bt||{};ACH.d.bf=ACH.d.bf||{};
- if(first){ACH.silent=true;ACH.d.since=Date.now();achSave()}achBadge();
+ if(first){ACH.silent=true;ACH.d.since=Date.now();achSave()}else if(ACH.d.av!==2)ACH.silent=true;ACH.d.av=2;achBadge();
  const run=()=>{for(const s of SETS)achSetStat(s,true);(store.hist||[]).forEach(h=>{if(/^👑DEMI /.test(h))ACH.F.demi=1;else if(/^👑GOD /.test(h))ACH.F.god=1});achEval()};
  window.requestIdleCallback?requestIdleCallback(run,{timeout:1200}):setTimeout(run,250)})();
 window.ACH=ACH;

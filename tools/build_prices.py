@@ -68,7 +68,23 @@ def lst(dex):return json.load(open(f'data/{dex}.json'))['cards']
 GROUPS={'base1':604,'base2':635,'base3':630,'base5':1373,'neo1':1396,'swsh7':2848,'cel25':2867,'swsh12.5':17688,'sv03':23228,'sv03.5':23237,
  'sv04.5':23353,'sv06':23473,'sv08':23651,'sv08.5':23821,'sv09':24073,'sv10':24269,'sv10.5b':24325,'sv10.5w':24326,'me01':24380,'me02':24448,
  'me02.5':24541,'me03':24587,'me04':24655,'me05':24688,'30th':24722}
+# every other main-series set (tools/allsets/master.py): main group + subset groups (Trainer Gallery, Shiny Vault, Radiant Collection)
+ALLM={}
+try:
+    _g={};exec(open(os.path.join(os.path.dirname(os.path.abspath(__file__)),'allsets','master.py')).read(),_g)
+    for r in _g['M']:
+        if r[0] not in GROUPS and r[5]:ALLM[r[0]]=r[5];GROUPS[r[0]]=r[5][0]
+except Exception as e:print('master.py not loaded:',e,file=sys.stderr)
+MIN_OLD=3.0   # added sets keep only their rares/hits worth >= $3 so the snapshot stays small
 def build(dex):
+    if dex in ALLM:
+        p={};hits=None
+        try:hits={num(str(c['n'])) for c in lst(dex) if not re.match(r'^(common|uncommon)$',c['rarity'].lower())}
+        except Exception:pass
+        for g in ALLM[dex]:
+            for k,v in bynum(group(g),minv=MIN_OLD).items():
+                if hits is None or k in hits:p.setdefault(k,v)
+        return p
     if dex=='30th':
         p=bynum(group(24722),lambda n:('RGB-'+n[0]) if n.endswith('/RGB') else (num(n) if re.match(r'^\d+/',n) else None))
         p.update(byname(group(24837),[c for c in lst('30th') if c['n'].startswith('CC')]));return p
@@ -87,7 +103,7 @@ def main():
             p=build(dex);ok+=1
             kept=0
             for k,v in (prev.get('p') or {}).items():
-                if k not in p and (dex in('30th',) or max(v.values() or [0])>=MIN_USD or re.match(r'^(CC|GG)',k)):p[k]=v;kept+=1
+                if k not in p and (dex in('30th',) or max(v.values() or [0])>=(MIN_OLD if dex in ALLM else MIN_USD) and dex not in ALLM or re.match(r'^(CC|GG)',k)):p[k]=v;kept+=1
             out[dex]={'d':today,'src':'TCGplayer via tcgcsv (snapshot)','p':dict(sorted(p.items()))}
             print(f'{dex}: {len(p)} priced' + (f' ({kept} kept from last run)' if kept else ''))
         except Exception as e:
