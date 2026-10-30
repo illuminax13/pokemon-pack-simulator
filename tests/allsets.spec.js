@@ -28,7 +28,7 @@ for (const G of GRPS) test(`allsets ${G}: load, pack shape, rates, binder`, asyn
   for (const [k, v] of Object.entries(r)) {
     expect(v.src, k).toBe('local'); expect(v.bad, k).toBe(0); expect(v.art, k).toBeGreaterThan(0); expect(v.rel, k).toBe(true);
     expect(v.st, k).toBeTruthy(); expect(v.est === true || v.est === false, k).toBe(true);
-    expect(v.uniq, k).toBeGreaterThan(20);
+    expect(v.uniq, k).toBeGreaterThanOrEqual(Math.min(20, v.n));
     for (const [kk, [want, got]] of Object.entries(v.chk)) { expect(got, `${k} ${kk}`).toBeGreaterThan(want * 0.5); expect(got, `${k} ${kk}`).toBeLessThan(want * 1.8 + 0.01); }
     if (v.st === 'wotc') { expect(v.holoRate, k).toBeGreaterThan(0.26); expect(v.holoRate, k).toBeLessThan(0.42); }
     if (v.st === 'gen' && !/^(base|neo)$/.test(G)) expect(v.revRate, k).toBeGreaterThanOrEqual(v.revWant * 0.9);

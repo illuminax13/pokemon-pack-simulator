@@ -3135,5 +3135,647 @@
    "ex": 7,
    "brk": 6
   }
+ },
+ "sm1": {
+  "structure": "gen",
+  "slots": [
+   [
+    "c",
+    5
+   ],
+   [
+    "u",
+    3
+   ]
+  ],
+  "rev": 1,
+  "revX": [],
+  "rareX": [
+   "gold",
+   "rbw",
+   "fa",
+   "ex"
+  ],
+  "rates": {
+   "holo": 0.333333,
+   "gold": 0.014286,
+   "rbw": 0.022222,
+   "fa": 0.04,
+   "ex": 0.142857
+  },
+  "source": "https://bulbapedia.bulbagarden.net/wiki/List_of_Pok%C3%A9mon_Trading_Card_Game_expansions",
+  "estimated": true,
+  "note": "10 cards: 5C, 3U, 1 reverse holo, 1 rare; GX/full art/rainbow/gold replace the rare, Prism Star/Shining/Shiny Vault replace the reverse",
+  "oneIn": {
+   "holo": 3,
+   "gold": 70,
+   "rbw": 45,
+   "fa": 25,
+   "ex": 7
+  }
+ },
+ "sm2": {
+  "structure": "gen",
+  "slots": [
+   [
+    "c",
+    5
+   ],
+   [
+    "u",
+    3
+   ]
+  ],
+  "rev": 1,
+  "revX": [],
+  "rareX": [
+   "gold",
+   "rbw",
+   "fa",
+   "ex"
+  ],
+  "rates": {
+   "holo": 0.333333,
+   "gold": 0.014286,
+   "rbw": 0.022222,
+   "fa": 0.04,
+   "ex": 0.142857
+  },
+  "source": "https://bulbapedia.bulbagarden.net/wiki/List_of_Pok%C3%A9mon_Trading_Card_Game_expansions",
+  "estimated": true,
+  "note": "10 cards: 5C, 3U, 1 reverse holo, 1 rare; GX/full art/rainbow/gold replace the rare, Prism Star/Shining/Shiny Vault replace the reverse",
+  "oneIn": {
+   "holo": 3,
+   "gold": 70,
+   "rbw": 45,
+   "fa": 25,
+   "ex": 7
+  }
+ },
+ "sm3": {
+  "structure": "gen",
+  "slots": [
+   [
+    "c",
+    5
+   ],
+   [
+    "u",
+    3
+   ]
+  ],
+  "rev": 1,
+  "revX": [],
+  "rareX": [
+   "gold",
+   "rbw",
+   "fa",
+   "ex"
+  ],
+  "rates": {
+   "holo": 0.333333,
+   "gold": 0.014286,
+   "rbw": 0.022222,
+   "fa": 0.04,
+   "ex": 0.142857
+  },
+  "source": "https://bulbapedia.bulbagarden.net/wiki/List_of_Pok%C3%A9mon_Trading_Card_Game_expansions",
+  "estimated": true,
+  "note": "10 cards: 5C, 3U, 1 reverse holo, 1 rare; GX/full art/rainbow/gold replace the rare, Prism Star/Shining/Shiny Vault replace the reverse",
+  "oneIn": {
+   "holo": 3,
+   "gold": 70,
+   "rbw": 45,
+   "fa": 25,
+   "ex": 7
+  }
+ },
+ "sm3.5": {
+  "structure": "gen",
+  "slots": [
+   [
+    "c",
+    5
+   ],
+   [
+    "u",
+    3
+   ]
+  ],
+  "rev": 1,
+  "revX": [
+   "shn"
+  ],
+  "rareX": [
+   "rbw",
+   "sec",
+   "fa",
+   "ex"
+  ],
+  "rates": {
+   "holo": 0.333333,
+   "rbw": 0.022222,
+   "sec": 0.013889,
+   "fa": 0.04,
+   "ex": 0.142857,
+   "shn": 0.111111
+  },
+  "source": "https://bulbapedia.bulbagarden.net/wiki/List_of_Pok%C3%A9mon_Trading_Card_Game_expansions",
+  "estimated": true,
+  "note": "10 cards: 5C, 3U, 1 reverse holo, 1 rare; GX/full art/rainbow/gold replace the rare, Prism Star/Shining/Shiny Vault replace the reverse",
+  "oneIn": {
+   "holo": 3,
+   "rbw": 45,
+   "sec": 72,
+   "fa": 25,
+   "ex": 7,
+   "shn": 9
+  }
+ },
+ "sm4": {
+  "structure": "gen",
+  "slots": [
+   [
+    "c",
+    5
+   ],
+   [
+    "u",
+    3
+   ]
+  ],
+  "rev": 1,
+  "revX": [],
+  "rareX": [
+   "gold",
+   "rbw",
+   "fa",
+   "ex"
+  ],
+  "rates": {
+   "holo": 0.333333,
+   "gold": 0.014286,
+   "rbw": 0.022222,
+   "fa": 0.04,
+   "ex": 0.142857
+  },
+  "source": "https://bulbapedia.bulbagarden.net/wiki/List_of_Pok%C3%A9mon_Trading_Card_Game_expansions",
+  "estimated": true,
+  "note": "10 cards: 5C, 3U, 1 reverse holo, 1 rare; GX/full art/rainbow/gold replace the rare, Prism Star/Shining/Shiny Vault replace the reverse",
+  "oneIn": {
+   "holo": 3,
+   "gold": 70,
+   "rbw": 45,
+   "fa": 25,
+   "ex": 7
+  }
+ },
+ "sm5": {
+  "structure": "gen",
+  "slots": [
+   [
+    "c",
+    5
+   ],
+   [
+    "u",
+    3
+   ]
+  ],
+  "rev": 1,
+  "revX": [
+   "prism"
+  ],
+  "rareX": [
+   "gold",
+   "rbw",
+   "fa",
+   "ex"
+  ],
+  "rates": {
+   "holo": 0.333333,
+   "gold": 0.014286,
+   "rbw": 0.022222,
+   "fa": 0.04,
+   "ex": 0.142857,
+   "prism": 0.083333
+  },
+  "source": "https://bulbapedia.bulbagarden.net/wiki/List_of_Pok%C3%A9mon_Trading_Card_Game_expansions",
+  "estimated": true,
+  "note": "10 cards: 5C, 3U, 1 reverse holo, 1 rare; GX/full art/rainbow/gold replace the rare, Prism Star/Shining/Shiny Vault replace the reverse",
+  "oneIn": {
+   "holo": 3,
+   "gold": 70,
+   "rbw": 45,
+   "fa": 25,
+   "ex": 7,
+   "prism": 12
+  }
+ },
+ "sm6": {
+  "structure": "gen",
+  "slots": [
+   [
+    "c",
+    5
+   ],
+   [
+    "u",
+    3
+   ]
+  ],
+  "rev": 1,
+  "revX": [
+   "prism"
+  ],
+  "rareX": [
+   "gold",
+   "rbw",
+   "fa",
+   "ex"
+  ],
+  "rates": {
+   "holo": 0.333333,
+   "gold": 0.014286,
+   "rbw": 0.022222,
+   "fa": 0.04,
+   "ex": 0.142857,
+   "prism": 0.083333
+  },
+  "source": "https://bulbapedia.bulbagarden.net/wiki/List_of_Pok%C3%A9mon_Trading_Card_Game_expansions",
+  "estimated": true,
+  "note": "10 cards: 5C, 3U, 1 reverse holo, 1 rare; GX/full art/rainbow/gold replace the rare, Prism Star/Shining/Shiny Vault replace the reverse",
+  "oneIn": {
+   "holo": 3,
+   "gold": 70,
+   "rbw": 45,
+   "fa": 25,
+   "ex": 7,
+   "prism": 12
+  }
+ },
+ "sm7": {
+  "structure": "gen",
+  "slots": [
+   [
+    "c",
+    5
+   ],
+   [
+    "u",
+    3
+   ]
+  ],
+  "rev": 1,
+  "revX": [
+   "prism"
+  ],
+  "rareX": [
+   "gold",
+   "rbw",
+   "fa",
+   "ex"
+  ],
+  "rates": {
+   "holo": 0.333333,
+   "gold": 0.014286,
+   "rbw": 0.022222,
+   "fa": 0.04,
+   "ex": 0.142857,
+   "prism": 0.083333
+  },
+  "source": "https://bulbapedia.bulbagarden.net/wiki/List_of_Pok%C3%A9mon_Trading_Card_Game_expansions",
+  "estimated": true,
+  "note": "10 cards: 5C, 3U, 1 reverse holo, 1 rare; GX/full art/rainbow/gold replace the rare, Prism Star/Shining/Shiny Vault replace the reverse",
+  "oneIn": {
+   "holo": 3,
+   "gold": 70,
+   "rbw": 45,
+   "fa": 25,
+   "ex": 7,
+   "prism": 12
+  }
+ },
+ "sm7.5": {
+  "structure": "gen",
+  "slots": [
+   [
+    "c",
+    5
+   ],
+   [
+    "u",
+    3
+   ]
+  ],
+  "rev": 1,
+  "revX": [
+   "prism"
+  ],
+  "rareX": [
+   "gold",
+   "rbw",
+   "fa",
+   "ex"
+  ],
+  "rates": {
+   "holo": 0.333333,
+   "gold": 0.014286,
+   "rbw": 0.022222,
+   "fa": 0.04,
+   "ex": 0.142857,
+   "prism": 0.083333
+  },
+  "source": "https://bulbapedia.bulbagarden.net/wiki/List_of_Pok%C3%A9mon_Trading_Card_Game_expansions",
+  "estimated": true,
+  "note": "10 cards: 5C, 3U, 1 reverse holo, 1 rare; GX/full art/rainbow/gold replace the rare, Prism Star/Shining/Shiny Vault replace the reverse",
+  "oneIn": {
+   "holo": 3,
+   "gold": 70,
+   "rbw": 45,
+   "fa": 25,
+   "ex": 7,
+   "prism": 12
+  }
+ },
+ "sm8": {
+  "structure": "gen",
+  "slots": [
+   [
+    "c",
+    5
+   ],
+   [
+    "u",
+    3
+   ]
+  ],
+  "rev": 1,
+  "revX": [
+   "prism"
+  ],
+  "rareX": [
+   "gold",
+   "rbw",
+   "fa",
+   "ex"
+  ],
+  "rates": {
+   "holo": 0.333333,
+   "gold": 0.014286,
+   "rbw": 0.022222,
+   "fa": 0.04,
+   "ex": 0.142857,
+   "prism": 0.083333
+  },
+  "source": "https://bulbapedia.bulbagarden.net/wiki/List_of_Pok%C3%A9mon_Trading_Card_Game_expansions",
+  "estimated": true,
+  "note": "10 cards: 5C, 3U, 1 reverse holo, 1 rare; GX/full art/rainbow/gold replace the rare, Prism Star/Shining/Shiny Vault replace the reverse",
+  "oneIn": {
+   "holo": 3,
+   "gold": 70,
+   "rbw": 45,
+   "fa": 25,
+   "ex": 7,
+   "prism": 12
+  }
+ },
+ "sm9": {
+  "structure": "gen",
+  "slots": [
+   [
+    "c",
+    5
+   ],
+   [
+    "u",
+    3
+   ]
+  ],
+  "rev": 1,
+  "revX": [
+   "prism"
+  ],
+  "rareX": [
+   "alt",
+   "gold",
+   "rbw",
+   "fa",
+   "ex"
+  ],
+  "rates": {
+   "holo": 0.333333,
+   "alt": 0.008333,
+   "gold": 0.014286,
+   "rbw": 0.022222,
+   "fa": 0.04,
+   "ex": 0.142857,
+   "prism": 0.083333
+  },
+  "source": "https://bulbapedia.bulbagarden.net/wiki/List_of_Pok%C3%A9mon_Trading_Card_Game_expansions",
+  "estimated": true,
+  "note": "10 cards: 5C, 3U, 1 reverse holo, 1 rare; GX/full art/rainbow/gold replace the rare, Prism Star/Shining/Shiny Vault replace the reverse",
+  "oneIn": {
+   "holo": 3,
+   "alt": 120,
+   "gold": 70,
+   "rbw": 45,
+   "fa": 25,
+   "ex": 7,
+   "prism": 12
+  }
+ },
+ "det1": {
+  "structure": "gen",
+  "slots": [
+   [
+    "c",
+    3
+   ]
+  ],
+  "rev": 0,
+  "revX": [],
+  "rareX": [
+   "fa"
+  ],
+  "rates": {
+   "holo": 1,
+   "fa": 0.25
+  },
+  "source": "https://bulbapedia.bulbagarden.net/wiki/List_of_Pok%C3%A9mon_Trading_Card_Game_expansions",
+  "estimated": true,
+  "note": "Detective Pikachu: 4-card packs, 3 commons + 1 rare (GX 1 in 4, estimated)",
+  "oneIn": {
+   "holo": 1,
+   "fa": 4
+  }
+ },
+ "sm10": {
+  "structure": "gen",
+  "slots": [
+   [
+    "c",
+    5
+   ],
+   [
+    "u",
+    3
+   ]
+  ],
+  "rev": 1,
+  "revX": [],
+  "rareX": [
+   "alt",
+   "gold",
+   "rbw",
+   "fa",
+   "ex"
+  ],
+  "rates": {
+   "holo": 0.333333,
+   "alt": 0.008333,
+   "gold": 0.014286,
+   "rbw": 0.022222,
+   "fa": 0.04,
+   "ex": 0.142857
+  },
+  "source": "https://bulbapedia.bulbagarden.net/wiki/List_of_Pok%C3%A9mon_Trading_Card_Game_expansions",
+  "estimated": true,
+  "note": "10 cards: 5C, 3U, 1 reverse holo, 1 rare; GX/full art/rainbow/gold replace the rare, Prism Star/Shining/Shiny Vault replace the reverse",
+  "oneIn": {
+   "holo": 3,
+   "alt": 120,
+   "gold": 70,
+   "rbw": 45,
+   "fa": 25,
+   "ex": 7
+  }
+ },
+ "sm11": {
+  "structure": "gen",
+  "slots": [
+   [
+    "c",
+    5
+   ],
+   [
+    "u",
+    3
+   ]
+  ],
+  "rev": 1,
+  "revX": [],
+  "rareX": [
+   "alt",
+   "gold",
+   "rbw",
+   "fa",
+   "ex"
+  ],
+  "rates": {
+   "holo": 0.333333,
+   "alt": 0.008333,
+   "gold": 0.014286,
+   "rbw": 0.022222,
+   "fa": 0.04,
+   "ex": 0.142857
+  },
+  "source": "https://bulbapedia.bulbagarden.net/wiki/List_of_Pok%C3%A9mon_Trading_Card_Game_expansions",
+  "estimated": true,
+  "note": "10 cards: 5C, 3U, 1 reverse holo, 1 rare; GX/full art/rainbow/gold replace the rare, Prism Star/Shining/Shiny Vault replace the reverse",
+  "oneIn": {
+   "holo": 3,
+   "alt": 120,
+   "gold": 70,
+   "rbw": 45,
+   "fa": 25,
+   "ex": 7
+  }
+ },
+ "sm115": {
+  "structure": "gen",
+  "slots": [
+   [
+    "c",
+    5
+   ],
+   [
+    "u",
+    3
+   ]
+  ],
+  "rev": 1,
+  "revX": [
+   "svr"
+  ],
+  "rareX": [
+   "rbw",
+   "sec",
+   "svu",
+   "fa",
+   "ex"
+  ],
+  "rates": {
+   "holo": 0.333333,
+   "rbw": 0.022222,
+   "sec": 0.013889,
+   "fa": 0.04,
+   "ex": 0.142857,
+   "svr": 0.25,
+   "svu": 0.083333
+  },
+  "source": "https://bulbapedia.bulbagarden.net/wiki/List_of_Pok%C3%A9mon_Trading_Card_Game_expansions",
+  "estimated": true,
+  "note": "10 cards: 5C, 3U, 1 reverse holo, 1 rare; GX/full art/rainbow/gold replace the rare, Prism Star/Shining/Shiny Vault replace the reverse",
+  "oneIn": {
+   "holo": 3,
+   "rbw": 45,
+   "sec": 72,
+   "fa": 25,
+   "ex": 7,
+   "svr": 4,
+   "svu": 12
+  }
+ },
+ "sm12": {
+  "structure": "gen",
+  "slots": [
+   [
+    "c",
+    5
+   ],
+   [
+    "u",
+    3
+   ]
+  ],
+  "rev": 1,
+  "revX": [],
+  "rareX": [
+   "alt",
+   "gold",
+   "rbw",
+   "fa",
+   "ex"
+  ],
+  "rates": {
+   "holo": 0.333333,
+   "alt": 0.008333,
+   "gold": 0.014286,
+   "rbw": 0.022222,
+   "fa": 0.04,
+   "ex": 0.142857
+  },
+  "source": "https://bulbapedia.bulbagarden.net/wiki/List_of_Pok%C3%A9mon_Trading_Card_Game_expansions",
+  "estimated": true,
+  "note": "10 cards: 5C, 3U, 1 reverse holo, 1 rare; GX/full art/rainbow/gold replace the rare, Prism Star/Shining/Shiny Vault replace the reverse",
+  "oneIn": {
+   "holo": 3,
+   "alt": 120,
+   "gold": 70,
+   "rbw": 45,
+   "fa": 25,
+   "ex": 7
+  }
  }
 }
