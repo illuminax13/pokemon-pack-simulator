@@ -18,7 +18,7 @@ for (const G of GRPS) test(`allsets ${G}: load, pack shape, rates, binder`, asyn
         if (p.some(x => x.rev)) rev++; if (/holo|shining/i.test(p[p.length - 1].rarity)) holo++;
         const ks = new Set(); p.forEach(x => { seen.add(x.id); if (C.structure === 'gen') ks.add(genKey(x.rarity)); }); ks.forEach(k => key[k] = (key[k] || 0) + 1); }
       const chk = {}; if (C.structure === 'gen') for (const k of [...(C.rareX || []), ...(C.revX || [])]) if (C.rates[k] >= 1/60) chk[k] = [C.rates[k], (key[k] || 0) / N];
-      out[s.dex] = {n: d.n ?? (Array.isArray(d.list) ? d.list.length : 0), sn: s.n, src: d.src, bad, art: (PACKART[s.dex] || []).length, era: s.era, st: C.structure, est: C.estimated, revRate: rev / N, holoRate: holo / N, chk, uniq: seen.size, rel: !!s.rel};
+      out[s.dex] = {n: d.n ?? (Array.isArray(d.list) ? d.list.length : 0), sn: s.n, src: d.src, bad, art: (PACKART[s.dex] || []).length, era: s.era, st: C.structure, est: C.estimated, revRate: rev / N, revWant: (C.rev ?? 1) ? 1 - (C.revX || []).reduce((a, k) => a + (C.rates[k] || 0), 0) : 0, holoRate: holo / N, chk, uniq: seen.size, rel: !!s.rel};
     }
     return out;
   }, G);
@@ -31,7 +31,7 @@ for (const G of GRPS) test(`allsets ${G}: load, pack shape, rates, binder`, asyn
     expect(v.uniq, k).toBeGreaterThan(20);
     for (const [kk, [want, got]] of Object.entries(v.chk)) { expect(got, `${k} ${kk}`).toBeGreaterThan(want * 0.5); expect(got, `${k} ${kk}`).toBeLessThan(want * 1.8 + 0.01); }
     if (v.st === 'wotc') { expect(v.holoRate, k).toBeGreaterThan(0.26); expect(v.holoRate, k).toBeLessThan(0.42); }
-    if (v.st === 'gen' && !/^(base|neo)$/.test(G)) expect(v.revRate, k).toBeGreaterThan(0.9);
+    if (v.st === 'gen' && !/^(base|neo)$/.test(G)) expect(v.revRate, k).toBeGreaterThan(v.revWant * 0.9);
   }
   // open the newest set of this era through the UI and check its binder
   const i = await page.evaluate(G => { const l = SETS.map((s, i) => [s, i]).filter(([s, i]) => i >= 39 && (s.grp || s.serie) === G && PACKART[s.dex]).sort((a, b) => b[0].rel.localeCompare(a[0].rel)); return l[0][1]; }, G);

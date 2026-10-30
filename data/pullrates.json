@@ -1175,5 +1175,1045 @@
    "holo": 3,
    "cry": 48
   }
+ },
+ "ex1": {
+  "structure": "gen",
+  "slots": [
+   [
+    "c",
+    5
+   ],
+   [
+    "u",
+    2
+   ]
+  ],
+  "rev": 1,
+  "revX": [],
+  "rareX": [
+   "ex"
+  ],
+  "rates": {
+   "holo": 0.333333,
+   "ex": 0.125
+  },
+  "source": "https://bulbapedia.bulbagarden.net/wiki/List_of_Pok%C3%A9mon_Trading_Card_Game_expansions",
+  "estimated": true,
+  "note": "9 cards: 5C, 2U, 1 reverse holo, 1 rare; ex replace the rare, Gold Star/secret replace the reverse",
+  "oneIn": {
+   "holo": 3,
+   "ex": 8
+  }
+ },
+ "ex2": {
+  "structure": "gen",
+  "slots": [
+   [
+    "c",
+    5
+   ],
+   [
+    "u",
+    2
+   ]
+  ],
+  "rev": 1,
+  "revX": [],
+  "rareX": [
+   "ex"
+  ],
+  "rates": {
+   "holo": 0.333333,
+   "ex": 0.125
+  },
+  "source": "https://bulbapedia.bulbagarden.net/wiki/List_of_Pok%C3%A9mon_Trading_Card_Game_expansions",
+  "estimated": true,
+  "note": "9 cards: 5C, 2U, 1 reverse holo, 1 rare; ex replace the rare, Gold Star/secret replace the reverse",
+  "oneIn": {
+   "holo": 3,
+   "ex": 8
+  }
+ },
+ "ex3": {
+  "structure": "gen",
+  "slots": [
+   [
+    "c",
+    5
+   ],
+   [
+    "u",
+    2
+   ]
+  ],
+  "rev": 1,
+  "revX": [
+   "sec"
+  ],
+  "rareX": [
+   "ex"
+  ],
+  "rates": {
+   "holo": 0.333333,
+   "sec": 0.013889,
+   "ex": 0.125
+  },
+  "source": "https://bulbapedia.bulbagarden.net/wiki/List_of_Pok%C3%A9mon_Trading_Card_Game_expansions",
+  "estimated": true,
+  "note": "9 cards: 5C, 2U, 1 reverse holo, 1 rare; ex replace the rare, Gold Star/secret replace the reverse",
+  "oneIn": {
+   "holo": 3,
+   "sec": 72,
+   "ex": 8
+  }
+ },
+ "ex4": {
+  "structure": "gen",
+  "slots": [
+   [
+    "c",
+    5
+   ],
+   [
+    "u",
+    2
+   ]
+  ],
+  "rev": 1,
+  "revX": [
+   "sec"
+  ],
+  "rareX": [
+   "ex"
+  ],
+  "rates": {
+   "holo": 0.333333,
+   "sec": 0.013889,
+   "ex": 0.125
+  },
+  "source": "https://bulbapedia.bulbagarden.net/wiki/List_of_Pok%C3%A9mon_Trading_Card_Game_expansions",
+  "estimated": true,
+  "note": "9 cards: 5C, 2U, 1 reverse holo, 1 rare; ex replace the rare, Gold Star/secret replace the reverse",
+  "oneIn": {
+   "holo": 3,
+   "sec": 72,
+   "ex": 8
+  }
+ },
+ "ex5": {
+  "structure": "gen",
+  "slots": [
+   [
+    "c",
+    5
+   ],
+   [
+    "u",
+    2
+   ]
+  ],
+  "rev": 1,
+  "revX": [
+   "sec"
+  ],
+  "rareX": [
+   "ex"
+  ],
+  "rates": {
+   "holo": 0.333333,
+   "sec": 0.013889,
+   "ex": 0.125
+  },
+  "source": "https://bulbapedia.bulbagarden.net/wiki/List_of_Pok%C3%A9mon_Trading_Card_Game_expansions",
+  "estimated": true,
+  "note": "9 cards: 5C, 2U, 1 reverse holo, 1 rare; ex replace the rare, Gold Star/secret replace the reverse",
+  "oneIn": {
+   "holo": 3,
+   "sec": 72,
+   "ex": 8
+  }
+ },
+ "ex6": {
+  "structure": "gen",
+  "slots": [
+   [
+    "c",
+    5
+   ],
+   [
+    "u",
+    2
+   ]
+  ],
+  "rev": 1,
+  "revX": [
+   "sec"
+  ],
+  "rareX": [
+   "ex"
+  ],
+  "rates": {
+   "holo": 0.333333,
+   "sec": 0.013889,
+   "ex": 0.125
+  },
+  "source": "https://bulbapedia.bulbagarden.net/wiki/List_of_Pok%C3%A9mon_Trading_Card_Game_expansions",
+  "estimated": true,
+  "note": "9 cards: 5C, 2U, 1 reverse holo, 1 rare; ex replace the rare, Gold Star/secret replace the reverse",
+  "oneIn": {
+   "holo": 3,
+   "sec": 72,
+   "ex": 8
+  }
+ },
+ "ex7": {
+  "structure": "gen",
+  "slots": [
+   [
+    "c",
+    5
+   ],
+   [
+    "u",
+    2
+   ]
+  ],
+  "rev": 1,
+  "revX": [
+   "star",
+   "sec"
+  ],
+  "rareX": [
+   "ex"
+  ],
+  "rates": {
+   "holo": 0.333333,
+   "sec": 0.013889,
+   "star": 0.013889,
+   "ex": 0.125
+  },
+  "source": "https://bulbapedia.bulbagarden.net/wiki/List_of_Pok%C3%A9mon_Trading_Card_Game_expansions",
+  "estimated": true,
+  "note": "9 cards: 5C, 2U, 1 reverse holo, 1 rare; ex replace the rare, Gold Star/secret replace the reverse",
+  "oneIn": {
+   "holo": 3,
+   "sec": 72,
+   "star": 72,
+   "ex": 8
+  }
+ },
+ "ex8": {
+  "structure": "gen",
+  "slots": [
+   [
+    "c",
+    5
+   ],
+   [
+    "u",
+    2
+   ]
+  ],
+  "rev": 1,
+  "revX": [
+   "star"
+  ],
+  "rareX": [
+   "ex"
+  ],
+  "rates": {
+   "holo": 0.333333,
+   "star": 0.013889,
+   "ex": 0.125
+  },
+  "source": "https://bulbapedia.bulbagarden.net/wiki/List_of_Pok%C3%A9mon_Trading_Card_Game_expansions",
+  "estimated": true,
+  "note": "9 cards: 5C, 2U, 1 reverse holo, 1 rare; ex replace the rare, Gold Star/secret replace the reverse",
+  "oneIn": {
+   "holo": 3,
+   "star": 72,
+   "ex": 8
+  }
+ },
+ "ex9": {
+  "structure": "gen",
+  "slots": [
+   [
+    "c",
+    5
+   ],
+   [
+    "u",
+    2
+   ]
+  ],
+  "rev": 1,
+  "revX": [
+   "sec"
+  ],
+  "rareX": [
+   "ex"
+  ],
+  "rates": {
+   "holo": 0.333333,
+   "sec": 0.013889,
+   "ex": 0.125
+  },
+  "source": "https://bulbapedia.bulbagarden.net/wiki/List_of_Pok%C3%A9mon_Trading_Card_Game_expansions",
+  "estimated": true,
+  "note": "9 cards: 5C, 2U, 1 reverse holo, 1 rare; ex replace the rare, Gold Star/secret replace the reverse",
+  "oneIn": {
+   "holo": 3,
+   "sec": 72,
+   "ex": 8
+  }
+ },
+ "ex10": {
+  "structure": "gen",
+  "slots": [
+   [
+    "c",
+    5
+   ],
+   [
+    "u",
+    2
+   ]
+  ],
+  "rev": 1,
+  "revX": [
+   "star"
+  ],
+  "rareX": [
+   "ex"
+  ],
+  "rates": {
+   "holo": 0.333333,
+   "star": 0.013889,
+   "ex": 0.125
+  },
+  "source": "https://bulbapedia.bulbagarden.net/wiki/List_of_Pok%C3%A9mon_Trading_Card_Game_expansions",
+  "estimated": true,
+  "note": "9 cards: 5C, 2U, 1 reverse holo, 1 rare; ex replace the rare, Gold Star/secret replace the reverse",
+  "oneIn": {
+   "holo": 3,
+   "star": 72,
+   "ex": 8
+  }
+ },
+ "ex11": {
+  "structure": "gen",
+  "slots": [
+   [
+    "c",
+    5
+   ],
+   [
+    "u",
+    2
+   ]
+  ],
+  "rev": 1,
+  "revX": [
+   "star",
+   "sec"
+  ],
+  "rareX": [
+   "ex"
+  ],
+  "rates": {
+   "holo": 0.333333,
+   "sec": 0.013889,
+   "star": 0.013889,
+   "ex": 0.125
+  },
+  "source": "https://bulbapedia.bulbagarden.net/wiki/List_of_Pok%C3%A9mon_Trading_Card_Game_expansions",
+  "estimated": true,
+  "note": "9 cards: 5C, 2U, 1 reverse holo, 1 rare; ex replace the rare, Gold Star/secret replace the reverse",
+  "oneIn": {
+   "holo": 3,
+   "sec": 72,
+   "star": 72,
+   "ex": 8
+  }
+ },
+ "ex12": {
+  "structure": "gen",
+  "slots": [
+   [
+    "c",
+    5
+   ],
+   [
+    "u",
+    2
+   ]
+  ],
+  "rev": 1,
+  "revX": [
+   "star",
+   "sec"
+  ],
+  "rareX": [
+   "ex"
+  ],
+  "rates": {
+   "holo": 0.333333,
+   "sec": 0.013889,
+   "star": 0.013889,
+   "ex": 0.125
+  },
+  "source": "https://bulbapedia.bulbagarden.net/wiki/List_of_Pok%C3%A9mon_Trading_Card_Game_expansions",
+  "estimated": true,
+  "note": "9 cards: 5C, 2U, 1 reverse holo, 1 rare; ex replace the rare, Gold Star/secret replace the reverse",
+  "oneIn": {
+   "holo": 3,
+   "sec": 72,
+   "star": 72,
+   "ex": 8
+  }
+ },
+ "ex13": {
+  "structure": "gen",
+  "slots": [
+   [
+    "c",
+    5
+   ],
+   [
+    "u",
+    2
+   ]
+  ],
+  "rev": 1,
+  "revX": [
+   "star",
+   "sec"
+  ],
+  "rareX": [
+   "ex"
+  ],
+  "rates": {
+   "holo": 0.333333,
+   "sec": 0.013889,
+   "star": 0.013889,
+   "ex": 0.125
+  },
+  "source": "https://bulbapedia.bulbagarden.net/wiki/List_of_Pok%C3%A9mon_Trading_Card_Game_expansions",
+  "estimated": true,
+  "note": "9 cards: 5C, 2U, 1 reverse holo, 1 rare; ex replace the rare, Gold Star/secret replace the reverse",
+  "oneIn": {
+   "holo": 3,
+   "sec": 72,
+   "star": 72,
+   "ex": 8
+  }
+ },
+ "ex14": {
+  "structure": "gen",
+  "slots": [
+   [
+    "c",
+    5
+   ],
+   [
+    "u",
+    2
+   ]
+  ],
+  "rev": 1,
+  "revX": [
+   "star"
+  ],
+  "rareX": [
+   "ex"
+  ],
+  "rates": {
+   "holo": 0.333333,
+   "star": 0.013889,
+   "ex": 0.125
+  },
+  "source": "https://bulbapedia.bulbagarden.net/wiki/List_of_Pok%C3%A9mon_Trading_Card_Game_expansions",
+  "estimated": true,
+  "note": "9 cards: 5C, 2U, 1 reverse holo, 1 rare; ex replace the rare, Gold Star/secret replace the reverse",
+  "oneIn": {
+   "holo": 3,
+   "star": 72,
+   "ex": 8
+  }
+ },
+ "ex15": {
+  "structure": "gen",
+  "slots": [
+   [
+    "c",
+    5
+   ],
+   [
+    "u",
+    2
+   ]
+  ],
+  "rev": 1,
+  "revX": [
+   "star"
+  ],
+  "rareX": [
+   "ex"
+  ],
+  "rates": {
+   "holo": 0.333333,
+   "star": 0.013889,
+   "ex": 0.125
+  },
+  "source": "https://bulbapedia.bulbagarden.net/wiki/List_of_Pok%C3%A9mon_Trading_Card_Game_expansions",
+  "estimated": true,
+  "note": "9 cards: 5C, 2U, 1 reverse holo, 1 rare; ex replace the rare, Gold Star/secret replace the reverse",
+  "oneIn": {
+   "holo": 3,
+   "star": 72,
+   "ex": 8
+  }
+ },
+ "ex16": {
+  "structure": "gen",
+  "slots": [
+   [
+    "c",
+    5
+   ],
+   [
+    "u",
+    2
+   ]
+  ],
+  "rev": 1,
+  "revX": [
+   "star"
+  ],
+  "rareX": [
+   "ex"
+  ],
+  "rates": {
+   "holo": 0.333333,
+   "star": 0.013889,
+   "ex": 0.125
+  },
+  "source": "https://bulbapedia.bulbagarden.net/wiki/List_of_Pok%C3%A9mon_Trading_Card_Game_expansions",
+  "estimated": true,
+  "note": "9 cards: 5C, 2U, 1 reverse holo, 1 rare; ex replace the rare, Gold Star/secret replace the reverse",
+  "oneIn": {
+   "holo": 3,
+   "star": 72,
+   "ex": 8
+  }
+ },
+ "dp1": {
+  "structure": "gen",
+  "slots": [
+   [
+    "c",
+    5
+   ],
+   [
+    "u",
+    3
+   ]
+  ],
+  "rev": 1,
+  "revX": [],
+  "rareX": [
+   "lvx"
+  ],
+  "rates": {
+   "holo": 0.333333,
+   "lvx": 0.083333
+  },
+  "source": "https://bulbapedia.bulbagarden.net/wiki/List_of_Pok%C3%A9mon_Trading_Card_Game_expansions",
+  "estimated": true,
+  "note": "10 cards: 5C, 3U, 1 reverse holo, 1 rare; LV.X replace the rare, SH/secret replace the reverse",
+  "oneIn": {
+   "holo": 3,
+   "lvx": 12
+  }
+ },
+ "dp2": {
+  "structure": "gen",
+  "slots": [
+   [
+    "c",
+    5
+   ],
+   [
+    "u",
+    3
+   ]
+  ],
+  "rev": 1,
+  "revX": [],
+  "rareX": [
+   "lvx"
+  ],
+  "rates": {
+   "holo": 0.333333,
+   "lvx": 0.083333
+  },
+  "source": "https://bulbapedia.bulbagarden.net/wiki/List_of_Pok%C3%A9mon_Trading_Card_Game_expansions",
+  "estimated": true,
+  "note": "10 cards: 5C, 3U, 1 reverse holo, 1 rare; LV.X replace the rare, SH/secret replace the reverse",
+  "oneIn": {
+   "holo": 3,
+   "lvx": 12
+  }
+ },
+ "dp3": {
+  "structure": "gen",
+  "slots": [
+   [
+    "c",
+    5
+   ],
+   [
+    "u",
+    3
+   ]
+  ],
+  "rev": 1,
+  "revX": [],
+  "rareX": [
+   "lvx"
+  ],
+  "rates": {
+   "holo": 0.333333,
+   "lvx": 0.083333
+  },
+  "source": "https://bulbapedia.bulbagarden.net/wiki/List_of_Pok%C3%A9mon_Trading_Card_Game_expansions",
+  "estimated": true,
+  "note": "10 cards: 5C, 3U, 1 reverse holo, 1 rare; LV.X replace the rare, SH/secret replace the reverse",
+  "oneIn": {
+   "holo": 3,
+   "lvx": 12
+  }
+ },
+ "dp4": {
+  "structure": "gen",
+  "slots": [
+   [
+    "c",
+    5
+   ],
+   [
+    "u",
+    3
+   ]
+  ],
+  "rev": 1,
+  "revX": [],
+  "rareX": [
+   "lvx"
+  ],
+  "rates": {
+   "holo": 0.333333,
+   "lvx": 0.083333
+  },
+  "source": "https://bulbapedia.bulbagarden.net/wiki/List_of_Pok%C3%A9mon_Trading_Card_Game_expansions",
+  "estimated": true,
+  "note": "10 cards: 5C, 3U, 1 reverse holo, 1 rare; LV.X replace the rare, SH/secret replace the reverse",
+  "oneIn": {
+   "holo": 3,
+   "lvx": 12
+  }
+ },
+ "dp5": {
+  "structure": "gen",
+  "slots": [
+   [
+    "c",
+    5
+   ],
+   [
+    "u",
+    3
+   ]
+  ],
+  "rev": 1,
+  "revX": [],
+  "rareX": [
+   "lvx"
+  ],
+  "rates": {
+   "holo": 0.333333,
+   "lvx": 0.083333
+  },
+  "source": "https://bulbapedia.bulbagarden.net/wiki/List_of_Pok%C3%A9mon_Trading_Card_Game_expansions",
+  "estimated": true,
+  "note": "10 cards: 5C, 3U, 1 reverse holo, 1 rare; LV.X replace the rare, SH/secret replace the reverse",
+  "oneIn": {
+   "holo": 3,
+   "lvx": 12
+  }
+ },
+ "dp6": {
+  "structure": "gen",
+  "slots": [
+   [
+    "c",
+    5
+   ],
+   [
+    "u",
+    3
+   ]
+  ],
+  "rev": 1,
+  "revX": [],
+  "rareX": [
+   "lvx"
+  ],
+  "rates": {
+   "holo": 0.333333,
+   "lvx": 0.083333
+  },
+  "source": "https://bulbapedia.bulbagarden.net/wiki/List_of_Pok%C3%A9mon_Trading_Card_Game_expansions",
+  "estimated": true,
+  "note": "10 cards: 5C, 3U, 1 reverse holo, 1 rare; LV.X replace the rare, SH/secret replace the reverse",
+  "oneIn": {
+   "holo": 3,
+   "lvx": 12
+  }
+ },
+ "dp7": {
+  "structure": "gen",
+  "slots": [
+   [
+    "c",
+    5
+   ],
+   [
+    "u",
+    3
+   ]
+  ],
+  "rev": 1,
+  "revX": [
+   "sec"
+  ],
+  "rareX": [
+   "lvx"
+  ],
+  "rates": {
+   "holo": 0.333333,
+   "lvx": 0.083333,
+   "sec": 0.027778
+  },
+  "source": "https://bulbapedia.bulbagarden.net/wiki/List_of_Pok%C3%A9mon_Trading_Card_Game_expansions",
+  "estimated": true,
+  "note": "10 cards: 5C, 3U, 1 reverse holo, 1 rare; LV.X replace the rare, SH/secret replace the reverse",
+  "oneIn": {
+   "holo": 3,
+   "lvx": 12,
+   "sec": 36
+  }
+ },
+ "pl1": {
+  "structure": "gen",
+  "slots": [
+   [
+    "c",
+    5
+   ],
+   [
+    "u",
+    3
+   ]
+  ],
+  "rev": 1,
+  "revX": [
+   "sec"
+  ],
+  "rareX": [
+   "lvx"
+  ],
+  "rates": {
+   "holo": 0.333333,
+   "lvx": 0.083333,
+   "sec": 0.027778
+  },
+  "source": "https://bulbapedia.bulbagarden.net/wiki/List_of_Pok%C3%A9mon_Trading_Card_Game_expansions",
+  "estimated": true,
+  "note": "10 cards: 5C, 3U, 1 reverse holo, 1 rare; LV.X replace the rare, SH/secret replace the reverse",
+  "oneIn": {
+   "holo": 3,
+   "lvx": 12,
+   "sec": 36
+  }
+ },
+ "pl2": {
+  "structure": "gen",
+  "slots": [
+   [
+    "c",
+    5
+   ],
+   [
+    "u",
+    3
+   ]
+  ],
+  "rev": 1,
+  "revX": [
+   "sec"
+  ],
+  "rareX": [
+   "lvx"
+  ],
+  "rates": {
+   "holo": 0.333333,
+   "lvx": 0.083333,
+   "sec": 0.027778
+  },
+  "source": "https://bulbapedia.bulbagarden.net/wiki/List_of_Pok%C3%A9mon_Trading_Card_Game_expansions",
+  "estimated": true,
+  "note": "10 cards: 5C, 3U, 1 reverse holo, 1 rare; LV.X replace the rare, SH/secret replace the reverse",
+  "oneIn": {
+   "holo": 3,
+   "lvx": 12,
+   "sec": 36
+  }
+ },
+ "pl3": {
+  "structure": "gen",
+  "slots": [
+   [
+    "c",
+    5
+   ],
+   [
+    "u",
+    3
+   ]
+  ],
+  "rev": 1,
+  "revX": [
+   "sec"
+  ],
+  "rareX": [
+   "lvx"
+  ],
+  "rates": {
+   "holo": 0.333333,
+   "lvx": 0.083333,
+   "sec": 0.027778
+  },
+  "source": "https://bulbapedia.bulbagarden.net/wiki/List_of_Pok%C3%A9mon_Trading_Card_Game_expansions",
+  "estimated": true,
+  "note": "10 cards: 5C, 3U, 1 reverse holo, 1 rare; LV.X replace the rare, SH/secret replace the reverse",
+  "oneIn": {
+   "holo": 3,
+   "lvx": 12,
+   "sec": 36
+  }
+ },
+ "pl4": {
+  "structure": "gen",
+  "slots": [
+   [
+    "c",
+    5
+   ],
+   [
+    "u",
+    3
+   ]
+  ],
+  "rev": 1,
+  "revX": [
+   "sec"
+  ],
+  "rareX": [
+   "lvx"
+  ],
+  "rates": {
+   "holo": 0.333333,
+   "lvx": 0.083333,
+   "sec": 0.027778
+  },
+  "source": "https://bulbapedia.bulbagarden.net/wiki/List_of_Pok%C3%A9mon_Trading_Card_Game_expansions",
+  "estimated": true,
+  "note": "10 cards: 5C, 3U, 1 reverse holo, 1 rare; LV.X replace the rare, SH/secret replace the reverse",
+  "oneIn": {
+   "holo": 3,
+   "lvx": 12,
+   "sec": 36
+  }
+ },
+ "hgss1": {
+  "structure": "gen",
+  "slots": [
+   [
+    "c",
+    5
+   ],
+   [
+    "u",
+    3
+   ]
+  ],
+  "rev": 1,
+  "revX": [],
+  "rareX": [
+   "sec",
+   "leg",
+   "prime"
+  ],
+  "rates": {
+   "holo": 0.333333,
+   "prime": 0.125,
+   "leg": 0.055556,
+   "sec": 0.013889
+  },
+  "source": "https://bulbapedia.bulbagarden.net/wiki/List_of_Pok%C3%A9mon_Trading_Card_Game_expansions",
+  "estimated": true,
+  "note": "10 cards: 5C, 3U, 1 reverse holo, 1 rare; Prime/LEGEND/Alph Lithograph replace the rare",
+  "oneIn": {
+   "holo": 3,
+   "prime": 8,
+   "leg": 18,
+   "sec": 72
+  }
+ },
+ "hgss2": {
+  "structure": "gen",
+  "slots": [
+   [
+    "c",
+    5
+   ],
+   [
+    "u",
+    3
+   ]
+  ],
+  "rev": 1,
+  "revX": [],
+  "rareX": [
+   "sec",
+   "leg",
+   "prime"
+  ],
+  "rates": {
+   "holo": 0.333333,
+   "prime": 0.125,
+   "leg": 0.055556,
+   "sec": 0.013889
+  },
+  "source": "https://bulbapedia.bulbagarden.net/wiki/List_of_Pok%C3%A9mon_Trading_Card_Game_expansions",
+  "estimated": true,
+  "note": "10 cards: 5C, 3U, 1 reverse holo, 1 rare; Prime/LEGEND/Alph Lithograph replace the rare",
+  "oneIn": {
+   "holo": 3,
+   "prime": 8,
+   "leg": 18,
+   "sec": 72
+  }
+ },
+ "hgss3": {
+  "structure": "gen",
+  "slots": [
+   [
+    "c",
+    5
+   ],
+   [
+    "u",
+    3
+   ]
+  ],
+  "rev": 1,
+  "revX": [],
+  "rareX": [
+   "sec",
+   "leg",
+   "prime"
+  ],
+  "rates": {
+   "holo": 0.333333,
+   "prime": 0.125,
+   "leg": 0.055556,
+   "sec": 0.013889
+  },
+  "source": "https://bulbapedia.bulbagarden.net/wiki/List_of_Pok%C3%A9mon_Trading_Card_Game_expansions",
+  "estimated": true,
+  "note": "10 cards: 5C, 3U, 1 reverse holo, 1 rare; Prime/LEGEND/Alph Lithograph replace the rare",
+  "oneIn": {
+   "holo": 3,
+   "prime": 8,
+   "leg": 18,
+   "sec": 72
+  }
+ },
+ "hgss4": {
+  "structure": "gen",
+  "slots": [
+   [
+    "c",
+    5
+   ],
+   [
+    "u",
+    3
+   ]
+  ],
+  "rev": 1,
+  "revX": [],
+  "rareX": [
+   "sec",
+   "leg",
+   "prime"
+  ],
+  "rates": {
+   "holo": 0.333333,
+   "prime": 0.125,
+   "leg": 0.055556,
+   "sec": 0.013889
+  },
+  "source": "https://bulbapedia.bulbagarden.net/wiki/List_of_Pok%C3%A9mon_Trading_Card_Game_expansions",
+  "estimated": true,
+  "note": "10 cards: 5C, 3U, 1 reverse holo, 1 rare; Prime/LEGEND/Alph Lithograph replace the rare",
+  "oneIn": {
+   "holo": 3,
+   "prime": 8,
+   "leg": 18,
+   "sec": 72
+  }
+ },
+ "col1": {
+  "structure": "gen",
+  "slots": [
+   [
+    "c",
+    5
+   ],
+   [
+    "u",
+    3
+   ]
+  ],
+  "rev": 1,
+  "revX": [
+   "svr"
+  ],
+  "rareX": [],
+  "rates": {
+   "holo": 0.333333,
+   "svr": 0.25
+  },
+  "source": "https://bulbapedia.bulbagarden.net/wiki/List_of_Pok%C3%A9mon_Trading_Card_Game_expansions",
+  "estimated": true,
+  "note": "10 cards: 5C, 3U, 1 reverse holo, 1 rare; Prime/LEGEND/Alph Lithograph replace the rare; Shiny Legends replace the reverse (1 in 4)",
+  "oneIn": {
+   "holo": 3,
+   "svr": 4
+  }
  }
 }
