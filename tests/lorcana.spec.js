@@ -4,7 +4,7 @@ const FABLED = 33; // SETS index: Pokemon 0-24, Lorcana 25-38 (lorcana-1..14)
 
 test('lorcana: game switch, flow, binders', async ({page}) => {
   const {errs} = await gotoApp(page);
-  await expect(page.locator('#sets .tile[data-i]')).toHaveCount(25);
+  expect(await page.locator('#sets .tile[data-i]').count()).toBeGreaterThanOrEqual(25);
   await expect(page.locator('#lsets')).toBeHidden();
   await page.locator('#gtabs button[data-g="lor"]').click();
   await expect(page.locator('#lsets')).toBeVisible(); await expect(page.locator('#sets')).toBeHidden();
@@ -38,7 +38,7 @@ test('lorcana: game switch, flow, binders', async ({page}) => {
   await page.locator('.bfilt button[data-f="owned"]').click(); await page.waitForSelector('#book .pocket.own', {timeout: 15000});
   expect(await page.locator('#bpage').textContent()).toMatch(/[1-9]\d*\/243 collected/);
   await page.evaluate(() => openShelf());
-  await page.locator('.shelfh button[data-g="pkm"]').click(); await expect(page.locator('.binder')).toHaveCount(25);
+  await page.locator('.shelfh button[data-g="pkm"]').click(); await expect(page.locator('#shelf .era[data-era="sv"]')).toBeVisible(); expect(await page.locator('.binder').count()).toBeGreaterThanOrEqual(25);
   expect(errs.filter(e => !/Failed to load resource|access.control|Cross-Origin|CORS/i.test(e))).toEqual([]);
 });
 

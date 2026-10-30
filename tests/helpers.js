@@ -30,6 +30,7 @@ async function gotoApp(page, path='/') {
 }
 
 async function chooseSet(page, i=0) {
+  await page.evaluate(i => { if (!document.querySelector(`.tile[data-i="${i}"]`) && window.pkReveal) window.pkReveal(i); }, i);
   await page.locator(`.tile[data-i="${i}"]`).click();
   await page.waitForFunction(() => /Swipe the packs|Tap to open/.test(document.body.innerText), null, {timeout: 60000});
   await page.waitForTimeout(400);

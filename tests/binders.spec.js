@@ -12,13 +12,13 @@ test('binders shelf, open, page, filter, viewer', async ({page}) => {
 
   await openShelf(page);
   const binders = page.locator('.binder');
-  await expect(binders).toHaveCount(25);
+  await expect(binders.first()).toBeVisible(); expect(await binders.count()).toBeGreaterThanOrEqual(25);
   // counts should not be skeleton forever
   await page.waitForFunction(() => ![...document.querySelectorAll('[id^=bc]')].some(e => e.classList.contains('loading')), null, {timeout: 30000});
   const txt = await page.locator('#bc0').textContent();
   expect(txt).toMatch(/\d+ \/ \d+/);
 
-  await binders.nth(0).click();
+  await page.locator('.binder[data-i="0"]').click();
   await expect(page.locator('#vBinder.on')).toBeVisible();
   await page.waitForSelector('#book .page', {timeout: 30000});
 

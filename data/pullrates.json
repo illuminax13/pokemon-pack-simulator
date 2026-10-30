@@ -1011,5 +1011,169 @@
   "estimated": true,
   "note": "Rates measured for Fabled; later sets use the same rarity scheme (Ravensburger 2025-08 'stunning new rarities') and assume Fabled's measured rates until set-specific trackers publish. Lorcana has no documented god packs.",
   "noGodPacks": "None documented for Disney Lorcana (Cambridge TCG pack-anatomy 'rare occurrences' lists none; no community tracker reports any)."
+ },
+ "base4": {
+  "structure": "wotc",
+  "energy": 0,
+  "rates": {
+   "holo": 0.3333333333333333
+  },
+  "note": "11 cards: 7C, 3U, 1 rare (holo 1/3)",
+  "estimated": false
+ },
+ "gym1": {
+  "structure": "wotc",
+  "energy": 0,
+  "rates": {
+   "holo": 0.3333333333333333
+  },
+  "note": "11 cards: 7C, 3U, 1 rare (holo 1/3)",
+  "estimated": false
+ },
+ "gym2": {
+  "structure": "wotc",
+  "energy": 0,
+  "rates": {
+   "holo": 0.3333333333333333
+  },
+  "note": "11 cards: 7C, 3U, 1 rare (holo 1/3)",
+  "estimated": false
+ },
+ "neo2": {
+  "structure": "wotc",
+  "energy": 0,
+  "rates": {
+   "holo": 0.3333333333333333
+  },
+  "note": "11 cards: 7C, 3U, 1 rare (holo 1/3)",
+  "estimated": false
+ },
+ "neo3": {
+  "structure": "wotc",
+  "energy": 0,
+  "rates": {
+   "holo": 0.3333333333333333,
+   "sec": 0.018518518518518517
+  },
+  "note": "11 cards: 7C, 3U, 1 rare (holo 1/3); Shining Pokemon replace the rare (estimated)",
+  "estimated": true
+ },
+ "neo4": {
+  "structure": "wotc",
+  "energy": 0,
+  "rates": {
+   "holo": 0.3333333333333333,
+   "sec": 0.027777777777777776
+  },
+  "note": "11 cards: 7C, 3U, 1 rare (holo 1/3); Shining Pokemon replace the rare (estimated)",
+  "estimated": true
+ },
+ "lc": {
+  "structure": "gen",
+  "slots": [
+   [
+    "c",
+    6
+   ],
+   [
+    "u",
+    3
+   ]
+  ],
+  "rev": 1,
+  "revX": [],
+  "rareX": [],
+  "rates": {
+   "holo": 0.333333
+  },
+  "source": "https://bulbapedia.bulbagarden.net/wiki/List_of_Pok%C3%A9mon_Trading_Card_Game_expansions",
+  "estimated": true,
+  "note": "11 cards: 6C, 3U, 1 reverse holo, 1 rare (holo 1/3)",
+  "oneIn": {
+   "holo": 3
+  }
+ },
+ "ecard1": {
+  "structure": "gen",
+  "slots": [
+   [
+    "c",
+    5
+   ],
+   [
+    "u",
+    2
+   ]
+  ],
+  "rev": 1,
+  "revX": [],
+  "rareX": [],
+  "rates": {
+   "holo": 0.333333
+  },
+  "source": "https://bulbapedia.bulbagarden.net/wiki/List_of_Pok%C3%A9mon_Trading_Card_Game_expansions",
+  "estimated": true,
+  "note": "9 cards: 5C, 2U, 1 reverse holo, 1 rare; Crystal replaces the rare",
+  "oneIn": {
+   "holo": 3
+  }
+ },
+ "ecard2": {
+  "structure": "gen",
+  "slots": [
+   [
+    "c",
+    5
+   ],
+   [
+    "u",
+    2
+   ]
+  ],
+  "rev": 1,
+  "revX": [],
+  "rareX": [
+   "cry"
+  ],
+  "rates": {
+   "holo": 0.333333,
+   "cry": 0.020833
+  },
+  "source": "https://bulbapedia.bulbagarden.net/wiki/List_of_Pok%C3%A9mon_Trading_Card_Game_expansions",
+  "estimated": true,
+  "note": "9 cards: 5C, 2U, 1 reverse holo, 1 rare; Crystal replaces the rare",
+  "oneIn": {
+   "holo": 3,
+   "cry": 48
+  }
+ },
+ "ecard3": {
+  "structure": "gen",
+  "slots": [
+   [
+    "c",
+    5
+   ],
+   [
+    "u",
+    2
+   ]
+  ],
+  "rev": 1,
+  "revX": [],
+  "rareX": [
+   "cry"
+  ],
+  "rates": {
+   "holo": 0.333333,
+   "cry": 0.020833
+  },
+  "source": "https://bulbapedia.bulbagarden.net/wiki/List_of_Pok%C3%A9mon_Trading_Card_Game_expansions",
+  "estimated": true,
+  "note": "9 cards: 5C, 2U, 1 reverse holo, 1 rare; Crystal replaces the rare",
+  "oneIn": {
+   "holo": 3,
+   "cry": 48
+  }
  }
 }
