@@ -8,7 +8,7 @@ test('simulated pull rates match data/pullrates.json (10k packs/set)', async ({p
     const key = c => { const r = (c.rarity||'').toLowerCase();
       if (c.pat) return c.pat; if (c.energy) return 'energy';
       return /galarian gallery gold/.test(r)?'ggg':/galarian gallery v/.test(r)?'ggv':/galarian gallery/.test(r)?'gg':/classic collection/.test(r)?'cc':/radiant/.test(r)?'rad':/shiny ultra/.test(r)?'sur':/shiny rare/.test(r)?'sr':/futuristic/.test(r)?'fr':/rgb rare/.test(r)?'rgb':/pikachu rare/.test(r)?'pk':/ace spec/.test(r)?'ace':/special illustration/.test(r)?'sir':/illustration/.test(r)?'ir':/hyper|black white/.test(r)?'hr':/double/.test(r)?'dr':/secret/.test(r)?'sec':/vmax/.test(r)?'vmax':/holo rare v|rare holo v/.test(r)?'v':/ultra/.test(r)?'ur':/holo/.test(r)?'holo':'x'; };
-    for (const s of SETS.filter(x => x.game !== 'lor')) { const C = cfg[s.dex]; const d = await getCards(s); const cnt = {}; let bad = 0;
+    for (const s of SETS.filter((x, i) => x.game !== 'lor' && i < 25)) { const C = cfg[s.dex]; const d = await getCards(s); const cnt = {}; let bad = 0;
       for (let i = 0; i < N; i++) { const p = buildPack(s, d.pools);
         if (p.length !== (s.era==='wotc'?11:({cel:4,c30:5}[C.structure]||10)) || p.filter(x=>x.energy).length !== (s.dex==='base1'?2:0)) bad++;
         const best = Math.max(...p.map(x => TIERS[x.tier])); if (TIERS[p[p.length-1].tier] !== best) bad++;

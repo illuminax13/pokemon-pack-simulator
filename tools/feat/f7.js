@@ -24,7 +24,7 @@ function bxResort(B){if(!B||!B.hitList||!$("bxhits"))return;const s=B.s,cmp=best
 /* persistence: resume a half-opened box */
 const BXK="ppsBox";
 function boxSave(){const B=BOX;if(!B)return;try{let m={};try{m=JSON.parse(localStorage.getItem(BXK)||"{}")||{}}catch(e){}
- if(!B.done.includes(0)&&!B.fly){delete m[B.s.dex]}else{const strip=c=>{const o={...c};delete o.imgs;return o};
+ if(!B.done.includes(0)){delete m[B.s.dex]}else{const strip=c=>{const o={...c};delete o.imgs;return o};
   m[B.s.dex]={t:Date.now(),prod:B.prod,wrap:B.wrap?1:0,lid:B.lid?1:0,done:B.done,packs:B.packs.map(p=>({c:p.map(strip),g:p.god||null}))}}
  Object.keys(m).sort((a,b)=>m[b].t-m[a].t).slice(3).forEach(k=>delete m[k]);localStorage.setItem(BXK,JSON.stringify(m))}catch(e){}}
 function boxRestore(s){let m;try{m=(JSON.parse(localStorage.getItem(BXK)||"{}")||{})[s.dex]}catch(e){}const d=cache[s.dex];if(!m||!m.packs||!d||!m.done.includes(0))return false;
