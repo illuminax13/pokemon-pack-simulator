@@ -31,7 +31,7 @@ for (const G of GRPS) test(`allsets ${G}: load, pack shape, rates, binder`, asyn
     expect(v.uniq, k).toBeGreaterThan(20);
     for (const [kk, [want, got]] of Object.entries(v.chk)) { expect(got, `${k} ${kk}`).toBeGreaterThan(want * 0.5); expect(got, `${k} ${kk}`).toBeLessThan(want * 1.8 + 0.01); }
     if (v.st === 'wotc') { expect(v.holoRate, k).toBeGreaterThan(0.26); expect(v.holoRate, k).toBeLessThan(0.42); }
-    if (v.st === 'gen' && !/^(base|neo)$/.test(G)) expect(v.revRate, k).toBeGreaterThan(v.revWant * 0.9);
+    if (v.st === 'gen' && !/^(base|neo)$/.test(G)) expect(v.revRate, k).toBeGreaterThanOrEqual(v.revWant * 0.9);
   }
   // open the newest set of this era through the UI and check its binder
   const i = await page.evaluate(G => { const l = SETS.map((s, i) => [s, i]).filter(([s, i]) => i >= 39 && (s.grp || s.serie) === G && PACKART[s.dex]).sort((a, b) => b[0].rel.localeCompare(a[0].rel)); return l[0][1]; }, G);

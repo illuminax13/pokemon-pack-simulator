@@ -2215,5 +2215,925 @@
    "holo": 3,
    "svr": 4
   }
+ },
+ "bw1": {
+  "structure": "gen",
+  "slots": [
+   [
+    "c",
+    5
+   ],
+   [
+    "u",
+    3
+   ]
+  ],
+  "rev": 1,
+  "revX": [],
+  "rareX": [
+   "sec",
+   "fa"
+  ],
+  "rates": {
+   "holo": 0.333333,
+   "sec": 0.013889,
+   "fa": 0.027778
+  },
+  "source": "https://bulbapedia.bulbagarden.net/wiki/List_of_Pok%C3%A9mon_Trading_Card_Game_expansions",
+  "estimated": true,
+  "note": "10 cards: 5C, 3U, 1 reverse holo, 1 rare; EX/full art/secret replace the rare, ACE SPEC (and Radiant Collection in Legendary Treasures) replace the reverse",
+  "oneIn": {
+   "holo": 3,
+   "sec": 72,
+   "fa": 36
+  }
+ },
+ "bw2": {
+  "structure": "gen",
+  "slots": [
+   [
+    "c",
+    5
+   ],
+   [
+    "u",
+    3
+   ]
+  ],
+  "rev": 1,
+  "revX": [],
+  "rareX": [
+   "fa"
+  ],
+  "rates": {
+   "holo": 0.333333,
+   "fa": 0.027778
+  },
+  "source": "https://bulbapedia.bulbagarden.net/wiki/List_of_Pok%C3%A9mon_Trading_Card_Game_expansions",
+  "estimated": true,
+  "note": "10 cards: 5C, 3U, 1 reverse holo, 1 rare; EX/full art/secret replace the rare, ACE SPEC (and Radiant Collection in Legendary Treasures) replace the reverse",
+  "oneIn": {
+   "holo": 3,
+   "fa": 36
+  }
+ },
+ "bw3": {
+  "structure": "gen",
+  "slots": [
+   [
+    "c",
+    5
+   ],
+   [
+    "u",
+    3
+   ]
+  ],
+  "rev": 1,
+  "revX": [],
+  "rareX": [
+   "sec",
+   "fa"
+  ],
+  "rates": {
+   "holo": 0.333333,
+   "sec": 0.013889,
+   "fa": 0.027778
+  },
+  "source": "https://bulbapedia.bulbagarden.net/wiki/List_of_Pok%C3%A9mon_Trading_Card_Game_expansions",
+  "estimated": true,
+  "note": "10 cards: 5C, 3U, 1 reverse holo, 1 rare; EX/full art/secret replace the rare, ACE SPEC (and Radiant Collection in Legendary Treasures) replace the reverse",
+  "oneIn": {
+   "holo": 3,
+   "sec": 72,
+   "fa": 36
+  }
+ },
+ "bw4": {
+  "structure": "gen",
+  "slots": [
+   [
+    "c",
+    5
+   ],
+   [
+    "u",
+    3
+   ]
+  ],
+  "rev": 1,
+  "revX": [],
+  "rareX": [
+   "sec",
+   "fa",
+   "ex"
+  ],
+  "rates": {
+   "holo": 0.333333,
+   "sec": 0.013889,
+   "fa": 0.027778,
+   "ex": 0.111111
+  },
+  "source": "https://bulbapedia.bulbagarden.net/wiki/List_of_Pok%C3%A9mon_Trading_Card_Game_expansions",
+  "estimated": true,
+  "note": "10 cards: 5C, 3U, 1 reverse holo, 1 rare; EX/full art/secret replace the rare, ACE SPEC (and Radiant Collection in Legendary Treasures) replace the reverse",
+  "oneIn": {
+   "holo": 3,
+   "sec": 72,
+   "fa": 36,
+   "ex": 9
+  }
+ },
+ "bw5": {
+  "structure": "gen",
+  "slots": [
+   [
+    "c",
+    5
+   ],
+   [
+    "u",
+    3
+   ]
+  ],
+  "rev": 1,
+  "revX": [],
+  "rareX": [
+   "sec",
+   "fa",
+   "ex"
+  ],
+  "rates": {
+   "holo": 0.333333,
+   "sec": 0.013889,
+   "fa": 0.027778,
+   "ex": 0.111111
+  },
+  "source": "https://bulbapedia.bulbagarden.net/wiki/List_of_Pok%C3%A9mon_Trading_Card_Game_expansions",
+  "estimated": true,
+  "note": "10 cards: 5C, 3U, 1 reverse holo, 1 rare; EX/full art/secret replace the rare, ACE SPEC (and Radiant Collection in Legendary Treasures) replace the reverse",
+  "oneIn": {
+   "holo": 3,
+   "sec": 72,
+   "fa": 36,
+   "ex": 9
+  }
+ },
+ "bw6": {
+  "structure": "gen",
+  "slots": [
+   [
+    "c",
+    5
+   ],
+   [
+    "u",
+    3
+   ]
+  ],
+  "rev": 1,
+  "revX": [],
+  "rareX": [
+   "sec",
+   "fa",
+   "ex"
+  ],
+  "rates": {
+   "holo": 0.333333,
+   "sec": 0.013889,
+   "fa": 0.027778,
+   "ex": 0.111111
+  },
+  "source": "https://bulbapedia.bulbagarden.net/wiki/List_of_Pok%C3%A9mon_Trading_Card_Game_expansions",
+  "estimated": true,
+  "note": "10 cards: 5C, 3U, 1 reverse holo, 1 rare; EX/full art/secret replace the rare, ACE SPEC (and Radiant Collection in Legendary Treasures) replace the reverse",
+  "oneIn": {
+   "holo": 3,
+   "sec": 72,
+   "fa": 36,
+   "ex": 9
+  }
+ },
+ "dv1": {
+  "structure": "gen",
+  "slots": [
+   [
+    "holo",
+    5
+   ]
+  ],
+  "rev": 0,
+  "revX": [],
+  "rareX": [],
+  "rates": {
+   "holo": 0.333333
+  },
+  "source": "https://bulbapedia.bulbagarden.net/wiki/List_of_Pok%C3%A9mon_Trading_Card_Game_expansions",
+  "estimated": true,
+  "note": "Dragon Vault: 5-card packs, every card a holofoil",
+  "rare": 0,
+  "oneIn": {
+   "holo": 3
+  }
+ },
+ "bw7": {
+  "structure": "gen",
+  "slots": [
+   [
+    "c",
+    5
+   ],
+   [
+    "u",
+    3
+   ]
+  ],
+  "rev": 1,
+  "revX": [
+   "ace"
+  ],
+  "rareX": [
+   "sec",
+   "fa",
+   "ex"
+  ],
+  "rates": {
+   "holo": 0.333333,
+   "sec": 0.013889,
+   "fa": 0.027778,
+   "ex": 0.111111,
+   "ace": 0.083333
+  },
+  "source": "https://bulbapedia.bulbagarden.net/wiki/List_of_Pok%C3%A9mon_Trading_Card_Game_expansions",
+  "estimated": true,
+  "note": "10 cards: 5C, 3U, 1 reverse holo, 1 rare; EX/full art/secret replace the rare, ACE SPEC (and Radiant Collection in Legendary Treasures) replace the reverse",
+  "oneIn": {
+   "holo": 3,
+   "sec": 72,
+   "fa": 36,
+   "ex": 9,
+   "ace": 12
+  }
+ },
+ "bw8": {
+  "structure": "gen",
+  "slots": [
+   [
+    "c",
+    5
+   ],
+   [
+    "u",
+    3
+   ]
+  ],
+  "rev": 1,
+  "revX": [
+   "ace"
+  ],
+  "rareX": [
+   "sec",
+   "fa",
+   "ex"
+  ],
+  "rates": {
+   "holo": 0.333333,
+   "sec": 0.013889,
+   "fa": 0.027778,
+   "ex": 0.111111,
+   "ace": 0.083333
+  },
+  "source": "https://bulbapedia.bulbagarden.net/wiki/List_of_Pok%C3%A9mon_Trading_Card_Game_expansions",
+  "estimated": true,
+  "note": "10 cards: 5C, 3U, 1 reverse holo, 1 rare; EX/full art/secret replace the rare, ACE SPEC (and Radiant Collection in Legendary Treasures) replace the reverse",
+  "oneIn": {
+   "holo": 3,
+   "sec": 72,
+   "fa": 36,
+   "ex": 9,
+   "ace": 12
+  }
+ },
+ "bw9": {
+  "structure": "gen",
+  "slots": [
+   [
+    "c",
+    5
+   ],
+   [
+    "u",
+    3
+   ]
+  ],
+  "rev": 1,
+  "revX": [
+   "ace"
+  ],
+  "rareX": [
+   "sec",
+   "fa",
+   "ex"
+  ],
+  "rates": {
+   "holo": 0.333333,
+   "sec": 0.013889,
+   "fa": 0.027778,
+   "ex": 0.111111,
+   "ace": 0.083333
+  },
+  "source": "https://bulbapedia.bulbagarden.net/wiki/List_of_Pok%C3%A9mon_Trading_Card_Game_expansions",
+  "estimated": true,
+  "note": "10 cards: 5C, 3U, 1 reverse holo, 1 rare; EX/full art/secret replace the rare, ACE SPEC (and Radiant Collection in Legendary Treasures) replace the reverse",
+  "oneIn": {
+   "holo": 3,
+   "sec": 72,
+   "fa": 36,
+   "ex": 9,
+   "ace": 12
+  }
+ },
+ "bw10": {
+  "structure": "gen",
+  "slots": [
+   [
+    "c",
+    5
+   ],
+   [
+    "u",
+    3
+   ]
+  ],
+  "rev": 1,
+  "revX": [
+   "ace"
+  ],
+  "rareX": [
+   "sec",
+   "fa",
+   "ex"
+  ],
+  "rates": {
+   "holo": 0.333333,
+   "sec": 0.013889,
+   "fa": 0.027778,
+   "ex": 0.111111,
+   "ace": 0.083333
+  },
+  "source": "https://bulbapedia.bulbagarden.net/wiki/List_of_Pok%C3%A9mon_Trading_Card_Game_expansions",
+  "estimated": true,
+  "note": "10 cards: 5C, 3U, 1 reverse holo, 1 rare; EX/full art/secret replace the rare, ACE SPEC (and Radiant Collection in Legendary Treasures) replace the reverse",
+  "oneIn": {
+   "holo": 3,
+   "sec": 72,
+   "fa": 36,
+   "ex": 9,
+   "ace": 12
+  }
+ },
+ "bw11": {
+  "structure": "gen",
+  "slots": [
+   [
+    "c",
+    5
+   ],
+   [
+    "u",
+    3
+   ]
+  ],
+  "rev": 1,
+  "revX": [
+   "rcu",
+   "rc"
+  ],
+  "rareX": [
+   "sec",
+   "ex"
+  ],
+  "rates": {
+   "holo": 0.333333,
+   "sec": 0.013889,
+   "ex": 0.111111,
+   "rc": 0.333333,
+   "rcu": 0.055556
+  },
+  "source": "https://bulbapedia.bulbagarden.net/wiki/List_of_Pok%C3%A9mon_Trading_Card_Game_expansions",
+  "estimated": true,
+  "note": "10 cards: 5C, 3U, 1 reverse holo, 1 rare; EX/full art/secret replace the rare, ACE SPEC (and Radiant Collection in Legendary Treasures) replace the reverse",
+  "oneIn": {
+   "holo": 3,
+   "sec": 72,
+   "ex": 9,
+   "rc": 3,
+   "rcu": 18
+  }
+ },
+ "xy1": {
+  "structure": "gen",
+  "slots": [
+   [
+    "c",
+    5
+   ],
+   [
+    "u",
+    3
+   ]
+  ],
+  "rev": 1,
+  "revX": [],
+  "rareX": [
+   "fa",
+   "ex"
+  ],
+  "rates": {
+   "holo": 0.333333,
+   "fa": 0.027778,
+   "ex": 0.142857
+  },
+  "source": "https://bulbapedia.bulbagarden.net/wiki/List_of_Pok%C3%A9mon_Trading_Card_Game_expansions",
+  "estimated": true,
+  "note": "10 cards: 5C, 3U, 1 reverse holo, 1 rare; EX/full art/secret replace the rare, BREAK (and Radiant Collection in Generations) replace the reverse",
+  "oneIn": {
+   "holo": 3,
+   "fa": 36,
+   "ex": 7
+  }
+ },
+ "xy2": {
+  "structure": "gen",
+  "slots": [
+   [
+    "c",
+    5
+   ],
+   [
+    "u",
+    3
+   ]
+  ],
+  "rev": 1,
+  "revX": [],
+  "rareX": [
+   "sec",
+   "fa",
+   "ex"
+  ],
+  "rates": {
+   "holo": 0.333333,
+   "sec": 0.013889,
+   "fa": 0.027778,
+   "ex": 0.142857
+  },
+  "source": "https://bulbapedia.bulbagarden.net/wiki/List_of_Pok%C3%A9mon_Trading_Card_Game_expansions",
+  "estimated": true,
+  "note": "10 cards: 5C, 3U, 1 reverse holo, 1 rare; EX/full art/secret replace the rare, BREAK (and Radiant Collection in Generations) replace the reverse",
+  "oneIn": {
+   "holo": 3,
+   "sec": 72,
+   "fa": 36,
+   "ex": 7
+  }
+ },
+ "xy3": {
+  "structure": "gen",
+  "slots": [
+   [
+    "c",
+    5
+   ],
+   [
+    "u",
+    3
+   ]
+  ],
+  "rev": 1,
+  "revX": [],
+  "rareX": [
+   "sec",
+   "fa",
+   "ex"
+  ],
+  "rates": {
+   "holo": 0.333333,
+   "sec": 0.013889,
+   "fa": 0.027778,
+   "ex": 0.142857
+  },
+  "source": "https://bulbapedia.bulbagarden.net/wiki/List_of_Pok%C3%A9mon_Trading_Card_Game_expansions",
+  "estimated": true,
+  "note": "10 cards: 5C, 3U, 1 reverse holo, 1 rare; EX/full art/secret replace the rare, BREAK (and Radiant Collection in Generations) replace the reverse",
+  "oneIn": {
+   "holo": 3,
+   "sec": 72,
+   "fa": 36,
+   "ex": 7
+  }
+ },
+ "xy4": {
+  "structure": "gen",
+  "slots": [
+   [
+    "c",
+    5
+   ],
+   [
+    "u",
+    3
+   ]
+  ],
+  "rev": 1,
+  "revX": [],
+  "rareX": [
+   "sec",
+   "fa",
+   "ex"
+  ],
+  "rates": {
+   "holo": 0.333333,
+   "sec": 0.013889,
+   "fa": 0.027778,
+   "ex": 0.142857
+  },
+  "source": "https://bulbapedia.bulbagarden.net/wiki/List_of_Pok%C3%A9mon_Trading_Card_Game_expansions",
+  "estimated": true,
+  "note": "10 cards: 5C, 3U, 1 reverse holo, 1 rare; EX/full art/secret replace the rare, BREAK (and Radiant Collection in Generations) replace the reverse",
+  "oneIn": {
+   "holo": 3,
+   "sec": 72,
+   "fa": 36,
+   "ex": 7
+  }
+ },
+ "xy5": {
+  "structure": "gen",
+  "slots": [
+   [
+    "c",
+    5
+   ],
+   [
+    "u",
+    3
+   ]
+  ],
+  "rev": 1,
+  "revX": [],
+  "rareX": [
+   "sec",
+   "fa",
+   "ex"
+  ],
+  "rates": {
+   "holo": 0.333333,
+   "sec": 0.013889,
+   "fa": 0.027778,
+   "ex": 0.142857
+  },
+  "source": "https://bulbapedia.bulbagarden.net/wiki/List_of_Pok%C3%A9mon_Trading_Card_Game_expansions",
+  "estimated": true,
+  "note": "10 cards: 5C, 3U, 1 reverse holo, 1 rare; EX/full art/secret replace the rare, BREAK (and Radiant Collection in Generations) replace the reverse",
+  "oneIn": {
+   "holo": 3,
+   "sec": 72,
+   "fa": 36,
+   "ex": 7
+  }
+ },
+ "dc1": {
+  "structure": "gen",
+  "slots": [
+   [
+    "c",
+    2
+   ],
+   [
+    "u",
+    1
+   ]
+  ],
+  "rev": 0,
+  "revX": [],
+  "rareX": [
+   "ex"
+  ],
+  "rates": {
+   "holo": 1,
+   "ex": 0.333333
+  },
+  "source": "https://bulbapedia.bulbagarden.net/wiki/List_of_Pok%C3%A9mon_Trading_Card_Game_expansions",
+  "estimated": true,
+  "note": "Double Crisis: 4-card packs, 2C, 1U, 1 holo (EX 1 in 3, estimated)",
+  "oneIn": {
+   "holo": 1,
+   "ex": 3
+  }
+ },
+ "xy6": {
+  "structure": "gen",
+  "slots": [
+   [
+    "c",
+    5
+   ],
+   [
+    "u",
+    3
+   ]
+  ],
+  "rev": 1,
+  "revX": [],
+  "rareX": [
+   "sec",
+   "fa",
+   "ex"
+  ],
+  "rates": {
+   "holo": 0.333333,
+   "sec": 0.013889,
+   "fa": 0.027778,
+   "ex": 0.142857
+  },
+  "source": "https://bulbapedia.bulbagarden.net/wiki/List_of_Pok%C3%A9mon_Trading_Card_Game_expansions",
+  "estimated": true,
+  "note": "10 cards: 5C, 3U, 1 reverse holo, 1 rare; EX/full art/secret replace the rare, BREAK (and Radiant Collection in Generations) replace the reverse",
+  "oneIn": {
+   "holo": 3,
+   "sec": 72,
+   "fa": 36,
+   "ex": 7
+  }
+ },
+ "xy7": {
+  "structure": "gen",
+  "slots": [
+   [
+    "c",
+    5
+   ],
+   [
+    "u",
+    3
+   ]
+  ],
+  "rev": 1,
+  "revX": [],
+  "rareX": [
+   "sec",
+   "fa",
+   "ex"
+  ],
+  "rates": {
+   "holo": 0.333333,
+   "sec": 0.013889,
+   "fa": 0.027778,
+   "ex": 0.142857
+  },
+  "source": "https://bulbapedia.bulbagarden.net/wiki/List_of_Pok%C3%A9mon_Trading_Card_Game_expansions",
+  "estimated": true,
+  "note": "10 cards: 5C, 3U, 1 reverse holo, 1 rare; EX/full art/secret replace the rare, BREAK (and Radiant Collection in Generations) replace the reverse",
+  "oneIn": {
+   "holo": 3,
+   "sec": 72,
+   "fa": 36,
+   "ex": 7
+  }
+ },
+ "xy8": {
+  "structure": "gen",
+  "slots": [
+   [
+    "c",
+    5
+   ],
+   [
+    "u",
+    3
+   ]
+  ],
+  "rev": 1,
+  "revX": [
+   "brk"
+  ],
+  "rareX": [
+   "sec",
+   "fa",
+   "ex"
+  ],
+  "rates": {
+   "holo": 0.333333,
+   "sec": 0.013889,
+   "fa": 0.027778,
+   "ex": 0.142857,
+   "brk": 0.166667
+  },
+  "source": "https://bulbapedia.bulbagarden.net/wiki/List_of_Pok%C3%A9mon_Trading_Card_Game_expansions",
+  "estimated": true,
+  "note": "10 cards: 5C, 3U, 1 reverse holo, 1 rare; EX/full art/secret replace the rare, BREAK (and Radiant Collection in Generations) replace the reverse",
+  "oneIn": {
+   "holo": 3,
+   "sec": 72,
+   "fa": 36,
+   "ex": 7,
+   "brk": 6
+  }
+ },
+ "xy9": {
+  "structure": "gen",
+  "slots": [
+   [
+    "c",
+    5
+   ],
+   [
+    "u",
+    3
+   ]
+  ],
+  "rev": 1,
+  "revX": [
+   "brk"
+  ],
+  "rareX": [
+   "sec",
+   "fa",
+   "ex"
+  ],
+  "rates": {
+   "holo": 0.333333,
+   "sec": 0.013889,
+   "fa": 0.027778,
+   "ex": 0.142857,
+   "brk": 0.166667
+  },
+  "source": "https://bulbapedia.bulbagarden.net/wiki/List_of_Pok%C3%A9mon_Trading_Card_Game_expansions",
+  "estimated": true,
+  "note": "10 cards: 5C, 3U, 1 reverse holo, 1 rare; EX/full art/secret replace the rare, BREAK (and Radiant Collection in Generations) replace the reverse",
+  "oneIn": {
+   "holo": 3,
+   "sec": 72,
+   "fa": 36,
+   "ex": 7,
+   "brk": 6
+  }
+ },
+ "g1": {
+  "structure": "gen",
+  "slots": [
+   [
+    "c",
+    5
+   ],
+   [
+    "u",
+    3
+   ]
+  ],
+  "rev": 1,
+  "revX": [
+   "rcu",
+   "rc"
+  ],
+  "rareX": [
+   "fa",
+   "ex"
+  ],
+  "rates": {
+   "holo": 0.333333,
+   "fa": 0.027778,
+   "ex": 0.142857,
+   "rc": 0.333333,
+   "rcu": 0.041667
+  },
+  "source": "https://bulbapedia.bulbagarden.net/wiki/List_of_Pok%C3%A9mon_Trading_Card_Game_expansions",
+  "estimated": true,
+  "note": "10 cards: 5C, 3U, 1 reverse holo, 1 rare; EX/full art/secret replace the rare, BREAK (and Radiant Collection in Generations) replace the reverse",
+  "oneIn": {
+   "holo": 3,
+   "fa": 36,
+   "ex": 7,
+   "rc": 3,
+   "rcu": 24
+  }
+ },
+ "xy10": {
+  "structure": "gen",
+  "slots": [
+   [
+    "c",
+    5
+   ],
+   [
+    "u",
+    3
+   ]
+  ],
+  "rev": 1,
+  "revX": [
+   "brk"
+  ],
+  "rareX": [
+   "sec",
+   "fa",
+   "ex"
+  ],
+  "rates": {
+   "holo": 0.333333,
+   "sec": 0.013889,
+   "fa": 0.027778,
+   "ex": 0.142857,
+   "brk": 0.166667
+  },
+  "source": "https://bulbapedia.bulbagarden.net/wiki/List_of_Pok%C3%A9mon_Trading_Card_Game_expansions",
+  "estimated": true,
+  "note": "10 cards: 5C, 3U, 1 reverse holo, 1 rare; EX/full art/secret replace the rare, BREAK (and Radiant Collection in Generations) replace the reverse",
+  "oneIn": {
+   "holo": 3,
+   "sec": 72,
+   "fa": 36,
+   "ex": 7,
+   "brk": 6
+  }
+ },
+ "xy11": {
+  "structure": "gen",
+  "slots": [
+   [
+    "c",
+    5
+   ],
+   [
+    "u",
+    3
+   ]
+  ],
+  "rev": 1,
+  "revX": [
+   "brk"
+  ],
+  "rareX": [
+   "sec",
+   "fa",
+   "ex"
+  ],
+  "rates": {
+   "holo": 0.333333,
+   "sec": 0.013889,
+   "fa": 0.027778,
+   "ex": 0.142857,
+   "brk": 0.166667
+  },
+  "source": "https://bulbapedia.bulbagarden.net/wiki/List_of_Pok%C3%A9mon_Trading_Card_Game_expansions",
+  "estimated": true,
+  "note": "10 cards: 5C, 3U, 1 reverse holo, 1 rare; EX/full art/secret replace the rare, BREAK (and Radiant Collection in Generations) replace the reverse",
+  "oneIn": {
+   "holo": 3,
+   "sec": 72,
+   "fa": 36,
+   "ex": 7,
+   "brk": 6
+  }
+ },
+ "xy12": {
+  "structure": "gen",
+  "slots": [
+   [
+    "c",
+    5
+   ],
+   [
+    "u",
+    3
+   ]
+  ],
+  "rev": 1,
+  "revX": [
+   "brk"
+  ],
+  "rareX": [
+   "sec",
+   "fa",
+   "ex"
+  ],
+  "rates": {
+   "holo": 0.333333,
+   "sec": 0.013889,
+   "fa": 0.027778,
+   "ex": 0.142857,
+   "brk": 0.166667
+  },
+  "source": "https://bulbapedia.bulbagarden.net/wiki/List_of_Pok%C3%A9mon_Trading_Card_Game_expansions",
+  "estimated": true,
+  "note": "10 cards: 5C, 3U, 1 reverse holo, 1 rare; EX/full art/secret replace the rare, BREAK (and Radiant Collection in Generations) replace the reverse",
+  "oneIn": {
+   "holo": 3,
+   "sec": 72,
+   "fa": 36,
+   "ex": 7,
+   "brk": 6
+  }
  }
 }
