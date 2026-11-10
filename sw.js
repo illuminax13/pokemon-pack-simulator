@@ -1,9 +1,9 @@
-const CACHE='pps-v62';
+const CACHE='pps-v63';
 const IMG='pps-img-v1',IMG_MAX=300;
 const fail=()=>new Response('',{status:504,statusText:'offline'});
 const SHELL=['./','./index.html','./manifest.webmanifest','./assets/card-back.jpg','./assets/lorcana-back.jpg','./assets/icons/favicon-64.png','./assets/icons/apple-touch-icon.png','./data/pullrates.json'];
 self.addEventListener('install',e=>{e.waitUntil(caches.open(CACHE).then(c=>c.addAll(SHELL.map(u=>new Request(u,{cache:'reload'})))).then(()=>self.skipWaiting()))});
-self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(ks=>Promise.all(ks.filter(k=>k!==CACHE&&k!==IMG).map(k=>caches.delete(k)))).then(async()=>{await self.clients.claim();const cs=await self.clients.matchAll({type:'window'});cs.forEach(c=>c.postMessage({type:'SW_UPDATED',cache:CACHE}))}))});
+self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(ks=>Promise.all(ks.filter(k=>/^pps-/.test(k)&&k!==CACHE&&k!==IMG).map(k=>caches.delete(k)))).then(async()=>{await self.clients.claim();const cs=await self.clients.matchAll({type:'window'});cs.forEach(c=>c.postMessage({type:'SW_UPDATED',cache:CACHE}))}))});
 let trimming=false;
 async function trim(){if(trimming)return;trimming=true;try{const c=await caches.open(IMG),ks=await c.keys();for(let i=0;i<ks.length-IMG_MAX;i++)await c.delete(ks[i])}finally{trimming=false}}
 // cache-first, fetch on miss; optional background revalidation
